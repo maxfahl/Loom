@@ -36,6 +36,7 @@ test-output/
 scratch/
 temp/
 tmp/
+docs/implementation-plan/
 
 # Keep remedy prompts and documentation
 !REMEDY_*.md
@@ -49,3 +50,4 @@ venv/
 env/
 __pycache__/
 *.pyc
+/temp/
