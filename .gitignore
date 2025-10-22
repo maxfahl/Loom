@@ -1,0 +1,51 @@
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# Editor Files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary Files
+*.tmp
+*.temp
+*.bak
+*.bak2
+*.backup
+*.old
+*.orig
+
+# Log Files
+*.log
+logs/
+*.err
+
+# Development/Testing
+test-output/
+scratch/
+temp/
+tmp/
+
+# Keep remedy prompts and documentation
+!REMEDY_*.md
+!*.md
+
+# Node modules if testing automation
+node_modules/
+
+# Python virtual environments if testing
+venv/
+env/
+__pycache__/
+*.pyc
