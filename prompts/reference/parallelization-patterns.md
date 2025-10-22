@@ -147,3 +147,57 @@ Coordinator spawns in parallel:
 
 **Where to place**: At the beginning of every agent's content, right after the YAML frontmatter.
 
+---
+
+## Pattern 4: Brownfield Cleanup Parallelization
+
+**Phase 2.5 Enhancement**: After creating new documentation, clean up legacy files efficiently
+
+**Scenario**: User has existing project with old documentation that needs cleanup after transformation.
+
+**Parallelization Strategy**:
+
+```
+Phase 2.5: Legacy Documentation Cleanup
+
+Step 1: Scan for legacy files (sequential - fast)
+- Read PROJECT_OVERVIEW.md for legacy doc mapping
+- Identify which old docs map to which new docs
+
+Step 2: Categorize legacy files (parallel - 3 agents)
+- Agent 1: Scan /docs folder for legacy docs
+- Agent 2: Scan /documentation folder for legacy docs
+- Agent 3: Scan root folder for legacy READMEs/guides
+- Each agent categorizes: Definitely/Possibly/Should Keep
+
+Step 3: Present cleanup options to user (sequential - user decision)
+- Show categorized files
+- Offer 4 options: Archive/Backup/Delete/Keep
+- Get user confirmation
+
+Step 4: Execute cleanup (parallel - 4 agents if large number of files)
+- Agent 1: Process files 1-25
+- Agent 2: Process files 26-50
+- Agent 3: Process files 51-75
+- Agent 4: Process files 76-100
+- Each agent executes user's choice (archive/backup/delete)
+
+Step 5: Update README.md (sequential - single file)
+- Remove references to deleted docs
+- Update links to new doc structure
+```
+
+**Time Savings**: ~60% faster for projects with 20+ legacy docs
+
+**What NOT to Do**:
+
+❌ **WRONG** - Sequential cleanup:
+```
+Find doc1 → Archive it → wait → Find doc2 → Archive it → wait...
+```
+
+✅ **CORRECT** - Parallel cleanup:
+```
+Categorize all files (3 agents) → wait → Execute cleanup for 25 files each (4 agents in parallel)
+```
+

@@ -56,13 +56,46 @@ Based on tech stack, create 2-4 specialized agents:
 - **Database**: database-schema-manager
 - **DevOps**: deployment-specialist
 
-## Parallel Creation
+## ⚡ CRITICAL: Parallel Creation (80% Time Savings)
 
-Launch 4 parallel agent-creation agents (see parallelization-patterns.md):
-- Agent 1: coordinator, senior-developer, test-writer
-- Agent 2: documentation-writer, bug-finder, refactor-specialist
-- Agent 3: qa-tester, git-helper, architecture-advisor
-- Agent 4: performance-optimizer, agent-creator, skill-creator
+**Total Time: ~8 minutes (vs ~50 minutes sequential)**
+
+**ALWAYS create agents in parallel batches** - see [parallelization-patterns.md](../reference/parallelization-patterns.md)
+
+### Batch Execution (4 batches)
+
+**Batch 1** (4 agents in parallel):
+- coordinator
+- senior-developer
+- test-writer
+- code-reviewer
+
+**Batch 2** (4 agents in parallel):
+- bug-finder
+- refactor-specialist
+- qa-tester
+- git-helper
+
+**Batch 3** (4 agents in parallel):
+- architecture-advisor
+- performance-optimizer
+- documentation-writer
+- agent-creator
+
+**Batch 4** (1 agent):
+- skill-creator
+
+### What NOT to Do
+
+❌ **WRONG** - Sequential:
+```
+Create coordinator → wait → Create senior-developer → wait → Create test-writer → wait...
+```
+
+✅ **CORRECT** - Parallel batches:
+```
+Create 4 agents in parallel (Batch 1) → wait → Create 4 agents in parallel (Batch 2) → wait → Create 4 agents in parallel (Batch 3) → wait → Create skill-creator (Batch 4)
+```
 
 ## Related Files
 - [core-agents.md](../reference/core-agents.md) - All agent definitions

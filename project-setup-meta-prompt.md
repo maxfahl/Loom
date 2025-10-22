@@ -24,6 +24,56 @@ This is the **main orchestrator** for the complete agentic development workflow 
 
 ---
 
+## ⚡ CRITICAL: Maximum Parallelization Required
+
+**TIME SAVINGS: 70-80% faster setup (30-40 minutes vs 2+ hours)**
+
+### When to Parallelize
+
+**ALWAYS use parallel execution for these phases**:
+
+- **Phase 2 (Documentation)**: Create 6-10 docs in 3 batches (5 min vs 30 min)
+- **Phase 3 (Agents)**: Create 13 agents in 4 batches (8 min vs 50 min)
+- **Phase 4 (Commands)**: Create 11 commands in 3 batches (6 min vs 35 min)
+
+### What NOT to Do (Sequential Execution)
+
+❌ **WRONG** - Sequential:
+```
+Create PRD → wait → Create TECHNICAL_SPEC → wait → Create ARCHITECTURE → wait...
+(30 minutes for 10 docs)
+```
+
+✅ **CORRECT** - Parallel batches:
+```
+Batch 1: Create PRD + TECHNICAL_SPEC + ARCHITECTURE + DEVELOPMENT_PLAN + DESIGN_SYSTEM + TASKS (6 docs in parallel)
+Batch 2: Create INDEX + HOOKS_REFERENCE + PROJECT_SUMMARY + EXECUTIVE_SUMMARY (4 docs in parallel)
+Batch 3: Create START_HERE + CLAUDE (2 docs in parallel)
+(~5 minutes total)
+```
+
+### Batch Sizes Per Phase
+
+**Phase 2 (Documentation)**: 3 batches
+- Batch 1: 6 docs (PRD, TECHNICAL_SPEC, ARCHITECTURE, DEVELOPMENT_PLAN, DESIGN_SYSTEM, TASKS)
+- Batch 2: 4 docs (INDEX, HOOKS_REFERENCE, PROJECT_SUMMARY, EXECUTIVE_SUMMARY)
+- Batch 3: 2 docs (START_HERE, CLAUDE)
+
+**Phase 3 (Agents)**: 4 batches
+- Batch 1: 4 agents (coordinator, senior-developer, test-writer, code-reviewer)
+- Batch 2: 4 agents (bug-finder, refactor-specialist, qa-tester, git-helper)
+- Batch 3: 4 agents (architecture-advisor, performance-optimizer, documentation-writer, agent-creator)
+- Batch 4: 1 agent (skill-creator)
+
+**Phase 4 (Commands)**: 3 batches
+- Batch 1: 4 commands (/dev, /commit, /review, /status)
+- Batch 2: 4 commands (/test, /plan, /docs, /yolo)
+- Batch 3: 3 commands (/create-feature, /correct-course, /create-story)
+
+**See**: [`prompts/reference/parallelization-patterns.md`](prompts/reference/parallelization-patterns.md) for detailed patterns
+
+---
+
 ## 🎯 Key Features
 
 ### 1. **Template Project Support**

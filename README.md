@@ -7,17 +7,25 @@
 Give this bootstrap prompt to your AI coding agent:
 
 ```
-Read and fully understand the prompt in the below markdown file and follow it to the dot.
-Be extremely careful and take your time.
+Read and fully understand the prompt in the below markdown file and follow the trail of prompts to the dot. Be extremely careful and take your time.
 
 /Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/project-setup-meta-prompt.md
 ```
 
 The agent will guide you through setup, asking questions about your project and creating a complete development environment with specialized agents, slash commands, and comprehensive documentation.
 
+To update an existing project to follow new guidelines, run the following prompt:
+
+```
+Carefully read the prompt in the Markdown file and follow it exactly. Then run the update flow to ensure the project fully adheres to all the instructions outlined there.
+
+/Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/project-update-meta-prompt.md
+```
+
 ## 🎯 What You Get
 
 ### 13 Specialized Agents
+
 - **coordinator** - Autonomous TDD workflow orchestrator with YOLO mode
 - **senior-developer** - Architecture and code review expert
 - **code-reviewer** - Quality assurance and best practices
@@ -33,6 +41,7 @@ The agent will guide you through setup, asking questions about your project and 
 - **skill-creator** - Create reusable Claude Skills
 
 ### 11+ Slash Commands
+
 - **/dev** - Continue development with automatic task tracking and status updates
 - **/commit** - Smart commit with tests and linting
 - **/review** - Comprehensive code review with automatic Review Tasks creation
@@ -46,6 +55,7 @@ The agent will guide you through setup, asking questions about your project and 
 - **/create-story** - Generate next user story
 
 ### Complete Documentation
+
 12+ files covering PRD, technical specs, architecture, design systems, development plans, and more.
 
 ## 🎮 YOLO Mode: Autonomous Development
@@ -65,6 +75,7 @@ Breakpoint Options:
 ```
 
 **Examples:**
+
 - `"none"` - Full autonomous mode (prototyping)
 - `"1,3,4,8"` - Balanced control (recommended)
 - `"all"` - Maximum control (production)
@@ -101,6 +112,7 @@ docs/development/features/
 ```
 
 **status.xml** tracks:
+
 - Current epic and story
 - YOLO mode configuration
 - Pending tasks
@@ -111,12 +123,14 @@ docs/development/features/
 ### vs. SpecKit (GitHub)
 
 **SpecKit** focuses on sequential spec-to-code transformation:
+
 - Fixed 4-phase workflow (specify → plan → tasks → implement)
 - Human approval required at each gate
 - Single implementation path
 - Tightly coupled to software development
 
 **AgentDev** offers flexible parallel workflows:
+
 - Multiple specialized agents working simultaneously
 - Epic-based feature breakdown with independent stories
 - YOLO mode for autonomous development
@@ -125,12 +139,14 @@ docs/development/features/
 ### vs. BMAD Method
 
 **BMAD** provides orchestrated multi-agent collaboration:
+
 - Agent teams communicate via file-based messages
 - Web UI + IDE integration
 - Expansion packs for different domains
 - YAML-based workflow definitions
 
 **AgentDev** emphasizes AI-native development:
+
 - Agents as first-class Claude Code primitives
 - Slash commands for streamlined workflows
 - Git-integrated feature branches
@@ -140,6 +156,7 @@ docs/development/features/
 ### Key Differentiator
 
 AgentDev treats **agents and workflows as code** within Claude Code, not as external orchestration. You get:
+
 - Native slash command integration
 - Direct git workflow support
 - Built-in TDD with autonomous loops
@@ -149,12 +166,14 @@ AgentDev treats **agents and workflows as code** within Claude Code, not as exte
 ## 🏗 How It Works
 
 ### Setup Phase (One Time)
+
 1. Run the bootstrap prompt
 2. Answer discovery questions (project type, tech stack, TDD enforcement)
 3. Agent creates all documentation, agents, and commands
 4. Git commit with complete setup
 
 ### Development Cycle (Repeatable)
+
 1. **/create-feature** - Set up feature with epics
 2. **/create-story** - Generate next user story
 3. **/yolo** - Configure autonomous breakpoints
@@ -165,6 +184,7 @@ AgentDev treats **agents and workflows as code** within Claude Code, not as exte
 8. **/commit** - Smart commit with validation
 
 ### Autonomous Loop (YOLO Mode)
+
 ```
 Coordinator reads status.xml →
 Reads current story file →
@@ -185,25 +205,33 @@ Repeats for next story
 ## 🎓 Key Concepts
 
 ### AI-Only Development
+
 All coding, testing, and implementation performed by AI agents. Human involvement limited to:
+
 - Defining requirements
 - Approving plans
 - Providing oversight
 
 ### Test-Driven Development (TDD)
+
 Strict Red-Green-Refactor cycle:
+
 1. **RED** - Write failing test
 2. **GREEN** - Minimal code to pass
 3. **REFACTOR** - Improve code quality
 
 ### Epic-Based Organization
+
 Features divided into logical epics, each with multiple stories. Allows:
+
 - Parallel development across epics
 - Independent story validation
 - Incremental feature delivery
 
 ### Template Projects
+
 Copy agents/commands from existing projects instead of generating from scratch:
+
 - "trust" mode - Fast copy
 - "validate" mode - Verify before copy
 

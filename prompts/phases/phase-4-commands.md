@@ -6,6 +6,43 @@
 
 Create 11+ custom slash commands including /dev, /commit, /review, /status, /test, /plan, /docs, /yolo, /create-feature, /correct-course, /create-agent, /create-skill. Includes command templates and creation workflow.
 
+## ⚡ CRITICAL: Parallel Creation (80% Time Savings)
+
+**Total Time: ~6 minutes (vs ~35 minutes sequential)**
+
+**ALWAYS create commands in parallel batches** - see [parallelization-patterns.md](../reference/parallelization-patterns.md)
+
+### Batch Execution (3 batches)
+
+**Batch 1** (4 commands in parallel):
+- /dev
+- /commit
+- /review
+- /status
+
+**Batch 2** (4 commands in parallel):
+- /test
+- /plan
+- /docs
+- /yolo
+
+**Batch 3** (3 commands in parallel):
+- /create-feature
+- /correct-course
+- /create-story
+
+### What NOT to Do
+
+❌ **WRONG** - Sequential:
+```
+Create /dev → wait → Create /commit → wait → Create /review → wait...
+```
+
+✅ **CORRECT** - Parallel batches:
+```
+Create 4 commands in parallel (Batch 1) → wait → Create 4 commands in parallel (Batch 2) → wait → Create 3 commands in parallel (Batch 3)
+```
+
 ## Related Files
 
 - [../templates/command-template.md](../templates/command-template.md) - Generic command structure
