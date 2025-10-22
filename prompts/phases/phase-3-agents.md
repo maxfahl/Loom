@@ -82,8 +82,9 @@ Based on tech stack, create 2-4 specialized agents:
 - documentation-writer
 - agent-creator
 
-**Batch 4** (1 agent):
+**Batch 4** (2 agents in parallel):
 - skill-creator
+- security-reviewer (Phase 2 - OWASP scanning with Opus model)
 
 ### What NOT to Do
 

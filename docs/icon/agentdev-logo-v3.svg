@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!--
+    AgentDev Logo V3: Code + Infinity (Programming + Continuous)
+    Combines: Tabler code.svg + infinity.svg
+    Concept: Code-driven development with infinite iteration
+    Colors: Use #7C3AED (Purple)
+  -->
+  <defs>
+    <style>
+      svg { color: #7C3AED; }
+    </style>
+  </defs>
+
+  <!-- Code brackets (left side) - larger -->
+  <g transform="translate(12, 25) scale(2.1)">
+    <path d="M7 8l-4 4l4 4" />
+    <path d="M17 8l4 4l-4 4" />
+    <path d="M14 4l-4 16" />
+  </g>
+
+  <!-- Infinity loop (right side) -->
+  <g transform="translate(40, 28) scale(2.2)">
+    <path d="M9.828 9.172a4 4 0 1 0 0 5.656a10 10 0 0 0 2.172 -2.828a10 10 0 0 1 2.172 -2.828a4 4 0 1 1 0 5.656a10 10 0 0 1 -2.172 -2.828a10 10 0 0 0 -2.172 -2.828" />
+  </g>
+
+</svg>

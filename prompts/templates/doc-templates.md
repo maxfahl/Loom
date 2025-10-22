@@ -1007,3 +1007,312 @@ _For updates to this file, use the `#` key during Claude Code sessions_
 - Update component library priority order if project uses different libraries
 - Add project-specific architectural patterns or security requirements
 
+---
+
+### 16. SECURITY_REVIEW_CHECKLIST.md Template
+
+**Purpose**: OWASP-based security scanning methodology with FALSE_POSITIVE filtering
+
+**When to Create**: Always create for all projects (added in Phase 2: Security Review)
+
+**Source**: OneRedOak security review workflows (`04-REFERENCE-EXTRACTS.md` lines 155-232)
+
+**Complete SECURITY_REVIEW_CHECKLIST.md Structure**:
+
+```markdown
+# Security Review Checklist
+
+**Version**: 1.0
+**Last Updated**: [YYYY-MM-DD]
+**Framework**: OWASP Top 10 with FALSE_POSITIVE Filtering
+
+---
+
+## Overview
+
+This document defines the security review methodology for [Project Name]. All security reviews follow OWASP Top 10 guidelines with battle-tested FALSE_POSITIVE filtering rules from Anthropic.
+
+### 3-Step Analysis Workflow
+
+1. **Step 1**: Identify Vulnerabilities (scan for OWASP Top 10)
+2. **Step 2**: Filter False Positives (apply 17 hard exclusions + 12 precedents)
+3. **Step 3**: Confidence Scoring (only report findings ≥8/10)
+
+### Model Requirement
+
+**CRITICAL**: Security reviews MUST use **Opus model** (claude-opus-4-1) for maximum accuracy.
+
+---
+
+## OWASP Top 10 Vulnerabilities
+
+### A01: Broken Access Control
+
+**Check for**:
+- Missing authentication/authorization checks on protected endpoints
+- Insecure direct object references (IDOR) - user can access other users' data
+- Privilege escalation opportunities (user can elevate to admin)
+- Path traversal vulnerabilities (`../../../etc/passwd`)
+
+**Example Vulnerable Code**:
+```typescript
+// BAD: No auth check
+app.get('/api/user/:id', (req, res) => {
+  const user = db.getUser(req.params.id); // Any user can access any ID
+  res.json(user);
+});
+
+// GOOD: Auth check
+app.get('/api/user/:id', authenticate, (req, res) => {
+  if (req.user.id !== req.params.id && !req.user.isAdmin) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+  const user = db.getUser(req.params.id);
+  res.json(user);
+});
+```
+
+---
+
+### A02: Cryptographic Failures
+
+**Check for**:
+- Hardcoded secrets, API keys, or credentials in code
+- Weak encryption algorithms (MD5, SHA1, DES - use AES-256, SHA-256+)
+- Insecure random number generation (`Math.random()` for security tokens)
+- Missing encryption for sensitive data (passwords, PII, tokens)
+
+**Example Vulnerable Code**:
+```typescript
+// BAD: Hardcoded secret
+const API_KEY = "sk-1234567890abcdef";
+
+// GOOD: Environment variable
+const API_KEY = process.env.API_KEY;
+```
+
+---
+
+### A03: Injection
+
+**Check for**:
+- SQL injection (user input in SQL queries without sanitization)
+- XSS (user input rendered in HTML without escaping)
+- Command injection (user input in shell commands)
+- LDAP/XML/NoSQL injection
+
+**Example Vulnerable Code**:
+```typescript
+// BAD: SQL injection
+db.query(`SELECT * FROM users WHERE id = ${req.params.id}`);
+
+// GOOD: Parameterized query
+db.query('SELECT * FROM users WHERE id = ?', [req.params.id]);
+```
+
+---
+
+### A04-A10: [Include remaining OWASP categories]
+
+_(Condense for token efficiency - full template would include all 10 categories)_
+
+---
+
+## FALSE_POSITIVE Filtering Rules
+
+**CRITICAL**: Apply these rules VERBATIM. Battle-tested by Anthropic.
+
+### HARD EXCLUSIONS (17 Rules)
+
+Automatically exclude findings matching these patterns:
+
+1. **Denial of Service (DOS)** - Resource exhaustion attacks
+2. **Secrets on disk** - If otherwise secured
+3. **Rate limiting** - Service overload scenarios
+4. **Memory/CPU exhaustion** - Resource consumption issues
+5. **Input validation** - Non-security-critical fields without proven impact
+6. **GitHub Actions** - Input sanitization unless clearly exploitable
+7. **Lack of hardening** - Best practices vs concrete vulnerabilities
+8. **Theoretical race conditions** - Only report if concretely problematic
+9. **Outdated libraries** - Managed separately
+10. **Memory safety** - Impossible in Rust/memory-safe languages
+11. **Unit test files** - Test-only code
+12. **Log spoofing** - Unsanitized user input in logs
+13. **SSRF path-only** - Only host/protocol control is SSRF
+14. **AI prompt injection** - User content in AI prompts
+15. **Regex injection** - Untrusted content in regex
+16. **Regex DOS** - Regex performance issues
+17. **Documentation** - Markdown files
+18. **Missing audit logs** - Not a vulnerability
+
+### PRECEDENTS (12 Rules)
+
+Context-specific filtering:
+
+1. **Logging secrets**: High-value secrets in plaintext IS a vuln. URLs are safe
+2. **UUIDs**: Unguessable, no validation needed
+3. **Env vars/CLI flags**: Trusted in secure environments
+4. **Resource leaks**: Memory/file descriptor leaks not valid
+5. **Subtle web vulns**: Tabnabbing, XS-Leaks, etc. - only if extremely high confidence
+6. **React/Angular XSS**: Secure unless using `dangerouslySetInnerHTML`
+7. **GitHub Actions**: Most not exploitable, require concrete attack path
+8. **Client-side auth**: Server handles validation
+9. **MEDIUM findings**: Only if obvious and concrete
+10. **Jupyter notebooks**: Most not exploitable
+11. **Logging non-PII**: Only secrets/passwords/PII are vulns
+12. **Shell script injection**: Require concrete attack path
+
+---
+
+## Confidence Scoring (1-10 Scale)
+
+**CRITICAL**: Only report findings with confidence ≥8/10
+
+### Scoring Guidelines
+
+- **9-10**: Concrete, exploitable vulnerability. Clear attack path. REPORT.
+- **8**: Very likely vulnerability. Specific location. Actionable. REPORT.
+- **7**: Probable vulnerability. Needs investigation. DO NOT REPORT.
+- **6**: Medium confidence. Needs investigation. DO NOT REPORT.
+- **1-5**: Low confidence. Likely false positive. DO NOT REPORT.
+
+### Signal Quality Criteria
+
+For each finding, assess:
+1. Is there a concrete, exploitable vulnerability with clear attack path?
+2. Does this represent a real security risk vs theoretical best practice?
+3. Are there specific code locations and reproduction steps?
+4. Would this finding be actionable for a security team?
+
+If NO to any question → Reduce confidence score
+
+---
+
+## Severity Classification
+
+### HIGH Severity
+
+**Criteria**:
+- Exploitable vulnerability with direct security impact
+- Data breach, code execution, or privilege escalation possible
+- Immediate remediation required
+
+**Examples**:
+- SQL injection on production database
+- Hardcoded admin credentials
+- Authentication bypass
+- Unvalidated file upload leading to code execution
+
+---
+
+### MEDIUM Severity
+
+**Criteria**:
+- Security weakness requiring additional conditions to exploit
+- Limited impact or requires user interaction
+- Should be fixed but not immediately blocking
+
+**Examples**:
+- Missing rate limiting on non-critical endpoints
+- Weak password requirements
+- Lack of CSRF tokens on low-impact forms
+
+---
+
+### LOW Severity
+
+**Criteria**:
+- Minor security improvement
+- Theoretical concern with unclear attack path
+- Optional enhancement
+
+**Examples**:
+- Missing security headers on static assets
+- Verbose error messages (non-sensitive info)
+- Minor information disclosure
+
+---
+
+## Output Format
+
+Security reviews must follow this structure:
+
+```markdown
+## Security Review Summary
+
+- **Verdict**: [PASS | VULNERABILITIES_FOUND]
+- **HIGH Severity**: X findings (must fix before merge)
+- **MEDIUM Severity**: Y findings (should fix)
+- **LOW Severity**: Z findings (optional)
+
+---
+
+## Findings
+
+### Vuln 1: [OWASP Category] - HIGH (Confidence: 9/10)
+
+**Location**: `file.ts:123`
+
+**Description**:
+[Concrete vulnerability description]
+
+**Attack Path**:
+1. Attacker performs action X
+2. System responds with Y
+3. Attacker exploits Z to achieve [impact]
+
+**Impact**: [Data breach / Code execution / Privilege escalation]
+
+**Remediation**:
+```typescript
+// FIX: Use parameterized query
+db.query('SELECT * FROM users WHERE id = ?', [req.params.id]);
+```
+
+---
+
+## OWASP Top 10 Coverage Checklist
+
+- [x] A01: Broken Access Control
+- [x] A02: Cryptographic Failures
+- [x] A03: Injection
+- [x] A04: Insecure Design
+- [x] A05: Security Misconfiguration
+- [x] A06: Vulnerable Components (skipped - managed separately)
+- [x] A07: Authentication Failures
+- [x] A08: Software/Data Integrity Failures
+- [x] A09: Security Logging Failures
+- [x] A10: Server-Side Request Forgery
+
+---
+
+## FALSE_POSITIVE Filtering Applied
+
+- **Hard Exclusions Applied**: [List which of 17]
+- **Precedents Applied**: [List which of 12]
+- **Findings Filtered**: N findings with confidence <8/10
+```
+
+---
+
+## Related Documentation
+
+- **/security-review** command - Triggers security review using this checklist
+- **security-reviewer** agent - Implements OWASP methodology with Opus model
+- **CODE_REVIEW_PRINCIPLES.md** - General code review (includes security in Phase 3)
+- **TECHNICAL_SPEC.md** - API security requirements
+- **ARCHITECTURE.md** - Security boundaries and trust zones
+
+---
+
+_Last updated: [YYYY-MM-DD]_
+_For updates to this file, use the `#` key during Claude Code sessions_
+```
+
+**Customization Notes**:
+- Replace `[Project Name]` with actual project name
+- Update `[YYYY-MM-DD]` with current date
+- Add project-specific security requirements (e.g., PCI-DSS, HIPAA, SOC2)
+- Expand A04-A10 OWASP categories with project-relevant examples
+- Update severity thresholds based on project risk tolerance
+
