@@ -64,12 +64,12 @@ Read and fully understand the prompt in the below markdown file and follow the t
 
 The agent will guide you through setup, asking questions about your project and creating a complete development environment with specialized agents, slash commands, and comprehensive documentation.
 
-### Update Existing Project
+### Update a Project Already Using an Old Loom Setup
 
 To update an existing project to follow latest Loom guidelines:
 
 ```
-Carefully read the prompt in the Markdown file and follow it exactly. Then run the update flow to ensure the project fully adheres to all the instructions outlined there.
+Read and fully understand the prompt in the below markdown file and follow the trail of prompts to the dot. I want you to run the "update flow" without asking any unnecessary questions.
 
 /path/to/loom/project-update-meta-prompt.md
 ```

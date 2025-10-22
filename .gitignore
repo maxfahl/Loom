@@ -52,5 +52,5 @@ __pycache__/
 *.pyc
 /temp/
 
-# Ignore implementation-plan and other docs directories
-docs/**/*
+# Ignore only implementation-plan directory (keep docs/development/)
+docs/implementation-plan/**/*
