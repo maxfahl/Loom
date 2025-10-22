@@ -13,10 +13,18 @@
 **For Claude Code**: Read [`project-setup-meta-prompt.md`](project-setup-meta-prompt.md) in the root of this directory.
 
 This is the **main orchestrator** that will guide you through:
+
 - Determining operating mode (NEW SETUP vs UPDATE MODE)
 - Following the appropriate workflow
 - Loading only the necessary prompt files for each phase
 - Setting up a complete agentic development environment
+
+Promt with:
+
+```
+Read and fully understand the prompt in the below markdown file and follow it to the dot. Be extremely careful and take your time.
+`/Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/project-setup-meta-prompt.md`
+```
 
 ---
 
@@ -78,16 +86,19 @@ This meta prompt system guides Claude Code through setting up a comprehensive de
 ## 🎯 Two Operating Modes
 
 ### 1. NEW SETUP Mode
+
 Use when setting up a project from scratch or migrating to this framework.
 
 **Workflow**: 7 phases (Discovery → Documentation → Agents → Commands → CLAUDE.md → Features → Verification)
 
 **Time**:
+
 - With template project: 15-30 minutes
 - From scratch (greenfield): 45-75 minutes
 - From scratch (brownfield): 60-90 minutes
 
 ### 2. UPDATE Mode
+
 Use when you have an existing setup and want to validate/update it to match the current specification.
 
 **Workflow**: 6 phases (Read → Validate → Synthesize → Update → Verify → Commit)
@@ -101,6 +112,7 @@ Use when you have an existing setup and want to validate/update it to match the 
 ### For a New Project
 
 1. Give Claude Code this path:
+
    ```
    /Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/project-setup-meta-prompt.md
    ```
@@ -118,6 +130,7 @@ Use when you have an existing setup and want to validate/update it to match the 
 1. Navigate to your project directory
 
 2. Give Claude Code the same path:
+
    ```
    /Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/project-setup-meta-prompt.md
    ```
@@ -134,22 +147,26 @@ Use when you have an existing setup and want to validate/update it to match the 
 ## 🔑 Key Features
 
 ### 1. Sharded Structure
+
 - **40-75% context savings** per phase
 - Load only what you need for current phase
 - Parallel agents get targeted instructions
 - Easy to maintain and update
 
 ### 2. Template Project Support
+
 - Copy agents/commands from existing project
 - **50-80% time savings**
 - Two modes: "trust" (fast) or "validate" (safe)
 
 ### 3. Parallel Execution
+
 - 4-6 parallel agents per phase
 - Maximum efficiency
 - Independent validation and updates
 
 ### 4. Brownfield Support
+
 - Analyzes existing codebase
 - Creates PROJECT_OVERVIEW.md
 - Adapts documentation to current state
@@ -162,6 +179,7 @@ Use when you have an existing setup and want to validate/update it to match the 
 After running this meta prompt, your project will have:
 
 ### Documentation (12+ files in `docs/development/`)
+
 - INDEX.md (Master documentation index)
 - PRD.md (Product Requirements)
 - TECHNICAL_SPEC.md (Implementation details)
@@ -173,6 +191,7 @@ After running this meta prompt, your project will have:
 - And more...
 
 ### Agents (13 core + tech-specific in `.claude/agents/`)
+
 1. coordinator (Orchestrates TDD workflow)
 2. senior-developer (Primary implementation)
 3. test-writer (Comprehensive TDD tests)
@@ -190,6 +209,7 @@ After running this meta prompt, your project will have:
 Plus tech-specific agents based on your stack (React component builder, API endpoint builder, etc.)
 
 ### Commands (11+ in `.claude/commands/`)
+
 - /dev - Continue development (TDD)
 - /commit - Smart commit with tests
 - /review - Comprehensive code review
@@ -204,11 +224,13 @@ Plus tech-specific agents based on your stack (React component builder, API endp
 - /create-skill - Create Claude Skill package
 
 ### Root Files
+
 - CLAUDE.md (Project instructions for Claude Code)
 - README.md (Project overview)
 - .gitignore (Configured for your stack)
 
 ### Feature Tracking
+
 - features/ directory with epic folders
 - status.xml files for each feature
 - Story files (epic.story format)
@@ -253,6 +275,7 @@ To update this meta prompt system:
 ## 📝 Version History
 
 ### Version 2.0 (2025-10-22) - Sharded Structure
+
 - Split monolithic 156KB file into 22 focused files
 - Added senior-developer agent (primary implementation agent)
 - Fixed brownfield status.xml gap (phase-6)
@@ -260,6 +283,7 @@ To update this meta prompt system:
 - Main orchestrator in root, all shards in prompts/
 
 ### Version 1.0 (2025-10-20) - Monolithic
+
 - Original single-file meta prompt (5469 lines, 156KB)
 - 12 core agents, 11+ commands, 12+ docs
 

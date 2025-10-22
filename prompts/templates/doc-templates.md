@@ -340,7 +340,7 @@ Read this file:
 - Goals and objectives
 - Key features summary
 - Technical highlights
-- Team structure (if applicable)
+- AI agent workflow structure
 - Timeline overview
 - Links to all other docs
 

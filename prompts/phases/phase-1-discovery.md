@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Ask discovery questions (project type, template project, description, tech stack, TDD enforcement, team size), analyze brownfield codebases, process template projects, and get user approval before proceeding with setup.
+Ask discovery questions (project type, template project, description, tech stack, TDD enforcement), analyze brownfield codebases, process template projects, and get user approval before proceeding with setup. This framework is designed for AI-only development where all coding is performed by AI agents.
 
 ## Related Files
 
@@ -67,9 +67,6 @@ Read this file:
    a) Do you want to follow Test-Driven Development (TDD)?
    b) If yes: Do you want FULLY ENFORCED TDD (mandatory) or RECOMMENDED TDD (flexible)?
    c) Any specific coding standards or conventions?
-
-6. Team Size:
-   Is this a solo project or team project?
 ```
 
 **Important Notes**:
@@ -79,7 +76,7 @@ Read this file:
 - **TDD Enforcement** determines language in all docs/agents:
   - **Fully Enforced**: Use "MUST", "REQUIRED", "NO EXCEPTIONS"
   - **Recommended**: Use "SHOULD", "RECOMMENDED", "PREFERRED"
-- **Team Size** affects documentation detail level
+- **AI-Only Development**: This framework is designed for development performed entirely by AI coding agents. All documentation, workflows, and agent instructions assume autonomous AI development with human oversight only for requirements and approvals.
 
 ---
 
@@ -439,13 +436,13 @@ Based on our discussion, I understand:
 - Goal: [Project description]
 - Tech Stack: [tech stack]
 - Methodology: [methodology] (TDD: [Fully Enforced / Recommended / Not Used])
-- Team: [solo/team] development
+- Development: AI-only (all coding performed by AI agents)
 
 I'll set up:
 1. Comprehensive documentation in docs/development/
-2. Custom slash commands for your workflow
-3. Specialized agents optimized for your stack
-4. CLAUDE.md with project-specific instructions
+2. Custom slash commands for autonomous AI workflows
+3. Specialized AI agents optimized for your stack
+4. CLAUDE.md with project-specific instructions for AI development
 
 Does this sound correct? Should I proceed?
 ```

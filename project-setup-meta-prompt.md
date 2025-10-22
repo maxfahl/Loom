@@ -18,6 +18,8 @@ This is the **main orchestrator** for the complete agentic development workflow 
 - **MCP server integration** (7 servers across 11 agents)
 - **Feature tracking system** with epics, stories, and status.xml
 
+**Important**: This framework is designed for **AI-only development** where all coding, testing, and implementation is performed by AI agents. Human involvement is limited to defining requirements, approving plans, and providing oversight.
+
 **This file is the navigation hub** - it tells you which specific prompt files to read for each phase of setup.
 
 ---
