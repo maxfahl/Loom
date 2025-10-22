@@ -154,13 +154,56 @@ model: claude-sonnet-4-5
    - Read story file at `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
    - Read acceptance criteria and requirements from story
 
-2. **Review Code Against Story Requirements**:
-   - Check if acceptance criteria are met
-   - Verify all tasks are completed
-   - Review code quality, tests, documentation
-   - Check for issues (bugs, security, performance, style)
+2. **Embed Git Diff for Full Context** (Phase 1 Enhancement):
 
-3. **Handle Review Findings**:
+   Before reviewing, gather ALL changes upfront:
+
+   ```bash
+   # Git status
+   git status
+
+   # Files modified
+   git diff --name-only origin/HEAD...
+
+   # Commits
+   git log --no-decorate origin/HEAD...
+
+   # Full diff content
+   git diff --merge-base origin/HEAD
+   ```
+
+   **Why**: Embedding full context upfront prevents repeated file reads and improves review quality.
+
+3. **Review Code Using 7-Phase Framework** (Phase 1 Enhancement):
+
+   Spawn `code-reviewer` agent with 7-phase hierarchical framework:
+
+   1. **Architectural Design & Integrity** (Critical)
+   2. **Functionality & Correctness** (Critical)
+   3. **Security** (Non-Negotiable)
+   4. **Maintainability & Readability** (High Priority)
+   5. **Testing Strategy & Robustness** (High Priority)
+   6. **Performance & Scalability** (Important)
+   7. **Dependencies & Documentation** (Important)
+
+   **Also check**:
+   - Story acceptance criteria are met
+   - All tasks are completed
+   - TDD requirements followed (tests written first, 80%+ coverage)
+   - Component library priority order (Kibo UI → Blocks.so → ReUI → shadcn/ui)
+
+   **Reference**: CODE_REVIEW_PRINCIPLES.md for complete framework
+
+4. **Apply Triage Matrix** (Phase 1 Enhancement):
+
+   Categorize findings using triage matrix:
+   - **Blocker**: Must fix before merge (security, architectural regression)
+   - **Improvement**: Strong recommendation for better implementation
+   - **Nit**: Minor polish, optional
+
+   **Philosophy**: "Net Positive > Perfection" - Merge if it improves code health, even if not perfect
+
+5. **Handle Review Findings**:
 
    **If Issues Found**:
    - Create/Update "## Review Tasks" section in story file
@@ -178,27 +221,45 @@ model: claude-sonnet-4-5
    - Add completion note to status.xml
    - Congratulate user on completing the story
 
-4. **Output Format**:
+6. **Output Format** (Enhanced with Triage Matrix):
    ```markdown
    # Code Review Results
 
    **Story**: [X.Y - Story Title]
    **Status**: [Approved / Issues Found]
+   **Framework**: 7-Phase Hierarchical Review
+
+   ## Review Summary
+
+   Reviewed using 7-phase framework:
+   - ✅ Phase 1: Architectural Design & Integrity
+   - ✅ Phase 2: Functionality & Correctness
+   - ✅ Phase 3: Security
+   - ⚠️ Phase 4: Maintainability & Readability (2 improvements suggested)
+   - ✅ Phase 5: Testing Strategy & Robustness
+   - ✅ Phase 6: Performance & Scalability
+   - ✅ Phase 7: Dependencies & Documentation
+
+   **Philosophy**: "Net Positive > Perfection" - This code improves the codebase and is ready to merge after addressing blockers.
 
    ## Issues Found (if any)
 
-   ### Fix (Blocking)
-   - Issue 1 (`file:line`)
-   - Issue 2 (`file:line`)
+   ### Blocker (Must Fix Before Merge)
+   - Issue 1: [Specific issue description] (`file:line`)
+     - **Why**: [Underlying principle - security/architectural regression]
+     - **Fix**: [Actionable suggestion]
 
-   ### Improvement (High Priority)
-   - Issue 3 (`file:line`)
+   ### Improvement (Strong Recommendation)
+   - Issue 2: [Specific issue description] (`file:line`)
+     - **Why**: [Underlying principle - SOLID/DRY/KISS/YAGNI]
+     - **Suggestion**: [Actionable improvement]
 
-   ### Nit (Low Priority)
-   - Issue 4 (`file:line`)
+   ### Nit (Minor Polish, Optional)
+   - Issue 3: [Specific issue description] (`file:line`)
+     - **Note**: [Minor suggestion]
 
    ## Next Steps
-   [What to do next]
+   [What to do next - prioritize Blockers → Improvements → Nits]
    ```
 
 **4. /project-status** - Project Status

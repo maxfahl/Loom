@@ -688,3 +688,322 @@ Based on project type, add:
 
 **Complete YOLO_MODE.md Structure**:
 
+_(Template content exists but not shown here for brevity)_
+
+---
+
+### 15. CODE_REVIEW_PRINCIPLES.md Template
+
+**Purpose**: 7-phase hierarchical code review framework with triage matrix
+
+**When to Create**: Always create for all projects (added in Phase 1: Core Review Enhancements)
+
+**Source**: OneRedOak review workflows (`04-REFERENCE-EXTRACTS.md` lines 62-141)
+
+**Complete CODE_REVIEW_PRINCIPLES.md Structure**:
+
+```markdown
+# Code Review Principles
+
+**Version**: 1.0
+**Last Updated**: [YYYY-MM-DD]
+**Framework**: 7-Phase Hierarchical Review
+
+---
+
+## Overview
+
+This document defines the code review methodology for [Project Name]. All code reviews follow a hierarchical 7-phase framework that prioritizes critical architectural and security concerns before moving to optimization and polish.
+
+### Philosophy: "Net Positive > Perfection"
+
+**Merge Criteria**:
+- Does this change improve the codebase health overall?
+- Are critical issues (Blockers) addressed?
+- Is the implementation reasonably maintainable?
+
+**If YES to all three → APPROVE**, even if not perfect.
+
+**Why**: Shipping improved code is better than blocking good-enough code. Perfection is the enemy of progress.
+
+---
+
+## Hierarchical Review Framework
+
+All code reviews follow this prioritized checklist:
+
+### 1. Architectural Design & Integrity (Critical)
+
+**Priority**: Critical - Must address before merge if issues found
+
+**Review Checklist**:
+- Evaluate if the design aligns with existing architectural patterns and system boundaries
+- Assess modularity and adherence to Single Responsibility Principle
+- Identify unnecessary complexity - could a simpler solution achieve the same goal?
+- Verify the change is atomic (single, cohesive purpose) not bundling unrelated changes
+- Check for appropriate abstraction levels and separation of concerns
+
+**Project-Specific References**:
+- Review against ARCHITECTURE.md for system design alignment
+- Check TECHNICAL_SPEC.md for implementation patterns
+- Verify INDEX.md for project context
+
+---
+
+### 2. Functionality & Correctness (Critical)
+
+**Priority**: Critical - Must address before merge if issues found
+
+**Review Checklist**:
+- Verify the code correctly implements the intended business logic
+- Identify handling of edge cases, error conditions, and unexpected inputs
+- Detect potential logical flaws, race conditions, or concurrency issues
+- Validate state management and data flow correctness
+- Ensure idempotency where appropriate
+
+**Project-Specific References**:
+- Verify against PRD.md for requirements compliance
+- Check acceptance criteria in current story file
+
+---
+
+### 3. Security (Non-Negotiable)
+
+**Priority**: Blocker - MUST fix before merge
+
+**Review Checklist**:
+- Verify all user input is validated, sanitized, and escaped (XSS, SQLi, command injection prevention)
+- Confirm authentication and authorization checks on all protected resources
+- Check for hardcoded secrets, API keys, or credentials
+- Assess data exposure in logs, error messages, or API responses
+- Validate CORS, CSP, and other security headers where applicable
+- Review cryptographic implementations for standard library usage
+
+**Related Documentation**:
+- See SECURITY_REVIEW_CHECKLIST.md for OWASP-based security scanning (if available)
+
+---
+
+### 4. Maintainability & Readability (High Priority)
+
+**Priority**: High - Strong recommendation to fix
+
+**Review Checklist**:
+- Assess code clarity for future developers
+- Evaluate naming conventions for descriptiveness and consistency
+- Analyze control flow complexity and nesting depth
+- Verify comments explain 'why' (intent/trade-offs) not 'what' (mechanics)
+- Check for appropriate error messages that aid debugging
+- Identify code duplication that should be refactored
+
+**Engineering Principles**:
+- **DRY** (Don't Repeat Yourself): Eliminate duplication
+- **KISS** (Keep It Simple, Stupid): Prefer simple solutions
+- **YAGNI** (You Aren't Gonna Need It): Don't add unused features
+
+---
+
+### 5. Testing Strategy & Robustness (High Priority)
+
+**Priority**: High - Strong recommendation to fix
+
+**TDD Requirements** (Project-Specific):
+- **CRITICAL**: Verify tests were written FIRST (Red-Green-Refactor cycle)
+- Check test coverage is ≥80% (MANDATORY per project TDD policy from DEVELOPMENT_PLAN.md)
+- Confirm tests follow project testing conventions
+- Validate test file naming and organization matches project structure
+
+**General Testing Review**:
+- Evaluate test coverage relative to code complexity and criticality
+- Verify tests cover failure modes, security edge cases, and error paths
+- Assess test maintainability and clarity
+- Check for appropriate test isolation and mock usage
+- Identify missing integration or end-to-end tests for critical paths
+
+**Project-Specific References**:
+- Check DEVELOPMENT_PLAN.md for TDD methodology
+- Verify test requirements in current story file
+
+---
+
+### 6. Performance & Scalability (Important)
+
+**Priority**: Important - Recommend fixing if performance-critical
+
+**Review Checklist**:
+- **Backend**: Identify N+1 queries, missing indexes, inefficient algorithms
+- **Frontend**: Assess bundle size impact, rendering performance, Core Web Vitals
+- **API Design**: Evaluate consistency, backwards compatibility, pagination strategy
+- Review caching strategies and cache invalidation logic
+- Identify potential memory leaks or resource exhaustion
+
+---
+
+### 7. Dependencies & Documentation (Important)
+
+**Priority**: Important - Recommend updating
+
+**Component Library Priority Order** (Project-Specific):
+
+For UI components, verify library priority order from DESIGN_SYSTEM.md:
+1. **Kibo UI** (dev tools, specialized components) - CHECK FIRST
+2. **Blocks.so** (layouts, dashboard patterns) - CHECK SECOND
+3. **ReUI** (animations, motion) - CHECK THIRD
+4. **shadcn/ui** (base primitives) - CHECK FOURTH
+5. **Custom** (last resort only) - ONLY IF NOTHING EXISTS
+
+**Flag if**: Custom component created when library option exists
+
+**General Dependencies Review**:
+- Question necessity of new third-party dependencies
+- Assess dependency security, maintenance status, and license compatibility
+- Verify API documentation updates for contract changes
+- Check for updated configuration or deployment documentation
+
+**Project Documentation References**:
+- Review code against INDEX.md for project context
+- Check compliance with PRD.md requirements
+- Verify technical implementation matches TECHNICAL_SPEC.md
+- Confirm UI follows DESIGN_SYSTEM.md guidelines
+- Check TDD compliance with DEVELOPMENT_PLAN.md
+
+---
+
+## Triage Matrix
+
+All review findings must be categorized using this triage matrix:
+
+### [Blocker]
+
+**Definition**: Must be fixed before merge
+
+**Examples**:
+- Security vulnerability (Phase 3)
+- Architectural regression (Phase 1)
+- TDD non-compliance (tests not written first, <80% coverage) (Phase 5)
+- Breaks existing functionality (Phase 2)
+- Hardcoded secrets/credentials (Phase 3)
+
+**Action**: Block merge until fixed
+
+---
+
+### [Improvement]
+
+**Definition**: Strong recommendation for improving implementation
+
+**Examples**:
+- Unnecessary complexity (Phase 1)
+- Missing edge case handling (Phase 2)
+- Poor naming conventions (Phase 4)
+- Low test coverage on critical path (Phase 5)
+- Performance bottleneck (Phase 6)
+- Missing documentation (Phase 7)
+
+**Action**: Request changes with explanation
+
+---
+
+### [Nit]
+
+**Definition**: Minor polish, optional
+
+**Examples**:
+- Typo in comment
+- Inconsistent whitespace
+- Suggestion for alternative approach (not clearly better)
+- Preference for different code style (already meets standards)
+
+**Action**: Suggest but don't block merge
+
+---
+
+## Communication Principles
+
+When providing code review feedback:
+
+1. **Actionable Feedback**: Provide specific, actionable suggestions with `file:line` references
+2. **Explain the "Why"**: When suggesting changes, explain the underlying engineering principle that motivates the suggestion
+3. **Apply Triage Matrix**: Categorize significant issues to help the author prioritize
+4. **Be Constructive**: Maintain objectivity and assume good intent
+5. **Provide Examples**: When possible, show code examples of recommended approach
+6. **Link to Standards**: Reference project documentation (ARCHITECTURE.md, DESIGN_SYSTEM.md, etc.)
+
+---
+
+## Review Output Format
+
+Code reviews should follow this structure:
+
+```markdown
+## Review Summary
+
+- **Verdict**: [APPROVE | REQUEST_CHANGES | NEEDS_DISCUSSION]
+- **Blockers**: X issues
+- **Improvements**: Y recommendations
+- **Nits**: Z minor suggestions
+
+---
+
+## Phase 1: Architectural Design & Integrity
+
+[Blocker/Improvement/Nit findings for architecture...]
+
+## Phase 2: Functionality & Correctness
+
+[Blocker/Improvement/Nit findings for functionality...]
+
+## Phase 3: Security
+
+[Blocker/Improvement/Nit findings for security...]
+
+## Phase 4: Maintainability & Readability
+
+[Blocker/Improvement/Nit findings for maintainability...]
+
+## Phase 5: Testing Strategy & Robustness
+
+[Blocker/Improvement/Nit findings for testing...]
+
+## Phase 6: Performance & Scalability
+
+[Blocker/Improvement/Nit findings for performance...]
+
+## Phase 7: Dependencies & Documentation
+
+[Blocker/Improvement/Nit findings for dependencies...]
+
+---
+
+## Net Positive Assessment
+
+- Does this change improve the codebase health overall? [YES/NO]
+- Are all Blockers addressed? [YES/NO]
+- Is the implementation reasonably maintainable? [YES/NO]
+
+**Recommendation**: [APPROVE | REQUEST_CHANGES]
+```
+
+---
+
+## Related Documentation
+
+- **/review** command - Triggers code review using this framework
+- **code-reviewer** agent - Implements this 7-phase review methodology
+- **SECURITY_REVIEW_CHECKLIST.md** - Security-specific review (Phase 3 deep-dive)
+- **DESIGN_PRINCIPLES.md** - Design review methodology (UI/UX focus)
+- **DEVELOPMENT_PLAN.md** - TDD requirements and testing standards
+
+---
+
+_Last updated: [YYYY-MM-DD]_
+_For updates to this file, use the `#` key during Claude Code sessions_
+```
+
+**Customization Notes**:
+- Replace `[Project Name]` with actual project name
+- Update `[YYYY-MM-DD]` with current date
+- Adjust TDD requirements based on project enforcement level (STRICT vs RECOMMENDED)
+- Update component library priority order if project uses different libraries
+- Add project-specific architectural patterns or security requirements
+

@@ -25,11 +25,12 @@ All documentation templates are in: [doc-templates.md](../templates/doc-template
 5. **ARCHITECTURE.md** - System architecture
 6. **DESIGN_SYSTEM.md** - UI/UX guidelines (if applicable)
 7. **DEVELOPMENT_PLAN.md** - Development workflow and TDD
-8. **HOOKS_REFERENCE.md** - Claude Code hooks (if monitoring project)
-9. **TASKS.md** - Development tasks
-10. **START_HERE.md** - Getting started guide
-11. **PROJECT_SUMMARY.md** - Executive summary
-12. **Domain-specific docs** (API_REFERENCE.md, etc.)
+8. **CODE_REVIEW_PRINCIPLES.md** - 7-phase code review framework (OneRedOak integration)
+9. **HOOKS_REFERENCE.md** - Claude Code hooks (if monitoring project)
+10. **TASKS.md** - Development tasks
+11. **START_HERE.md** - Getting started guide
+12. **PROJECT_SUMMARY.md** - Executive summary
+13. **Domain-specific docs** (API_REFERENCE.md, etc.)
 
 ## ⚡ CRITICAL: Parallel Creation (70% Time Savings)
 
@@ -47,8 +48,9 @@ All documentation templates are in: [doc-templates.md](../templates/doc-template
 - DESIGN_SYSTEM.md
 - TASKS.md
 
-**Batch 2** (4 docs in parallel):
+**Batch 2** (5 docs in parallel):
 - INDEX.md (requires other docs for navigation)
+- CODE_REVIEW_PRINCIPLES.md
 - HOOKS_REFERENCE.md
 - PROJECT_SUMMARY.md
 - EXECUTIVE_SUMMARY.md

@@ -44,7 +44,7 @@ Carefully read the prompt in the Markdown file and follow it exactly. Then run t
 
 - **/dev** - Continue development with automatic task tracking and status updates
 - **/commit** - Smart commit with tests and linting
-- **/review** - Comprehensive code review with automatic Review Tasks creation
+- **/review** - Comprehensive 7-phase code review with git diff embedding, triage matrix (Blocker/Improvement/Nit), and automatic Review Tasks creation
 - **/test** - Run tests with coverage
 - **/plan** - Plan feature implementation
 - **/status** - Project status report
@@ -56,7 +56,7 @@ Carefully read the prompt in the Markdown file and follow it exactly. Then run t
 
 ### Complete Documentation
 
-12+ files covering PRD, technical specs, architecture, design systems, development plans, and more.
+13+ files covering PRD, technical specs, architecture, design systems, development plans, code review principles (7-phase framework), and more.
 
 ## 🎮 YOLO Mode: Autonomous Development
 
