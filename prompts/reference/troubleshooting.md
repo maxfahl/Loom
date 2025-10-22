@@ -48,20 +48,23 @@ Read this file when:
 ## File Location
 
 YOLO mode configuration is stored in:
-````
-
-features/[feature-name]/status.xml
-
 ```
+docs/development/status.xml
+```
+
+**IMPORTANT**: There is only ONE status.xml file for the entire project (not per-feature). It contains configuration for all features.
 
 Example:
+```xml
+<feature name="user-authentication">
+  <is-active-feature>true</is-active-feature>
+  <yolo-mode enabled="false">
+    <!-- breakpoints here -->
+  </yolo-mode>
+</feature>
 ```
 
-features/user-authentication/status.xml
-
-```
-
-The `/yolo` command automatically finds and updates the correct status.xml file.
+The `/yolo` command automatically finds and updates the status.xml file at `docs/development/status.xml`.
 
 ---
 

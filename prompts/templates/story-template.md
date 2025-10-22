@@ -100,7 +100,7 @@ Read this file:
 - Checklist items are checked off as work progresses
 - Story location: `docs/development/features/[feature]/epics/[epic]/stories/[story].md`
 - Epic folder: `docs/development/features/[feature]/epics/[epic]/`
-- Feature tracking: `features/[feature]/status.xml` (not in docs/)
+- Feature tracking: `docs/development/status.xml` (SINGLE FILE for all features)
 - Format is always `[epic-number].[story-number].md` (e.g., 2.1.md, 2.2.md)
 
 **Status Workflow**:

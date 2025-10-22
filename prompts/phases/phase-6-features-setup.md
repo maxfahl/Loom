@@ -33,12 +33,12 @@ Minimal getting started guide:
 
    features/
    └── feature-name/
-       ├── status.xml
        ├── src/ (created when development starts)
        └── tests/ (created when development starts)
 
    docs/
    └── development/
+       ├── status.xml (SINGLE FILE for all features)
        └── features/
            └── feature-name/
                ├── INDEX.md
@@ -64,10 +64,10 @@ Minimal getting started guide:
                        └── stories/
    ```
 
-3. **Create status.xml** in features/[name]/ for each feature (see [status-xml.md](../reference/status-xml.md))
+3. **Create status.xml** at `docs/development/status.xml` (SINGLE FILE for all features) - see [status-xml.md](../reference/status-xml.md)
 4. **Create feature documentation directory** at docs/development/features/[name]/ with all doc files and epics/ with stories/ subfolders
 5. **Populate epics** with DESCRIPTION.md, TASKS.md, NOTES.md in docs/development/features/[name]/epics/
-6. **Set ONE feature** as active: `<is-active-feature>true</is-active-feature>`
+6. **Set ONE feature** as active in status.xml: `<is-active-feature>true</is-active-feature>`
 
 ### For Brownfield Projects (FIXED)
 
@@ -100,19 +100,19 @@ Minimal getting started guide:
 
    features/
    ├── user-authentication/ (existing code)
-   │   ├── status.xml (added)
    │   ├── src/ (existing)
    │   └── tests/ (existing)
    ├── product-catalog/ (existing code)
-   │   ├── status.xml (added)
    │   ├── src/ (existing)
    │   └── tests/ (existing)
    └── shopping-cart/ (in progress - ACTIVE)
-       ├── status.xml (added - set as active)
        ├── src/ (existing)
        └── tests/ (existing)
 
-   docs/development/features/
+   docs/
+   └── development/
+       ├── status.xml (SINGLE FILE - tracks all features)
+       └── features/
    ├── user-authentication/ (added)
    │   ├── INDEX.md
    │   ├── FEATURE_SPEC.md

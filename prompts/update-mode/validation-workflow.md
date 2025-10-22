@@ -46,11 +46,12 @@ When this meta prompt is run on a project that already has setup, the goal is to
 
 **BEFORE spawning validation agents, gather context**:
 
-1. **Read status.xml** from active feature:
+1. **Read status.xml** (SINGLE FILE for all features):
 
    ```bash
-   # Find active feature
-   grep -r "<is-active-feature>true</is-active-feature>" features/*/status.xml
+   # status.xml is at docs/development/status.xml
+   # Find active feature within this single file
+   grep "<is-active-feature>true</is-active-feature>" docs/development/status.xml
    ```
 
 2. **Read INDEX.md**: `docs/development/INDEX.md`

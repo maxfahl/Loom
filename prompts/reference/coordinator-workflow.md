@@ -62,7 +62,7 @@ The coordinator agent follows the same workflow as a professional software devel
 
 **Before doing ANYTHING, read these files in order:**
 
-1. **status.xml**: `features/[active-feature]/status.xml`
+1. **status.xml**: `docs/development/status.xml` (SINGLE FILE for all features)
    - Get current epic, current story, YOLO mode settings
    - Understand what's in progress, what's completed
    - Check for blockers
@@ -655,7 +655,7 @@ model: sonnet
    - Understand project conventions
    - Review coding standards and best practices
 
-3. **Read status.xml**: `features/[feature-name]/status.xml`
+3. **Read status.xml**: `docs/development/status.xml` (SINGLE FILE for all features)
    - Identify active feature (<is-active-feature>true</is-active-feature>)
    - Check current epic (<current-epic>)
    - Check current story (<current-story>)

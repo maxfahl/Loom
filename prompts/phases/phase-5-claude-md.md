@@ -48,7 +48,7 @@ Read this file:
 ### Pre-Task Preparation
 
 - [ ] Read INDEX.md (`docs/development/INDEX.md`) for project context
-- [ ] Read status.xml for active feature (`features/[feature]/status.xml`)
+- [ ] Read status.xml (`docs/development/status.xml`) - SINGLE FILE for all features
 - [ ] Identify which feature is currently active (`<is-active-feature>true</is-active-feature>`)
 - [ ] Check current epic (`<current-epic>`)
 - [ ] Check current story (`<current-story>`)
