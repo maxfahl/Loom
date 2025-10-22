@@ -421,7 +421,75 @@ Document ALL findings in extreme detail in `docs/development/project-overview.md
 Include code examples, file paths, and command examples.
 ```
 
-**⚠️ IMPORTANT: Wait for agent to complete**, then proceed to Step 2.
+**⚠️ IMPORTANT: Wait for agent to complete**, then proceed to Step 1.5.5.
+
+---
+
+#### Step 1.5.5: Document Legacy Documentation Mapping (Brownfield Cleanup Preparation)
+
+**This step runs ONLY for brownfield projects with existing documentation.**
+
+**Purpose**: Map existing documentation to new AgentDev structure for later cleanup in Phase 2.5.
+
+**Process**:
+
+1. **Scan for Existing Documentation**:
+   ```bash
+   # Common documentation locations
+   find . -type f -name "*.md" -not -path "*/node_modules/*" -not -path "*/.git/*"
+   find . -type d -name "docs" -o -name "documentation" -o -name "wiki"
+   ```
+
+2. **Add "Existing Documentation" Section to PROJECT_OVERVIEW.md**:
+
+   After the codebase analysis, append this section:
+
+   ```markdown
+   ## Existing Documentation
+
+   ### Legacy Documentation Mapping
+
+   | File Path | Document Type | Transformation Target | Action |
+   |-----------|---------------|----------------------|--------|
+   | docs/old-readme.md | README | docs/development/README.md | Transform |
+   | wiki/architecture.md | Architecture | docs/development/ARCHITECTURE.md | Merge |
+   | DESIGN.md | Design System | docs/development/DESIGN_SYSTEM.md | Transform |
+   | api-docs/ | API Reference | docs/development/API_REFERENCE.md | Merge |
+   | legacy/guide.md | User Guide | docs/development/START_HERE.md | Keep (reference) |
+
+   ### Mapping Legend
+
+   - **Transform**: Content will be transformed into new AgentDev format
+   - **Merge**: Content will be merged with new documentation
+   - **Keep**: Keep as-is for reference
+   - **Archive**: Move to archive/ folder (rarely used)
+
+   ### Notes
+
+   - Phase 2.5 will use this mapping to clean up legacy docs
+   - User will choose: Archive/Backup/Delete/Keep
+   - This ensures no information is lost during transformation
+   ```
+
+3. **Document Each Legacy File**:
+   - **File Path**: Exact path to existing doc
+   - **Document Type**: What kind of doc (README, Architecture, etc.)
+   - **Transformation Target**: Which new AgentDev doc it maps to
+   - **Action**: Transform/Merge/Keep
+
+4. **Mark for Phase 2.5**:
+   Add note at end of section:
+   ```markdown
+   **Phase 2.5 Note**: After creating new documentation in Phase 2, we'll present cleanup options for these legacy files.
+   ```
+
+**Why This Matters**:
+- Prevents information loss during transformation
+- Allows users to make informed cleanup decisions
+- Tracks which old docs map to which new docs
+- Enables efficient parallel cleanup in Phase 2.5
+
+**⚠️ IMPORTANT: Complete this mapping before proceeding to Step 2.**
 
 ### Step 2: Confirm Understanding
 
