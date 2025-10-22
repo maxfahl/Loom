@@ -63,7 +63,12 @@ Read this file:
    What technologies are you planning to use?
    (e.g., Next.js, React, Python, Django, etc.)
 
-5. Development Methodology:
+5. Preview Command:
+   What is the shell command to run the development/preview server?
+   (e.g., `npm run dev`, `python -m http.server`)
+   This is required for the design-reviewer agent to perform live UI testing.
+
+6. Development Methodology:
    a) Do you want to follow Test-Driven Development (TDD)?
    b) If yes: Do you want FULLY ENFORCED TDD (mandatory) or RECOMMENDED TDD (flexible)?
    c) Any specific coding standards or conventions?

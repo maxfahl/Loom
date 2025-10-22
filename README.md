@@ -35,12 +35,12 @@
 
 ### Why Loom?
 
-- 🤖 **13+ Specialized Agents** - Each expert in their domain (dev, testing, review, security, design)
+- 🤖 **13 Core Agents** - Each expert in their domain (dev, testing, review, security, design)
 - 🔄 **Autonomous Workflows** - YOLO mode with configurable breakpoints (story-level, epic-level)
 - 🧪 **Strict TDD** - Red-Green-Refactor cycle enforced by design
 - 📊 **Epic/Story Organization** - Break features into logical milestones
 - ⚡ **Parallel Execution** - Multiple agents work simultaneously (70-80% time savings)
-- 🎯 **13+ Slash Commands** - Streamlined workflow (/dev, /review, /commit, /test, etc.)
+- 🎯 **12+ Slash Commands** - Streamlined workflow (/dev, /review, /commit, /test, etc.)
 
 ### The Loom Philosophy
 
@@ -76,7 +76,7 @@ Carefully read the prompt in the Markdown file and follow it exactly. Then run t
 
 ## 🎯 What You Get
 
-### 13 Specialized Agents
+### 13 Core Agents
 
 - **coordinator** - Autonomous TDD workflow orchestrator with YOLO mode
 - **senior-developer** - Architecture and code review expert

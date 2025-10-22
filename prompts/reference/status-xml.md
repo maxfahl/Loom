@@ -190,60 +190,44 @@ docs/development/
 </feature-status>
 ```
 
-### YOLO Mode Configuration
-
-**For complete YOLO mode documentation, see YOLO_MODE.md template (Section 14 above).**
-
-**Quick Reference:**
-
-- Configure: Use `/yolo` command or message "Enable YOLO mode"
-- YOLO OFF: Agents stop at enabled breakpoints for user confirmation
-- YOLO ON: Agents proceed automatically, skip all breakpoints
-- Configuration stored in `features/[feature-name]/status.xml`
-
 ### Reading status.xml (For Agents)
 
 #### How Agents Should Read status.xml
 
-**ALL agents and commands MUST read status.xml to understand current feature state.**
+**ALL agents and commands MUST read `docs/development/status.xml` to understand the current state of ALL features.**
 
-**status.xml contains**: Current task, completed tasks, pending tasks, blockers, YOLO mode, current epic, current story.
+**The `status.xml` file contains**: Current task, completed tasks, pending tasks, blockers, YOLO mode, current epic, and current story for every feature.
 
-**For complete status.xml usage instructions**: See CLAUDE.md "status.xml Management" section created during Phase 5.
+**For complete `status.xml` usage instructions**: See the `CLAUDE.md` file's "status.xml Management" section, which is created during Phase 5 of the setup.
 
 #### Phase 0 Enhancement: Agent Workflow with Story Files
 
 **Story Status Lifecycle**:
 
-1. **In Progress**: Story is actively being worked on
-2. **Waiting For Review**: All tasks completed, awaiting code review
-3. **Done**: Code review passed, story complete
+1. **In Progress**: Story is actively being worked on.
+2. **Waiting For Review**: All tasks completed, awaiting code review.
+3. **Done**: Code review passed, story complete.
 
-**How `/dev` Command Uses status.xml**:
+**How the `/dev` Command Uses `status.xml`**:
 
-1. Read `<current-story>` value (e.g., "2.1")
-2. Read story file at `docs/development/features/[feature]/epics/[epic]/stories/2.1.md`
-3. Check for "## Review Tasks" section (if exists, prioritize FIRST)
-4. Work on tasks and check them off (`[ ]` → `[x]`)
-5. When ALL tasks complete:
-   - Update story **Status** to "Waiting For Review"
-   - Update story **Last Updated** timestamp
-   - Add note to status.xml
+1.  Reads the `<current-story>` value (e.g., "2.1").
+2.  Reads the corresponding story file at `docs/development/features/[feature]/epics/[epic]/stories/2.1.md`.
+3.  Checks for a "## Review Tasks" section (if it exists, those tasks are prioritized).
+4.  Works on tasks and checks them off (`[ ]` → `[x]`).
+5.  When ALL tasks are complete, it updates the story's **Status** to "Waiting For Review" and adds a note to `status.xml`.
 
-**How `/review` Command Uses status.xml**:
+**How the `/review` Command Uses `status.xml`**:
 
-1. Read `<current-story>` value
-2. Read story file for acceptance criteria
-3. Review code against requirements
-4. **If issues found**:
-   - Add/Update "## Review Tasks" section in story file
-   - Add tasks with priority: Fix/Improvement/Nit
-   - Update story **Status** to "In Progress"
-   - Update story **Last Updated** timestamp
-5. **If no issues**:
-   - Update story **Status** to "Done"
-   - Update story **Last Updated** timestamp
-   - Add completion note to status.xml
+1.  Reads the `<current-story>` value.
+2.  Reads the story file for acceptance criteria.
+3.  Reviews the code against the requirements.
+4.  **If issues are found**:
+    *   Adds or updates the "## Review Tasks" section in the story file.
+    *   Adds tasks with priorities: `Fix`, `Improvement`, or `Nit`.
+    *   Updates the story's **Status** to "In Progress".
+5.  **If no issues are found**:
+    *   Updates the story's **Status** to "Done".
+    *   Adds a completion note to `status.xml`.
 
 **Review Tasks Format**:
 
@@ -255,40 +239,13 @@ docs/development/
 - [ ] Nit: Low priority polish (`file:line`)
 ```
 
-**Example Workflow**:
-
-```
-User: /dev
-Agent: Reads story 2.1, works on tasks, completes all
-Agent: Updates story Status to "Waiting For Review"
-
-User: /review
-Agent: Finds 3 issues
-Agent: Adds Review Tasks section to story
-Agent: Updates story Status back to "In Progress"
-
-User: /dev
-Agent: Prioritizes Review Tasks first
-Agent: Fixes all review issues
-Agent: Updates story Status to "Waiting For Review"
-
-User: /review
-Agent: No issues found
-Agent: Updates story Status to "Done"
-```
-
 ### Template for New Features
 
 #### File Creation
 
-**During project setup:**
+During the project setup, the `docs/development/status.xml` file is created and initialized. New `<feature>` blocks are added to this single file as new features are created.
 
-- **⚠️ IMPORTANT**: Create `features/` directory
-- Create subdirectory for each major feature
-- Create `status.xml` in each feature directory
-- Initialize with empty tasks
-
-**Template status.xml for new features:**
+**Template `status.xml` for new features:**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>

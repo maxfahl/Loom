@@ -89,10 +89,10 @@ Minimal getting started guide:
    b) No, skip features/ directory (agents will work without it)
    ```
 
-2. **If user chooses (a), analyze existing codebase**:
-   - Read PROJECT_OVERVIEW.md for current features
-   - Identify logical feature groupings
-   - Propose initial feature directories
+2. **If user chooses (a), use the analysis from `PROJECT_OVERVIEW.md`**:
+   - Read `PROJECT_OVERVIEW.md` (created in Phase 1) for current features.
+   - Identify logical feature groupings from the existing analysis.
+   - Propose initial feature directories based on that document.
 
 3. **Create features/ structure based on analysis**:
    ```

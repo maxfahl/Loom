@@ -311,7 +311,7 @@ ACTION_REQUIRED: [YES if migration needed, NO otherwise]
 
 IF MIGRATION NEEDED:
 ABORT_VALIDATION: true
-REPORT_TO_COORDINATOR: "Story migration required: Move stories from [old-location] to docs/development/features/[feature]/epics/[epic]/stories/"
+REPORT_TO_COORDINATOR: "Story migration required. Execute the `scripts/migrate-stories.sh` script for the active feature, then re-run this validation workflow."
 ```
 
 **Agent 5: CLAUDE.md Validator**
@@ -459,13 +459,13 @@ Task: Validate overall project structure, folders, and configuration files
 - Process:
   1. For missing docs: Create from templates
   2. For outdated docs: Add missing sections, update TDD language
-  3. **Add OneRedOak docs if missing** (reference 04-REFERENCE-EXTRACTS.md for content):
+  3. **Add OneRedOak docs if missing** (reference `prompts/templates/doc-templates.md` for content):
      - CODE_REVIEW_PRINCIPLES.md (7-phase framework, Net Positive philosophy, triage matrix)
      - SECURITY_REVIEW_CHECKLIST.md (OWASP Top 10, FALSE_POSITIVE rules, 3-step analysis)
      - DESIGN_PRINCIPLES.md (7-phase design, Playwright MCP, WCAG AA, S-Tier checklist)
   4. **Update story-template.md**: Add status values, Review Tasks section, task priority format
   5. Update INDEX.md with any new docs
-  6. Preserve existing content, only add/update as needed
+  6. **Merge Strategy**: For existing documents, you must merge changes. Identify the outdated sections based on the meta-prompt specification and replace only those sections. Do not overwrite the entire file. Preserve any user-added custom sections that do not conflict with the core structure.
 
 **Agent 2: Agent Updater**
 
@@ -474,7 +474,7 @@ Task: Validate overall project structure, folders, and configuration files
 - Process:
   1. For missing agents: Create from meta prompt spec
   2. For outdated agents: Add MCP knowledge, update templates, fix YAML
-  3. **Add OneRedOak patterns from 04-REFERENCE-EXTRACTS.md**:
+  3. **Add OneRedOak patterns by referencing the authoritative definitions in `prompts/reference/core-agents.md`**:
      - **code-reviewer**: Add 7-phase framework, triage matrix, "Net Positive > Perfection" philosophy
      - **security-reviewer**: Add 3-step analysis, FALSE_POSITIVE rules (17 + 12), set model to Opus
      - **design-reviewer**: Add 7-phase design, Playwright workflow, WCAG AA, 3 viewports, set model to Sonnet

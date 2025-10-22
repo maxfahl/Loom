@@ -3,7 +3,7 @@
 **Version**: 2.0 (Sharded)
 **Last Updated**: 2025-10-22
 **Total Agents**: 13 core + 2-4 tech-specific
-**Total Commands**: 11+ slash commands
+**Total Commands**: 12+ slash commands
 
 ---
 
@@ -12,7 +12,7 @@
 This is the **main orchestrator** for the complete agentic development workflow setup system. This meta prompt guides Claude Code through setting up a full development environment with:
 
 - **13 core specialized agents** for parallel development
-- **11+ custom slash commands** for streamlined workflows
+- **12+ custom slash commands** for streamlined workflows
 - **Comprehensive documentation** (12+ files)
 - **TDD methodology** with YOLO mode autonomous development
 - **MCP server integration** (7 servers across 11 agents)
@@ -110,8 +110,8 @@ Read: [`prompts/phases/phase-0-detection.md`](prompts/phases/phase-0-detection.m
 ### Quick Detection
 
 ```bash
-# Check if any status.xml files exist
-find features/ -name "status.xml" -type f 2>/dev/null | head -1
+# Check if the single status.xml file exists
+find docs/development/ -name "status.xml" -type f 2>/dev/null | head -1
 ```
 
 **Decision Tree**:

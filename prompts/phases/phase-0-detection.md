@@ -27,16 +27,16 @@ Read this file:
 
 ### Detection Method
 
-**Check for existence of status.xml in features/ directory**:
+**Check for the existence of `docs/development/status.xml`**:
 
 ```bash
-# Check if any status.xml files exist
-find features/ -name "status.xml" -type f 2>/dev/null | head -1
+# Check if the single status.xml file exists
+find docs/development/ -name "status.xml" -type f 2>/dev/null | head -1
 ```
 
 **Decision Tree**:
 
-- **If NO status.xml found** → This is a **NEW SETUP** → Continue to "Ask First, Then Set Up" section
-- **If status.xml found** → This is an **UPDATE/VALIDATION** → Jump to "Update Mode: Validate Existing Setup" section below
+- **If NO `status.xml` found** → This is a **NEW SETUP** → Continue to "Ask First, Then Set Up" section
+- **If `status.xml` found** → This is an **UPDATE/VALIDATION** → Jump to "Update Mode: Validate Existing Setup" section below
 
 ---
