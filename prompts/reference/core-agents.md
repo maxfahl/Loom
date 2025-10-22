@@ -102,7 +102,7 @@ The coordinator agent follows the same workflow as a professional software devel
    - Understand what's in progress, what's completed
    - Check for blockers
 
-2. **Current Story** (if exists): `docs/[feature-name]/stories/[X.Y].md`
+2. **Current Story** (if exists): `docs/development/features/[feature-name]/stories/[X.Y].md`
    - This is THE source of truth for current work
    - Read acceptance criteria
    - Read task checklist
@@ -184,7 +184,7 @@ Task: Write tests for [task-name]
 
 Context:
 
-- Story: docs/[feature]/stories/[X.Y].md
+- Story: docs/development/features/[feature]/stories/[X.Y].md
 - Requirements: [specific requirements for this task]
 - TDD Enforcement: [from project CLAUDE.md]
 
@@ -213,7 +213,7 @@ Task: Implement [task-name] to make tests pass
 Context:
 
 - Tests written: [location of test files]
-- Story: docs/[feature]/stories/[X.Y].md
+- Story: docs/development/features/[feature]/stories/[X.Y].md
 - Technical Spec: TECHNICAL_SPEC.md
 - Architecture: ARCHITECTURE.md
 
@@ -397,7 +397,7 @@ Process:
 
 ##### 4.1: Check Story Completion
 
-**Read current story checklist**: `docs/[feature]/stories/[X.Y].md`
+**Read current story checklist**: `docs/development/features/[feature]/stories/[X.Y].md`
 
 **All tasks checked off?**
 
@@ -447,7 +447,7 @@ Context:
 Process:
 
 1. Read epic TASKS.md to find next task
-2. Create story file: docs/[feature]/stories/[X.Y+1].md
+2. Create story file: docs/development/features/[feature]/stories/[X.Y+1].md
 3. Update status.xml <current-story> to [X.Y+1]
 4. Return to coordinator
 ```
@@ -695,7 +695,7 @@ model: sonnet
    - Understand what's been completed and what's next
    - Check for blockers
 
-4. **Read Current Story** (if exists): `docs/[feature-name]/stories/[epic.story].md`
+4. **Read Current Story** (if exists): `docs/development/features/[feature-name]/stories/[epic.story].md`
    - Story file is THE source of truth for current work
    - Review story description and acceptance criteria
    - Check tasks and subtasks checklist
@@ -1351,7 +1351,7 @@ model: sonnet
    - Check YOLO mode status (determines if you ask for confirmation)
    - Understand what's been completed and what's next
 
-4. **Read Current Story** (if exists): `docs/[feature-name]/stories/[epic.story].md`
+4. **Read Current Story** (if exists): `docs/development/features/[feature-name]/stories/[epic.story].md`
    - Story file is THE source of truth for current work
    - Review story description and acceptance criteria
    - Check tasks and subtasks checklist

@@ -4,7 +4,7 @@
 
 ## Purpose
 
-Template for story files (epic.story format like 1.1, 2.3) used in the features/[name]/docs/stories/ directory. Includes story description, acceptance criteria, tasks/subtasks, technical details, and notes sections.
+Template for story files (epic.story format like 1.1, 2.3) used in the docs/development/features/[feature-name]/stories/ directory. Includes story description, acceptance criteria, tasks/subtasks, technical details, and notes sections.
 
 ## Related Files
 
@@ -85,5 +85,5 @@ Read this file:
 - Story file is THE source of truth for what to implement
 - Agents read this story file to understand requirements
 - Checklist items are checked off as work progresses
-- Story stays in `docs/[feature-name]/stories/` (not in epic folder)
+- Story stays in `docs/development/features/[feature-name]/stories/` (not in epic folder)
 - Format is always `[epic-number].[story-number].md` (e.g., 2.1.md, 2.2.md)

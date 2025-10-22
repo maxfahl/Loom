@@ -64,7 +64,7 @@ features/
     <current-epic>epic-2-core-features</current-epic>
     <current-story>2.1</current-story>
     <!-- current-story format: epic.story (e.g., 2.1 = Epic 2, Story 1) -->
-    <!-- Story file location: docs/[feature-name]/stories/2.1.md -->
+    <!-- Story file location: docs/development/features/[feature-name]/stories/2.1.md -->
     <is-active-feature>true</is-active-feature>
     <!-- Only ONE feature should have is-active-feature="true" at a time -->
   </metadata>
@@ -221,7 +221,7 @@ features/
     <current-epic>[epic-id or empty]</current-epic>
     <current-story>[epic.story or empty]</current-story>
     <!-- current-story format: epic.story (e.g., 1.1, 2.3) -->
-    <!-- Story file location: docs/[feature-name]/stories/[epic.story].md -->
+    <!-- Story file location: docs/development/features/[feature-name]/stories/[epic.story].md -->
     <is-active-feature>true</is-active-feature>
     <!-- Set to true for the feature currently being developed -->
   </metadata>

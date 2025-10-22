@@ -205,13 +205,6 @@ argument-hint: [feature name]
    ```
    features/[feature-name]/
    ├── status.xml
-   ├── docs/
-   │   ├── INDEX.md
-   │   ├── FEATURE_SPEC.md
-   │   ├── TASKS.md
-   │   ├── TECHNICAL_DESIGN.md
-   │   ├── CHANGELOG.md
-   │   └── stories/          # User stories folder (empty initially)
    ├── epics/
    │   ├── epic-1-[name]/
    │   │   ├── DESCRIPTION.md  # Epic overview and goals
@@ -227,10 +220,18 @@ argument-hint: [feature name]
    │       └── NOTES.md
    ├── src/ (when development starts)
    └── tests/ (when development starts)
+
+   docs/development/features/[feature-name]/
+   ├── INDEX.md
+   ├── FEATURE_SPEC.md
+   ├── TASKS.md
+   ├── TECHNICAL_DESIGN.md
+   ├── CHANGELOG.md
+   └── stories/          # User stories folder (empty initially)
    ```
-6. Create status.xml with epics configuration and current-story tracking
-7. Create feature documentation (FEATURE_SPEC, TASKS, TECHNICAL_DESIGN, etc.)
-8. **Create docs/stories/ folder** (empty, populated by /create-story command)
+6. Create status.xml in features/[feature-name]/ with epics configuration and current-story tracking
+7. Create feature documentation in docs/development/features/[feature-name]/ (FEATURE_SPEC, TASKS, TECHNICAL_DESIGN, etc.)
+8. **Create docs/development/features/[feature-name]/stories/ folder** (empty, populated by /create-story command)
 9. **Create epic folders** with DESCRIPTION.md, TASKS.md, and NOTES.md for each
 10. Handle active feature switching (only ONE active at a time)
 11. Populate pending-tasks from TASKS.md into appropriate epics
@@ -301,13 +302,13 @@ model: claude-sonnet-4-5
 
 1. Read status.xml to identify active feature and current epic
 2. Read epic TASKS.md in `features/[feature]/epics/[current-epic]/`
-3. Check existing stories in `docs/[feature-name]/stories/` to see what's been created
+3. Check existing stories in `docs/development/features/[feature-name]/stories/` to see what's been created
 4. Analyze what's been completed vs what's pending in the epic
 5. Determine next story number (e.g., if current-story is 2.1, check if 2.1 exists, create 2.2)
-6. Create new story file at `docs/[feature-name]/stories/[epic.story].md`
+6. Create new story file at `docs/development/features/[feature-name]/stories/[epic.story].md`
 7. Update status.xml `<current-story>` to the new story number
 8. Update `<last-updated>` timestamp
 
-**Story File Structure** (`docs/[feature-name]/stories/X.Y.md`):
+**Story File Structure** (`docs/development/features/[feature-name]/stories/X.Y.md`):
 
 ```markdown

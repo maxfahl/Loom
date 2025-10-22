@@ -26,19 +26,14 @@ Minimal getting started guide:
 
 ### For Greenfield Projects
 
-1. **Create features/ directory**
+1. **Create features/ directory and docs/development/features/ directory**
 2. **Create initial feature folders** (if any planned from PRD):
    ```
+   Project Root:
+
    features/
    ├── feature-name/
    │   ├── status.xml
-   │   ├── docs/
-   │   │   ├── INDEX.md
-   │   │   ├── FEATURE_SPEC.md
-   │   │   ├── TECHNICAL_DESIGN.md
-   │   │   ├── TASKS.md
-   │   │   ├── CHANGELOG.md
-   │   │   └── stories/ (empty, for /create-story)
    │   ├── epics/
    │   │   ├── epic-1-foundation/
    │   │   │   ├── DESCRIPTION.md
@@ -54,11 +49,23 @@ Minimal getting started guide:
    │   │       └── NOTES.md
    │   ├── src/ (created when development starts)
    │   └── tests/ (created when development starts)
+
+   docs/
+   └── development/
+       └── features/
+           └── feature-name/
+               ├── INDEX.md
+               ├── FEATURE_SPEC.md
+               ├── TECHNICAL_DESIGN.md
+               ├── TASKS.md
+               ├── CHANGELOG.md
+               └── stories/ (empty, for /create-story)
    ```
 
-3. **Create status.xml** for each feature (see [status-xml.md](../reference/status-xml.md))
-4. **Populate epics** with DESCRIPTION.md, TASKS.md, NOTES.md
-5. **Set ONE feature** as active: `<is-active-feature>true</is-active-feature>`
+3. **Create status.xml** in features/[name]/ for each feature (see [status-xml.md](../reference/status-xml.md))
+4. **Create docs/** in docs/development/features/[name]/ for each feature
+5. **Populate epics** with DESCRIPTION.md, TASKS.md, NOTES.md
+6. **Set ONE feature** as active: `<is-active-feature>true</is-active-feature>`
 
 ### For Brownfield Projects (FIXED)
 
@@ -88,20 +95,46 @@ Minimal getting started guide:
 3. **Create features/ structure based on analysis**:
    ```
    Example for existing e-commerce project:
-   
+
    features/
-   ├── user-authentication/ (existing)
+   ├── user-authentication/ (existing code)
    │   ├── status.xml (NEW)
-   │   ├── docs/ (NEW)
-   │   └── epics/ (NEW)
-   ├── product-catalog/ (existing)
+   │   ├── epics/ (NEW)
+   │   ├── src/ (existing)
+   │   └── tests/ (existing)
+   ├── product-catalog/ (existing code)
    │   ├── status.xml (NEW)
-   │   ├── docs/ (NEW)
-   │   └── epics/ (NEW)
+   │   ├── epics/ (NEW)
+   │   ├── src/ (existing)
+   │   └── tests/ (existing)
    └── shopping-cart/ (in progress - ACTIVE)
-       ├── status.xml (set as active)
-       ├── docs/ (NEW)
-       └── epics/ (NEW with current tasks)
+       ├── status.xml (NEW - set as active)
+       ├── epics/ (NEW with current tasks)
+       ├── src/ (existing)
+       └── tests/ (existing)
+
+   docs/development/features/
+   ├── user-authentication/ (NEW)
+   │   ├── INDEX.md
+   │   ├── FEATURE_SPEC.md
+   │   ├── TECHNICAL_DESIGN.md
+   │   ├── TASKS.md
+   │   ├── CHANGELOG.md
+   │   └── stories/
+   ├── product-catalog/ (NEW)
+   │   ├── INDEX.md
+   │   ├── FEATURE_SPEC.md
+   │   ├── TECHNICAL_DESIGN.md
+   │   ├── TASKS.md
+   │   ├── CHANGELOG.md
+   │   └── stories/
+   └── shopping-cart/ (NEW - ACTIVE)
+       ├── INDEX.md
+       ├── FEATURE_SPEC.md
+       ├── TECHNICAL_DESIGN.md
+       ├── TASKS.md
+       ├── CHANGELOG.md
+       └── stories/ (for /create-story)
    ```
 
 4. **For active feature (work in progress)**:
