@@ -98,37 +98,37 @@ Minimal getting started guide:
 
    features/
    ├── user-authentication/ (existing code)
-   │   ├── status.xml (NEW)
-   │   ├── epics/ (NEW)
+   │   ├── status.xml (added)
+   │   ├── epics/ (added)
    │   ├── src/ (existing)
    │   └── tests/ (existing)
    ├── product-catalog/ (existing code)
-   │   ├── status.xml (NEW)
-   │   ├── epics/ (NEW)
+   │   ├── status.xml (added)
+   │   ├── epics/ (added)
    │   ├── src/ (existing)
    │   └── tests/ (existing)
    └── shopping-cart/ (in progress - ACTIVE)
-       ├── status.xml (NEW - set as active)
-       ├── epics/ (NEW with current tasks)
+       ├── status.xml (added - set as active)
+       ├── epics/ (added with current tasks)
        ├── src/ (existing)
        └── tests/ (existing)
 
    docs/development/features/
-   ├── user-authentication/ (NEW)
+   ├── user-authentication/ (added)
    │   ├── INDEX.md
    │   ├── FEATURE_SPEC.md
    │   ├── TECHNICAL_DESIGN.md
    │   ├── TASKS.md
    │   ├── CHANGELOG.md
    │   └── stories/
-   ├── product-catalog/ (NEW)
+   ├── product-catalog/ (added)
    │   ├── INDEX.md
    │   ├── FEATURE_SPEC.md
    │   ├── TECHNICAL_DESIGN.md
    │   ├── TASKS.md
    │   ├── CHANGELOG.md
    │   └── stories/
-   └── shopping-cart/ (NEW - ACTIVE)
+   └── shopping-cart/ (added - ACTIVE)
        ├── INDEX.md
        ├── FEATURE_SPEC.md
        ├── TECHNICAL_DESIGN.md

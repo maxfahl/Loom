@@ -1,292 +1,271 @@
-# Project Setup Meta Prompt
+# AgentDev Meta Prompt
 
-**Version**: 2.0 (Sharded Structure)
-**Last Updated**: 2025-10-22
-**Total Files**: 22 focused prompt files
-**Total Agents**: 13 core + 2-4 tech-specific
-**Total Commands**: 11+ slash commands
-
----
+**AI-only development framework with autonomous agents, TDD workflows, and epic-based feature tracking.**
 
 ## 🚀 Quick Start
 
-**For Claude Code**: Read [`project-setup-meta-prompt.md`](project-setup-meta-prompt.md) in the root of this directory.
-
-This is the **main orchestrator** that will guide you through:
-
-- Determining operating mode (NEW SETUP vs UPDATE MODE)
-- Following the appropriate workflow
-- Loading only the necessary prompt files for each phase
-- Setting up a complete agentic development environment
-
-Promt with:
+Give this bootstrap prompt to your AI coding agent:
 
 ```
-Read and fully understand the prompt in the below markdown file and follow it to the dot. Be extremely careful and take your time.
-`/Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/project-setup-meta-prompt.md`
+Read and fully understand the prompt in the below markdown file and follow it to the dot.
+Be extremely careful and take your time.
+
+/Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/project-setup-meta-prompt.md
 ```
 
----
+The agent will guide you through setup, asking questions about your project and creating a complete development environment with specialized agents, slash commands, and comprehensive documentation.
 
-## 📖 What This System Does
+## 🎯 What You Get
 
-This meta prompt system guides Claude Code through setting up a comprehensive development environment with:
+### 13 Specialized Agents
+- **coordinator** - Autonomous TDD workflow orchestrator with YOLO mode
+- **senior-developer** - Architecture and code review expert
+- **code-reviewer** - Quality assurance and best practices
+- **test-writer** - Comprehensive test coverage (TDD-focused)
+- **bug-finder** - Edge case detection and analysis
+- **refactor-specialist** - Code quality improvements
+- **qa-tester** - Fast test execution and validation
+- **git-helper** - Version control operations
+- **architecture-advisor** - System design guidance
+- **performance-optimizer** - Bottleneck identification
+- **documentation-writer** - Fast doc updates
+- **agent-creator** - Build custom agents
+- **skill-creator** - Create reusable Claude Skills
 
-- **13 core specialized agents** for parallel development
-- **11+ custom slash commands** for streamlined workflows
-- **12+ documentation files** (PRD, Technical Spec, Architecture, etc.)
-- **TDD methodology** with YOLO mode autonomous development
-- **MCP server integration** (7 servers across 11 agents)
-- **Feature tracking system** with epics, stories, and status.xml
+### 11+ Slash Commands
+- **/dev** - Continue development with TDD
+- **/commit** - Smart commit with tests and linting
+- **/review** - Comprehensive code review
+- **/test** - Run tests with coverage
+- **/plan** - Plan feature implementation
+- **/status** - Project status report
+- **/docs** - Update documentation
+- **/yolo** - Configure autonomous mode breakpoints
+- **/create-feature** - Set up new feature with epics
+- **/correct-course** - Adjust feature direction
+- **/create-story** - Generate next user story
 
----
+### Complete Documentation
+12+ files covering PRD, technical specs, architecture, design systems, development plans, and more.
 
-## 📁 Directory Structure
+## 🎮 YOLO Mode: Autonomous Development
 
-```
-/
-├── README.md (this file)
-├── project-setup-meta-prompt.md (MAIN ORCHESTRATOR - START HERE)
-│
-└── prompts/ (All sharded prompt files)
-    ├── README.md (Detailed sharding documentation)
-    │
-    ├── phases/ (8 files - Sequential workflow)
-    │   ├── phase-0-detection.md
-    │   ├── phase-1-discovery.md
-    │   ├── phase-2-documentation.md
-    │   ├── phase-3-agents.md
-    │   ├── phase-4-commands.md
-    │   ├── phase-5-claude-md.md
-    │   ├── phase-6-features-setup.md
-    │   └── phase-7-verification.md
-    │
-    ├── reference/ (8 files - Reusable knowledge)
-    │   ├── core-agents.md (All 13 agent definitions)
-    │   ├── coordinator-workflow.md
-    │   ├── mcp-integration.md
-    │   ├── parallelization-patterns.md
-    │   ├── status-xml.md
-    │   ├── template-system.md
-    │   ├── troubleshooting.md
-    │   └── yolo-mode.md
-    │
-    ├── update-mode/ (1 file - Validation workflow)
-    │   └── validation-workflow.md
-    │
-    └── templates/ (4 files - Content templates)
-        ├── doc-templates.md
-        ├── agent-template.md
-        ├── command-template.md
-        └── story-template.md
+Configure when agents stop vs. proceed autonomously:
+
+```yaml
+Breakpoint Options:
+1. After development, before code review
+2. After code review, before tests
+3. After tests, before user testing
+4. After user testing, before commit
+5. After commit, before push
+6. Before any file changes
+7. Before running tests
+8. Before major refactoring
 ```
 
----
+**Examples:**
+- `"none"` - Full autonomous mode (prototyping)
+- `"1,3,4,8"` - Balanced control (recommended)
+- `"all"` - Maximum control (production)
 
-## 🎯 Two Operating Modes
+The coordinator agent reads your YOLO configuration and automatically handles the complete TDD cycle: Red → Green → Refactor → Review → Test → Deploy.
 
-### 1. NEW SETUP Mode
+## 📊 Feature Tracking with Epics & Stories
 
-Use when setting up a project from scratch or migrating to this framework.
+Features are organized into **epics** (logical groupings) with individual **stories**:
 
-**Workflow**: 7 phases (Discovery → Documentation → Agents → Commands → CLAUDE.md → Features → Verification)
+```
+features/
+├── my-feature/
+│   ├── status.xml              # Feature tracking
+│   ├── epics/
+│   │   ├── epic-1-foundation/
+│   │   │   ├── DESCRIPTION.md  # Epic overview
+│   │   │   ├── TASKS.md        # Epic tasks
+│   │   │   └── NOTES.md        # Implementation notes
+│   │   └── epic-2-core/
+│   │       └── ...
+│   ├── src/                    # Feature code
+│   └── tests/                  # Feature tests
 
-**Time**:
+docs/development/features/
+└── my-feature/
+    ├── FEATURE_SPEC.md
+    ├── TECHNICAL_DESIGN.md
+    └── stories/                # Generated by /create-story
+        ├── 1.1.md             # Epic 1, Story 1
+        ├── 1.2.md             # Epic 1, Story 2
+        └── 2.1.md             # Epic 2, Story 1
+```
 
-- With template project: 15-30 minutes
-- From scratch (greenfield): 45-75 minutes
-- From scratch (brownfield): 60-90 minutes
-
-### 2. UPDATE Mode
-
-Use when you have an existing setup and want to validate/update it to match the current specification.
-
-**Workflow**: 6 phases (Read → Validate → Synthesize → Update → Verify → Commit)
-
-**Time**: 20-40 minutes depending on gaps found
-
----
-
-## 💡 How To Use
-
-### For a New Project
-
-1. Give Claude Code this path:
-
-   ```
-   /Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/project-setup-meta-prompt.md
-   ```
-
-2. Claude Code will:
-   - Determine this is a NEW SETUP
-   - Ask discovery questions
-   - Get your approval
-   - Create all agents, commands, and documentation
-   - Set up feature tracking
-   - Commit everything to git
-
-### For an Existing Project (Update/Validate)
-
-1. Navigate to your project directory
-
-2. Give Claude Code the same path:
-
-   ```
-   /Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/project-setup-meta-prompt.md
-   ```
-
-3. Claude Code will:
-   - Detect existing status.xml (UPDATE MODE)
-   - Validate current setup against specification
-   - Identify gaps and outdated components
-   - Update everything in parallel
-   - Verify all issues fixed
-
----
-
-## 🔑 Key Features
-
-### 1. Sharded Structure
-
-- **40-75% context savings** per phase
-- Load only what you need for current phase
-- Parallel agents get targeted instructions
-- Easy to maintain and update
-
-### 2. Template Project Support
-
-- Copy agents/commands from existing project
-- **50-80% time savings**
-- Two modes: "trust" (fast) or "validate" (safe)
-
-### 3. Parallel Execution
-
-- 4-6 parallel agents per phase
-- Maximum efficiency
-- Independent validation and updates
-
-### 4. Brownfield Support
-
-- Analyzes existing codebase
-- Creates PROJECT_OVERVIEW.md
-- Adapts documentation to current state
-- Optional feature tracking setup
-
----
-
-## 📚 What Gets Created
-
-After running this meta prompt, your project will have:
-
-### Documentation (12+ files in `docs/development/`)
-
-- INDEX.md (Master documentation index)
-- PRD.md (Product Requirements)
-- TECHNICAL_SPEC.md (Implementation details)
-- ARCHITECTURE.md (System design)
-- DESIGN_SYSTEM.md (UI components)
-- DEVELOPMENT_PLAN.md (TDD guide)
-- TASKS.md (Task checklist)
-- TESTING_STRATEGY.md
-- And more...
-
-### Agents (13 core + tech-specific in `.claude/agents/`)
-
-1. coordinator (Orchestrates TDD workflow)
-2. senior-developer (Primary implementation)
-3. test-writer (Comprehensive TDD tests)
-4. code-reviewer (Quality review)
-5. documentation-writer (Doc updates)
-6. bug-finder (Bug detection)
-7. refactor-specialist (Code improvements)
-8. qa-tester (Test execution)
-9. git-helper (Git operations)
-10. architecture-advisor (Design review)
-11. performance-optimizer (Performance analysis)
-12. agent-creator (Create custom agents)
-13. skill-creator (Create Claude Skills)
-
-Plus tech-specific agents based on your stack (React component builder, API endpoint builder, etc.)
-
-### Commands (11+ in `.claude/commands/`)
-
-- /dev - Continue development (TDD)
-- /commit - Smart commit with tests
-- /review - Comprehensive code review
-- /status - Project status report
-- /test - Run tests with coverage
-- /plan - Plan next feature
-- /docs - Update documentation
-- /yolo - Configure YOLO mode breakpoints
-- /create-feature - Create new feature with setup
-- /correct-course - Adjust feature direction
-- /create-agent - Create specialized agent
-- /create-skill - Create Claude Skill package
-
-### Root Files
-
-- CLAUDE.md (Project instructions for Claude Code)
-- README.md (Project overview)
-- .gitignore (Configured for your stack)
-
-### Feature Tracking
-
-- features/ directory with epic folders
-- status.xml files for each feature
-- Story files (epic.story format)
+**status.xml** tracks:
+- Current epic and story
 - YOLO mode configuration
+- Pending tasks
+- Active feature status
 
----
+## 🔄 Comparison with Other Frameworks
 
-## 🎓 Learn More
+### vs. SpecKit (GitHub)
 
-- **Detailed sharding documentation**: [`prompts/README.md`](prompts/README.md)
-- **All agent definitions**: [`prompts/reference/core-agents.md`](prompts/reference/core-agents.md)
-- **Coordinator workflow**: [`prompts/reference/coordinator-workflow.md`](prompts/reference/coordinator-workflow.md)
-- **Parallel execution patterns**: [`prompts/reference/parallelization-patterns.md`](prompts/reference/parallelization-patterns.md)
-- **Troubleshooting**: [`prompts/reference/troubleshooting.md`](prompts/reference/troubleshooting.md)
+**SpecKit** focuses on sequential spec-to-code transformation:
+- Fixed 4-phase workflow (specify → plan → tasks → implement)
+- Human approval required at each gate
+- Single implementation path
+- Tightly coupled to software development
 
----
+**AgentDev** offers flexible parallel workflows:
+- Multiple specialized agents working simultaneously
+- Epic-based feature breakdown with independent stories
+- YOLO mode for autonomous development
+- Works for any domain (via agent customization)
 
-## 📈 Success Metrics
+### vs. BMAD Method
 
-Projects using this framework report:
+**BMAD** provides orchestrated multi-agent collaboration:
+- Agent teams communicate via file-based messages
+- Web UI + IDE integration
+- Expansion packs for different domains
+- YAML-based workflow definitions
 
-- **80-95% test coverage** (TDD methodology)
-- **50-80% setup time savings** (with templates)
-- **4-6x parallel efficiency** (multiple agents)
-- **Zero forgotten tasks** (comprehensive tracking)
-- **Consistent code quality** (specialized reviewers)
+**AgentDev** emphasizes AI-native development:
+- Agents as first-class Claude Code primitives
+- Slash commands for streamlined workflows
+- Git-integrated feature branches
+- Built-in TDD methodology with YOLO mode
+- Epic/story structure for granular tracking
 
----
+### Key Differentiator
+
+AgentDev treats **agents and workflows as code** within Claude Code, not as external orchestration. You get:
+- Native slash command integration
+- Direct git workflow support
+- Built-in TDD with autonomous loops
+- Flexible epic/story breakdown (not rigid task lists)
+- Template project support for instant setup
+
+## 🏗 How It Works
+
+### Setup Phase (One Time)
+1. Run the bootstrap prompt
+2. Answer discovery questions (project type, tech stack, TDD enforcement)
+3. Agent creates all documentation, agents, and commands
+4. Git commit with complete setup
+
+### Development Cycle (Repeatable)
+1. **/create-feature** - Set up feature with epics
+2. **/yolo** - Configure autonomous breakpoints
+3. **/dev** - Coordinator agent runs TDD cycle autonomously
+4. **/review** - Multi-agent code review
+5. **/commit** - Smart commit with validation
+
+### Autonomous Loop (YOLO Mode)
+```
+Coordinator reads status.xml →
+Creates next story (epic.story format) →
+Writes failing tests (RED) →
+Implements code (GREEN) →
+Refactors (BLUE) →
+Spawns code-reviewer + qa-tester in parallel →
+Checks YOLO breakpoint →
+Continues or stops for approval →
+Repeats for next story
+```
+
+## 🎓 Key Concepts
+
+### AI-Only Development
+All coding, testing, and implementation performed by AI agents. Human involvement limited to:
+- Defining requirements
+- Approving plans
+- Providing oversight
+
+### Test-Driven Development (TDD)
+Strict Red-Green-Refactor cycle:
+1. **RED** - Write failing test
+2. **GREEN** - Minimal code to pass
+3. **REFACTOR** - Improve code quality
+
+### Epic-Based Organization
+Features divided into logical epics, each with multiple stories. Allows:
+- Parallel development across epics
+- Independent story validation
+- Incremental feature delivery
+
+### Template Projects
+Copy agents/commands from existing projects instead of generating from scratch:
+- "trust" mode - Fast copy
+- "validate" mode - Verify before copy
+
+## 📁 Project Structure
+
+```
+project/
+├── .claude/
+│   ├── agents/           # 13 specialized agents
+│   └── commands/         # 11+ slash commands
+├── docs/
+│   └── development/
+│       ├── INDEX.md      # Documentation hub
+│       ├── PRD.md
+│       ├── TECHNICAL_SPEC.md
+│       ├── ARCHITECTURE.md
+│       └── features/
+│           └── [feature]/
+│               ├── FEATURE_SPEC.md
+│               └── stories/
+│                   └── [epic].[story].md
+├── features/
+│   └── [feature]/
+│       ├── status.xml
+│       ├── epics/
+│       │   └── [epic]/
+│       │       ├── DESCRIPTION.md
+│       │       ├── TASKS.md
+│       │       └── NOTES.md
+│       ├── src/
+│       └── tests/
+├── CLAUDE.md             # Project instructions
+└── README.md
+```
+
+## 🔧 Requirements
+
+- Claude Code CLI
+- Git
+- Node.js (project-specific)
+
+## 📖 Documentation
+
+- **[Main Orchestrator](project-setup-meta-prompt.md)** - Start here
+- **[Phase Guides](prompts/phases/)** - Detailed setup steps
+- **[Agent Reference](prompts/reference/core-agents.md)** - All agent definitions
+- **[YOLO Mode](prompts/reference/yolo-mode.md)** - Autonomous development
+- **[Status XML](prompts/reference/status-xml.md)** - Feature tracking
+
+## 🎯 Use Cases
+
+- **Greenfield Projects** - Complete setup from requirements to deployment
+- **Brownfield Projects** - Add feature tracking to existing codebases
+- **Rapid Prototyping** - YOLO mode for fast iteration
+- **Enterprise Development** - Strict TDD with review gates
+- **Team Projects** - Multiple agents working in parallel
+
+## 🚨 Why This Approach?
+
+Traditional spec-driven frameworks treat specifications as static documents that quickly drift from implementation. AgentDev treats **agents as the spec executors** - they maintain context, follow TDD, and autonomously implement features based on living documentation (status.xml, epic docs, story files).
+
+The epic/story structure provides granularity without rigidity. The YOLO mode provides autonomy without losing control. The parallel agent execution provides speed without sacrificing quality.
+
+## 📝 License
+
+MIT
 
 ## 🤝 Contributing
 
-To update this meta prompt system:
-
-1. Identify which file(s) to modify (see directory structure above)
-2. Update the specific file(s) maintaining headers and cross-references
-3. Test changes by running setup on a new project
-4. Update `project-setup-meta-prompt.md` if navigation changes
-5. Commit with descriptive message
+This framework is designed to be extended. Create custom agents, add new slash commands, or build domain-specific templates. All agents and commands are markdown-based for easy modification.
 
 ---
 
-## 📝 Version History
-
-### Version 2.0 (2025-10-22) - Sharded Structure
-
-- Split monolithic 156KB file into 22 focused files
-- Added senior-developer agent (primary implementation agent)
-- Fixed brownfield status.xml gap (phase-6)
-- Improved parallel execution documentation
-- Main orchestrator in root, all shards in prompts/
-
-### Version 1.0 (2025-10-20) - Monolithic
-
-- Original single-file meta prompt (5469 lines, 156KB)
-- 12 core agents, 11+ commands, 12+ docs
-
----
-
-**Ready to begin?** Read [`project-setup-meta-prompt.md`](project-setup-meta-prompt.md) →
+**Ready to build?** Run the bootstrap prompt and let the agents set up your development environment.
