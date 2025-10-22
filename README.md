@@ -1,6 +1,6 @@
 <div align="center">
 
-```
+<pre>
 ╔════════════════════════════════════════════════════════╗
 ║                                                        ║
 ║          ██╗      ██████╗  ██████╗ ███╗   ███╗         ║
@@ -13,7 +13,7 @@
 ║               Weave Features Autonomously              ║
 ║                                                        ║
 ╚════════════════════════════════════════════════════════╝
-```
+</pre>
 
 **AI-only development framework with autonomous agents, TDD workflows, and epic-based feature tracking.**
 
