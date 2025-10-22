@@ -6,6 +6,36 @@
 
 Create 13 core agents + 2-4 technology-specific agents (or skip if using template).
 
+## ⚠️ CRITICAL: Exact Agent Names Required
+
+**You MUST create these EXACT 13 core agents (no more, no less)**:
+
+1. coordinator
+2. senior-developer
+3. test-writer
+4. code-reviewer
+5. bug-finder
+6. refactor-specialist
+7. qa-tester
+8. git-helper
+9. architecture-advisor
+10. performance-optimizer
+11. documentation-writer
+12. agent-creator
+13. skill-creator
+
+**Plus optional agents**:
+- security-reviewer (Phase 2)
+- design-reviewer (Phase 3)
+
+After creating all agents, verify by running:
+```bash
+ls -la .claude/agents/ | wc -l
+# Expected: 13+ for core, 15+ if including optional
+```
+
+If fewer agents exist, you MUST create the missing ones from `prompts/reference/core-agents.md` before proceeding.
+
 ## Core Agents
 
 All 13 core agent definitions with complete workflows, MCP integration, and usage patterns are in:

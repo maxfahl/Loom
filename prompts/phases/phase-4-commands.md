@@ -6,6 +6,43 @@
 
 Create 11+ custom slash commands including /dev, /commit, /review, /status, /test, /plan, /docs, /yolo, /create-feature, /correct-course, /create-agent, /create-skill. Includes command templates and creation workflow.
 
+## ⚠️ CRITICAL: Exact Command Names Required
+
+### Core Commands (REQUIRED - 12 total)
+
+**You MUST create these EXACT 12 core commands (no more, no less)**:
+
+1. /dev - Continue development with automatic task tracking
+2. /dev-yolo - **SEPARATE** autonomous YOLO loop (NOT just /yolo)
+3. /commit - Smart commit
+4. /review - 7-phase code review
+5. /status - Project status
+6. /test - Run tests
+7. /plan - Plan feature
+8. /docs - Update docs
+9. /yolo - **Configure** YOLO mode (NOT the same as /dev-yolo)
+10. /create-feature - Create new feature
+11. /correct-course - Adjust feature direction
+12. /create-story - Create user story
+
+### Optional Commands (RECOMMENDED - 2+ total)
+
+- /security-review - OWASP security scanning (Opus model)
+- /design-review - UI/UX design review (Playwright, WCAG AA)
+
+**CRITICAL DISTINCTION**:
+- `/yolo` = Configuration tool (edit breakpoints in status.xml)
+- `/dev-yolo` = Execution tool (run coordinator in autonomous mode)
+- These are TWO DIFFERENT commands
+
+After creating all commands, verify by running:
+```bash
+ls -la .claude/commands/ | wc -l
+# Expected: 12+ for core, 14+ if including optional
+```
+
+If fewer commands exist, you MUST create the missing ones before proceeding.
+
 ## ⚡ CRITICAL: Parallel Creation (80% Time Savings)
 
 **Total Time: ~6 minutes (vs ~35 minutes sequential)**

@@ -84,6 +84,27 @@ When this meta prompt is run on a project that already has setup, the goal is to
 
 **Launch 6 specialized validation agents simultaneously to check different aspects of setup:**
 
+### Authoritative Sources (READ THESE FIRST)
+
+Before validating, each validator MUST read these authoritative references:
+
+**For Agents**:
+- `prompts/reference/core-agents.md` - Lists all 13 required core agents by name
+- Extract agent names into a mechanical checklist
+
+**For Commands**:
+- `prompts/phases/phase-4-commands.md` - Lists all 12+ required commands by name
+- Extract command names into a mechanical checklist (lines 17-32)
+
+**For Features**:
+- `prompts/phases/phase-6-features-setup.md` - Specifies exact folder structure
+- `prompts/reference/status-xml.md` - Specifies status.xml structure
+
+**For Documentation**:
+- `prompts/templates/doc-templates.md` - Lists all 12+ required documentation files
+
+This prevents validators from guessing or estimating. Everything is explicit.
+
 **Agent 1: Documentation Validator**
 
 ```markdown
@@ -142,163 +163,155 @@ Beyond structure, verify ACTUAL OneRedOak enhancements are present:
 - 📋 Detailed update instructions for each doc needing changes
 ```
 
-**Agent 2: Agent Structure Validator**
+**Agent 2: Agent Structure Validator - MECHANICAL CHECKLIST**
 
 ```markdown
-Task: Validate all agents against meta prompt specification
+Task: Validate all agents against authoritative spec using mechanical checklist
 
-**Context**:
+**STEP 1: Read Authoritative Source**
+- Read `prompts/reference/core-agents.md`
+- Extract the 13 core agent names: coordinator, senior-developer, test-writer, code-reviewer, bug-finder, refactor-specialist, qa-tester, git-helper, architecture-advisor, performance-optimizer, documentation-writer, agent-creator, skill-creator
 
-- Project type: [from CLAUDE.md]
-- Existing agents: [list from ls .claude/agents/]
+**STEP 2: Create Mechanical Checklist**
 
-**Your mission**:
+For EACH agent in the list above, check agent file and complete this checklist:
 
-1. Read meta prompt section on required agents (12 core + custom)
-2. For each required agent:
-   - Check if agent file exists
-   - Verify YAML frontmatter (name, description, tools, model)
-   - Verify agent includes INDEX.md + status.xml reading template
-   - Check if agent includes MCP server knowledge (if applicable)
-   - Verify MCP tools match meta prompt specification
-   - Verify responsibilities match meta prompt
-3. Check for outdated/incorrect agents
-4. List missing agents
+```
+CORE AGENTS (REQUIRED - 13 total):
+- [ ] 1. coordinator at .claude/agents/coordinator.md - YAML OK? [ ] - Has MCP? [ ]
+- [ ] 2. senior-developer at .claude/agents/senior-developer.md - YAML OK? [ ] - Has MCP? [ ]
+- [ ] 3. test-writer at .claude/agents/test-writer.md - YAML OK? [ ] - Has MCP? [ ]
+- [ ] 4. code-reviewer at .claude/agents/code-reviewer.md - YAML OK? [ ] - Has 7-phase? [ ]
+- [ ] 5. bug-finder at .claude/agents/bug-finder.md - YAML OK? [ ] - Has MCP? [ ]
+- [ ] 6. refactor-specialist at .claude/agents/refactor-specialist.md - YAML OK? [ ] - Has MCP? [ ]
+- [ ] 7. qa-tester at .claude/agents/qa-tester.md - YAML OK? [ ] - Has MCP? [ ]
+- [ ] 8. git-helper at .claude/agents/git-helper.md - YAML OK? [ ] - Has MCP? [ ]
+- [ ] 9. architecture-advisor at .claude/agents/architecture-advisor.md - YAML OK? [ ] - Has MCP? [ ]
+- [ ] 10. performance-optimizer at .claude/agents/performance-optimizer.md - YAML OK? [ ] - Has MCP? [ ]
+- [ ] 11. documentation-writer at .claude/agents/documentation-writer.md - YAML OK? [ ] - Has MCP? [ ]
+- [ ] 12. agent-creator at .claude/agents/agent-creator.md - YAML OK? [ ] - Has MCP? [ ]
+- [ ] 13. skill-creator at .claude/agents/skill-creator.md - YAML OK? [ ] - Has MCP? [ ]
 
-**Content Validation (NEW - CRITICAL)**:
+OPTIONAL AGENTS (RECOMMENDED):
+- [ ] security-reviewer at .claude/agents/security-reviewer.md - YAML OK? [ ] - Model = Opus? [ ]
+- [ ] design-reviewer at .claude/agents/design-reviewer.md - YAML OK? [ ] - Model = Sonnet? [ ]
 
-Beyond structure, verify ACTUAL OneRedOak content is present:
+STEP 3: Count Existing Agents
+ls -la .claude/agents/ | wc -l
+Expected: 13+ files
 
-5. **Check code-reviewer agent**:
-   - Contains 7-phase hierarchical framework (Architecture → Functionality → Security → Maintainability → Testing → Performance → Dependencies)?
-   - Contains triage matrix (Blocker/Improvement/Nit)?
-   - Contains "Net Positive > Perfection" philosophy?
-   - Contains project-specific references (INDEX.md, PRD.md, TECHNICAL_SPEC.md)?
-   - Contains TDD requirements in Phase 5 (Testing)?
+STEP 4: Deliverable
 
-6. **Check security-reviewer agent** (if exists):
-   - Set to Opus model (claude-opus-4-1)?
-   - Contains 3-step analysis workflow (identify → filter → confidence score)?
-   - Contains FALSE_POSITIVE filtering rules (COPY VERBATIM from 04-REFERENCE-EXTRACTS.md)?
-   - Contains 17 hard exclusions?
-   - Contains 12 precedents?
-   - Contains 8/10+ confidence threshold?
+**CRITICAL**: Do NOT return narrative. Return this exact format:
 
-7. **Check design-reviewer agent** (if exists):
-   - Set to Sonnet 4.5?
-   - Contains 7-phase design methodology?
-   - Contains Playwright MCP integration workflow?
-   - Contains WCAG 2.1 AA validation?
-   - Contains responsive testing (3 viewports)?
+AGENT VALIDATION RESULT:
+EXISTS: [list of agent names that exist]
+MISSING: [list of agent names that are missing - IF ANY, mark as CRITICAL]
+NEEDS_UPDATE: [list of agents missing required content like 7-phase framework]
+TOTAL: X/13 core agents exist
+ACTION_REQUIRED: [YES if ANY missing, NO if all 13 exist]
 
-8. **Check coordinator agent**:
-   - Contains Phase 0 task checking logic?
-   - Contains story status update workflow?
-   - Contains Review Tasks prioritization?
-
-**Deliverable**: Markdown report with:
-
-- ✅ Agents that are complete and correct
-- ⚠️ Agents that exist but need updates (missing MCP knowledge, wrong tools, outdated template)
-- ❌ Agents that are missing entirely (include security-reviewer, design-reviewer)
-- 🔴 CRITICAL: Missing OneRedOak content (7-phase framework, FALSE_POSITIVE rules, Playwright workflow)
-- 🗑️ Agents that should be removed (deprecated/incorrect)
-- 📋 Detailed update instructions for each agent (reference 04-REFERENCE-EXTRACTS.md for content to add)
+IF MISSING ANY CORE AGENT:
+ABORT_VALIDATION: true
+REPORT_TO_COORDINATOR: "These agents are MISSING and MUST be created before proceeding: [list]"
 ```
 
-**Agent 3: Command Structure Validator**
-
-```markdown
-Task: Validate all commands against meta prompt specification
-
-**Context**:
-
-- Project type: [from CLAUDE.md]
-- Tech stack: [from CLAUDE.md]
-- Existing commands: [list from ls .claude/commands/]
-
-**Your mission**:
-
-1. Read meta prompt section on required commands (11+ commands)
-2. For each required command:
-   - Check if command file exists
-   - Verify YAML frontmatter (model specification)
-   - Verify command includes proper process description
-   - Check for TDD language matching enforcement level
-3. Check for /create-story command (should exist per meta prompt)
-4. List missing commands
-5. List outdated commands
-
-**Content Validation (NEW - CRITICAL)**:
-
-Beyond structure, verify ACTUAL OneRedOak workflow enhancements are present:
-
-6. **Check /review command**:
-   - Contains git diff embedding pattern (git status, git diff, git log)?
-   - Contains 7-phase framework reference or spawns code-reviewer with 7-phase framework?
-   - Contains triage matrix output requirement?
-   - Contains Phase 0 task management (add Review Tasks section, update story status)?
-
-7. **Check /security-review command** (if exists):
-   - Spawns security-reviewer agent?
-   - Contains 3-step analysis workflow?
-   - Contains OWASP Top 10 reference?
-   - Reports only 8/10+ confidence findings?
-
-8. **Check /design-review command** (if exists):
-   - Spawns design-reviewer agent?
-   - Requires Playwright MCP server?
-   - Contains 7-phase design methodology?
-   - Tests 3 viewports (desktop/tablet/mobile)?
-   - Includes WCAG AA checks?
-
-9. **Check /dev command**:
-   - Contains Phase 0 enhancements (task checking, status updates)?
-   - Reads status.xml for current story?
-   - Reads story file for acceptance criteria and tasks?
-   - Checks for "Review Tasks" section (prioritizes FIRST)?
-   - Automatically checks off completed tasks?
-   - Updates story status to "Waiting For Review" when all tasks done?
-
-**Deliverable**: Markdown report with:
-
-- ✅ Commands that are complete and correct
-- ⚠️ Commands that exist but need updates
-- ❌ Commands that are missing entirely (/security-review, /design-review)
-- 🔴 CRITICAL: Missing OneRedOak workflow enhancements (git diff, task management, 7-phase reference)
-- 📋 Detailed update instructions for each command (reference phase-4-commands.md for enhanced workflows)
+**CRITICAL**: If this checklist shows ANY agent is missing, **STOP and report to coordinator immediately**. Do not continue validation.
 ```
 
-**Agent 4: Feature Structure Validator**
+**Agent 3: Command Structure Validator - MECHANICAL CHECKLIST**
 
 ```markdown
-Task: Validate feature structure, epics, stories, and status.xml
+Task: Validate all commands against authoritative spec using mechanical checklist
 
-**Context**:
+**STEP 1: Read Authoritative Source**
+- Read `prompts/phases/phase-4-commands.md` lines 17-32
+- Extract the 12 REQUIRED command names
 
-- Existing features: [list from ls features/]
+**STEP 2: Create Mechanical Checklist**
 
-**Your mission**:
+For EACH command in the list, check file and complete this checklist:
 
-1. Read meta prompt sections on:
-   - Feature directory structure
-   - Epic structure (epics/ folder with DESCRIPTION.md, TASKS.md, NOTES.md)
-   - Story structure (docs/stories/X.Y.md)
-   - status.xml structure
-2. For each feature in features/:
-   - Verify status.xml structure matches meta prompt
-   - Check for <current-epic> and <current-story> tags
-   - Verify epics/ folder structure exists
-   - Verify docs/stories/ folder exists (if stories created)
-   - Check if epics have proper DESCRIPTION.md, TASKS.md, NOTES.md
-   - Verify story files follow X.Y naming convention
-3. Identify structural issues
+```
+CORE COMMANDS (REQUIRED - 12 total):
+- [ ] 1. /dev at .claude/commands/dev.md - YAML OK? [ ]
+- [ ] 2. /dev-yolo at .claude/commands/dev-yolo.md - YAML OK? [ ] - Spawns coordinator? [ ]
+- [ ] 3. /commit at .claude/commands/commit.md - YAML OK? [ ]
+- [ ] 4. /review at .claude/commands/review.md - YAML OK? [ ] - Has 7-phase? [ ]
+- [ ] 5. /status at .claude/commands/status.md - YAML OK? [ ]
+- [ ] 6. /test at .claude/commands/test.md - YAML OK? [ ]
+- [ ] 7. /plan at .claude/commands/plan.md - YAML OK? [ ]
+- [ ] 8. /docs at .claude/commands/docs.md - YAML OK? [ ]
+- [ ] 9. /yolo at .claude/commands/yolo.md - YAML OK? [ ] - For configuration? [ ]
+- [ ] 10. /create-feature at .claude/commands/create-feature.md - YAML OK? [ ]
+- [ ] 11. /correct-course at .claude/commands/correct-course.md - YAML OK? [ ]
+- [ ] 12. /create-story at .claude/commands/create-story.md - YAML OK? [ ] - Correct folder path? [ ]
 
-**Deliverable**: Markdown report with:
+OPTIONAL COMMANDS (RECOMMENDED):
+- [ ] /security-review at .claude/commands/security-review.md - YAML OK? [ ] - Spawns Opus? [ ]
+- [ ] /design-review at .claude/commands/design-review.md - YAML OK? [ ] - Spawns design-reviewer? [ ]
 
-- ✅ Features with correct structure
-- ⚠️ Features needing structure updates
-- 📋 Detailed migration plan for each feature
+STEP 3: Count Existing Commands
+ls -la .claude/commands/ | wc -l
+Expected: 12+ files
+
+STEP 4: Deliverable
+
+**CRITICAL**: Do NOT return narrative. Return this exact format:
+
+COMMAND VALIDATION RESULT:
+EXISTS: [list of command names that exist]
+MISSING: [list of command names that are missing - IF ANY, mark as CRITICAL]
+TOTAL: X/12 core commands exist
+ACTION_REQUIRED: [YES if ANY missing, NO if all 12 exist]
+
+CRITICAL_CHECKS:
+- /dev-yolo exists: [YES/NO] - This is SEPARATE from /yolo
+- /review has 7-phase reference: [YES/NO]
+- /security-review exists: [YES/NO]
+- /design-review exists: [YES/NO]
+- /create-story has correct docs/development/features/.../epics/.../stories/ path: [YES/NO]
+
+IF MISSING ANY CORE COMMAND:
+ABORT_VALIDATION: true
+REPORT_TO_COORDINATOR: "These commands are MISSING and MUST be created: [list]"
+```
+
+**CRITICAL**: If this checklist shows ANY command is missing, **STOP and report immediately**. Do not continue validation.
+```
+
+**Agent 4: Feature Structure Validator - MECHANICAL CHECKLIST** (NEW)
+
+```markdown
+Task: Validate feature folder structure and story locations
+
+**STEP 1: Check for Old/Wrong Story Locations**
+
+```
+Check these old/wrong locations and report if stories exist:
+- [ ] docs/stories/*.md files exist? [YES/NO] - If YES, these need MIGRATION
+- [ ] features/*/stories/*.md files exist? [YES/NO] - If YES, these need MIGRATION
+- [ ] docs/development/features/*/stories/*.md files exist? [YES/NO] - If YES, these are in WRONG location
+
+STEP 2: Check for Correct Story Location
+
+For each feature, verify stories are at:
+docs/development/features/[feature-name]/epics/[epic-name]/stories/X.Y.md
+
+- [ ] Correct structure exists: [YES/NO]
+- [ ] If NO, migration needed
+
+STEP 3: Deliverable
+
+FEATURE STRUCTURE VALIDATION RESULT:
+STORIES_AT_OLD_LOCATION: [YES/NO] - Location(s): [list]
+STORIES_AT_CORRECT_LOCATION: [YES/NO]
+MIGRATION_NEEDED: [YES/NO]
+ACTION_REQUIRED: [YES if migration needed, NO otherwise]
+
+IF MIGRATION NEEDED:
+ABORT_VALIDATION: true
+REPORT_TO_COORDINATOR: "Story migration required: Move stories from [old-location] to docs/development/features/[feature]/epics/[epic]/stories/"
 ```
 
 **Agent 5: CLAUDE.md Validator**
@@ -497,6 +510,112 @@ Task: Validate overall project structure, folders, and configuration files
      - Create epic DESCRIPTION.md, TASKS.md, NOTES.md
   2. Update CLAUDE.md with any new sections
   3. Fix folder structure issues
+
+---
+
+#### Phase 3.5: Hard Verification Checkpoints (BLOCKING)
+
+**CRITICAL: Run these verification commands BEFORE proceeding to Phase 4**
+
+**These are HARD STOPS. If ANY check fails, validation must abort.**
+
+**Checkpoint 1: Agent Count Verification**
+
+```bash
+# Count agents (should be 13+ for core agents)
+agent_count=$(ls -1 .claude/agents/*.md 2>/dev/null | wc -l | tr -d ' ')
+echo "Agent count: $agent_count (expected: 13+)"
+
+if [ "$agent_count" -lt 13 ]; then
+  echo "ABORT: Only $agent_count agents found, need 13+"
+  exit 1
+fi
+```
+
+**Checkpoint 2: Critical Agent Existence**
+
+```bash
+# Verify critical agents exist
+critical_agents=("coordinator" "code-reviewer" "security-reviewer" "design-reviewer")
+
+for agent in "${critical_agents[@]}"; do
+  if [ ! -f ".claude/agents/${agent}.md" ]; then
+    echo "ABORT: Critical agent missing: ${agent}"
+    exit 1
+  fi
+done
+
+echo "All critical agents exist"
+```
+
+**Checkpoint 3: Command Count Verification**
+
+```bash
+# Count commands (should be 12+ for core commands)
+command_count=$(ls -1 .claude/commands/*.md 2>/dev/null | wc -l | tr -d ' ')
+echo "Command count: $command_count (expected: 12+)"
+
+if [ "$command_count" -lt 12 ]; then
+  echo "ABORT: Only $command_count commands found, need 12+"
+  exit 1
+fi
+```
+
+**Checkpoint 4: Critical Command Existence**
+
+```bash
+# Verify critical commands exist
+critical_commands=("dev" "dev-yolo" "review" "security-review" "design-review")
+
+for cmd in "${critical_commands[@]}"; do
+  if [ ! -f ".claude/commands/${cmd}.md" ]; then
+    echo "ABORT: Critical command missing: /${cmd}"
+    exit 1
+  fi
+done
+
+echo "All critical commands exist"
+```
+
+**Checkpoint 5: Feature Structure Verification**
+
+```bash
+# Check for stories at old locations (MUST be empty)
+old_stories_count=$(find docs/stories -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+
+if [ "$old_stories_count" -gt 0 ]; then
+  echo "ABORT: Found $old_stories_count stories at OLD location docs/stories/"
+  echo "Migration required to docs/development/features/.../epics/.../stories/"
+  exit 1
+fi
+
+echo "No stories at old location (good)"
+```
+
+**Checkpoint 6: /dev-yolo Specific Check**
+
+```bash
+# Verify /dev-yolo is SEPARATE from /yolo
+if [ ! -f ".claude/commands/dev-yolo.md" ]; then
+  echo "ABORT: /dev-yolo command is MISSING"
+  echo "This is SEPARATE from /yolo (which is for configuration)"
+  exit 1
+fi
+
+if [ ! -f ".claude/commands/yolo.md" ]; then
+  echo "WARNING: /yolo command is missing (should exist for configuration)"
+fi
+
+echo "/dev-yolo command exists (correct)"
+```
+
+**IF ANY CHECKPOINT FAILS**:
+1. STOP validation immediately
+2. Report which checkpoint failed
+3. Return to Phase 3 to fix the issue
+4. DO NOT proceed to Phase 4 until ALL checkpoints pass
+
+**ALL CHECKPOINTS PASSED?** ✅ Proceed to Phase 4
 
 ---
 

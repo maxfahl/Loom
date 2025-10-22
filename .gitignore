@@ -52,4 +52,11 @@ __pycache__/
 *.pyc
 /temp/
 
-docs/**
+# Ignore implementation-plan and other docs directories
+docs/implementation-plan/
+
+# BUT allow these specific documentation files
+!docs/UPDATE-WORKFLOW-FIX-PLAN.md
+!docs/MECHANICAL-VALIDATION-SPEC.md
+!docs/STORY-MIGRATION-GUIDE.md
+!docs/FINAL-COMPLETION-REPORT.md
