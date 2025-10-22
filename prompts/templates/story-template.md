@@ -25,6 +25,7 @@ Read this file:
 **Epic**: [Epic X - Epic Name]
 **Created**: [ISO 8601 timestamp]
 **Status**: In Progress
+<!-- Valid status values: "In Progress" | "Waiting For Review" | "Done" -->
 
 ## Story Description
 
@@ -71,6 +72,18 @@ Read this file:
 - [ ] Integration tests for [flow]
 - [ ] E2E tests for [user journey]
 
+## Review Tasks
+
+<!-- This section is added by /review command when issues are found -->
+<!-- Tasks are prioritized as: Fix (blocking), Improvement (high priority), Nit (low priority) -->
+<!-- Format: - [ ] [Priority] Issue description (`file:line`) -->
+
+<!-- Example:
+- [ ] Fix: Potential SQL injection vulnerability (`src/api/users.ts:42`)
+- [ ] Improvement: Extract duplicate validation logic (`src/utils/validators.ts:15-30`)
+- [ ] Nit: Inconsistent naming convention (`src/components/Button.tsx:8`)
+-->
+
 ## Notes
 
 [Any important context, decisions, or considerations]
@@ -89,3 +102,18 @@ Read this file:
 - Epic folder: `docs/development/features/[feature]/epics/[epic]/`
 - Feature tracking: `features/[feature]/status.xml` (not in docs/)
 - Format is always `[epic-number].[story-number].md` (e.g., 2.1.md, 2.2.md)
+
+**Status Workflow**:
+
+- **In Progress**: Story is actively being worked on
+- **Waiting For Review**: All tasks completed, awaiting code review
+- **Done**: Code review passed, story complete
+
+**Review Tasks Workflow**:
+
+- `/dev` command checks off completed tasks automatically
+- `/dev` updates status to "Waiting For Review" when all tasks done
+- `/dev` prioritizes "Review Tasks" section first if it exists
+- `/review` command adds "Review Tasks" section when issues found
+- `/review` updates status to "In Progress" if issues found
+- `/review` updates status to "Done" if no issues found

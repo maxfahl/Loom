@@ -30,13 +30,51 @@ Read this file:
 
 ```yaml
 ---
-description: Continue development on current task with [methodology]
+description: Continue development on current task with automatic task tracking
 allowed-tools: Bash(npm:*), Bash(git:*), Read, Write, Edit, Glob, Grep
 model: claude-sonnet-4-5
 ---
 ```
 
-**Purpose**: Resume coding with context of current task, following project conventions
+**Purpose**: Resume coding with context of current task, following project conventions, with automatic task tracking and status updates
+
+**Phase 0 Enhancement: Automatic Task Tracking**
+
+**Process**:
+
+1. **Read Current Context**:
+   - Read `status.xml` for active feature
+   - Read `<current-story>` value (e.g., "1.2")
+   - Read story file at `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
+
+2. **Check for Review Tasks** (PRIORITY):
+   - Look for "## Review Tasks" section in story file
+   - If exists and has uncompleted tasks (`[ ]`):
+     - **Prioritize Review Tasks FIRST**
+     - Work on highest priority tasks (Fix > Improvement > Nit)
+     - Check off tasks as completed (`[ ]` → `[x]`)
+   - If all Review Tasks complete, proceed to regular tasks
+
+3. **Work on Regular Tasks**:
+   - Read "## Tasks and Subtasks" section
+   - Continue from last uncompleted task
+   - Check off subtasks as completed (`[ ]` → `[x]`)
+   - Update story file with progress
+
+4. **Update Story Status When Complete**:
+   - If ALL tasks and subtasks are checked (`[x]`):
+     - Update story **Status** to "Waiting For Review"
+     - Update **Last Updated** timestamp
+     - Add note to status.xml about completion
+   - If tasks still pending:
+     - Keep status as "In Progress"
+     - Update **Last Updated** timestamp
+
+5. **Follow Project Conventions**:
+   - Read acceptance criteria from story file
+   - Follow TDD methodology (see below)
+   - Reference technical details and dependencies
+   - Maintain test coverage requirements
 
 **TDD Variations**:
 
@@ -61,13 +99,70 @@ argument-hint: [commit message]
 
 ```yaml
 ---
-description: Comprehensive review of uncommitted changes
-allowed-tools: Bash(git:*), Read, Grep
+description: Comprehensive review of uncommitted changes with automatic status updates
+allowed-tools: Bash(git:*), Read, Write, Edit, Grep
 model: claude-sonnet-4-5
 ---
 ```
 
-**Purpose**: Full code review checklist before committing
+**Purpose**: Full code review checklist before committing, with automatic Review Tasks creation and story status updates
+
+**Phase 0 Enhancement: Automatic Status Management**
+
+**Process**:
+
+1. **Read Current Context**:
+   - Read `status.xml` for active feature
+   - Read `<current-story>` value
+   - Read story file at `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
+   - Read acceptance criteria and requirements from story
+
+2. **Review Code Against Story Requirements**:
+   - Check if acceptance criteria are met
+   - Verify all tasks are completed
+   - Review code quality, tests, documentation
+   - Check for issues (bugs, security, performance, style)
+
+3. **Handle Review Findings**:
+
+   **If Issues Found**:
+   - Create/Update "## Review Tasks" section in story file
+   - Add tasks with priority prefix:
+     - `- [ ] Fix: [Blocking issue description] (file:line)`
+     - `- [ ] Improvement: [High priority improvement] (file:line)`
+     - `- [ ] Nit: [Low priority polish] (file:line)`
+   - Update story **Status** to "In Progress" (back from "Waiting For Review")
+   - Update **Last Updated** timestamp
+   - Report issues to user with clear actionable feedback
+
+   **If No Issues (Approved)**:
+   - Update story **Status** to "Done"
+   - Update **Last Updated** timestamp
+   - Add completion note to status.xml
+   - Congratulate user on completing the story
+
+4. **Output Format**:
+   ```markdown
+   # Code Review Results
+
+   **Story**: [X.Y - Story Title]
+   **Status**: [Approved / Issues Found]
+
+   ## Issues Found (if any)
+
+   ### Fix (Blocking)
+   - Issue 1 (`file:line`)
+   - Issue 2 (`file:line`)
+
+   ### Improvement (High Priority)
+   - Issue 3 (`file:line`)
+
+   ### Nit (Low Priority)
+   - Issue 4 (`file:line`)
+
+   ## Next Steps
+   [What to do next]
+   ```
 
 **4. /project-status** - Project Status
 

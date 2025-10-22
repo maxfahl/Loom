@@ -198,6 +198,72 @@ features/
 
 **For complete status.xml usage instructions**: See CLAUDE.md "status.xml Management" section created during Phase 5.
 
+#### Phase 0 Enhancement: Agent Workflow with Story Files
+
+**Story Status Lifecycle**:
+
+1. **In Progress**: Story is actively being worked on
+2. **Waiting For Review**: All tasks completed, awaiting code review
+3. **Done**: Code review passed, story complete
+
+**How `/dev` Command Uses status.xml**:
+
+1. Read `<current-story>` value (e.g., "2.1")
+2. Read story file at `docs/development/features/[feature]/epics/[epic]/stories/2.1.md`
+3. Check for "## Review Tasks" section (if exists, prioritize FIRST)
+4. Work on tasks and check them off (`[ ]` → `[x]`)
+5. When ALL tasks complete:
+   - Update story **Status** to "Waiting For Review"
+   - Update story **Last Updated** timestamp
+   - Add note to status.xml
+
+**How `/review` Command Uses status.xml**:
+
+1. Read `<current-story>` value
+2. Read story file for acceptance criteria
+3. Review code against requirements
+4. **If issues found**:
+   - Add/Update "## Review Tasks" section in story file
+   - Add tasks with priority: Fix/Improvement/Nit
+   - Update story **Status** to "In Progress"
+   - Update story **Last Updated** timestamp
+5. **If no issues**:
+   - Update story **Status** to "Done"
+   - Update story **Last Updated** timestamp
+   - Add completion note to status.xml
+
+**Review Tasks Format**:
+
+```markdown
+## Review Tasks
+
+- [ ] Fix: Blocking issue description (`file:line`)
+- [ ] Improvement: High priority improvement (`file:line`)
+- [ ] Nit: Low priority polish (`file:line`)
+```
+
+**Example Workflow**:
+
+```
+User: /dev
+Agent: Reads story 2.1, works on tasks, completes all
+Agent: Updates story Status to "Waiting For Review"
+
+User: /review
+Agent: Finds 3 issues
+Agent: Adds Review Tasks section to story
+Agent: Updates story Status back to "In Progress"
+
+User: /dev
+Agent: Prioritizes Review Tasks first
+Agent: Fixes all review issues
+Agent: Updates story Status to "Waiting For Review"
+
+User: /review
+Agent: No issues found
+Agent: Updates story Status to "Done"
+```
+
 ### Template for New Features
 
 #### File Creation

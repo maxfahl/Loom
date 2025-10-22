@@ -33,9 +33,9 @@ The agent will guide you through setup, asking questions about your project and 
 - **skill-creator** - Create reusable Claude Skills
 
 ### 11+ Slash Commands
-- **/dev** - Continue development with TDD
+- **/dev** - Continue development with automatic task tracking and status updates
 - **/commit** - Smart commit with tests and linting
-- **/review** - Comprehensive code review
+- **/review** - Comprehensive code review with automatic Review Tasks creation
 - **/test** - Run tests with coverage
 - **/plan** - Plan feature implementation
 - **/status** - Project status report
@@ -156,19 +156,27 @@ AgentDev treats **agents and workflows as code** within Claude Code, not as exte
 
 ### Development Cycle (Repeatable)
 1. **/create-feature** - Set up feature with epics
-2. **/yolo** - Configure autonomous breakpoints
-3. **/dev** - Coordinator agent runs TDD cycle autonomously
-4. **/review** - Multi-agent code review
-5. **/commit** - Smart commit with validation
+2. **/create-story** - Generate next user story
+3. **/yolo** - Configure autonomous breakpoints
+4. **/dev** - Coordinator agent runs TDD cycle, checks off tasks, updates story status
+5. **/review** - Code review, creates Review Tasks if issues found, updates story status
+6. **/dev** - (if review found issues) Fix Review Tasks, update story to "Waiting For Review"
+7. **/review** - (final review) Approve story, update status to "Done"
+8. **/commit** - Smart commit with validation
 
 ### Autonomous Loop (YOLO Mode)
 ```
 Coordinator reads status.xml →
-Creates next story (epic.story format) →
+Reads current story file →
+Checks for Review Tasks (prioritizes first) →
 Writes failing tests (RED) →
 Implements code (GREEN) →
 Refactors (BLUE) →
+Checks off completed tasks in story file →
+Updates story status to "Waiting For Review" →
 Spawns code-reviewer + qa-tester in parallel →
+If issues → Adds Review Tasks, status to "In Progress" →
+If no issues → Status to "Done" →
 Checks YOLO breakpoint →
 Continues or stops for approval →
 Repeats for next story

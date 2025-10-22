@@ -78,6 +78,8 @@ Read this file:
 - [ ] Add commit hash to completed task
 - [ ] Update last-updated timestamp
 - [ ] Mark epic as completed if all epic tasks done
+- [ ] Check off completed tasks in story file (`[ ]` → `[x]`)
+- [ ] Update story status ("In Progress" → "Waiting For Review" → "Done")
 ```
 
 ### 3. Claude Skills Emphasis
@@ -148,6 +150,32 @@ Read this file:
 [Table of all commands]
 
 [Detailed command descriptions]
+
+### Command Details
+
+**`/dev` - Continue Development**
+
+- Reads status.xml for current task and story
+- Reads current story file for acceptance criteria and tasks
+- **Phase 0 Enhancement**:
+  - Checks for "Review Tasks" section (prioritizes FIRST if exists)
+  - Automatically checks off completed tasks (`[ ]` → `[x]`)
+  - Updates story status to "Waiting For Review" when all tasks done
+- Follows [TDD methodology based on project]
+- Updates status.xml when done
+
+**`/review` - Code Review**
+
+- Reviews uncommitted changes
+- Checks code against story acceptance criteria
+- **Phase 0 Enhancement**:
+  - If issues found → Adds "Review Tasks" section to story
+  - If issues found → Updates story status to "In Progress"
+  - If no issues → Updates story status to "Done"
+  - Creates prioritized task list (Fix/Improvement/Nit)
+- Reports findings with file:line references
+
+[Additional command descriptions...]
 ```
 
 ### 7. Specialized Agents Reference
