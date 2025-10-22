@@ -51,3 +51,5 @@ env/
 __pycache__/
 *.pyc
 /temp/
+
+docs/**
