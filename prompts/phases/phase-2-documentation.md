@@ -13,7 +13,7 @@ All documentation templates are in: [doc-templates.md](../templates/doc-template
 ## Creation Order
 
 **IF BROWNFIELD** (existing project):
-1. **PROJECT_OVERVIEW.md** (FIRST!)
+1. **PROJECT_OVERVIEW.md** (First)
    - Launch Explore agent for comprehensive analysis
    - Foundation for all other docs
    - See Phase 1 for brownfield analysis workflow

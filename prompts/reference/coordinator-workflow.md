@@ -656,7 +656,7 @@ model: sonnet
    - Check current epic (<current-epic>)
    - Check current story (<current-story>)
    - Check current task
-   - **Check YOLO mode status (CRITICAL - determines autonomy level)**
+   - **Check YOLO mode status (determines autonomy level)**
    - Understand what's been completed and what's next
    - Check for blockers
 

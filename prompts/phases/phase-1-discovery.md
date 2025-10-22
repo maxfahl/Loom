@@ -21,7 +21,7 @@ Read this file:
 
 ---
 
-## 🚨 CRITICAL: Ask First, Then Set Up
+## 🚨 Ask First, Then Set Up
 
 **This section applies ONLY to NEW SETUP (when status.xml does NOT exist).**
 

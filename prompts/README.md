@@ -33,7 +33,7 @@ This directory contains the **sharded version** of the Project Setup Meta Prompt
 ```
 prompts/
 ├── README.md (this file)
-├── project-setup-meta-prompt.md (MAIN ORCHESTRATOR - start here!)
+├── project-setup-meta-prompt.md (Main Orchestrator)
 │
 ├── phases/ (8 files - sequential workflow)
 │   ├── phase-0-detection.md

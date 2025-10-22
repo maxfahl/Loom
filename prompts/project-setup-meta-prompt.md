@@ -24,7 +24,7 @@ This is the **main orchestrator** for the complete agentic development workflow 
 
 ## 🎯 Key Features
 
-### 1. **Template Project Support** (Saves 50-80% Setup Time!)
+### 1. **Template Project Support**
 - Copy agents/commands/docs from existing project instead of generating from scratch
 - Options: "trust" (fast copy) or "validate" (verify before copy)
 - See: [`reference/template-system.md`](reference/template-system.md)

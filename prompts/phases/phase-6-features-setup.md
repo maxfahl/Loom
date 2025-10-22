@@ -10,7 +10,7 @@ Create root-level files (.gitignore, README.md) and set up features/ directory s
 
 ### 1. .gitignore
 Create appropriate exclusions for tech stack:
-- .env files (CRITICAL - never commit secrets)
+- .env files (never commit secrets)
 - node_modules/, venv/, target/ (dependencies)
 - Build artifacts (.next/, dist/, build/)
 - IDE files (.vscode/, .idea/)
@@ -62,7 +62,7 @@ Minimal getting started guide:
 
 ### For Brownfield Projects (FIXED)
 
-**CRITICAL: Brownfield projects need feature tracking setup too!**
+**Brownfield projects need feature tracking setup too!**
 
 1. **Ask user if they want feature tracking**:
    ```
@@ -99,7 +99,7 @@ Minimal getting started guide:
    │   ├── docs/ (NEW)
    │   └── epics/ (NEW)
    └── shopping-cart/ (in progress - ACTIVE)
-       ├── status.xml (NEW - set as active)
+       ├── status.xml (set as active)
        ├── docs/ (NEW)
        └── epics/ (NEW with current tasks)
    ```

@@ -283,7 +283,7 @@ Task: Validate overall project structure, folders, and configuration files
 
 1. Combine all 6 reports
 2. Categorize issues by severity:
-   - 🔴 CRITICAL: Missing core components (status.xml structure, core docs, core agents)
+   - 🔴 Missing core components (status.xml structure, core docs, core agents)
    - 🟡 HIGH: Outdated components (missing MCP knowledge, wrong models, old templates)
    - 🟢 MEDIUM: Missing optional components (tech-specific agents, custom commands)
    - 🔵 LOW: Minor inconsistencies (formatting, typos)

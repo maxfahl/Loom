@@ -691,7 +691,7 @@ model: sonnet
    - Check current epic (<current-epic>)
    - Check current story (<current-story>)
    - Check current task
-   - **Check YOLO mode status (CRITICAL - determines autonomy level)**
+   - **Check YOLO mode status (determines autonomy level)**
    - Understand what's been completed and what's next
    - Check for blockers
 
@@ -1384,7 +1384,7 @@ model: sonnet
 
 1. Move completed task from `<current-task>` to `<completed-tasks>`
 
-## 🎯 Coordinator Agent Pattern (CRITICAL)
+## 🎯 Coordinator Agent Pattern 
 
 **ALWAYS route user requests through the coordinator agent for complex tasks.**
 

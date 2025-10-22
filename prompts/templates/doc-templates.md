@@ -22,7 +22,7 @@ Read this file:
 
 ## 📚 Documentation Files to Create
 
-### 1. INDEX.md (Master Navigation) - CRITICAL
+### 1. INDEX.md (Master Navigation)
 
 **Purpose**: Central navigation hub for all documentation
 
@@ -244,7 +244,7 @@ Read this file:
 **Critical Section**:
 
 ```markdown
-## Component Library Priority (CRITICAL)
+## Component Library Priority 
 
 1. [Primary Library] ← Check FIRST
    ↓ (if not found)
@@ -388,7 +388,7 @@ Read this file:
 2. Check [Test Cases]
 ```
 
-### 12. PROJECT_OVERVIEW.md (Brownfield Only) - CRITICAL
+### 12. PROJECT_OVERVIEW.md (Brownfield Only)
 
 **Purpose**: Comprehensive analysis of existing brownfield codebase
 

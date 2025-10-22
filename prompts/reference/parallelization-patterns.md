@@ -22,7 +22,7 @@ Read this file when:
 
 ---
 
-## ⚡ CRITICAL: Maximize Parallel Agent Execution
+## ⚡ Maximize Parallel Agent Execution
 
 **BEFORE reading the entire prompt, spawn parallel agents for all major tasks!**
 
