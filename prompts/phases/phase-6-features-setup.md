@@ -63,8 +63,8 @@ Minimal getting started guide:
    ```
 
 3. **Create status.xml** in features/[name]/ for each feature (see [status-xml.md](../reference/status-xml.md))
-4. **Create docs/** in docs/development/features/[name]/ for each feature
-5. **Populate epics** with DESCRIPTION.md, TASKS.md, NOTES.md
+4. **Create feature documentation directory** at docs/development/features/[name]/ with all doc files and stories/ subfolder
+5. **Populate epics** with DESCRIPTION.md, TASKS.md, NOTES.md in features/[name]/epics/
 6. **Set ONE feature** as active: `<is-active-feature>true</is-active-feature>`
 
 ### For Brownfield Projects (FIXED)

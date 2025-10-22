@@ -230,9 +230,15 @@ argument-hint: [feature name]
    └── stories/          # User stories folder (empty initially)
    ```
 6. Create status.xml in features/[feature-name]/ with epics configuration and current-story tracking
-7. Create feature documentation in docs/development/features/[feature-name]/ (FEATURE_SPEC, TASKS, TECHNICAL_DESIGN, etc.)
-8. **Create docs/development/features/[feature-name]/stories/ folder** (empty, populated by /create-story command)
-9. **Create epic folders** with DESCRIPTION.md, TASKS.md, and NOTES.md for each
+7. **CRITICAL**: Create feature documentation in docs/development/features/[feature-name]/ (FEATURE_SPEC, TASKS, TECHNICAL_DESIGN, etc.)
+   - Create directory: `docs/development/features/[feature-name]/`
+   - NOT in `features/[feature-name]/docs/`
+   - This is separate from the features/ directory
+8. **CRITICAL**: Create empty stories folder at `docs/development/features/[feature-name]/stories/`
+   - NOT in `features/[feature-name]/stories/`
+   - NOT in `features/[feature-name]/docs/stories/`
+   - ONLY in `docs/development/features/[feature-name]/stories/`
+9. **Create epic folders** in `features/[feature-name]/epics/` with DESCRIPTION.md, TASKS.md, and NOTES.md for each
 10. Handle active feature switching (only ONE active at a time)
 11. Populate pending-tasks from TASKS.md into appropriate epics
 12. Show summary and next steps (mention using /create-story to create first story)
@@ -305,10 +311,18 @@ model: claude-sonnet-4-5
 3. Check existing stories in `docs/development/features/[feature-name]/stories/` to see what's been created
 4. Analyze what's been completed vs what's pending in the epic
 5. Determine next story number (e.g., if current-story is 2.1, check if 2.1 exists, create 2.2)
-6. Create new story file at `docs/development/features/[feature-name]/stories/[epic.story].md`
+6. **CRITICAL**: Create new story file at `docs/development/features/[feature-name]/stories/[epic.story].md`
+   - NOT in `features/[feature-name]/`
+   - NOT in `features/[feature-name]/docs/stories/`
+   - ONLY in `docs/development/features/[feature-name]/stories/`
 7. Update status.xml `<current-story>` to the new story number
 8. Update `<last-updated>` timestamp
 
-**Story File Structure** (`docs/development/features/[feature-name]/stories/X.Y.md`):
+**Story File Location** (CRITICAL - DO NOT CHANGE):
+- **Correct**: `docs/development/features/[feature-name]/stories/X.Y.md`
+- **Wrong**: `features/[feature-name]/stories/X.Y.md`
+- **Wrong**: `features/[feature-name]/docs/stories/X.Y.md`
+
+**Story File Structure**:
 
 ```markdown

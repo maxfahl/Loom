@@ -412,7 +412,10 @@ Context:
 Process:
 
 1. Read epic TASKS.md to find next task
-2. Create story file: docs/development/features/[feature]/stories/[X.Y+1].md
+2. **CRITICAL**: Create story file at `docs/development/features/[feature]/stories/[X.Y+1].md`
+   - NOT in `features/[feature]/stories/`
+   - NOT in `features/[feature]/docs/stories/`
+   - ONLY in `docs/development/features/[feature]/stories/`
 3. Update status.xml <current-story> to [X.Y+1]
 4. Return to coordinator
 ```
