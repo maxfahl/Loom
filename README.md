@@ -64,10 +64,18 @@ Carefully read the prompt in the Markdown file and follow it exactly. Then run t
 
 ## 🎮 YOLO Mode: Autonomous Development
 
-Configure when agents stop vs. proceed autonomously:
+Configure when agents stop vs. proceed autonomously with **three stopping granularities**:
+
+### Stopping Granularities
+
+**A. STORY-LEVEL** (default): Stop at specific breakpoints within each story
+**B. EPIC-LEVEL**: Only stop when full epics are completed (highest autonomy)
+**C. CUSTOM**: Select individual breakpoints manually
+
+### Breakpoint Options
 
 ```yaml
-Breakpoint Options:
+Story-Level Breakpoints:
 1. After development, before code review
 2. After code review, before tests
 3. After tests, before user testing
@@ -76,15 +84,26 @@ Breakpoint Options:
 6. Before any file changes
 7. Before running tests
 8. Before major refactoring
+
+Epic-Level Breakpoint:
+9. After completing epic, before starting next epic
 ```
 
-**Examples:**
+### Configuration Examples
 
+**Story-Level Control:**
 - `"none"` - Full autonomous mode (prototyping)
 - `"1,3,4,8"` - Balanced control (recommended)
 - `"all"` - Maximum control (production)
 
+**Epic-Level Control:**
+- `"epic"` - Autonomous per epic, stop only at epic boundaries
+- Agents complete ALL stories in epic before stopping
+- Ideal for high-trust autonomous development
+
 The coordinator agent reads your YOLO configuration and automatically handles the complete TDD cycle: Red → Green → Refactor → Review → Test → Deploy.
+
+**EPIC-LEVEL mode** enables maximum autonomy - agents handle dev → review → test → commit for all stories within an epic, only pausing when switching between major epic milestones.
 
 ## 📊 Feature Tracking with Epics & Stories
 

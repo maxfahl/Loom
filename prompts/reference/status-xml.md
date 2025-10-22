@@ -94,9 +94,15 @@ features/
   <yolo-mode enabled="false">
     <!-- YOLO Mode: When enabled, agents skip confirmations at configured breakpoints -->
     <!-- Configure using /yolo command or messaging: "Enable YOLO mode" -->
+    <stopping-granularity>story</stopping-granularity>
+    <!-- Options: "story" (default), "epic", "custom" -->
+    <!-- story: Stop at configured breakpoints within each story -->
+    <!-- epic: Only stop after completing full epics (autonomous per epic) -->
+    <!-- custom: User-defined breakpoint configuration -->
     <description>
       YOLO mode OFF: Agents ask for confirmation before major steps like going from dev to review, letting user test manually, etc.
       YOLO mode ON: Agents proceed without confirmation at configured breakpoints
+      EPIC-LEVEL: Only stops when switching between epics (highest autonomy)
     </description>
     <breakpoints>
       <!-- Breakpoints where agents will stop and ask for confirmation (when YOLO OFF) -->
@@ -109,6 +115,7 @@ features/
       <breakpoint id="6" enabled="false">Before making any file changes</breakpoint>
       <breakpoint id="7" enabled="false">Before running any tests</breakpoint>
       <breakpoint id="8" enabled="true">Before major refactoring</breakpoint>
+      <breakpoint id="9" enabled="false">After completing epic, before starting next epic</breakpoint>
     </breakpoints>
   </yolo-mode>
 

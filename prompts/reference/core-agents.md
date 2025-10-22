@@ -127,7 +127,26 @@ The coordinator agent follows the same workflow as a professional software devel
 
 #### Step 2: Analyze YOLO Mode & Determine Autonomy Level
 
-**YOLO Mode has 8 breakpoints that determine when coordinator must stop vs proceed:**
+**First, check stopping-granularity in status.xml:**
+
+1. **Read `<stopping-granularity>` value** from status.xml:
+   - `story` (default): Stop at configured breakpoints within each story
+   - `epic`: Only stop after completing full epics (highest autonomy)
+   - `custom`: User-defined breakpoint configuration
+
+2. **If stopping-granularity is "epic"**:
+   - Ignore all breakpoints 1-8
+   - Only check breakpoint 9 (After completing epic, before starting next epic)
+   - Autonomously complete ALL stories in current epic
+   - Only stop when switching between epics
+   - Handle all story-level workflow (dev → review → test → commit) without stopping
+
+3. **If stopping-granularity is "story" or "custom"**:
+   - Check all configured breakpoints 1-8
+   - Stop at enabled breakpoints within each story
+   - Normal YOLO mode behavior
+
+**YOLO Mode has 9 breakpoints that determine when coordinator must stop vs proceed:**
 
 ```xml
 <breakpoints>
@@ -139,6 +158,7 @@ The coordinator agent follows the same workflow as a professional software devel
   <breakpoint id="6" name="Before Code Review" enabled="true|false"/>
   <breakpoint id="7" name="Before Committing" enabled="true|false"/>
   <breakpoint id="8" name="Before Next Task" enabled="true|false"/>
+  <breakpoint id="9" name="After Completing Epic" enabled="true|false"/>
 </breakpoints>
 ```
 
@@ -149,9 +169,10 @@ The coordinator agent follows the same workflow as a professional software devel
 
 **Common YOLO Configurations**:
 
-- **Full Control** (`<yolo-mode enabled="false">` or all breakpoints `enabled="true"`): Stop at every major step
+- **Full Control** (`<yolo-mode enabled="false">` or all breakpoints 1-8 `enabled="true"`): Stop at every major step
 - **Balanced** (breakpoints 1,3,4,8 enabled): Stop before task, after implementation, before refactor, before next task
 - **High Autonomy** (breakpoints 1,8 enabled): Stop only before starting and before next task
+- **EPIC-LEVEL** (`<stopping-granularity>epic</stopping-granularity>`, only breakpoint 9 enabled): Only stop after completing full epics
 - **Maximum Autonomy** (all breakpoints `enabled="false"`): Run completely autonomously until story/epic/feature complete
 
 ---
@@ -463,10 +484,20 @@ Process:
 
 ##### 4.5: Move to Next Epic (Autonomous Continuation)
 
-**Check Breakpoint 8**: `<breakpoint id="8" name="Before Next Task">`
+**Check Breakpoint 9 FIRST**: `<breakpoint id="9" name="After Completing Epic">`
+
+- If `enabled="true"`: **STOP** and ask user "Epic [current-epic] complete. Move to next epic?"
+- If `enabled="false"`: **SKIP** to Breakpoint 8 check
+
+**If Breakpoint 9 was skipped, check Breakpoint 8**: `<breakpoint id="8" name="Before Next Task">`
 
 - If `enabled="true"`: **STOP** and ask user "Epic [current-epic] complete. Move to next epic?"
 - If `enabled="false"`: **PROCEED** autonomously
+
+**NOTE**: Breakpoint 9 is specifically for EPIC-LEVEL mode (`<stopping-granularity>epic</stopping-granularity>`). When enabled:
+- Agents complete entire epics autonomously
+- Only stop after epic completion
+- Ignore all breakpoints 1-8 during epic execution
 
 **Update status.xml**:
 
