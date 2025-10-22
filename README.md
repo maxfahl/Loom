@@ -1,25 +1,74 @@
-# AgentDev Meta Prompt
+<div align="center">
+
+```
+╔════════════════════════════════════════════════════════╗
+║                                                        ║
+║          ██╗      ██████╗  ██████╗ ███╗   ███╗         ║
+║          ██║     ██╔═══██╗██╔═══██╗████╗ ████║         ║
+║          ██║     ██║   ██║██║   ██║██╔████╔██║         ║
+║          ██║     ██║   ██║██║   ██║██║╚██╔╝██║         ║
+║          ███████╗╚██████╔╝╚██████╔╝██║ ╚═╝ ██║         ║
+║          ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝     ╚═╝         ║
+║                                                        ║
+║               Weave Features Autonomously              ║
+║                                                        ║
+╚════════════════════════════════════════════════════════╝
+```
 
 **AI-only development framework with autonomous agents, TDD workflows, and epic-based feature tracking.**
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+[Quick Start](#-quick-start) • [Features](#-what-you-get) • [Documentation](#-documentation) • [Examples](#-use-cases)
+
+</div>
+
+---
+
+## 🧵 What is Loom?
+
+**Loom** is an AI-native development framework that weaves together autonomous agents, test-driven development, and epic-based feature tracking into a seamless workflow. Think of it as your development orchestrator - coordinating specialized AI agents to build, test, review, and deploy features autonomously.
+
+### Why Loom?
+
+- 🤖 **13+ Specialized Agents** - Each expert in their domain (dev, testing, review, security, design)
+- 🔄 **Autonomous Workflows** - YOLO mode with configurable breakpoints (story-level, epic-level)
+- 🧪 **Strict TDD** - Red-Green-Refactor cycle enforced by design
+- 📊 **Epic/Story Organization** - Break features into logical milestones
+- ⚡ **Parallel Execution** - Multiple agents work simultaneously (70-80% time savings)
+- 🎯 **13+ Slash Commands** - Streamlined workflow (/dev, /review, /commit, /test, etc.)
+
+### The Loom Philosophy
+
+Traditional frameworks treat specs as static documents that drift from reality. **Loom treats agents as living executors** - they maintain context, follow TDD, and autonomously implement features based on living documentation.
+
+The epic/story structure provides granularity without rigidity. YOLO mode provides autonomy without losing control. Parallel agent execution provides speed without sacrificing quality.
+
+---
+
 ## 🚀 Quick Start
+
+### New Project Setup
 
 Give this bootstrap prompt to your AI coding agent:
 
 ```
 Read and fully understand the prompt in the below markdown file and follow the trail of prompts to the dot. Be extremely careful and take your time.
 
-/Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/project-setup-meta-prompt.md
+/path/to/loom/project-setup-meta-prompt.md
 ```
 
 The agent will guide you through setup, asking questions about your project and creating a complete development environment with specialized agents, slash commands, and comprehensive documentation.
 
-To update an existing project to follow new guidelines, run the following prompt:
+### Update Existing Project
+
+To update an existing project to follow latest Loom guidelines:
 
 ```
 Carefully read the prompt in the Markdown file and follow it exactly. Then run the update flow to ensure the project fully adheres to all the instructions outlined there.
 
-/Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/project-update-meta-prompt.md
+/path/to/loom/project-update-meta-prompt.md
 ```
 
 ## 🎯 What You Get
@@ -40,7 +89,7 @@ Carefully read the prompt in the Markdown file and follow it exactly. Then run t
 - **agent-creator** - Build custom agents
 - **skill-creator** - Create reusable Claude Skills
 - **security-reviewer** - OWASP security scanning (Opus model)
-- **design-reviewer** - UI/UX review with Playwright and WCAG 2.1 AA (Sonnet model)
+- **design-reviewer** - UI/UX review with Playwright and WCAG 2.1 AA
 
 ### 13+ Slash Commands
 
@@ -92,11 +141,13 @@ Epic-Level Breakpoint:
 ### Configuration Examples
 
 **Story-Level Control:**
+
 - `"none"` - Full autonomous mode (prototyping)
 - `"1,3,4,8"` - Balanced control (recommended)
 - `"all"` - Maximum control (production)
 
 **Epic-Level Control:**
+
 - `"epic"` - Autonomous per epic, stop only at epic boundaries
 - Agents complete ALL stories in epic before stopping
 - Ideal for high-trust autonomous development
@@ -152,11 +203,11 @@ docs/development/features/
 - Single implementation path
 - Tightly coupled to software development
 
-**AgentDev** offers flexible parallel workflows:
+**Loom** offers flexible parallel workflows:
 
 - Multiple specialized agents working simultaneously
 - Epic-based feature breakdown with independent stories
-- YOLO mode for autonomous development
+- YOLO mode for autonomous development (story-level, epic-level)
 - Works for any domain (via agent customization)
 
 ### vs. BMAD Method
@@ -168,7 +219,7 @@ docs/development/features/
 - Expansion packs for different domains
 - YAML-based workflow definitions
 
-**AgentDev** emphasizes AI-native development:
+**Loom** emphasizes AI-native development:
 
 - Agents as first-class Claude Code primitives
 - Slash commands for streamlined workflows
@@ -178,7 +229,7 @@ docs/development/features/
 
 ### Key Differentiator
 
-AgentDev treats **agents and workflows as code** within Claude Code, not as external orchestration. You get:
+Loom treats **agents and workflows as code** within Claude Code, not as external orchestration. You get:
 
 - Native slash command integration
 - Direct git workflow support
