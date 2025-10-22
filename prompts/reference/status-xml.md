@@ -64,30 +64,30 @@ features/
     <current-epic>epic-2-core-features</current-epic>
     <current-story>2.1</current-story>
     <!-- current-story format: epic.story (e.g., 2.1 = Epic 2, Story 1) -->
-    <!-- Story file location: docs/development/features/[feature-name]/stories/2.1.md -->
+    <!-- Story file location: docs/development/features/[feature-name]/epics/epic-2-core-features/stories/2.1.md -->
     <is-active-feature>true</is-active-feature>
     <!-- Only ONE feature should have is-active-feature="true" at a time -->
   </metadata>
 
   <epics>
     <!-- Epics are logical groupings of related tasks -->
-    <!-- Each epic has its own folder: features/[feature]/epics/[epic-name]/ -->
+    <!-- Each epic has its own folder: docs/development/features/[feature]/epics/[epic-name]/ -->
     <epic id="epic-1-foundation" status="completed">
       <name>Foundation</name>
       <description>Set up basic authentication infrastructure</description>
-      <folder>epics/epic-1-foundation/</folder>
+      <folder>docs/development/features/[feature]/epics/epic-1-foundation/</folder>
       <completed>2025-10-21T16:00:00Z</completed>
     </epic>
     <epic id="epic-2-core-features" status="in-progress">
       <name>Core Features</name>
       <description>Implement login, logout, and token refresh</description>
-      <folder>epics/epic-2-core-features/</folder>
+      <folder>docs/development/features/[feature]/epics/epic-2-core-features/</folder>
       <started>2025-10-22T08:00:00Z</started>
     </epic>
     <epic id="epic-3-polish" status="pending">
       <name>Polish & Security</name>
       <description>Add rate limiting, security hardening, and error handling</description>
-      <folder>epics/epic-3-polish/</folder>
+      <folder>docs/development/features/[feature]/epics/epic-3-polish/</folder>
     </epic>
   </epics>
 
@@ -221,24 +221,24 @@ features/
     <current-epic>[epic-id or empty]</current-epic>
     <current-story>[epic.story or empty]</current-story>
     <!-- current-story format: epic.story (e.g., 1.1, 2.3) -->
-    <!-- Story file location: docs/development/features/[feature-name]/stories/[epic.story].md -->
+    <!-- Story file location: docs/development/features/[feature-name]/epics/[epic-id]/stories/[epic.story].md -->
     <is-active-feature>true</is-active-feature>
     <!-- Set to true for the feature currently being developed -->
   </metadata>
 
   <epics>
     <!-- Divide feature into logical epics (groupings of related tasks) -->
-    <!-- Each epic has folder: features/[feature]/epics/[epic-name]/ -->
-    <!-- Each epic folder contains: DESCRIPTION.md, TASKS.md, NOTES.md -->
+    <!-- Each epic has folder: docs/development/features/[feature]/epics/[epic-name]/ -->
+    <!-- Each epic folder contains: DESCRIPTION.md, TASKS.md, NOTES.md, stories/ subdirectory -->
     <epic id="epic-1-[name]" status="pending">
       <name>[Epic Name]</name>
       <description>[What this epic accomplishes]</description>
-      <folder>epics/epic-1-[name]/</folder>
+      <folder>docs/development/features/[feature]/epics/epic-1-[name]/</folder>
     </epic>
     <epic id="epic-2-[name]" status="pending">
       <name>[Epic Name]</name>
       <description>[What this epic accomplishes]</description>
-      <folder>epics/epic-2-[name]/</folder>
+      <folder>docs/development/features/[feature]/epics/epic-2-[name]/</folder>
     </epic>
     <!-- Add more epics as needed -->
   </epics>

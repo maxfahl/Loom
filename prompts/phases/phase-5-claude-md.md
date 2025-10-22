@@ -52,7 +52,7 @@ Read this file:
 - [ ] Identify which feature is currently active (`<is-active-feature>true</is-active-feature>`)
 - [ ] Check current epic (`<current-epic>`)
 - [ ] Check current story (`<current-story>`)
-- [ ] Read current story file if exists (`docs/development/features/[feature-name]/stories/[epic.story].md`)
+- [ ] Read current story file if exists (`docs/development/features/[feature]/epics/[epic]/stories/[story].md`)
 - [ ] Review story acceptance criteria, tasks, and subtasks
 - [ ] Check YOLO mode configuration (`<yolo-mode enabled="true/false">`)
 - [ ] Understand current task (`<current-task>`)

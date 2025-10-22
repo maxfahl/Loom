@@ -32,23 +32,10 @@ Minimal getting started guide:
    Project Root:
 
    features/
-   ├── feature-name/
-   │   ├── status.xml
-   │   ├── epics/
-   │   │   ├── epic-1-foundation/
-   │   │   │   ├── DESCRIPTION.md
-   │   │   │   ├── TASKS.md
-   │   │   │   └── NOTES.md
-   │   │   ├── epic-2-core/
-   │   │   │   ├── DESCRIPTION.md
-   │   │   │   ├── TASKS.md
-   │   │   │   └── NOTES.md
-   │   │   └── epic-3-polish/
-   │   │       ├── DESCRIPTION.md
-   │   │       ├── TASKS.md
-   │   │       └── NOTES.md
-   │   ├── src/ (created when development starts)
-   │   └── tests/ (created when development starts)
+   └── feature-name/
+       ├── status.xml
+       ├── src/ (created when development starts)
+       └── tests/ (created when development starts)
 
    docs/
    └── development/
@@ -59,12 +46,27 @@ Minimal getting started guide:
                ├── TECHNICAL_DESIGN.md
                ├── TASKS.md
                ├── CHANGELOG.md
-               └── stories/ (empty, for /create-story)
+               └── epics/
+                   ├── epic-1-foundation/
+                   │   ├── DESCRIPTION.md
+                   │   ├── TASKS.md
+                   │   ├── NOTES.md
+                   │   └── stories/
+                   ├── epic-2-core/
+                   │   ├── DESCRIPTION.md
+                   │   ├── TASKS.md
+                   │   ├── NOTES.md
+                   │   └── stories/
+                   └── epic-3-polish/
+                       ├── DESCRIPTION.md
+                       ├── TASKS.md
+                       ├── NOTES.md
+                       └── stories/
    ```
 
 3. **Create status.xml** in features/[name]/ for each feature (see [status-xml.md](../reference/status-xml.md))
-4. **Create feature documentation directory** at docs/development/features/[name]/ with all doc files and stories/ subfolder
-5. **Populate epics** with DESCRIPTION.md, TASKS.md, NOTES.md in features/[name]/epics/
+4. **Create feature documentation directory** at docs/development/features/[name]/ with all doc files and epics/ with stories/ subfolders
+5. **Populate epics** with DESCRIPTION.md, TASKS.md, NOTES.md in docs/development/features/[name]/epics/
 6. **Set ONE feature** as active: `<is-active-feature>true</is-active-feature>`
 
 ### For Brownfield Projects (FIXED)
@@ -99,17 +101,14 @@ Minimal getting started guide:
    features/
    ├── user-authentication/ (existing code)
    │   ├── status.xml (added)
-   │   ├── epics/ (added)
    │   ├── src/ (existing)
    │   └── tests/ (existing)
    ├── product-catalog/ (existing code)
    │   ├── status.xml (added)
-   │   ├── epics/ (added)
    │   ├── src/ (existing)
    │   └── tests/ (existing)
    └── shopping-cart/ (in progress - ACTIVE)
        ├── status.xml (added - set as active)
-       ├── epics/ (added with current tasks)
        ├── src/ (existing)
        └── tests/ (existing)
 
@@ -120,21 +119,36 @@ Minimal getting started guide:
    │   ├── TECHNICAL_DESIGN.md
    │   ├── TASKS.md
    │   ├── CHANGELOG.md
-   │   └── stories/
+   │   └── epics/
+   │       └── [epic-name]/
+   │           ├── DESCRIPTION.md
+   │           ├── TASKS.md
+   │           ├── NOTES.md
+   │           └── stories/
    ├── product-catalog/ (added)
    │   ├── INDEX.md
    │   ├── FEATURE_SPEC.md
    │   ├── TECHNICAL_DESIGN.md
    │   ├── TASKS.md
    │   ├── CHANGELOG.md
-   │   └── stories/
+   │   └── epics/
+   │       └── [epic-name]/
+   │           ├── DESCRIPTION.md
+   │           ├── TASKS.md
+   │           ├── NOTES.md
+   │           └── stories/
    └── shopping-cart/ (added - ACTIVE)
        ├── INDEX.md
        ├── FEATURE_SPEC.md
        ├── TECHNICAL_DESIGN.md
        ├── TASKS.md
        ├── CHANGELOG.md
-       └── stories/ (for /create-story)
+       └── epics/
+           └── [epic-name]/
+               ├── DESCRIPTION.md
+               ├── TASKS.md
+               ├── NOTES.md
+               └── stories/ (for /create-story)
    ```
 
 4. **For active feature (work in progress)**:

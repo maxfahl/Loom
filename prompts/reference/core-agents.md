@@ -102,13 +102,13 @@ The coordinator agent follows the same workflow as a professional software devel
    - Understand what's in progress, what's completed
    - Check for blockers
 
-2. **Current Story** (if exists): `docs/development/features/[feature-name]/stories/[X.Y].md`
+2. **Current Story** (if exists): `docs/development/features/[feature]/epics/[epic]/stories/[story].md`
    - This is THE source of truth for current work
    - Read acceptance criteria
    - Read task checklist
    - Understand technical requirements
 
-3. **Current Epic Details**: `features/[feature-name]/epics/[current-epic]/`
+3. **Current Epic Details**: `docs/development/features/[feature]/epics/[current-epic]/`
    - Read DESCRIPTION.md (what this epic achieves)
    - Read TASKS.md (all tasks in this epic)
    - Read NOTES.md (important context)
@@ -184,7 +184,7 @@ Task: Write tests for [task-name]
 
 Context:
 
-- Story: docs/development/features/[feature]/stories/[X.Y].md
+- Story: docs/development/features/[feature]/epics/[epic]/stories/[story].md
 - Requirements: [specific requirements for this task]
 - TDD Enforcement: [from project CLAUDE.md]
 
@@ -213,7 +213,7 @@ Task: Implement [task-name] to make tests pass
 Context:
 
 - Tests written: [location of test files]
-- Story: docs/development/features/[feature]/stories/[X.Y].md
+- Story: docs/development/features/[feature]/epics/[epic]/stories/[story].md
 - Technical Spec: TECHNICAL_SPEC.md
 - Architecture: ARCHITECTURE.md
 
@@ -397,7 +397,7 @@ Process:
 
 ##### 4.1: Check Story Completion
 
-**Read current story checklist**: `docs/development/features/[feature]/stories/[X.Y].md`
+**Read current story checklist**: `docs/development/features/[feature]/epics/[epic]/stories/[story].md`
 
 **All tasks checked off?**
 
@@ -408,7 +408,7 @@ Process:
 
 **If story is complete, check epic status:**
 
-**Read epic TASKS.md**: `features/[feature]/epics/[current-epic]/TASKS.md`
+**Read epic TASKS.md**: `docs/development/features/[feature]/epics/[current-epic]/TASKS.md`
 
 **All stories in epic complete?**
 
@@ -441,17 +441,18 @@ Task: Create next story for current epic
 Context:
 
 - Current epic: [epic-name]
-- Current story just completed: [X.Y]
-- Epic TASKS.md: features/[feature]/epics/[current-epic]/TASKS.md
+- Current story just completed: [story-number]
+- Epic TASKS.md: docs/development/features/[feature]/epics/[current-epic]/TASKS.md
 
 Process:
 
 1. Read epic TASKS.md to find next task
-2. **CRITICAL**: Create story file at `docs/development/features/[feature]/stories/[X.Y+1].md`
+2. **CRITICAL**: Create story file at `docs/development/features/[feature]/epics/[epic]/stories/[story].md`
    - NOT in `features/[feature]/stories/`
    - NOT in `features/[feature]/docs/stories/`
-   - ONLY in `docs/development/features/[feature]/stories/`
-3. Update status.xml <current-story> to [X.Y+1]
+   - NOT in `docs/development/features/[feature]/stories/`
+   - ONLY in `docs/development/features/[feature]/epics/[epic]/stories/`
+3. Update status.xml <current-story> to [story-number+1]
 4. Return to coordinator
 ```
 
@@ -698,14 +699,14 @@ model: sonnet
    - Understand what's been completed and what's next
    - Check for blockers
 
-4. **Read Current Story** (if exists): `docs/development/features/[feature-name]/stories/[epic.story].md`
+4. **Read Current Story** (if exists): `docs/development/features/[feature-name]/epics/[epic]/stories/[story].md`
    - Story file is THE source of truth for current work
    - Review story description and acceptance criteria
    - Check tasks and subtasks checklist
    - Understand technical details and dependencies
    - Use story checklist to track progress
 
-5. **Read Current Epic**: `features/[feature-name]/epics/[current-epic]/`
+5. **Read Current Epic**: `docs/development/features/[feature-name]/epics/[current-epic]/`
    - DESCRIPTION.md (what this epic achieves)
    - TASKS.md (all tasks/stories in this epic)
    - NOTES.md (important context and decisions)
@@ -1354,7 +1355,7 @@ model: sonnet
    - Check YOLO mode status (determines if you ask for confirmation)
    - Understand what's been completed and what's next
 
-4. **Read Current Story** (if exists): `docs/development/features/[feature-name]/stories/[epic.story].md`
+4. **Read Current Story** (if exists): `docs/development/features/[feature-name]/epics/[epic]/stories/[story].md`
    - Story file is THE source of truth for current work
    - Review story description and acceptance criteria
    - Check tasks and subtasks checklist

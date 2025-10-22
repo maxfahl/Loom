@@ -204,20 +204,7 @@ argument-hint: [feature name]
 5. Create feature directory structure:
    ```
    features/[feature-name]/
-   ├── status.xml
-   ├── epics/
-   │   ├── epic-1-[name]/
-   │   │   ├── DESCRIPTION.md  # Epic overview and goals
-   │   │   ├── TASKS.md        # Epic-specific task list
-   │   │   └── NOTES.md        # Implementation notes
-   │   ├── epic-2-[name]/
-   │   │   ├── DESCRIPTION.md
-   │   │   ├── TASKS.md
-   │   │   └── NOTES.md
-   │   └── epic-3-[name]/
-   │       ├── DESCRIPTION.md
-   │       ├── TASKS.md
-   │       └── NOTES.md
+   ├── status.xml        # Feature tracking (ONLY file here)
    ├── src/ (when development starts)
    └── tests/ (when development starts)
 
@@ -227,18 +214,41 @@ argument-hint: [feature name]
    ├── TASKS.md
    ├── TECHNICAL_DESIGN.md
    ├── CHANGELOG.md
-   └── stories/          # User stories folder (empty initially)
+   └── epics/            # Epic folders with stories
+       ├── epic-1-[name]/
+       │   ├── DESCRIPTION.md  # Epic overview and goals
+       │   ├── TASKS.md        # Epic-specific task list
+       │   ├── NOTES.md        # Implementation notes
+       │   └── stories/        # Stories for this epic
+       │       ├── 1.1.md
+       │       ├── 1.2.md
+       │       └── 1.3.md
+       ├── epic-2-[name]/
+       │   ├── DESCRIPTION.md
+       │   ├── TASKS.md
+       │   ├── NOTES.md
+       │   └── stories/
+       │       ├── 2.1.md
+       │       └── 2.2.md
+       └── epic-3-[name]/
+           ├── DESCRIPTION.md
+           ├── TASKS.md
+           ├── NOTES.md
+           └── stories/
+               └── 3.1.md
    ```
 6. Create status.xml in features/[feature-name]/ with epics configuration and current-story tracking
 7. **CRITICAL**: Create feature documentation in docs/development/features/[feature-name]/ (FEATURE_SPEC, TASKS, TECHNICAL_DESIGN, etc.)
    - Create directory: `docs/development/features/[feature-name]/`
    - NOT in `features/[feature-name]/docs/`
    - This is separate from the features/ directory
-8. **CRITICAL**: Create empty stories folder at `docs/development/features/[feature-name]/stories/`
+8. **CRITICAL**: Create epic folders in `docs/development/features/[feature-name]/epics/[epic-name]/` with DESCRIPTION.md, TASKS.md, and NOTES.md for each epic
+   - NOT in `features/[feature-name]/epics/`
+   - ONLY in `docs/development/features/[feature-name]/epics/`
+9. **CRITICAL**: Create stories folder inside each epic at `docs/development/features/[feature-name]/epics/[epic-name]/stories/`
    - NOT in `features/[feature-name]/stories/`
-   - NOT in `features/[feature-name]/docs/stories/`
-   - ONLY in `docs/development/features/[feature-name]/stories/`
-9. **Create epic folders** in `features/[feature-name]/epics/` with DESCRIPTION.md, TASKS.md, and NOTES.md for each
+   - NOT in `docs/development/features/[feature-name]/stories/`
+   - ONLY in `docs/development/features/[feature-name]/epics/[epic-name]/stories/`
 10. Handle active feature switching (only ONE active at a time)
 11. Populate pending-tasks from TASKS.md into appropriate epics
 12. Show summary and next steps (mention using /create-story to create first story)
@@ -247,7 +257,8 @@ argument-hint: [feature name]
 
 - Reads `prompts/project-setup-meta-prompt.md` for authoritative instructions
 - **Divide all feature tasks into epics** (e.g., epic-1-foundation, epic-2-core, epic-3-polish)
-- Each epic has its own folder with documentation
+- Each epic has its own folder in `docs/development/features/[feature-name]/epics/[epic-name]/`
+- Each epic contains a stories/ subfolder for user stories
 - Agents and commands are SHARED across features (don't recreate)
 - Sets `<is-active-feature>true/false</is-active-feature>` appropriately
 - Sets `<current-epic>` to track which epic is being worked on
@@ -307,21 +318,21 @@ model: claude-sonnet-4-5
 **Process**:
 
 1. Read status.xml to identify active feature and current epic
-2. Read epic TASKS.md in `features/[feature]/epics/[current-epic]/`
-3. Check existing stories in `docs/development/features/[feature-name]/stories/` to see what's been created
+2. Read epic TASKS.md in `docs/development/features/[feature-name]/epics/[current-epic]/`
+3. Check existing stories in `docs/development/features/[feature-name]/epics/[current-epic]/stories/` to see what's been created
 4. Analyze what's been completed vs what's pending in the epic
 5. Determine next story number (e.g., if current-story is 2.1, check if 2.1 exists, create 2.2)
-6. **CRITICAL**: Create new story file at `docs/development/features/[feature-name]/stories/[epic.story].md`
+6. **CRITICAL**: Create new story file at `docs/development/features/[feature-name]/epics/[current-epic]/stories/[epic.story].md`
    - NOT in `features/[feature-name]/`
-   - NOT in `features/[feature-name]/docs/stories/`
-   - ONLY in `docs/development/features/[feature-name]/stories/`
+   - NOT in `docs/development/features/[feature-name]/stories/`
+   - ONLY in `docs/development/features/[feature-name]/epics/[current-epic]/stories/`
 7. Update status.xml `<current-story>` to the new story number
 8. Update `<last-updated>` timestamp
 
 **Story File Location** (CRITICAL - DO NOT CHANGE):
-- **Correct**: `docs/development/features/[feature-name]/stories/X.Y.md`
+- **Correct**: `docs/development/features/[feature-name]/epics/[epic-name]/stories/X.Y.md`
 - **Wrong**: `features/[feature-name]/stories/X.Y.md`
-- **Wrong**: `features/[feature-name]/docs/stories/X.Y.md`
+- **Wrong**: `docs/development/features/[feature-name]/stories/X.Y.md`
 
 **Story File Structure**:
 
