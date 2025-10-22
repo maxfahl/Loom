@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!--
+    AgentDev Logo V5: Git Merge + Square Dot (Version Control + Precision)
+    Combines: Tabler git-merge.svg + square-dot.svg
+    Concept: Coordinated agent merging with precision control
+    Colors: Use #F59E0B (Amber)
+  -->
+  <defs>
+    <style>
+      svg { color: #F59E0B; }
+    </style>
+  </defs>
+
+  <!-- Git merge (collaboration branching) -->
+  <g transform="translate(15, 12) scale(2.3)">
+    <path d="M7 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+    <path d="M7 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+    <path d="M17 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+    <path d="M7 8l0 8" />
+    <path d="M7 8a4 4 0 0 0 4 4h4" />
+  </g>
+
+  <!-- Square dot (precision/target) -->
+  <g transform="translate(50, 48) scale(1.8)">
+    <path d="M3 3m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
+    <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+  </g>
+
+</svg>

@@ -1,18 +1,18 @@
 <div align="center">
 
 <pre>
-╔════════════════════════════════════════════════════════╗
-║                                                        ║
-║          ██╗      ██████╗  ██████╗ ███╗   ███╗         ║
-║          ██║     ██╔═══██╗██╔═══██╗████╗ ████║         ║
-║          ██║     ██║   ██║██║   ██║██╔████╔██║         ║
-║          ██║     ██║   ██║██║   ██║██║╚██╔╝██║         ║
-║          ███████╗╚██████╔╝╚██████╔╝██║ ╚═╝ ██║         ║
-║          ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝     ╚═╝         ║
-║                                                        ║
-║               Weave Features Autonomously              ║
-║                                                        ║
-╚════════════════════════════════════════════════════════╝
+╔══════════════════════════════════════════════╗
+║                                              ║
+║     ██╗      ██████╗  ██████╗ ███╗   ███╗    ║
+║     ██║     ██╔═══██╗██╔═══██╗████╗ ████║    ║
+║     ██║     ██║   ██║██║   ██║██╔████╔██║    ║
+║     ██║     ██║   ██║██║   ██║██║╚██╔╝██║    ║
+║     ███████╗╚██████╔╝╚██████╔╝██║ ╚═╝ ██║    ║
+║     ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝     ╚═╝    ║
+║                                              ║
+║          Weave Features Autonomously         ║
+║                                              ║
+╚══════════════════════════════════════════════╝
 </pre>
 
 **AI-only development framework with autonomous agents, TDD workflows, and epic-based feature tracking.**
@@ -200,11 +200,11 @@ The `/dev-yolo` command spawns the **coordinator agent** which:
 
 ### Stopping Modes
 
-| Mode | Stops When | Use Case |
-|------|-----------|----------|
-| **STORY-LEVEL** | At configured breakpoints within stories (1-8) | Balanced control, review each story |
-| **EPIC-LEVEL** | Only after completing full epics (breakpoint 9) | Maximum autonomy, review at milestones |
-| **CUSTOM** | At any configured breakpoints (1-9) | Fine-grained control |
+| Mode            | Stops When                                      | Use Case                               |
+| --------------- | ----------------------------------------------- | -------------------------------------- |
+| **STORY-LEVEL** | At configured breakpoints within stories (1-8)  | Balanced control, review each story    |
+| **EPIC-LEVEL**  | Only after completing full epics (breakpoint 9) | Maximum autonomy, review at milestones |
+| **CUSTOM**      | At any configured breakpoints (1-9)             | Fine-grained control                   |
 
 ### Example Workflow
 
@@ -267,12 +267,14 @@ The `/dev-yolo` command spawns the **coordinator agent** which:
 ### When to Use YOLO Loop
 
 ✅ **Use `/dev-yolo` for:**
+
 - New feature development (let agents work autonomously)
 - Rapid prototyping (high-speed iteration)
 - Overnight development (wake up to completed epics)
 - Trusted workflows (stable, well-tested patterns)
 
 ❌ **Use manual `/dev` for:**
+
 - First-time YOLO configuration testing
 - Critical production changes requiring review
 - Learning the codebase
