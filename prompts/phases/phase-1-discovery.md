@@ -429,7 +429,7 @@ Include code examples, file paths, and command examples.
 
 **This step runs ONLY for brownfield projects with existing documentation.**
 
-**Purpose**: Map existing documentation to new AgentDev structure for later cleanup in Phase 2.5.
+**Purpose**: Map existing documentation to new Loom structure for later cleanup in Phase 2.5.
 
 **Process**:
 
@@ -459,7 +459,7 @@ Include code examples, file paths, and command examples.
 
    ### Mapping Legend
 
-   - **Transform**: Content will be transformed into new AgentDev format
+   - **Transform**: Content will be transformed into new Loom format
    - **Merge**: Content will be merged with new documentation
    - **Keep**: Keep as-is for reference
    - **Archive**: Move to archive/ folder (rarely used)
@@ -474,7 +474,7 @@ Include code examples, file paths, and command examples.
 3. **Document Each Legacy File**:
    - **File Path**: Exact path to existing doc
    - **Document Type**: What kind of doc (README, Architecture, etc.)
-   - **Transformation Target**: Which new AgentDev doc it maps to
+   - **Transformation Target**: Which new Loom doc it maps to
    - **Action**: Transform/Merge/Keep
 
 4. **Mark for Phase 2.5**:

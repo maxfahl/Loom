@@ -161,28 +161,26 @@ The coordinator agent reads your YOLO configuration and automatically handles th
 Features are organized into **epics** (logical groupings) with individual **stories**:
 
 ```
-features/
-└── my-feature/
-    └── status.xml              # Feature tracking
-
-docs/development/features/
-└── my-feature/
-    ├── FEATURE_SPEC.md
-    ├── TECHNICAL_DESIGN.md
-    └── epics/
-        ├── epic-1-foundation/
-        │   ├── DESCRIPTION.md  # Epic overview
-        │   ├── TASKS.md        # Epic tasks
-        │   ├── NOTES.md        # Implementation notes
-        │   └── stories/
-        │       ├── 1.1.md     # Epic 1, Story 1
-        │       └── 1.2.md     # Epic 1, Story 2
-        └── epic-2-core/
-            ├── DESCRIPTION.md
-            ├── TASKS.md
-            ├── NOTES.md
-            └── stories/
-                └── 2.1.md     # Epic 2, Story 1
+docs/development/
+└── status.xml                  # Feature tracking (SINGLE FILE for all features)
+└── features/
+    └── my-feature/
+        ├── FEATURE_SPEC.md
+        ├── TECHNICAL_DESIGN.md
+        └── epics/
+            ├── epic-1-foundation/
+            │   ├── DESCRIPTION.md  # Epic overview
+            │   ├── TASKS.md        # Epic tasks
+            │   ├── NOTES.md        # Implementation notes
+            │   └── stories/
+            │       ├── 1.1.md     # Epic 1, Story 1
+            │       └── 1.2.md     # Epic 1, Story 2
+            └── epic-2-core/
+                ├── DESCRIPTION.md
+                ├── TASKS.md
+                ├── NOTES.md
+                └── stories/
+                    └── 2.1.md     # Epic 2, Story 1
 ```
 
 **status.xml** tracks:
@@ -364,7 +362,7 @@ project/
 
 ## 🚨 Why This Approach?
 
-Traditional spec-driven frameworks treat specifications as static documents that quickly drift from implementation. AgentDev treats **agents as the spec executors** - they maintain context, follow TDD, and autonomously implement features based on living documentation (status.xml, epic docs, story files).
+Traditional spec-driven frameworks treat specifications as static documents that quickly drift from implementation. Loom treats **agents as the spec executors** - they maintain context, follow TDD, and autonomously implement features based on living documentation (status.xml, epic docs, story files).
 
 The epic/story structure provides granularity without rigidity. The YOLO mode provides autonomy without losing control. The parallel agent execution provides speed without sacrificing quality.
 

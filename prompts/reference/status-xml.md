@@ -38,16 +38,22 @@ The `status.xml` file tracks the current state of work for each feature director
 
 #### Location
 
-Create `status.xml` in each feature directory:
+**CRITICAL**: `status.xml` is a **SINGLE FILE** for **ALL FEATURES** located at:
 
 ```
-features/
-├── feature-1/
-│   ├── status.xml
-│   └── [feature files]
-├── feature-2/
-│   ├── status.xml
-│   └── [feature files]
+docs/development/status.xml
+```
+
+**NOT** in individual feature directories. All features share one status.xml file with `<feature>` sections.
+
+```
+docs/development/
+└── status.xml              # SINGLE FILE for all features
+└── features/
+    ├── feature-1/
+    │   └── [documentation only - no status.xml here]
+    └── feature-2/
+        └── [documentation only - no status.xml here]
 ```
 
 ### XML Structure Explained

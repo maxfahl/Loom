@@ -95,7 +95,7 @@ Create 6 docs in parallel (Batch 1) → wait → Create 4 docs in parallel (Batc
 
 **Run this phase ONLY for brownfield projects after Phase 2 completes.**
 
-**Purpose**: Clean up legacy documentation after new AgentDev documentation has been created.
+**Purpose**: Clean up legacy documentation after new Loom documentation has been created.
 
 ### Step 2.5.1: Scan for Legacy Documentation
 
@@ -130,7 +130,7 @@ Show user the categorized files and offer 4 options:
 ```markdown
 ## Legacy Documentation Cleanup
 
-I've created new AgentDev documentation. Here's what to do with your legacy docs:
+I've created new Loom documentation. Here's what to do with your legacy docs:
 
 ### Definitely Can Remove (content transformed):
 - docs/old-readme.md → Transformed to docs/development/README.md
@@ -179,7 +179,7 @@ echo "# Legacy Documentation Archive
 
 Archived on $(date)
 
-These documents have been transformed into AgentDev format.
+These documents have been transformed into Loom format.
 See docs/development/ for new documentation structure.
 
 ## Mapping

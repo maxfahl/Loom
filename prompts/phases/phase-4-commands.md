@@ -405,7 +405,7 @@ model: claude-haiku-4-5
 - Agents handle all story-level decisions (dev → review → test → commit)
 - User reviews work at logical epic boundaries
 
-**Important**: This command edits `features/[feature-name]/status.xml`
+**Important**: This command edits `docs/development/status.xml` (SINGLE FILE for all features)
 
 **9. /create-feature [name]** - Create New Feature
 
@@ -427,41 +427,38 @@ argument-hint: [feature name]
 4. **Divide feature into epics** (logical groupings of related tasks)
 5. Create feature directory structure:
    ```
-   features/[feature-name]/
-   ├── status.xml        # Feature tracking (ONLY file here)
-   ├── src/ (when development starts)
-   └── tests/ (when development starts)
-
-   docs/development/features/[feature-name]/
-   ├── INDEX.md
-   ├── FEATURE_SPEC.md
-   ├── TASKS.md
-   ├── TECHNICAL_DESIGN.md
-   ├── CHANGELOG.md
-   └── epics/            # Epic folders with stories
-       ├── epic-1-[name]/
-       │   ├── DESCRIPTION.md  # Epic overview and goals
-       │   ├── TASKS.md        # Epic-specific task list
-       │   ├── NOTES.md        # Implementation notes
-       │   └── stories/        # Stories for this epic
-       │       ├── 1.1.md
-       │       ├── 1.2.md
-       │       └── 1.3.md
-       ├── epic-2-[name]/
-       │   ├── DESCRIPTION.md
-       │   ├── TASKS.md
-       │   ├── NOTES.md
-       │   └── stories/
-       │       ├── 2.1.md
-       │       └── 2.2.md
-       └── epic-3-[name]/
-           ├── DESCRIPTION.md
-           ├── TASKS.md
-           ├── NOTES.md
-           └── stories/
-               └── 3.1.md
+   docs/development/
+   └── status.xml        # Feature tracking (SINGLE FILE for ALL features)
+   └── features/[feature-name]/
+       ├── INDEX.md
+       ├── FEATURE_SPEC.md
+       ├── TASKS.md
+       ├── TECHNICAL_DESIGN.md
+       ├── CHANGELOG.md
+       └── epics/            # Epic folders with stories
+           ├── epic-1-[name]/
+           │   ├── DESCRIPTION.md  # Epic overview and goals
+           │   ├── TASKS.md        # Epic-specific task list
+           │   ├── NOTES.md        # Implementation notes
+           │   └── stories/        # Stories for this epic
+           │       ├── 1.1.md
+           │       ├── 1.2.md
+           │       └── 1.3.md
+           ├── epic-2-[name]/
+           │   ├── DESCRIPTION.md
+           │   ├── TASKS.md
+           │   ├── NOTES.md
+           │   └── stories/
+           │       ├── 2.1.md
+           │       └── 2.2.md
+           └── epic-3-[name]/
+               ├── DESCRIPTION.md
+               ├── TASKS.md
+               ├── NOTES.md
+               └── stories/
+                   └── 3.1.md
    ```
-6. Create status.xml in features/[feature-name]/ with epics configuration and current-story tracking
+6. Update status.xml in docs/development/ with new feature section (epics configuration and current-story tracking)
 7. **CRITICAL**: Create feature documentation in docs/development/features/[feature-name]/ (FEATURE_SPEC, TASKS, TECHNICAL_DESIGN, etc.)
    - Create directory: `docs/development/features/[feature-name]/`
    - NOT in `features/[feature-name]/docs/`
