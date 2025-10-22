@@ -19,8 +19,11 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Built for Claude Code](https://img.shields.io/badge/Built%20for-Claude%20Code-5A67D8)](https://claude.ai/code)
 
-[Quick Start](#-quick-start) • [Features](#-what-you-get) • [Documentation](#-documentation) • [Examples](#-use-cases)
+[Quick Start](#-quick-start) • [Features](#-what-you-get) • [YOLO Loop](#-yolo-loop-autonomous-development) • [Documentation](#-documentation)
+
+> **⚠️ Claude Code Exclusive**: Loom is specifically designed for [Claude Code CLI](https://claude.ai/code). Ports for Gemini CLI and Codex are planned and will be developed when those CLIs reach feature parity with Claude Code.
 
 </div>
 
@@ -91,9 +94,10 @@ Carefully read the prompt in the Markdown file and follow it exactly. Then run t
 - **security-reviewer** - OWASP security scanning (Opus model)
 - **design-reviewer** - UI/UX review with Playwright and WCAG 2.1 AA
 
-### 13+ Slash Commands
+### 14+ Slash Commands
 
 - **/dev** - Continue development with automatic task tracking and status updates
+- **/dev-yolo** - **Launch autonomous YOLO loop** (complete stories/epics automatically)
 - **/commit** - Smart commit with tests and linting
 - **/review** - Comprehensive 7-phase code review with git diff embedding, triage matrix (Blocker/Improvement/Nit), and automatic Review Tasks creation
 - **/security-review** - OWASP-based security scanning with FALSE_POSITIVE filtering (Opus model, 8/10+ confidence threshold)
@@ -155,6 +159,126 @@ Epic-Level Breakpoint:
 The coordinator agent reads your YOLO configuration and automatically handles the complete TDD cycle: Red → Green → Refactor → Review → Test → Deploy.
 
 **EPIC-LEVEL mode** enables maximum autonomy - agents handle dev → review → test → commit for all stories within an epic, only pausing when switching between major epic milestones.
+
+---
+
+## 🔁 YOLO Loop: Autonomous Development
+
+**Start the autonomous development loop** where agents complete entire stories, epics, or features automatically.
+
+### Quick Start
+
+```bash
+# 1. Configure YOLO mode (one-time setup)
+/yolo
+
+# Select stopping granularity:
+# A. STORY-LEVEL - Stop at breakpoints within each story (balanced control)
+# B. EPIC-LEVEL - Only stop when full epics complete (maximum autonomy)
+# C. CUSTOM - Select individual breakpoints manually
+
+# 2. Launch the YOLO loop
+/dev-yolo
+```
+
+### How It Works
+
+The `/dev-yolo` command spawns the **coordinator agent** which:
+
+1. ✅ **Reads current state** - Checks `status.xml`, current epic, current story
+2. 🔴 **Writes failing tests** (TDD Red phase)
+3. 🟢 **Implements code** (TDD Green phase)
+4. 🔵 **Refactors** (TDD Blue phase)
+5. ✅ **Checks off tasks** in story file as completed
+6. 🧪 **Runs tests** (ensures 80%+ coverage)
+7. 👁️ **Spawns code-reviewer** for quality check
+8. 🔧 **Handles Review Tasks** if issues found
+9. 📝 **Updates story status** to "Waiting For Review" when complete
+10. 🔄 **Checks breakpoints** - Stop or continue based on YOLO config
+11. ➡️ **Moves to next story** (if allowed by YOLO config)
+12. 🏁 **Stops at epic boundary** (if breakpoint 9 enabled) or continues to next epic
+
+### Stopping Modes
+
+| Mode | Stops When | Use Case |
+|------|-----------|----------|
+| **STORY-LEVEL** | At configured breakpoints within stories (1-8) | Balanced control, review each story |
+| **EPIC-LEVEL** | Only after completing full epics (breakpoint 9) | Maximum autonomy, review at milestones |
+| **CUSTOM** | At any configured breakpoints (1-9) | Fine-grained control |
+
+### Example Workflow
+
+```bash
+# Configure EPIC-LEVEL mode (stop only at epic boundaries)
+/yolo
+> Select: B (EPIC-LEVEL)
+
+# Start autonomous loop
+/dev-yolo
+
+# Output:
+# 🚀 Launching coordinator agent in YOLO mode...
+# Feature: user-authentication
+# YOLO Mode: ON
+# Stopping Granularity: EPIC-LEVEL
+# Breakpoints: 9 only
+#
+# Coordinator will autonomously complete all stories in Epic 1.
+# Will stop after Epic 1 completes for your review.
+
+# ... agents work autonomously ...
+# ... complete Story 1.1, 1.2, 1.3 ...
+# ... run tests, review, commit ...
+
+# 🎯 YOLO Loop Status Report
+#
+# **Feature**: user-authentication
+# **Stopped At**: Epic Complete (Breakpoint 9)
+#
+# **Completed**:
+# - ✅ Story 1.1: Setup JWT middleware (commit: abc123)
+# - ✅ Story 1.2: Add login endpoint (commit: def456)
+# - ✅ Story 1.3: Add token refresh (commit: ghi789)
+#
+# **Current State**:
+# - Epic: epic-1-foundation
+# - Status: Done
+# - Tests: 42/42 passing, 87% coverage
+#
+# **Next Steps**:
+# - Review Epic 1 work
+# - Run /dev-yolo again to start Epic 2
+
+# Review the work, then continue
+/dev-yolo  # Starts Epic 2
+```
+
+### Resume After Stop
+
+```bash
+# If stopped at breakpoint or epic boundary
+/dev-yolo  # Resume from where it stopped
+
+# If you want to change YOLO configuration
+/yolo      # Reconfigure breakpoints
+/dev-yolo  # Resume with new configuration
+```
+
+### When to Use YOLO Loop
+
+✅ **Use `/dev-yolo` for:**
+- New feature development (let agents work autonomously)
+- Rapid prototyping (high-speed iteration)
+- Overnight development (wake up to completed epics)
+- Trusted workflows (stable, well-tested patterns)
+
+❌ **Use manual `/dev` for:**
+- First-time YOLO configuration testing
+- Critical production changes requiring review
+- Learning the codebase
+- Debugging complex issues
+
+---
 
 ## 📊 Feature Tracking with Epics & Stories
 
