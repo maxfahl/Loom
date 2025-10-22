@@ -82,9 +82,10 @@ Based on tech stack, create 2-4 specialized agents:
 - documentation-writer
 - agent-creator
 
-**Batch 4** (2 agents in parallel):
+**Batch 4** (3 agents in parallel):
 - skill-creator
 - security-reviewer (Phase 2 - OWASP scanning with Opus model)
+- design-reviewer (Phase 3 - UI/UX review with Playwright and WCAG 2.1 AA)
 
 ### What NOT to Do
 

@@ -1316,3 +1316,240 @@ _For updates to this file, use the `#` key during Claude Code sessions_
 - Expand A04-A10 OWASP categories with project-relevant examples
 - Update severity thresholds based on project risk tolerance
 
+
+---
+
+### 17. DESIGN_PRINCIPLES.md Template
+
+**Purpose**: UI/UX design review methodology with Playwright, WCAG 2.1 AA, and responsive testing
+
+**When to Create**: For all projects with UI components (added in Phase 3: Design Review)
+
+**Source**: OneRedOak design review workflows (`04-REFERENCE-EXTRACTS.md` lines 244-411)
+
+**Complete DESIGN_PRINCIPLES.md Structure**:
+
+```markdown
+# Design Principles
+
+**Version**: 1.0
+**Last Updated**: [YYYY-MM-DD]
+**Framework**: 7-Phase Design Review with Playwright & WCAG 2.1 AA
+
+---
+
+## Overview
+
+This document defines the UI/UX design review methodology for [Project Name]. All design reviews use live Playwright testing, WCAG 2.1 Level AA validation, and responsive design checks across 3 viewports.
+
+### Prerequisites
+
+- Playwright MCP server configured
+- Live preview environment running
+- DESIGN_SYSTEM.md for component library priority order
+
+### Philosophy: "Problems Over Prescriptions"
+
+**Describe problems, not solutions**:
+- ✅ "The submit button is hard to see" (problem)
+- ❌ "Make the submit button blue" (prescription)
+
+Let implementers choose the best solution.
+
+---
+
+## 7-Phase Design Review Methodology
+
+### Phase 0: Preparation
+
+**Setup**:
+1. Navigate to preview URL with Playwright
+2. Analyze story/PR for design intent
+3. Set viewport to desktop (1440x900)
+
+### Phase 1: Interaction and User Flow
+
+**Test**:
+- Primary user flow execution
+- Hover, active, focus, disabled states
+- Destructive action confirmations
+- Perceived performance
+
+**Screenshot**: Capture key interaction states
+
+### Phase 2: Responsiveness Testing
+
+**Test 3 Viewports**:
+- Desktop (1440px): Full layout
+- Tablet (768px): Adaptive layout, no horizontal scroll
+- Mobile (375px): Touch-optimized, minimum 16px text
+
+### Phase 3: Visual Polish
+
+**Assess**:
+- Layout alignment and spacing consistency
+- Typography hierarchy
+- Color palette consistency
+- Visual hierarchy
+
+### Phase 4: Accessibility (WCAG 2.1 AA)
+
+**CRITICAL - All UIs must meet WCAG 2.1 Level AA**:
+
+**Keyboard Navigation**:
+- Tab order logical
+- Visible focus indicators
+- Enter/Space activation
+
+**Semantic HTML**:
+- Proper heading hierarchy
+- ARIA landmarks
+- Form labels associated
+
+**Color Contrast**:
+- 4.5:1 minimum (normal text)
+- 3:1 minimum (large text, icons)
+
+**WCAG 2.1 AA Checklist**:
+- [ ] 1.4.3 Contrast (Minimum)
+- [ ] 2.1.1 Keyboard
+- [ ] 2.4.7 Focus Visible
+- [ ] 3.2.4 Consistent Navigation
+- [ ] 4.1.2 Name, Role, Value
+
+### Phase 5: Robustness Testing
+
+**Test Edge Cases**:
+- Invalid inputs
+- Content overflow (long text, many items)
+- Loading, empty, error states
+
+### Phase 6: Code Health
+
+**Component Library Priority Order** (Project-Specific):
+1. Kibo UI (dev tools, specialized)
+2. Blocks.so (layouts, dashboard)
+3. ReUI (animations, motion)
+4. shadcn/ui (base primitives)
+5. Custom (last resort)
+
+**Flag if**: Custom component when library option exists
+
+### Phase 7: Content and Console
+
+**Check**:
+- Grammar and clarity
+- Console errors via Playwright
+- No placeholder text
+
+---
+
+## Triage Categories
+
+### Blocker (Must Fix Before Merge)
+- WCAG violations
+- Broken user flows
+- Major visual bugs
+
+### High-Priority (Strong Recommendation)
+- Inconsistent patterns
+- Poor UX
+- Significant polish issues
+
+### Medium-Priority (Suggestions)
+- Minor improvements
+- Optimization opportunities
+
+### Nitpick (Minor Polish)
+- Tiny spacing issues
+- Wording tweaks
+
+---
+
+## Playwright Testing Workflow
+
+```javascript
+// Phase 0: Setup
+await mcp__playwright__browser_navigate({ url: "http://localhost:3000" });
+await mcp__playwright__browser_resize({ width: 1440, height: 900 });
+
+// Phase 1: Interactions
+await mcp__playwright__browser_take_screenshot({ filename: "desktop-initial.png" });
+await mcp__playwright__browser_click({ element: "Submit", ref: "button[type='submit']" });
+await mcp__playwright__browser_take_screenshot({ filename: "desktop-clicked.png" });
+
+// Phase 2: Responsive
+await mcp__playwright__browser_resize({ width: 768, height: 1024 }); // Tablet
+await mcp__playwright__browser_take_screenshot({ filename: "tablet-768.png" });
+
+await mcp__playwright__browser_resize({ width: 375, height: 667 }); // Mobile
+await mcp__playwright__browser_take_screenshot({ filename: "mobile-375.png" });
+
+// Phase 7: Console
+const errors = await mcp__playwright__browser_console_messages({ onlyErrors: true });
+```
+
+---
+
+## Output Format
+
+```markdown
+## Design Review Summary
+
+- **Overall Assessment**: [Positive opening]
+- **Blockers**: X issues
+- **High-Priority**: Y issues
+- **Nitpicks**: Z items
+
+---
+
+## Findings
+
+### Blocker: [Problem Description]
+
+**Problem**: [User-facing impact]
+
+**Screenshot**: ![](./desktop-initial.png)
+
+**WCAG Violation**: 1.4.3 Contrast (Minimum)
+
+**Viewport**: All
+
+---
+
+## WCAG 2.1 AA Compliance
+
+- [x] 1.4.3 Contrast - Pass
+- [ ] **FAIL**: 2.4.7 Focus Visible
+
+---
+
+## Responsive Testing
+
+| Viewport | Width  | Status | Issues |
+|----------|--------|--------|--------|
+| Desktop  | 1440px | ✅ Pass | None |
+| Tablet   | 768px  | ⚠️ Minor | Wrapping |
+| Mobile   | 375px  | ❌ Fail | Truncated |
+```
+
+---
+
+## Related Documentation
+
+- **/design-review** command - Triggers design review using this methodology
+- **design-reviewer** agent - Implements 7-phase review with Playwright
+- **DESIGN_SYSTEM.md** - Component library priority order
+- **CODE_REVIEW_PRINCIPLES.md** - Code review (includes code health checks)
+
+---
+
+_Last updated: [YYYY-MM-DD]_
+```
+
+**Customization Notes**:
+- Replace `[Project Name]` with actual name
+- Update viewport sizes if project uses different breakpoints
+- Adjust component library priority order if different
+- Add project-specific WCAG requirements (e.g., Level AAA if needed)
+

@@ -40,13 +40,15 @@ Carefully read the prompt in the Markdown file and follow it exactly. Then run t
 - **agent-creator** - Build custom agents
 - **skill-creator** - Create reusable Claude Skills
 - **security-reviewer** - OWASP security scanning (Opus model)
+- **design-reviewer** - UI/UX review with Playwright and WCAG 2.1 AA (Sonnet model)
 
-### 12+ Slash Commands
+### 13+ Slash Commands
 
 - **/dev** - Continue development with automatic task tracking and status updates
 - **/commit** - Smart commit with tests and linting
 - **/review** - Comprehensive 7-phase code review with git diff embedding, triage matrix (Blocker/Improvement/Nit), and automatic Review Tasks creation
 - **/security-review** - OWASP-based security scanning with FALSE_POSITIVE filtering (Opus model, 8/10+ confidence threshold)
+- **/design-review** - UI/UX design review with Playwright live testing, WCAG 2.1 AA validation, and responsive design checks (3 viewports)
 - **/test** - Run tests with coverage
 - **/plan** - Plan feature implementation
 - **/status** - Project status report
@@ -58,7 +60,7 @@ Carefully read the prompt in the Markdown file and follow it exactly. Then run t
 
 ### Complete Documentation
 
-14+ files covering PRD, technical specs, architecture, design systems, development plans, code review principles (7-phase framework), security review checklist (OWASP Top 10 + FALSE_POSITIVE filtering), and more.
+15+ files covering PRD, technical specs, architecture, design systems, development plans, code review principles (7-phase framework), security review checklist (OWASP Top 10 + FALSE_POSITIVE filtering), design principles (Playwright + WCAG 2.1 AA), and more.
 
 ## 🎮 YOLO Mode: Autonomous Development
 

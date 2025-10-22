@@ -27,11 +27,12 @@ All documentation templates are in: [doc-templates.md](../templates/doc-template
 7. **DEVELOPMENT_PLAN.md** - Development workflow and TDD
 8. **CODE_REVIEW_PRINCIPLES.md** - 7-phase code review framework (Phase 1)
 9. **SECURITY_REVIEW_CHECKLIST.md** - OWASP security scanning methodology (Phase 2)
-10. **HOOKS_REFERENCE.md** - Claude Code hooks (if monitoring project)
-11. **TASKS.md** - Development tasks
-12. **START_HERE.md** - Getting started guide
-13. **PROJECT_SUMMARY.md** - Executive summary
-14. **Domain-specific docs** (API_REFERENCE.md, etc.)
+10. **DESIGN_PRINCIPLES.md** - UI/UX design review with Playwright and WCAG 2.1 AA (Phase 3)
+11. **HOOKS_REFERENCE.md** - Claude Code hooks (if monitoring project)
+12. **TASKS.md** - Development tasks
+13. **START_HERE.md** - Getting started guide
+14. **PROJECT_SUMMARY.md** - Executive summary
+15. **Domain-specific docs** (API_REFERENCE.md, etc.)
 
 ## ⚡ CRITICAL: Parallel Creation (70% Time Savings)
 
@@ -49,10 +50,11 @@ All documentation templates are in: [doc-templates.md](../templates/doc-template
 - DESIGN_SYSTEM.md
 - TASKS.md
 
-**Batch 2** (6 docs in parallel):
+**Batch 2** (7 docs in parallel):
 - INDEX.md (requires other docs for navigation)
 - CODE_REVIEW_PRINCIPLES.md
 - SECURITY_REVIEW_CHECKLIST.md
+- DESIGN_PRINCIPLES.md
 - HOOKS_REFERENCE.md
 - PROJECT_SUMMARY.md
 - EXECUTIVE_SUMMARY.md
