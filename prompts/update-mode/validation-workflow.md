@@ -105,11 +105,39 @@ Task: Validate all documentation against meta prompt specification
 4. List missing docs
 5. List docs needing updates
 
+**Content Validation (NEW - CRITICAL)**:
+
+Beyond structure, verify ACTUAL OneRedOak enhancements are present:
+
+6. **Check CODE_REVIEW_PRINCIPLES.md** (if exists):
+   - Contains 7-phase hierarchical framework?
+   - Contains "Net Positive > Perfection" philosophy?
+   - Contains triage matrix (Blocker/Improvement/Nit)?
+   - Contains SOLID/DRY/KISS/YAGNI principles?
+
+7. **Check SECURITY_REVIEW_CHECKLIST.md** (if exists):
+   - Contains OWASP Top 10 methodology?
+   - Contains FALSE_POSITIVE filtering rules (17 hard exclusions + 12 precedents)?
+   - Contains 3-step analysis workflow?
+   - Contains confidence scoring (8/10+ threshold)?
+
+8. **Check DESIGN_PRINCIPLES.md** (if exists):
+   - Contains 7-phase design methodology?
+   - Contains Playwright MCP integration guide?
+   - Contains WCAG 2.1 AA checklist?
+   - Contains S-Tier SaaS checklist?
+
+9. **Check story-template.md** (if exists):
+   - Contains status values: "In Progress" | "Waiting For Review" | "Done"?
+   - Contains "Review Tasks" section template?
+   - Contains task format with priority (Fix/Improvement/Nit)?
+
 **Deliverable**: Markdown report with:
 
 - ✅ Docs that are complete and correct
 - ⚠️ Docs that exist but need updates (what's missing/wrong)
-- ❌ Docs that are missing entirely
+- ❌ Docs that are missing entirely (include 3 new OneRedOak docs)
+- 🔴 CRITICAL: Missing OneRedOak enhancements (7-phase, FALSE_POSITIVE, status workflow)
 - 📋 Detailed update instructions for each doc needing changes
 ```
 
@@ -136,13 +164,45 @@ Task: Validate all agents against meta prompt specification
 3. Check for outdated/incorrect agents
 4. List missing agents
 
+**Content Validation (NEW - CRITICAL)**:
+
+Beyond structure, verify ACTUAL OneRedOak content is present:
+
+5. **Check code-reviewer agent**:
+   - Contains 7-phase hierarchical framework (Architecture → Functionality → Security → Maintainability → Testing → Performance → Dependencies)?
+   - Contains triage matrix (Blocker/Improvement/Nit)?
+   - Contains "Net Positive > Perfection" philosophy?
+   - Contains project-specific references (INDEX.md, PRD.md, TECHNICAL_SPEC.md)?
+   - Contains TDD requirements in Phase 5 (Testing)?
+
+6. **Check security-reviewer agent** (if exists):
+   - Set to Opus model (claude-opus-4-1)?
+   - Contains 3-step analysis workflow (identify → filter → confidence score)?
+   - Contains FALSE_POSITIVE filtering rules (COPY VERBATIM from 04-REFERENCE-EXTRACTS.md)?
+   - Contains 17 hard exclusions?
+   - Contains 12 precedents?
+   - Contains 8/10+ confidence threshold?
+
+7. **Check design-reviewer agent** (if exists):
+   - Set to Sonnet 4.5?
+   - Contains 7-phase design methodology?
+   - Contains Playwright MCP integration workflow?
+   - Contains WCAG 2.1 AA validation?
+   - Contains responsive testing (3 viewports)?
+
+8. **Check coordinator agent**:
+   - Contains Phase 0 task checking logic?
+   - Contains story status update workflow?
+   - Contains Review Tasks prioritization?
+
 **Deliverable**: Markdown report with:
 
 - ✅ Agents that are complete and correct
 - ⚠️ Agents that exist but need updates (missing MCP knowledge, wrong tools, outdated template)
-- ❌ Agents that are missing entirely
+- ❌ Agents that are missing entirely (include security-reviewer, design-reviewer)
+- 🔴 CRITICAL: Missing OneRedOak content (7-phase framework, FALSE_POSITIVE rules, Playwright workflow)
 - 🗑️ Agents that should be removed (deprecated/incorrect)
-- 📋 Detailed update instructions for each agent
+- 📋 Detailed update instructions for each agent (reference 04-REFERENCE-EXTRACTS.md for content to add)
 ```
 
 **Agent 3: Command Structure Validator**
@@ -168,12 +228,44 @@ Task: Validate all commands against meta prompt specification
 4. List missing commands
 5. List outdated commands
 
+**Content Validation (NEW - CRITICAL)**:
+
+Beyond structure, verify ACTUAL OneRedOak workflow enhancements are present:
+
+6. **Check /review command**:
+   - Contains git diff embedding pattern (git status, git diff, git log)?
+   - Contains 7-phase framework reference or spawns code-reviewer with 7-phase framework?
+   - Contains triage matrix output requirement?
+   - Contains Phase 0 task management (add Review Tasks section, update story status)?
+
+7. **Check /security-review command** (if exists):
+   - Spawns security-reviewer agent?
+   - Contains 3-step analysis workflow?
+   - Contains OWASP Top 10 reference?
+   - Reports only 8/10+ confidence findings?
+
+8. **Check /design-review command** (if exists):
+   - Spawns design-reviewer agent?
+   - Requires Playwright MCP server?
+   - Contains 7-phase design methodology?
+   - Tests 3 viewports (desktop/tablet/mobile)?
+   - Includes WCAG AA checks?
+
+9. **Check /dev command**:
+   - Contains Phase 0 enhancements (task checking, status updates)?
+   - Reads status.xml for current story?
+   - Reads story file for acceptance criteria and tasks?
+   - Checks for "Review Tasks" section (prioritizes FIRST)?
+   - Automatically checks off completed tasks?
+   - Updates story status to "Waiting For Review" when all tasks done?
+
 **Deliverable**: Markdown report with:
 
 - ✅ Commands that are complete and correct
 - ⚠️ Commands that exist but need updates
-- ❌ Commands that are missing entirely
-- 📋 Detailed update instructions for each command
+- ❌ Commands that are missing entirely (/security-review, /design-review)
+- 🔴 CRITICAL: Missing OneRedOak workflow enhancements (git diff, task management, 7-phase reference)
+- 📋 Detailed update instructions for each command (reference phase-4-commands.md for enhanced workflows)
 ```
 
 **Agent 4: Feature Structure Validator**
@@ -283,10 +375,22 @@ Task: Validate overall project structure, folders, and configuration files
 
 1. Combine all 6 reports
 2. Categorize issues by severity:
-   - 🔴 Missing core components (status.xml structure, core docs, core agents)
+   - 🔴 CRITICAL: Missing core components (status.xml structure, core docs, core agents)
+   - 🔴 CRITICAL: Missing OneRedOak enhancements (examples below)
    - 🟡 HIGH: Outdated components (missing MCP knowledge, wrong models, old templates)
    - 🟢 MEDIUM: Missing optional components (tech-specific agents, custom commands)
    - 🔵 LOW: Minor inconsistencies (formatting, typos)
+
+**Example CRITICAL OneRedOak Issues**:
+- 🔴 CRITICAL: `/review` command missing task management workflow (Phase 0)
+- 🔴 CRITICAL: code-reviewer missing 7-phase hierarchical framework
+- 🔴 CRITICAL: Missing CODE_REVIEW_PRINCIPLES.md
+- 🔴 CRITICAL: security-reviewer missing FALSE_POSITIVE filtering rules
+- 🔴 CRITICAL: Missing SECURITY_REVIEW_CHECKLIST.md
+- 🔴 CRITICAL: design-reviewer missing Playwright MCP workflow
+- 🔴 CRITICAL: Missing DESIGN_PRINCIPLES.md
+- 🟡 HIGH: /dev command missing automatic task checking
+- 🟡 HIGH: story-template.md missing status values and Review Tasks section
 
 3. Create prioritized update plan:
    - Phase A: Fix critical issues
@@ -341,8 +445,13 @@ Task: Validate overall project structure, folders, and configuration files
 - Process:
   1. For missing docs: Create from templates
   2. For outdated docs: Add missing sections, update TDD language
-  3. Update INDEX.md with any new docs
-  4. Preserve existing content, only add/update as needed
+  3. **Add OneRedOak docs if missing** (reference 04-REFERENCE-EXTRACTS.md for content):
+     - CODE_REVIEW_PRINCIPLES.md (7-phase framework, Net Positive philosophy, triage matrix)
+     - SECURITY_REVIEW_CHECKLIST.md (OWASP Top 10, FALSE_POSITIVE rules, 3-step analysis)
+     - DESIGN_PRINCIPLES.md (7-phase design, Playwright MCP, WCAG AA, S-Tier checklist)
+  4. **Update story-template.md**: Add status values, Review Tasks section, task priority format
+  5. Update INDEX.md with any new docs
+  6. Preserve existing content, only add/update as needed
 
 **Agent 2: Agent Updater**
 
@@ -351,9 +460,14 @@ Task: Validate overall project structure, folders, and configuration files
 - Process:
   1. For missing agents: Create from meta prompt spec
   2. For outdated agents: Add MCP knowledge, update templates, fix YAML
-  3. Remove deprecated agents
-  4. Ensure all agents have INDEX.md + status.xml reading template
-  5. Add MCP server integration sections where applicable
+  3. **Add OneRedOak patterns from 04-REFERENCE-EXTRACTS.md**:
+     - **code-reviewer**: Add 7-phase framework, triage matrix, "Net Positive > Perfection" philosophy
+     - **security-reviewer**: Add 3-step analysis, FALSE_POSITIVE rules (17 + 12), set model to Opus
+     - **design-reviewer**: Add 7-phase design, Playwright workflow, WCAG AA, 3 viewports, set model to Sonnet
+     - **coordinator**: Add Phase 0 task management (task checking, story status updates, Review Tasks priority)
+  4. Remove deprecated agents
+  5. Ensure all agents have INDEX.md + status.xml reading template
+  6. Add MCP server integration sections where applicable
 
 **Agent 3: Command Updater**
 
@@ -362,8 +476,13 @@ Task: Validate overall project structure, folders, and configuration files
 - Process:
   1. For missing commands: Create from meta prompt spec
   2. For outdated commands: Update process descriptions, fix YAML
-  3. Ensure /create-story command exists
-  4. Update TDD language to match enforcement level
+  3. **Add OneRedOak workflow enhancements**:
+     - **/review**: Add git diff embedding, 7-phase framework reference, Phase 0 task management
+     - **/security-review**: Create if missing, add 3-step analysis, OWASP Top 10
+     - **/design-review**: Create if missing, add Playwright workflow, 7-phase design, WCAG AA
+     - **/dev**: Add Phase 0 task checking, status updates, Review Tasks prioritization
+  4. Ensure /create-story command exists
+  5. Update TDD language to match enforcement level
 
 **Agent 4: Structure Updater**
 
