@@ -17,8 +17,9 @@
 
 **Meta-framework for autonomous AI development with Claude Code**
 
-[![Version](https://img.shields.io/badge/version-1.4.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![AML](https://img.shields.io/badge/AML-Learning_Enabled-green)](docs/aml/)
 
 </div>
 
@@ -49,12 +50,13 @@ AI coding assistants struggle with complex, multi-phase projects. They lose cont
 
 Loom provides:
 
-1. **Specialized agents** - 44 agents, each with focused expertise
-2. **TDD enforcement** - Red-Green-Refactor cycle is mandatory
-3. **Feature tracking** - Epics and stories organize work into manageable chunks
-4. **Autonomous loops** - Agents work through stories with configurable stopping points
-5. **Parallel execution** - Multiple agents work simultaneously (60-80% faster)
-6. **Minimal dependencies** - Only 2 required MCP servers (context7, playwright)
+1. **Specialized agents** - 46 agents, each with focused expertise
+2. **Agent Memory & Learning** - Agents learn from every execution and improve 10x over time 🆕
+3. **TDD enforcement** - Red-Green-Refactor cycle is mandatory
+4. **Feature tracking** - Epics and stories organize work into manageable chunks
+5. **Autonomous loops** - Agents work through stories with configurable stopping points
+6. **Parallel execution** - Multiple agents work simultaneously (60-80% faster)
+7. **Minimal dependencies** - Only 2 required MCP servers (context7, playwright)
 
 ### Philosophy
 

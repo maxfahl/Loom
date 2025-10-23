@@ -12,11 +12,59 @@ Create a high-priority story for a bug fix and optionally start working on it im
 
 ## Process
 
+**Step 0: Query AML for Bug Solutions** (NEW - Agent Memory & Learning):
+
+Before creating the bug fix story, query AML for similar bug solutions and patterns:
+
+```typescript
+// Query for solutions to similar bug signatures
+const similarBugSolutions = await aml.querySolutions('debugger', {
+  errorType: extractedErrorType,
+  errorMessage: bugDescription,
+  context: {
+    framework: project.framework,
+    component: affectedComponent
+  },
+  limit: 5
+});
+
+// Query for error resolution patterns
+const errorPatterns = await aml.queryPatterns('debugger', {
+  type: 'bug-resolution',
+  context: {
+    bugCategory: categorizedBug,
+    severity: estimatedSeverity,
+    framework: project.framework
+  },
+  minConfidence: 0.6,
+  limit: 5,
+  sortBy: 'success_rate'
+});
+
+// Query for recurring bug families
+const recurringBugs = await aml.queryPatterns('debugger', {
+  type: 'bug-family',
+  context: {
+    errorSignature: extractErrorSignature(bugDescription),
+    codeArea: affectedComponent
+  },
+  limit: 3
+});
+```
+
+**Apply Learned Intelligence**:
+- Check if this bug has been seen before (exact match or similar pattern)
+- Use proven fix strategies for this bug category (e.g., 95% success rate)
+- Identify root cause faster using historical bug patterns
+- Apply preventive measures from similar bugs
+- Estimate fix time based on bug complexity and historical data
+
 1. **Gather Bug Details**:
    - Use `$ARGUMENTS` if provided
    - Otherwise, ask user for bug description
    - Understand reproduction steps
    - Clarify impact and severity
+   - Check AML for similar bugs and suggested fixes
 
 2. **Read Current Context**:
    - Read status.xml for current feature and epic
@@ -115,6 +163,127 @@ Create a high-priority story for a bug fix and optionally start working on it im
 6. **If Yes, Start Work**:
    - Update status.xml to set as current story
    - Run `/dev` command to begin work
+
+**Final Step: Record Bug Fix to AML** (NEW - Agent Memory & Learning):
+
+After successfully fixing the bug (or creating the story), record the bug and solution for future reference:
+
+```typescript
+// Calculate bug metrics
+const bugMetrics = {
+  timestamp: Date.now(),
+  bugId: storyNumber,
+  severity: severity,
+  timeToIdentify: identificationTime,
+  impactedUsers: impactEstimate,
+  reproduced: wasReproduced
+};
+
+// Record bug solution (after fix is implemented)
+await aml.recordSolution('debugger', {
+  problem: {
+    errorType: extractedErrorType,
+    errorMessage: bugDescription,
+    stackTraceHash: generateStackTraceHash(errorDetails),
+    context: {
+      framework: project.framework,
+      component: affectedComponent,
+      severity: severity,
+      reproducible: reproductionSteps.length > 0
+    }
+  },
+  solution: {
+    rootCause: rootCauseAnalysis,
+    fixApproach: fixStrategy,
+    codeFix: implementedFix,
+    prevention: preventiveMeasures
+  },
+  effectiveness: {
+    worked: true, // Will be updated after verification
+    timeToFixMinutes: 0, // Will be updated during fix
+    preventedRecurrence: 0, // Will be updated over time
+    relatedErrorsFixed: relatedBugs.length
+  }
+});
+
+// Record bug family pattern if recurring
+if (isRecurringBug) {
+  await aml.recordPattern('debugger', {
+    type: 'bug-family',
+    context: {
+      errorSignature: extractErrorSignature(bugDescription),
+      codeArea: affectedComponent,
+      framework: project.framework
+    },
+    approach: {
+      technique: 'pattern-recognition',
+      codeTemplate: bugPattern,
+      rationale: 'Recurring bug family with common root cause'
+    },
+    conditions: {
+      whenApplicable: bugFamilyTriggers,
+      whenNotApplicable: exceptionalCases
+    },
+    tags: ['bug-family', severity, affectedComponent]
+  });
+}
+
+// Record bug resolution strategy
+await aml.recordDecision('debugger', {
+  type: 'bug-fix-strategy',
+  question: `How to fix: ${bugDescription}?`,
+  context: {
+    bugSeverity: severity,
+    bugCategory: categorizedBug,
+    impactedUsers: impactEstimate,
+    framework: project.framework
+  },
+  chosenOption: fixStrategy,
+  alternativesConsidered: consideredApproaches,
+  decisionFactors: {
+    primary: ['fix-effectiveness', 'risk-of-regression'],
+    secondary: ['fix-complexity', 'time-to-fix']
+  },
+  outcome: {
+    successMetrics: {
+      bugFixed: false, // Will be updated after fix verification
+      noRegressions: false, // Will be updated after testing
+      userSatisfaction: 0 // Will be updated based on feedback
+    },
+    wouldRepeat: true // Will be updated based on outcome
+  }
+});
+
+// Record prevention pattern
+if (preventiveMeasures.length > 0) {
+  await aml.recordPattern('debugger', {
+    type: 'bug-prevention',
+    context: {
+      bugCategory: categorizedBug,
+      framework: project.framework,
+      component: affectedComponent
+    },
+    approach: {
+      technique: 'preventive-measure',
+      codeTemplate: preventiveMeasureCode,
+      rationale: 'Prevent recurrence of this bug family'
+    },
+    conditions: {
+      whenApplicable: ['similar-components', 'new-features'],
+      whenNotApplicable: ['legacy-code', 'deprecated-features']
+    },
+    tags: ['prevention', 'proactive', bugCategory]
+  });
+}
+```
+
+**Learning Outcomes Tracked**:
+- Bug solutions by error type and framework
+- Bug family patterns (recurring bugs with common root cause)
+- Effective fix strategies by bug category
+- Time to fix by bug severity and complexity
+- Prevention patterns to avoid similar bugs
+- Bug recurrence rates after fixes
 
 ## Agent Delegation
 

@@ -12,6 +12,63 @@ Create detailed implementation plan with TDD breakdown and task organization.
 
 ## Process
 
+**Step 0: Query AML for Planning Patterns** (NEW - Agent Memory & Learning):
+
+Before creating the plan, query AML for successful planning patterns and estimation data:
+
+```typescript
+// Query for planning patterns for similar features
+const planningPatterns = await aml.queryPatterns('coordinator', {
+  type: 'feature-planning',
+  context: {
+    featureType: inferredFeatureType,
+    framework: project.framework,
+    complexity: estimatedComplexity
+  },
+  minConfidence: 0.7,
+  limit: 5,
+  sortBy: 'success_rate'
+});
+
+// Query for estimation accuracy from past epics
+const estimationPatterns = await aml.queryPatterns('coordinator', {
+  type: 'story-estimation',
+  context: {
+    featureType: inferredFeatureType,
+    teamSize: team.size,
+    framework: project.framework
+  },
+  limit: 10,
+  sortBy: 'confidence'
+});
+
+// Query for task decomposition strategies
+const decompositionPatterns = await aml.queryDecisions('coordinator', {
+  type: 'task-breakdown',
+  context: {
+    featureComplexity: estimatedComplexity,
+    featureType: inferredFeatureType
+  },
+  limit: 3
+});
+
+// Query for risks encountered in similar features
+const knownRisks = await aml.querySolutions('coordinator', {
+  context: {
+    featureType: inferredFeatureType,
+    framework: project.framework
+  },
+  limit: 5
+});
+```
+
+**Apply Learned Intelligence**:
+- Use proven task breakdown structures for this feature type (e.g., 92% success rate)
+- Apply accurate time estimates based on historical data (avg: actual vs planned = 1.2x)
+- Identify known risks from similar features completed previously
+- Optimize phase ordering based on successful past plans
+- Predict story count and epic duration
+
 1. **Read Agent Directory** (CRITICAL):
    - Read `.claude/AGENTS.md` to understand all available agents
    - Identify which agents are needed for this plan
@@ -76,6 +133,120 @@ Create detailed implementation plan with TDD breakdown and task organization.
    ## Next Steps
    [Immediate actions to take]
    ```
+
+**Final Step: Record Planning to AML** (NEW - Agent Memory & Learning):
+
+After creating the plan, record the planning decisions and estimations for future learning:
+
+```typescript
+// Calculate planning metrics
+const planningMetrics = {
+  timestamp: Date.now(),
+  featureName: featureName,
+  phaseCount: phases.length,
+  totalTaskCount: tasks.length,
+  estimatedComplexity: complexity,
+  estimatedDuration: estimatedHours,
+  risksIdentified: risks.length
+};
+
+// Record feature planning pattern
+await aml.recordPattern('coordinator', {
+  type: 'feature-planning',
+  context: {
+    featureType: inferredFeatureType,
+    framework: project.framework,
+    complexity: complexity,
+    phaseCount: phases.length
+  },
+  approach: {
+    technique: 'tdd-phase-breakdown',
+    codeTemplate: planTemplate,
+    rationale: 'Proven TDD workflow with parallel execution opportunities'
+  },
+  conditions: {
+    whenApplicable: ['greenfield-features', 'refactoring', 'enhancements'],
+    whenNotApplicable: ['hotfixes', 'trivial-changes']
+  },
+  tags: ['planning', 'tdd', inferredFeatureType, complexity]
+});
+
+// Record task breakdown decision
+await aml.recordDecision('coordinator', {
+  type: 'task-breakdown',
+  question: `How to decompose ${featureName} feature?`,
+  context: {
+    featureComplexity: complexity,
+    featureType: inferredFeatureType,
+    framework: project.framework
+  },
+  chosenOption: `${phases.length} phases, ${tasks.length} tasks`,
+  alternativesConsidered: alternativeBreakdowns,
+  decisionFactors: {
+    primary: ['testability', 'parallelization', 'dependencies'],
+    secondary: ['team-capacity', 'risk-mitigation']
+  },
+  outcome: {
+    successMetrics: {
+      planClarity: 1.0, // Will be updated based on execution
+      estimationAccuracy: 0.0 // Will be updated when feature completes
+    },
+    wouldRepeat: true // Will be updated based on outcome
+  }
+});
+
+// Record initial estimation (to be updated with actual data)
+await aml.recordPattern('coordinator', {
+  type: 'story-estimation',
+  context: {
+    featureType: inferredFeatureType,
+    taskCount: tasks.length,
+    complexity: complexity,
+    framework: project.framework
+  },
+  approach: {
+    technique: 'historical-data-estimation',
+    metrics: {
+      estimatedHours: estimatedHours,
+      estimatedStories: Math.ceil(tasks.length / 3),
+      confidenceLevel: 0.7
+    }
+  },
+  tags: ['estimation', 'planning', complexity]
+});
+
+// Record identified risks for future reference
+for (const risk of identifiedRisks) {
+  await aml.recordSolution('coordinator', {
+    problem: {
+      errorType: 'planning-risk',
+      errorMessage: risk.description,
+      context: {
+        featureType: inferredFeatureType,
+        riskCategory: risk.category
+      }
+    },
+    solution: {
+      rootCause: risk.source,
+      fixApproach: 'proactive-mitigation',
+      codeFix: risk.mitigation,
+      prevention: risk.preventionStrategy
+    },
+    effectiveness: {
+      worked: false, // Will be updated during execution
+      severity: risk.severity
+    }
+  });
+}
+```
+
+**Learning Outcomes Tracked**:
+- Effective task breakdown patterns by feature type
+- Estimation accuracy (planned vs actual) by complexity
+- Risk prediction accuracy for different feature types
+- Optimal phase ordering and parallelization strategies
+- Agent assignment success rates by task type
+- Planning time vs feature completion time correlation
 
 ## Agent Delegation
 

@@ -18,10 +18,57 @@ Resume development following configured autonomy level. Behavior adapts based on
 - Read breakpoint configuration
 - Determine execution mode based on autonomy level
 
+**Step 0.5: Query AML for Context** (NEW - Agent Memory & Learning):
+
+Before starting development, query AML to load learned patterns and avoid known pitfalls:
+
+```typescript
+// Query for similar story patterns
+const storyPatterns = await aml.queryPatterns('coordinator', {
+  type: 'story-completion',
+  context: {
+    storyType: currentStory.type,
+    framework: project.framework,
+    complexity: currentStory.complexity
+  },
+  minConfidence: 0.7,
+  limit: 5,
+  sortBy: 'weight'
+});
+
+// Query for known issues in this feature area
+const knownIssues = await aml.querySolutions('coordinator', {
+  context: {
+    feature: currentFeature.name,
+    framework: project.framework
+  },
+  limit: 10
+});
+
+// Query for optimal delegation patterns
+const delegationPatterns = await aml.queryDecisions('coordinator', {
+  type: 'agent-delegation',
+  context: {
+    storyComplexity: currentStory.complexity,
+    taskTypes: currentStory.taskTypes
+  },
+  limit: 3
+});
+```
+
+**Apply Learned Intelligence**:
+- Use proven TDD workflows for this story type (e.g., 95% success rate for "auth-feature" stories)
+- Avoid known pitfalls from past similar stories
+- Optimize delegation based on historical agent performance
+- Predict time estimates based on similar completed stories
+- Choose optimal YOLO mode breakpoints based on story complexity
+
 **Step 1: Read Current Context**:
 
 - Read `<current-story>` value (e.g., "1.2")
 - Read story file at `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
+- Load AML-recommended approaches for current story type
+- Check AML for estimation accuracy (compare planned vs actual for similar stories)
 
 **Step 2: Determine Execution Mode**:
 
@@ -35,22 +82,28 @@ Resume development following configured autonomy level. Behavior adapts based on
 
 _For MANUAL Mode (Fully Interactive)_:
 
-1. Check for Review Tasks FIRST (priority: Fix > Improvement > Nit)
-2. If review tasks exist, work on those before regular tasks
-3. Work on Regular Tasks from "## Tasks and Subtasks"
-4. Check off subtasks as completed (`[ ]` → `[x]`)
-5. Update story status to "Waiting For Review" when all tasks done
-6. Follow TDD: 🔴 RED → 🟢 GREEN → 🔵 REFACTOR → ✅ REVIEW → 📊 TEST → 📝 COMMIT
-7. Stop at all breakpoints (A, B, C, D)
+1. **Query AML for task-specific patterns**: Before each task, check AML for similar task solutions
+2. Check for Review Tasks FIRST (priority: Fix > Improvement > Nit)
+3. If review tasks exist, work on those before regular tasks
+4. Work on Regular Tasks from "## Tasks and Subtasks"
+5. **Apply learned TDD patterns**: Use AML's recommended test-first approaches for this component type
+6. Check off subtasks as completed (`[ ]` → `[x]`)
+7. **Record task outcomes**: After each task, record what worked/didn't work
+8. Update story status to "Waiting For Review" when all tasks done
+9. Follow TDD: 🔴 RED → 🟢 GREEN → 🔵 REFACTOR → ✅ REVIEW → 📊 TEST → 📝 COMMIT
+10. Stop at all breakpoints (A, B, C, D)
 
 _For BALANCED Mode (Semi-Autonomous)_:
 
-1. Check for Review Tasks FIRST (priority: Fix > Improvement > Nit)
-2. Work through tasks interactively with user guidance
-3. Check off subtasks as completed (`[ ]` → `[x]`)
-4. Update story status to "Waiting For Review" when all tasks done
-5. Follow TDD: 🔴 RED → 🟢 GREEN → 🔵 REFACTOR → ✅ REVIEW → 📊 TEST → 📝 COMMIT
-6. Stop at breakpoints B (before commit) and C (between stories)
+1. **Load AML workflow optimizations**: Query best practices for semi-autonomous story completion
+2. Check for Review Tasks FIRST (priority: Fix > Improvement > Nit)
+3. Work through tasks interactively with user guidance
+4. **Apply learned delegation patterns**: Delegate subtasks to agents based on historical success rates
+5. Check off subtasks as completed (`[ ]` → `[x]`)
+6. **Track phase timings**: Record how long each phase takes for future estimation
+7. Update story status to "Waiting For Review" when all tasks done
+8. Follow TDD: 🔴 RED → 🟢 GREEN → 🔵 REFACTOR → ✅ REVIEW → 📊 TEST → 📝 COMMIT
+9. Stop at breakpoints B (before commit) and C (between stories)
 
 _For STORY/EPIC/CUSTOM Modes (Autonomous)_:
 
@@ -69,6 +122,111 @@ _For STORY/EPIC/CUSTOM Modes (Autonomous)_:
 - Coordinator **maximizes parallelization** (60-80% time savings)
 - Coordinator **updates story file** after each phase
 - Coordinator **stops at configured breakpoints**
+
+**Step 4: Record Learning Outcomes** (NEW - Agent Memory & Learning):
+
+After completing work (story/task/phase), record outcomes to improve future executions:
+
+```typescript
+// Calculate execution metrics
+const executionMetrics = {
+  startTime: taskStartTime,
+  endTime: Date.now(),
+  timeTakenMs: Date.now() - taskStartTime,
+  tasksCompleted: completedTaskCount,
+  testsAdded: testCount,
+  testCoverage: coveragePercent,
+  reviewFindings: reviewFindingCount,
+  linesChanged: diffStats.total
+};
+
+// Record pattern usage outcome
+if (appliedPatterns.length > 0) {
+  for (const pattern of appliedPatterns) {
+    await aml.recordPatternUsage('coordinator', {
+      patternId: pattern.id,
+      success: allTestsPassed && reviewPassed,
+      timeSavedMs: pattern.estimatedTimeSaving,
+      errorsPrevented: pattern.issuesAvoided,
+      context: {
+        storyType: currentStory.type,
+        complexity: currentStory.complexity
+      }
+    });
+  }
+}
+
+// Record new pattern if discovered
+if (discoveredNovelApproach) {
+  await aml.recordPattern('coordinator', {
+    type: 'workflow-optimization',
+    context: {
+      storyType: currentStory.type,
+      framework: project.framework,
+      yoloMode: autonomyLevel
+    },
+    approach: {
+      technique: novelApproach.name,
+      codeTemplate: novelApproach.template,
+      rationale: novelApproach.reason
+    },
+    conditions: {
+      whenApplicable: novelApproach.applicability,
+      whenNotApplicable: novelApproach.limitations
+    },
+    tags: ['workflow', 'tdd', currentStory.type]
+  });
+}
+
+// Record delegation decisions (CRITICAL for learning)
+if (delegatedToAgents.length > 0) {
+  await aml.recordDecision('coordinator', {
+    type: 'agent-delegation',
+    question: `Which agents for ${currentStory.type} story?`,
+    context: {
+      storyComplexity: currentStory.complexity,
+      taskTypes: currentStory.taskTypes,
+      framework: project.framework
+    },
+    chosenOption: delegatedToAgents.map(a => a.name).join(', '),
+    alternativesConsidered: consideredAgents.map(a => a.name),
+    decisionFactors: {
+      primary: ['agent-expertise', 'historical-success-rate'],
+      secondary: ['availability', 'specialization-match']
+    },
+    outcome: {
+      successMetrics: {
+        taskCompletionRate: completedCount / totalCount,
+        averageQuality: avgQualityScore,
+        timeEfficiency: actualTime / estimatedTime
+      },
+      wouldRepeat: allTasksSucceeded
+    }
+  });
+}
+
+// Record story completion metrics for future estimation
+await aml.recordPattern('coordinator', {
+  type: 'story-estimation',
+  context: {
+    storyType: currentStory.type,
+    estimatedComplexity: currentStory.estimatedComplexity,
+    taskCount: currentStory.tasks.length
+  },
+  approach: {
+    technique: 'actual-timing-data',
+    metrics: executionMetrics
+  },
+  tags: ['estimation', 'metrics']
+});
+```
+
+**Learning Outcomes Tracked**:
+- Which TDD patterns worked best for component types
+- Optimal agent delegation by story type
+- Accurate time estimates based on historical data
+- Common pitfalls and their solutions
+- Workflow optimizations discovered during execution
 
 **TDD Variations**:
 
@@ -182,6 +340,41 @@ Task(
 Use these skills heavily throughout execution to ensure best practices.
 
 **Skill Troubleshooting Authority**: If any referenced skill does not work or any script within the skill does not work, Claude Code has the authority to fix them.
+
+## AML Configuration
+
+Agent Memory & Learning can be configured per command:
+
+```json
+{
+  "aml": {
+    "enabled": true,
+    "queryBeforeExecution": true,
+    "recordAfterExecution": true,
+    "learningFocus": [
+      "delegation-patterns",
+      "tdd-workflows",
+      "story-estimation",
+      "workflow-optimization"
+    ],
+    "minConfidence": 0.7,
+    "maxPatternsToQuery": 5
+  }
+}
+```
+
+**Disable AML for this command**:
+Set `aml.enabled: false` in `.loom/memory/config.json` under `commandOverrides.dev`
+
+**What /dev Learns Over Time**:
+1. **Delegation Intelligence**: Which agents excel at which story types
+2. **Workflow Optimization**: Fastest paths through TDD cycles
+3. **Estimation Accuracy**: Actual vs estimated time by story complexity
+4. **YOLO Mode Tuning**: Optimal breakpoint configurations
+5. **Error Prevention**: Common pitfalls and how to avoid them
+6. **Task Decomposition**: Best ways to break down stories
+7. **Phase Timing**: Realistic time allocations per TDD phase
+8. **Review Readiness**: Patterns that pass review first time
 
 ## Arguments
 
