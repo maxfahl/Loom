@@ -54,3 +54,4 @@ __pycache__/
 
 # Ignore only implementation-plan directory (keep docs/development/)
 docs/implementation-plan/**/*
+\n# Backup directory for old prompts\nbackup/

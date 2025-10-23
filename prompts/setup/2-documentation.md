@@ -1,22 +1,20 @@
 # Phase 2: Documentation Creation
 
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
+**Part of**: `setup.md`
 
 ## Overview
 
-Create 12+ documentation files (or ~4-6 if using template project).
+Create all project-specific documentation files based on the discovery phase.
 
 ## Documentation Templates
 
-All documentation templates are in: [doc-templates.md](../templates/doc-templates.md)
+All documentation templates are in: `../templates/doc-templates.md`
 
 ## Creation Order
 
 **IF BROWNFIELD** (existing project):
 1. **PROJECT_OVERVIEW.md** (First)
-   - Launch Explore agent for comprehensive analysis
-   - Foundation for all other docs
-   - See Phase 1 for brownfield analysis workflow
+   - This file should be created based on the analysis from the discovery phase (`1-discovery.md`).
 
 **ALL PROJECTS** (brownfield or greenfield):
 2. **INDEX.md** - Documentation navigation
@@ -263,7 +261,7 @@ Legacy documentation has been archived in `archive/legacy-docs-20251022/`.
 ---
 
 ## Related Files
-- [doc-templates.md](../templates/doc-templates.md) - All documentation templates
-- [phase-1-discovery.md](phase-1-discovery.md) - Brownfield analysis (includes legacy mapping)
-- [template-system.md](../reference/template-system.md) - Template copying
-- [parallelization-patterns.md](../reference/parallelization-patterns.md) - Pattern 4: Brownfield Cleanup
+- `../templates/doc-templates.md` - All documentation templates
+- `1-discovery.md` - Brownfield analysis (includes legacy mapping)
+- `../reference/template-system.md` - Template copying
+- `../reference/parallelization-patterns.md` - Pattern 4: Brownfield Cleanup

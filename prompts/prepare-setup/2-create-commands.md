@@ -1,10 +1,10 @@
-# Phase 4: Command Creation
+# 2: Create Commands
 
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
+**Part of**: `prepare-setup.md`
 
 ## Purpose
 
-Create 11+ custom slash commands including /dev, /commit, /review, /status, /test, /plan, /docs, /yolo, /create-feature, /correct-course, /create-agent, /create-skill. Includes command templates and creation workflow.
+Create all 12+ custom slash commands for the Loom framework.
 
 ## ⚠️ CRITICAL: Exact Command Names Required
 
@@ -82,9 +82,8 @@ Create 4 commands in parallel (Batch 1) → wait → Create 4 commands in parall
 
 ## Related Files
 
-- [../templates/command-template.md](../templates/command-template.md) - Generic command structure
-- [../reference/core-agents.md](../reference/core-agents.md) - Agents used by commands
-- [phase-5-claude-md.md](phase-5-claude-md.md) - Commands documented in CLAUDE.md
+- `../templates/command-template.md` - Generic command structure
+- `../reference/core-agents.md` - Agents used by commands
 
 ## Usage
 

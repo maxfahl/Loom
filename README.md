@@ -52,27 +52,29 @@ The epic/story structure provides granularity without rigidity. YOLO mode provid
 
 ## 🚀 Quick Start
 
-### New Project Setup
+### 1. New Project Setup (Greenfield or Brownfield)
 
-Give this bootstrap prompt to your AI coding agent:
-
-```
-Read and fully understand the prompt in the below markdown file and follow the trail of prompts to the dot. Be extremely careful and take your time.
-
-/path/to/loom/project-setup-meta-prompt.md
-```
-
-The agent will guide you through setup, asking questions about your project and creating a complete development environment with specialized agents, slash commands, and comprehensive documentation.
-
-### Update a Project Already Using an Old Loom Setup
-
-To update an existing project to follow latest Loom guidelines:
+To set up Loom in a new or existing project, give your AI coding agent this prompt:
 
 ```
-Read and fully understand the prompt in the below markdown file and follow the trail of prompts to the dot. I want you to run the "update flow" without asking any unnecessary questions.
+Read and fully understand the prompt in the `setup.md` file and execute the workflow. You will need to provide the absolute path to your project directory.
 
-/path/to/loom/project-update-meta-prompt.md
+/path/to/loom/setup.md
 ```
+
+The agent will ask you some questions about your project, create the necessary documentation, and then copy the latest agents and commands directly into your project.
+
+### 2. Update an Existing Loom Setup
+
+To update a project already using an older version of Loom, use the `update-setup.md` prompt:
+
+```
+Read and fully understand the prompt in the `update-setup.md` file and execute the workflow. You will need to provide the absolute path to your project directory.
+
+/path/to/loom/update-setup.md
+```
+
+This will intelligently synchronize all agents and commands to the latest version and migrate your project's story structure.
 
 ## 🎯 What You Get
 
@@ -472,7 +474,8 @@ project/
 
 ## 📖 Documentation
 
-- **[Main Orchestrator](project-setup-meta-prompt.md)** - Start here
+- **[Project Setup](setup.md)** - Start here for new projects
+- **[Update Setup](update-setup.md)** - For updating existing projects
 - **[Phase Guides](prompts/phases/)** - Detailed setup steps
 - **[Agent Reference](prompts/reference/core-agents.md)** - All agent definitions
 - **[YOLO Mode](prompts/reference/yolo-mode.md)** - Autonomous development

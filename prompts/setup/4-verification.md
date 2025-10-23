@@ -1,15 +1,15 @@
-# Phase 7: Verification & Commit
+# Phase 4: Verification & Commit
 
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
+**Part of**: `setup.md`
 
 ## Purpose
 
-Final verification of all deliverables (docs, agents, commands, CLAUDE.md, features/) and creation of initial git commit with conventional commit message. Includes quality checklist for all components.
+Perform a final verification of all deliverables created during the setup process and create the initial git commit.
 
 ## Related Files
 
-- All previous phase files - Verify their outputs
-- [../reference/core-agents.md](../reference/core-agents.md) - Verify all agents created
+- All previous `prompts/setup` files - this step verifies their outputs.
+- `../reference/core-agents.md` - Used to verify agents were copied correctly.
 
 ## Usage
 

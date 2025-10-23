@@ -1,10 +1,10 @@
-# Phase 6: Root Files & Features Setup
+# Phase 3: Root Files & Features Setup
 
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
+**Part of**: `setup.md`
 
 ## Overview
 
-Create root-level files (.gitignore, README.md) and set up features/ directory structure.
+Create root-level files (.gitignore, README.md) and set up the `features/` and `docs/development/features/` directory structures.
 
 ## Root Files
 
@@ -215,15 +215,10 @@ Each epic folder contains:
 ```
 
 ## Related Files
-- [status-xml.md](../reference/status-xml.md) - Complete status.xml structure
-- [phase-1-discovery.md](phase-1-discovery.md) - Brownfield analysis
-- [story-template.md](../templates/story-template.md) - Story file structure
+- `../reference/status-xml.md` - Complete status.xml structure
+- `1-discovery.md` - Brownfield analysis is used as input here
+- `../templates/story-template.md` - Story file structure
 
 ## Next Steps
 
-After Phase 6:
-- features/ directory structure created
-- status.xml files initialized
-- Epic folders populated
-- Active feature identified
-- Ready for Phase 7 (Verification)
+After this phase, the core project structure is in place, ready for the final verification and commit in the next step (`4-verification.md`).

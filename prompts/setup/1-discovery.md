@@ -1,23 +1,19 @@
 # Phase 1: Discovery & Analysis
 
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
+**Part of**: `setup.md`
 
 ## Purpose
 
-Ask discovery questions (project type, template project, description, tech stack, TDD enforcement), analyze brownfield codebases, process template projects, and get user approval before proceeding with setup. This framework is designed for AI-only development where all coding is performed by AI agents.
+Ask discovery questions (project type, description, tech stack, TDD enforcement), analyze brownfield codebases, and get user approval before proceeding with setup.
 
 ## Related Files
 
-- [../reference/template-system.md](../reference/template-system.md) - Template processing
-- [phase-2-documentation.md](phase-2-documentation.md) - Next phase (documentation)
+- `../reference/template-system.md` - Template processing logic
+- `2-documentation.md` - Next step in the setup workflow
 
 ## Usage
 
-Read this file:
-- After Phase 0 determines NEW SETUP mode
-- Before creating any documentation or agents
-- To understand question flow and approval process
-- For brownfield analysis workflow
+Read this file first during a new project setup to understand the project requirements and context before creating any files.
 
 ---
 

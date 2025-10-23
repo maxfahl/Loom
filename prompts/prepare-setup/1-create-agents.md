@@ -1,10 +1,10 @@
-# Phase 3: Agent Creation
+# 1: Create Agents
 
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
+**Part of**: `prepare-setup.md`
 
 ## Overview
 
-Create 13 core agents + 2-4 technology-specific agents (or skip if using template).
+Create all 13+ core agents and any technology-specific agents required for the framework.
 
 ## ⚠️ CRITICAL: Exact Agent Names Required
 
@@ -130,8 +130,7 @@ Create 4 agents in parallel (Batch 1) → wait → Create 4 agents in parallel (
 ```
 
 ## Related Files
-- [core-agents.md](../reference/core-agents.md) - All agent definitions
-- [mcp-integration.md](../reference/mcp-integration.md) - MCP assignments
-- [coordinator-workflow.md](../reference/coordinator-workflow.md) - Coordinator details
-- [agent-template.md](../templates/agent-template.md) - Generic template
-- [template-system.md](../reference/template-system.md) - Template copying
+- `../reference/core-agents.md` - All agent definitions
+- `../reference/mcp-integration.md` - MCP assignments
+- `../reference/coordinator-workflow.md` - Coordinator details
+- `../templates/agent-template.md` - Generic template
