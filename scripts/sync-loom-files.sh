@@ -22,6 +22,7 @@ DRY_RUN="${2:-false}"
 # Note: We sync from prompts/reference/* (templates) to target's .claude/* directories
 SYNC_ITEMS=(
     ".claude/agents:.claude/agents"
+    ".claude/AGENTS.md:.claude/AGENTS.md"
     ".claude/commands:.claude/commands"
     ".claude/skills:.claude/skills"
     "prompts/templates:prompts/templates"

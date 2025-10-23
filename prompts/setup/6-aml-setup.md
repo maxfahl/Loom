@@ -30,10 +30,10 @@ Benefits:
 • Cross-project learning
 
 Trade-offs:
-• Requires TypeScript/Node.js setup
 • Uses ~100MB storage per agent
 • Adds 5% overhead to agent execution
-• Requires npm dependencies installation
+• Requires manual file backup strategy
+• Memory files can grow over time
 
 Would you like to enable AML for this project?
 
@@ -43,45 +43,14 @@ Would you like to enable AML for this project?
 
 ## Step 2: If User Chooses "Yes" - Install AML
 
-### 2.1: Copy AML Infrastructure
-
-```bash
-# LOOM_ROOT is the directory containing loomify.md
-LOOM_ROOT="[directory-of-loomify.md-file]"
-TARGET_DIR="."
-
-# Copy TypeScript source files
-cp -r "$LOOM_ROOT/src/aml" "$TARGET_DIR/src/"
-
-# Copy Python utility scripts
-cp -r "$LOOM_ROOT/scripts/aml" "$TARGET_DIR/scripts/"
-
-# Copy configuration files if they don't exist
-[ ! -f "$TARGET_DIR/package.json" ] && cp "$LOOM_ROOT/package.json" "$TARGET_DIR/"
-[ ! -f "$TARGET_DIR/tsconfig.json" ] && cp "$LOOM_ROOT/tsconfig.json" "$TARGET_DIR/"
-[ ! -f "$TARGET_DIR/jest.config.js" ] && cp "$LOOM_ROOT/jest.config.js" "$TARGET_DIR/"
-[ ! -f "$TARGET_DIR/.eslintrc.json" ] && cp "$LOOM_ROOT/.eslintrc.json" "$TARGET_DIR/"
-[ ! -f "$TARGET_DIR/.prettierrc.json" ] && cp "$LOOM_ROOT/.prettierrc.json" "$TARGET_DIR/"
-
-echo "✅ AML infrastructure files copied"
-```
-
-### 2.2: Install Dependencies
-
-```bash
-# Install Node.js dependencies
-npm install
-
-echo "✅ AML dependencies installed"
-```
-
-### 2.3: Initialize AML Directory Structure
+### 2.1: Initialize AML Directory Structure
 
 ```bash
 # Create .loom/memory directory structure
 mkdir -p .loom/memory
 mkdir -p .loom/memory/global
 mkdir -p .loom/memory/backups
+mkdir -p .loom/memory/audit
 
 # Initialize with proper permissions
 chmod 700 .loom/memory
@@ -89,7 +58,47 @@ chmod 700 .loom/memory
 echo "✅ AML directory structure created"
 ```
 
-### 2.4: Update status.xml with AML Flag
+### 2.2: Create AML Configuration
+
+```bash
+# Create default config.json
+cat > .loom/memory/config.json << 'EOF'
+{
+  "enabled": true,
+  "version": "2.0.0",
+  "storage": {
+    "backend": "filesystem",
+    "path": ".loom/memory",
+    "maxSizeMB": 1000
+  },
+  "learning": {
+    "learningRate": 0.15,
+    "minConfidence": 0.7,
+    "promotionThreshold": 3
+  },
+  "pruning": {
+    "enabled": true,
+    "maxAgeDays": 90,
+    "minUsageCount": 2,
+    "lowConfidenceThreshold": 0.3
+  },
+  "cache": {
+    "enabled": true,
+    "maxSizeMB": 50,
+    "ttlMinutes": 60
+  },
+  "performance": {
+    "queryLatencyMs": 50,
+    "writeLatencyMs": 100,
+    "cacheHitRateTarget": 0.8
+  }
+}
+EOF
+
+echo "✅ AML configuration created"
+```
+
+### 2.3: Update status.xml with AML Flag
 
 Add the `<aml>` section to `docs/development/status.xml` after the `<metadata>` section:
 
@@ -102,7 +111,7 @@ Add the `<aml>` section to `docs/development/status.xml` after the `<metadata>` 
   </aml>
 ```
 
-### 2.5: Create .gitignore Entry
+### 2.4: Create .gitignore Entry
 
 Add to `.gitignore` (or create if it doesn't exist):
 
@@ -118,23 +127,30 @@ Create `.loom/memory/.gitkeep`:
 touch .loom/memory/.gitkeep
 ```
 
-### 2.6: Inform User of Success
+### 2.5: Inform User of Success
 
 ```
-✅ AML System Installed Successfully!
+✅ AML System Enabled Successfully!
 
-Installed:
-• TypeScript core infrastructure (src/aml/)
-• Python utilities (scripts/aml/)
-• Configuration files (package.json, tsconfig.json, jest.config.js)
+What was created:
 • Memory directory (.loom/memory/)
+• Configuration file (config.json)
+• Directory structure (global/, backups/, audit/)
 • Updated status.xml with aml enabled="true"
+• Added .gitignore entry
+
+How AML Works:
+• Agents conceptually "query" and "record" patterns via prompts
+• Data is stored as JSON files in .loom/memory/
+• No installation, dependencies, or services required
+• Fully file-based and prompt-driven
 
 Next Steps:
 • Agents will automatically use AML when executing tasks
-• Use /aml-status to view learning metrics
-• Use /aml-train to manually teach patterns
-• See tmp/HOW_AML_WORKS.md for details
+• Use /aml-status to view learning metrics and memory usage
+• Use /aml-train to manually record patterns
+• Use /aml-export to backup agent memories
+• Use /aml-reset to clear memories if needed
 
 The AML system will start learning immediately as you work!
 ```
@@ -177,47 +193,69 @@ Add a note to `docs/development/INDEX.md` about AML (if enabled):
 
 AML gives agents persistent memory and learning capabilities.
 
-**Commands**:
-- `/aml-status` - View learning metrics
-- `/aml-train` - Manually teach patterns
-- `/aml-export` - Backup agent memory
-- `/aml-import` - Import memory bundles
-- `/aml-reset` - Reset agent memory
+**How It Works**:
 
-**Documentation**:
-- How it works: See [Loom repo]/tmp/HOW_AML_WORKS.md
-- Quick start: src/aml/learning/QUICK_START.md
+- Agents conceptually "query" and "record" patterns via prompts
+- Data stored as JSON in `.loom/memory/[agent-name]/`
+- No installation or services required - fully file-based
+- Claude simulates queries by reading/writing JSON files
+
+**Commands**:
+
+- `/aml-status` - View learning metrics and memory usage
+- `/aml-train` - Manually record patterns
+- `/aml-export` - Backup agent memories
+- `/aml-import` - Import shared patterns
+- `/aml-reset` - Clear agent memories
+
+**Storage Location**: `.loom/memory/`
 ```
 
 ---
 
 ## Common Issues
 
-### Issue: npm not installed
+### Issue: Permission Denied on .loom/memory
 
-**Solution**: Inform user that AML requires Node.js/npm:
-
-```
-⚠️  AML requires Node.js and npm to be installed.
-
-Please install Node.js from https://nodejs.org/
-Then re-run loomify.md to enable AML.
-
-For now, proceeding without AML...
-```
-
-Then execute Step 3 (Skip AML).
-
-### Issue: Existing package.json conflict
-
-**Solution**: Merge dependencies instead of overwriting:
+**Solution**: Fix directory permissions:
 
 ```bash
-# Parse existing package.json and merge AML dependencies
-# Inform user about manual merge requirement
-echo "⚠️  Detected existing package.json"
-echo "Please manually add these dependencies:"
-cat "$LOOM_ROOT/package.json"
+chmod -R 700 .loom/memory
+echo "✅ Fixed .loom/memory permissions"
+```
+
+### Issue: config.json is Missing
+
+**Solution**: Recreate default configuration:
+
+```bash
+cat > .loom/memory/config.json << 'EOF'
+{
+  "enabled": true,
+  "version": "2.0.0",
+  "storage": {
+    "backend": "filesystem",
+    "path": ".loom/memory"
+  }
+}
+EOF
+echo "✅ Created default config.json"
+```
+
+### Issue: .loom/memory directory doesn't exist
+
+**Solution**: User likely skipped AML setup or deleted the directory:
+
+```
+⚠️  AML memory directory not found.
+
+To enable AML:
+1. Re-run loomify.md in update mode
+2. Choose "Enable AML" when prompted
+
+Or manually create the directory:
+  mkdir -p .loom/memory/{global,backups,audit}
+  # Then create config.json as shown above
 ```
 
 ---
@@ -226,12 +264,12 @@ cat "$LOOM_ROOT/package.json"
 
 After installation, verify:
 
-1. ✅ `src/aml/` directory exists with TypeScript files
-2. ✅ `scripts/aml/` directory exists with Python files
-3. ✅ `.loom/memory/` directory exists
-4. ✅ `docs/development/status.xml` has `<aml enabled="true">`
-5. ✅ `node_modules/` exists (dependencies installed)
-6. ✅ `.gitignore` excludes `.loom/memory/`
+1. ✅ `.loom/memory/` directory exists with subdirectories (global/, backups/, audit/)
+2. ✅ `.loom/memory/config.json` exists with valid JSON
+3. ✅ `docs/development/status.xml` has `<aml enabled="true">`
+4. ✅ `.gitignore` excludes `.loom/memory/`
+5. ✅ Directory permissions are correct (chmod 700)
+6. ✅ `.loom/memory/.gitkeep` exists
 
 ---
 

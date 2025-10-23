@@ -21,10 +21,11 @@ Perform a final verification of all deliverables created during the setup proces
    - Create a conventional commit message summarizing the setup.
 
    **Example Commit Message**:
+
    ```
    feat: initialize Loom agentic framework
 
    - Set up all standard Loom documentation and project structure.
-   - Added 16 core agents and 14 core commands.
+   - Added 46 specialized agents and 18 core commands (+ 5 optional AML commands).
    - Initialized status.xml for feature tracking.
    ```

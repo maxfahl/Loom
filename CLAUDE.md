@@ -38,7 +38,7 @@ When you change ANY file:
 
 - **Agent Templates**: `.claude/agents/*.md` (41 templates - EDIT DIRECTLY)
 - **Agent Directory**: `.claude/AGENTS.md` (complete agent list - EDIT DIRECTLY)
-- **Command Templates**: `.claude/commands/*.md` (17 templates - EDIT DIRECTLY)
+- **Command Templates**: `.claude/commands/*.md` (18 core templates + 5 optional AML commands = 23 total - EDIT DIRECTLY)
 - **Docs**: `prompts/templates/doc-templates.md` -> deployed to user projects
 
 **Key Change**: Templates now live directly in `.claude/` - no copying/generation needed for framework!
@@ -53,7 +53,7 @@ Entry Point:
 
 Templates (EDIT DIRECTLY):
 ├── .claude/agents/*.md (46 agent templates)
-├── .claude/commands/*.md (17 command templates)
+├── .claude/commands/*.md (18 core + 5 AML = 23 command templates)
 ├── .claude/AGENTS.md (agent directory)
 └── .claude/skills/*.md (Claude Skills packages)
 
