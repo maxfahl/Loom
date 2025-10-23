@@ -106,7 +106,7 @@ This will intelligently synchronize all agents and commands to the latest versio
 - **/design-review** - UI/UX design review with Playwright live testing, WCAG 2.1 AA validation, and responsive design checks (3 viewports)
 - **/test** - Run tests with coverage
 - **/plan** - Plan feature implementation
-- **/status** - Project status report
+- /loom-status - Project status report
 - **/docs** - Update documentation
 - **/yolo** - Configure autonomous mode breakpoints
 - **/create-feature** - Set up new feature with epics

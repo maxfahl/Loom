@@ -1,4 +1,4 @@
-# Phase 4: Verification & Commit
+# 4: Verification & Commit
 
 **Part of**: `setup.md`
 
@@ -6,109 +6,25 @@
 
 Perform a final verification of all deliverables created during the setup process and create the initial git commit.
 
-## Related Files
-
-- All previous `prompts/setup` files - this step verifies their outputs.
-- `../reference/core-agents.md` - Used to verify agents were copied correctly.
-
-## Usage
-
-Read this file:
-- In Phase 7 after features/ setup complete
-- Before creating final git commit
-- To run quality checks on all deliverables
-- To understand git commit best practices
-
----
-
-# Phase 7: Verification & Commit
-
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
-
-### Phase 7: Verification & Commit
+## Workflow
 
 1. **Verify Structure**:
-   - All docs created
-   - All agents created
-   - All commands created
-   - INDEX.md complete
-   - CLAUDE.md comprehensive
+   - Confirm that all documentation was generated in the `docs/development` directory.
+   - Confirm that the `.claude` directory was created and populated with agents and commands.
+   - Confirm that the `docs/development/features` structure and `status.xml` were created.
+   - Confirm that `CLAUDE.md` was created.
 
 2. **Initial Commit**:
-   - Create .gitignore
-   - Initialize git (if not exists)
-   - Stage all files
-   - Create conventional commit
-   - Example:
+   - Create a `.gitignore` file appropriate for the project's technology stack.
+   - Initialize a git repository if one doesn't exist.
+   - Stage all the newly created files.
+   - Create a conventional commit message summarizing the setup.
 
-     ```
-     docs: initial project documentation and setup
+   **Example Commit Message**:
+   ```
+   feat: initialize Loom agentic framework
 
-     Add comprehensive documentation for [Project] project:
-     - Complete planning documentation (X files, ~YKB)
-     - CLAUDE.md with AI assistant instructions
-     - README.md with quick start guide
-     - .gitignore for [tech stack]
-     - Custom slash commands (X commands)
-     - Specialized agents (X agents)
-
-     [Details]
-     ```
-
----
-
-
-## Quality Checklist
-
-## 📊 Quality Checklist
-
-Before considering setup complete, verify:
-
-### Documentation Quality Checks
-
-- [ ] All 12+ files created (see Phase 2)
-- [ ] INDEX.md is complete and accurate
-- [ ] Cross-references work between docs
-- [ ] TDD language matches enforcement level
-
-### Agent Quality Checks
-
-- [ ] All 13 core agents created (see Phase 3)
-- [ ] 2-4 custom agents for tech stack
-- [ ] INDEX.md reading requirement in all agents
-- [ ] Models are appropriate (Sonnet vs Haiku)
-
-### Command Quality Checks
-
-- [ ] All 11+ commands created (see Phase 4)
-- [ ] 2-4 custom commands for workflows
-- [ ] allowed-tools are correct
-- [ ] Models are appropriate
-
-### CLAUDE.md Quality Checks
-
-- [ ] All critical sections included
-- [ ] Parallel agent strategy explained
-- [ ] All commands documented
-- [ ] All agents documented
-- [ ] Model reference included
-- [ ] Tech stack documented
-- [ ] Methodology explained
-- [ ] Do NOT section included
-- [ ] Pre-task checklist included
-
-### Root Files Quality Checks
-
-- [ ] README.md is concise (<3KB)
-- [ ] README.md quick start works
-- [ ] .gitignore is appropriate
-- [ ] All necessary exclusions
-
-### Git Quality Checks
-
-- [ ] Repository initialized
-- [ ] All files staged correctly
-- [ ] Conventional commit created
-- [ ] Commit message is descriptive
-
----
+   - Set up all standard Loom documentation and project structure.
+   - Added 16 core agents and 14 core commands.
+   - Initialized status.xml for feature tracking.
+   ```

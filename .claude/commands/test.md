@@ -1,67 +1,165 @@
 ---
-description: Run test suite and analyze results
+description: Run tests with coverage and detailed reporting
+allowed-tools: Bash(npm:*)
+model: claude-haiku-4-5
+argument-hint: [test pattern]
 ---
 
-You are now in **TEST MODE** for Jump workspace manager. Time to validate everything works! 🧪
+You are now in **TEST MODE**. Time to validate everything works! 🧪
 
-## Test Suites Available
+## Purpose
 
-### 1. Unit Tests (Swift Package Manager)
+Execute tests and analyze results with detailed coverage reporting. This command:
 
-Fast isolated tests for business logic, models, services.
+1. Detects project type (Node.js, Swift, Python, etc.)
+2. Runs appropriate test command with coverage
+3. Displays test results
+4. Shows coverage report
+5. Highlights failed tests
+6. Shows coverage percentage (must be ≥80%)
 
+## Test Execution Strategy
+
+### Step 1: Detect Project Type
+
+Determine the project type by checking for:
+
+- **Node.js**: `package.json` exists
+- **Swift**: `Package.swift` exists or `.xcodeproj` exists
+- **Python**: `setup.py`, `pyproject.toml`, or `requirements.txt` exists
+- **Rust**: `Cargo.toml` exists
+- **Other**: Check for language-specific markers
+
+### Step 2: Run Tests with Coverage
+
+Based on project type, run the appropriate test command:
+
+**Node.js/TypeScript**:
 ```bash
-swift test
+npm test -- --coverage
+# or
+npm run test:coverage
+# or
+npx jest --coverage
 ```
 
-### 2. E2E Tests (XCUIApplication in TestTools/)
-
-Real UI automation tests with XCUIApplication.
-
+**Swift (Package Manager)**:
 ```bash
-cd TestTools && ./launch-ui-tests.sh
+swift test --enable-code-coverage
 ```
 
-### 3. Specific Test Class
-
-Run one test class:
-
+**Swift (Xcode)**:
 ```bash
-swift test --filter WorkspacePersistenceTests
+xcodebuild test -scheme <scheme> -enableCodeCoverage YES
 ```
 
-### 4. Specific Test Method
-
-Run one test method:
-
+**Python**:
 ```bash
-swift test --filter WorkspacePersistenceTests/testSaveWorkspace
+pytest --cov=. --cov-report=term --cov-report=html
 ```
 
-## What I'll Do
+**Rust**:
+```bash
+cargo test
+# For coverage:
+cargo tarpaulin --out Xml --out Html
+```
 
-When you run `/test`, I will:
+### Step 3: Parse Test Results
 
-1. **Run Both Test Suites**
-   - Unit tests via `swift test`
-   - E2E tests via `cd TestTools && ./launch-ui-tests.sh`
+Extract and display:
 
-2. **Analyze Results**
-   - Total tests: passed/failed counts
-   - Failed tests: detailed analysis
-   - Test coverage: percentage of code covered
-   - Performance: slow tests identified
+- Total tests run
+- Tests passed
+- Tests failed
+- Test execution time
+- Coverage percentage
+- Failed test details (file, line, reason)
 
-3. **Validate E2E Integrity**
-   - Verify E2E tests use XCUIApplication (no fakes!)
-   - Check for "Automation running..." dialog (proves real UI)
-   - Ensure tests don't mock UI components
+### Step 4: Analyze Coverage
 
-4. **Generate Report**
-   - Summary of test health
-   - Failures with file:line references
-   - Suggestions for fixing failures
-   - Coverage gaps if any
+**Coverage Requirements**:
+- **Minimum**: 80% (MANDATORY)
+- **Target**: 90%
+- **Critical paths**: 100%
+
+**Coverage Report**:
+- Overall percentage
+- Per-file breakdown (if coverage < 80%)
+- Uncovered lines/functions
+- Suggestions for improvement
+
+### Step 5: Generate Report
+
+Display comprehensive test report with:
+
+```
+══════════════════════════════════════════════════
+TEST RESULTS
+══════════════════════════════════════════════════
+
+✅ Tests Passed: X
+❌ Tests Failed: Y
+⏱️  Duration: Xs
+📊 Coverage: X%
+
+══════════════════════════════════════════════════
+FAILED TESTS (if any)
+══════════════════════════════════════════════════
+
+❌ Test Name
+  Location: file.test.ts:45
+  Reason: Expected X but got Y
+
+  Fix: [Suggested fix]
+
+══════════════════════════════════════════════════
+COVERAGE REPORT
+══════════════════════════════════════════════════
+
+Overall: X% (target: 80%+)
+
+Files Below Threshold:
+- file1.ts: 65% (needs +15%)
+- file2.ts: 72% (needs +8%)
+
+Uncovered Lines:
+- file1.ts: lines 45-52, 78-81
+- file2.ts: lines 23-29
+
+══════════════════════════════════════════════════
+DECISION
+══════════════════════════════════════════════════
+
+✅ PASS - All tests passing, coverage ≥80%
+❌ BLOCK - Fix failing tests or improve coverage
+
+══════════════════════════════════════════════════
+```
+
+## Test Pattern Argument (Optional)
+
+If a test pattern is provided, run only matching tests:
+
+**Node.js**:
+```bash
+npm test -- --testNamePattern="<pattern>"
+```
+
+**Swift**:
+```bash
+swift test --filter <pattern>
+```
+
+**Python**:
+```bash
+pytest -k "<pattern>"
+```
+
+**Rust**:
+```bash
+cargo test <pattern>
+```
 
 ## Test Quality Checks
 
@@ -69,161 +167,258 @@ When you run `/test`, I will:
 
 - Written BEFORE implementation (TDD)
 - Isolated (no shared state between tests)
-- Fast (unit tests < 100ms, E2E tests < 5s)
+- Fast (unit tests < 100ms, integration tests < 5s)
 - Clear Given-When-Then structure
-- E2E tests use XCUIApplication for real UI automation
+- Descriptive test names
+- Test one thing per test
 
 ### ❌ Bad Tests
 
 - Written AFTER implementation (not TDD)
 - Tests leak state (affect other tests)
-- Slow tests (> 1s for unit, > 10s for E2E)
+- Slow tests (> 1s for unit, > 10s for integration)
 - Unclear what's being tested
-- Fake "E2E" tests that don't use XCUIApplication
-
-## Example Session
-
-```bash
-User: /test
-Assistant: Running test suites...
-
-══════════════════════════════════════════════════
-UNIT TESTS (Swift Package Manager)
-══════════════════════════════════════════════════
-Running: swift test
-
-✅ WorkspacePersistenceTests: 12/12 passed
-✅ WorkspaceStoreTests: 8/8 passed
-✅ ContextDetectorTests: 15/15 passed
-✅ TargetManagerTests: 10/10 passed
-
-Total: 45 tests, 45 passed, 0 failed ✅
-Duration: 2.3s
-Coverage: 87%
-
-══════════════════════════════════════════════════
-E2E TESTS (XCUIApplication)
-══════════════════════════════════════════════════
-Running: cd TestTools && ./launch-ui-tests.sh
-
-Generating Xcode project with XcodeGen...
-Building JumpRunnerApp...
-Launching UI tests...
-
-✅ "Automation running..." dialog detected (real UI automation confirmed!)
-
-✅ PopoverE2ETests: 25/25 passed
-✅ WorkspaceNavigationE2ETests: 18/18 passed
-✅ ShortcutRecordingE2ETests: 12/12 passed
-✅ SettingsE2ETests: 8/8 passed
-
-Total: 63 tests, 63 passed, 0 failed ✅
-Duration: 45s
-Results: TestResults/UI.xcresult
-
-══════════════════════════════════════════════════
-OVERALL TEST REPORT
-══════════════════════════════════════════════════
-
-✅ Unit Tests: 45 passed
-✅ E2E Tests: 63 passed
-✅ Total: 108 tests passed
-✅ Coverage: 87% (target: 80%+)
-✅ E2E Integrity: CONFIRMED (real XCUIApplication automation)
-
-🎉 ALL TESTS PASSING! Ready to ship.
-
-💡 Suggestions:
-- No issues detected
-- Coverage above target
-- All E2E tests using real UI automation
-
-══════════════════════════════════════════════════
-```
-
-## Example with Failures
-
-````bash
-User: /test
-Assistant: Running test suites...
-
-══════════════════════════════════════════════════
-UNIT TESTS
-══════════════════════════════════════════════════
-
-❌ WorkspacePersistenceTests: 11/12 passed, 1 FAILED
-
-FAILED: testSaveWorkspaceWithInvalidPermissions
-  Location: Tests/Jump/WorkspacePersistenceTests.swift:45
-  Reason: XCTAssertEqual failed: ("0644") is not equal to ("0600")
-
-  Issue: File permissions not set correctly
-  Expected: 0600 (read/write owner only)
-  Actual: 0644 (read for group/others)
-
-  Fix: Update WorkspacePersistence.swift:78 to set correct permissions:
-  ```swift
-  try FileManager.default.setAttributes(
-      [.posixPermissions: 0o600],
-      ofItemAtPath: fileURL.path
-  )
-````
-
-Total: 45 tests, 44 passed, 1 failed ❌
-
-══════════════════════════════════════════════════
-DECISION: BLOCK MERGE ❌
-══════════════════════════════════════════════════
-
-Fix failing test before proceeding.
-
-Would you like me to fix this? (yes/no)
-
-````
-
-## Test Options
-
-### Run Specific Suite
-```bash
-/test unit       # Unit tests only
-/test e2e        # E2E tests only
-/test all        # Both (default)
-````
-
-### Run with Coverage
-
-```bash
-/test --coverage
-```
-
-### Run Specific Story Tests
-
-```bash
-/test story-2.1
-```
-
-### Watch Mode (Continuous Testing)
-
-```bash
-/test --watch
-```
-
-## Performance Targets
-
-- **Unit Tests**: < 100ms per test
-- **E2E Tests**: < 5s per test
-- **Total Unit Suite**: < 10s
-- **Total E2E Suite**: < 2 minutes
-- **Coverage**: > 80%
+- Vague test names
+- Testing multiple concerns in one test
 
 ## TDD Enforcement
 
 The `/test` command validates TDD compliance:
 
 - ✅ Tests exist for all new code
-- ✅ Tests were committed BEFORE implementation (git log check)
-- ✅ E2E tests use XCUIApplication (no fakes)
-- ❌ Blocks merge if tests missing or fake
+- ✅ Coverage meets 80% minimum
+- ✅ All tests pass before merge
+- ❌ Blocks merge if tests missing or failing
+- ❌ Blocks merge if coverage < 80%
+
+## Performance Targets
+
+- **Unit Tests**: < 100ms per test
+- **Integration Tests**: < 5s per test
+- **Total Suite**: < 2 minutes
+- **Coverage**: ≥ 80%
+
+## Example Usage
+
+### Run All Tests
+```bash
+/test
+```
+
+### Run Specific Test Pattern
+```bash
+/test authentication
+```
+
+### Run with Verbose Output
+```bash
+/test --verbose
+```
+
+## Implementation Steps
+
+When you run `/test`, I will:
+
+1. **Detect Project Type**
+   - Check for package.json, Package.swift, Cargo.toml, etc.
+   - Determine test framework (Jest, XCTest, pytest, etc.)
+
+2. **Run Test Command**
+   - Execute appropriate test command with coverage
+   - Capture output (stdout and stderr)
+   - Parse test results
+
+3. **Analyze Results**
+   - Count passed/failed tests
+   - Extract failure details (file, line, reason)
+   - Calculate coverage percentage
+   - Identify uncovered code
+
+4. **Generate Report**
+   - Display formatted test results
+   - Highlight failures with context
+   - Show coverage report
+   - Provide actionable suggestions
+
+5. **Make Decision**
+   - ✅ PASS: All tests pass, coverage ≥80%
+   - ❌ BLOCK: Tests fail or coverage <80%
+
+## Example Session (Node.js)
+
+```bash
+User: /test
+Assistant: Running tests with coverage...
+
+Detected: Node.js project (package.json found)
+Running: npm test -- --coverage
+
+══════════════════════════════════════════════════
+TEST RESULTS
+══════════════════════════════════════════════════
+
+✅ Tests Passed: 45
+❌ Tests Failed: 0
+⏱️  Duration: 3.2s
+📊 Coverage: 87%
+
+Test Suites: 8 passed, 8 total
+Tests:       45 passed, 45 total
+
+══════════════════════════════════════════════════
+COVERAGE REPORT
+══════════════════════════════════════════════════
+
+Overall: 87% (target: 80%+) ✅
+
+File Coverage:
+- auth.service.ts: 95%
+- user.controller.ts: 89%
+- data.repository.ts: 82%
+- validation.utils.ts: 78% ⚠️
+
+Files Below Threshold:
+- validation.utils.ts: 78% (needs +2%)
+
+Uncovered Lines:
+- validation.utils.ts: lines 45-48 (error handling)
+
+══════════════════════════════════════════════════
+DECISION
+══════════════════════════════════════════════════
+
+✅ PASS - All tests passing, coverage ≥80%
+
+💡 Suggestions:
+- Add tests for validation.utils.ts error handling (lines 45-48)
+- Current coverage: 87% (target: 90%)
+
+══════════════════════════════════════════════════
+```
+
+## Example Session (Swift)
+
+```bash
+User: /test
+Assistant: Running tests with coverage...
+
+Detected: Swift project (Package.swift found)
+Running: swift test --enable-code-coverage
+
+══════════════════════════════════════════════════
+TEST RESULTS
+══════════════════════════════════════════════════
+
+✅ Tests Passed: 63
+❌ Tests Failed: 0
+⏱️  Duration: 5.8s
+📊 Coverage: 92%
+
+Test Suites:
+✅ WorkspacePersistenceTests: 12/12 passed
+✅ WorkspaceStoreTests: 8/8 passed
+✅ ContextDetectorTests: 15/15 passed
+✅ TargetManagerTests: 10/10 passed
+
+══════════════════════════════════════════════════
+COVERAGE REPORT
+══════════════════════════════════════════════════
+
+Overall: 92% (target: 80%+) ✅
+
+Module Coverage:
+- Jump: 94%
+- JumpUI: 88%
+- JumpCore: 95%
+
+══════════════════════════════════════════════════
+DECISION
+══════════════════════════════════════════════════
+
+✅ PASS - All tests passing, coverage ≥80%
+
+🎉 Excellent coverage! Ready to ship.
+
+══════════════════════════════════════════════════
+```
+
+## Example with Failures
+
+```bash
+User: /test
+Assistant: Running tests with coverage...
+
+Detected: Node.js project (package.json found)
+Running: npm test -- --coverage
+
+══════════════════════════════════════════════════
+TEST RESULTS
+══════════════════════════════════════════════════
+
+✅ Tests Passed: 44
+❌ Tests Failed: 1
+⏱️  Duration: 3.1s
+📊 Coverage: 85%
+
+══════════════════════════════════════════════════
+FAILED TESTS
+══════════════════════════════════════════════════
+
+❌ auth.service.test.ts › AuthService › should validate expired tokens
+
+  Location: tests/auth.service.test.ts:45
+  Reason: Expected token to be invalid, but validation passed
+
+  Expected: { valid: false, reason: 'expired' }
+  Actual: { valid: true }
+
+  Issue: Token expiration check not working
+
+  Fix: Update auth.service.ts:78 to check token expiration:
+  ```typescript
+  if (decoded.exp < Date.now() / 1000) {
+    return { valid: false, reason: 'expired' };
+  }
+  ```
+
+══════════════════════════════════════════════════
+COVERAGE REPORT
+══════════════════════════════════════════════════
+
+Overall: 85% (target: 80%+) ✅
+
+══════════════════════════════════════════════════
+DECISION
+══════════════════════════════════════════════════
+
+❌ BLOCK - Fix failing tests before proceeding
+
+Next Steps:
+1. Fix token expiration validation in auth.service.ts
+2. Re-run tests with: /test auth
+3. Verify fix resolves the issue
+
+══════════════════════════════════════════════════
+
+Would you like me to fix this issue? (yes/no)
+```
+
+## Integration with Other Commands
+
+The `/test` command integrates with:
+
+- **`/dev`** - Runs tests after implementation
+- **`/commit`** - Runs tests before committing
+- **`/review`** - Checks test coverage in code review
+- **`/plan`** - Ensures test plan exists before implementation
+
+## Notes
+
+- **Always run tests before committing** - Use `/commit` to ensure this
+- **TDD is mandatory** - Write tests FIRST, then implementation
+- **Coverage is not quality** - 100% coverage doesn't mean good tests
+- **Fast tests are valuable** - Keep unit tests under 100ms
+- **Flaky tests are failures** - Fix or remove non-deterministic tests
 
 ---
 

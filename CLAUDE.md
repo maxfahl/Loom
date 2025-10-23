@@ -181,7 +181,7 @@ Coordinator spawns in parallel:
 
 ```
 Coordinator spawns in parallel:
-- Dev workflow commands (/dev, /commit, /review, /status)
+- Dev workflow commands (/dev, /commit, /review, /loom-status)
 - Testing commands (/test, /plan, /checkpoint)
 - Feature commands (/create-feature, /correct-course, /create-story)
 - YOLO commands (/yolo, /dev-yolo)
@@ -343,7 +343,7 @@ The coordinator agent reads YOLO configuration and automatically handles the com
 ### Testing & Validation
 
 - **`/test`** - Run tests with coverage (80%+ mandatory)
-- **`/status`** - Project status report (git, tasks, tests)
+- /loom-status - Project status report (git, tasks, tests)
 
 ### Planning & Documentation
 
@@ -828,7 +828,7 @@ Validate mode (paranoid):
 1. **project-setup-meta-prompt.md** - Main orchestrator (start here)
 2. **prompts/phases/** - Detailed phase guides
 3. **prompts/reference/core-agents.md** - Agent templates
-4. **prompts/reference/core-commands.md** - Command templates
+4. **prompts/prepare-setup/2-create-commands.md** - Command definitions and workflows
 5. **prompts/reference/status-xml.md** - Status tracking guide
 
 ### For Updating Existing Project

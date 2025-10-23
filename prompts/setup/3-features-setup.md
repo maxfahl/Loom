@@ -1,218 +1,25 @@
-# Phase 3: Root Files & Features Setup
+# 3: Scaffold Project Structure
 
 **Part of**: `setup.md`
 
 ## Overview
 
-Create root-level files (.gitignore, README.md) and set up the `features/` and `docs/development/features/` directory structures.
+Your task is to create the standard Loom directory structure for features, epics, and stories, and to initialize the `status.xml` tracking file. You will delegate this entire task to the `project-scaffolder` agent.
 
-## Root Files
+## Workflow
 
-### 1. .gitignore
-Create appropriate exclusions for tech stack:
-- .env files (never commit secrets)
-- node_modules/, venv/, target/ (dependencies)
-- Build artifacts (.next/, dist/, build/)
-- IDE files (.vscode/, .idea/)
-- OS files (.DS_Store, Thumbs.db)
+1.  **Gather Feature Information**: Based on the `PRD.md` created in the previous step, determine the name of the initial feature and a list of its initial epics (e.g., `epic-1-foundation`, `epic-2-core-features`).
+2.  **Spawn the `project-scaffolder` Agent**: Launch the `project-scaffolder` agent with instructions to create the full directory tree for the initial feature and all its epics, and to create the main `status.xml` file.
 
-### 2. README.md
-Minimal getting started guide:
-- Project overview (1-2 sentences)
-- Quick start steps (install, run, test)
-- Link to full documentation: `docs/development/INDEX.md`
+    ```markdown
+    Task: Scaffold the project structure for the feature `[feature-name]`.
 
-## Features Directory Setup
-
-### For Greenfield Projects
-
-1. **Create features/ directory and docs/development/features/ directory**
-2. **Create initial feature folders** (if any planned from PRD):
-   ```
-   Project Root:
-
-   features/
-   └── feature-name/
-       ├── src/ (created when development starts)
-       └── tests/ (created when development starts)
-
-   docs/
-   └── development/
-       ├── status.xml (SINGLE FILE for all features)
-       └── features/
-           └── feature-name/
-               ├── INDEX.md
-               ├── FEATURE_SPEC.md
-               ├── TECHNICAL_DESIGN.md
-               ├── TASKS.md
-               ├── CHANGELOG.md
-               └── epics/
-                   ├── epic-1-foundation/
-                   │   ├── DESCRIPTION.md
-                   │   ├── TASKS.md
-                   │   ├── NOTES.md
-                   │   └── stories/
-                   ├── epic-2-core/
-                   │   ├── DESCRIPTION.md
-                   │   ├── TASKS.md
-                   │   ├── NOTES.md
-                   │   └── stories/
-                   └── epic-3-polish/
-                       ├── DESCRIPTION.md
-                       ├── TASKS.md
-                       ├── NOTES.md
-                       └── stories/
-   ```
-
-3. **Create status.xml** at `docs/development/status.xml` (SINGLE FILE for all features) - see [status-xml.md](../reference/status-xml.md)
-4. **Create feature documentation directory** at docs/development/features/[name]/ with all doc files and epics/ with stories/ subfolders
-5. **Populate epics** with DESCRIPTION.md, TASKS.md, NOTES.md in docs/development/features/[name]/epics/
-6. **Set ONE feature** as active in status.xml: `<is-active-feature>true</is-active-feature>`
-
-### For Brownfield Projects (FIXED)
-
-**Brownfield projects need feature tracking setup too!**
-
-1. **Ask user if they want feature tracking**:
-   ```
-   I notice this is an existing project. Would you like to adopt the
-   features/ + status.xml tracking system for managing development?
-   
-   Benefits:
-   - Track current epic and story being worked on
-   - Manage YOLO mode for autonomous development
-   - Organize work into logical feature directories
-   - Enable /dev, /review, /plan commands to track progress
-   
-   Options:
-   a) Yes, set up feature tracking for existing work
-   b) No, skip features/ directory (agents will work without it)
-   ```
-
-2. **If user chooses (a), use the analysis from `PROJECT_OVERVIEW.md`**:
-   - Read `PROJECT_OVERVIEW.md` (created in Phase 1) for current features.
-   - Identify logical feature groupings from the existing analysis.
-   - Propose initial feature directories based on that document.
-
-3. **Create features/ structure based on analysis**:
-   ```
-   Example for existing e-commerce project:
-
-   features/
-   ├── user-authentication/ (existing code)
-   │   ├── src/ (existing)
-   │   └── tests/ (existing)
-   ├── product-catalog/ (existing code)
-   │   ├── src/ (existing)
-   │   └── tests/ (existing)
-   └── shopping-cart/ (in progress - ACTIVE)
-       ├── src/ (existing)
-       └── tests/ (existing)
-
-   docs/
-   └── development/
-       ├── status.xml (SINGLE FILE - tracks all features)
-       └── features/
-   ├── user-authentication/ (added)
-   │   ├── INDEX.md
-   │   ├── FEATURE_SPEC.md
-   │   ├── TECHNICAL_DESIGN.md
-   │   ├── TASKS.md
-   │   ├── CHANGELOG.md
-   │   └── epics/
-   │       └── [epic-name]/
-   │           ├── DESCRIPTION.md
-   │           ├── TASKS.md
-   │           ├── NOTES.md
-   │           └── stories/
-   ├── product-catalog/ (added)
-   │   ├── INDEX.md
-   │   ├── FEATURE_SPEC.md
-   │   ├── TECHNICAL_DESIGN.md
-   │   ├── TASKS.md
-   │   ├── CHANGELOG.md
-   │   └── epics/
-   │       └── [epic-name]/
-   │           ├── DESCRIPTION.md
-   │           ├── TASKS.md
-   │           ├── NOTES.md
-   │           └── stories/
-   └── shopping-cart/ (added - ACTIVE)
-       ├── INDEX.md
-       ├── FEATURE_SPEC.md
-       ├── TECHNICAL_DESIGN.md
-       ├── TASKS.md
-       ├── CHANGELOG.md
-       └── epics/
-           └── [epic-name]/
-               ├── DESCRIPTION.md
-               ├── TASKS.md
-               ├── NOTES.md
-               └── stories/ (for /create-story)
-   ```
-
-4. **For active feature (work in progress)**:
-   - Set `<is-active-feature>true</is-active-feature>`
-   - Create epics based on remaining work
-   - Populate `<pending-tasks>` from PROJECT_OVERVIEW.md
-   - Set `<current-epic>` and `<current-story>` if applicable
-
-5. **For completed features**:
-   - Set `<current-phase>Completed</current-phase>`
-   - Set `<is-active-feature>false</is-active-feature>`
-   - Minimal epic structure (can document what was done)
-
-6. **If user chooses (b)**:
-   - Skip features/ directory creation
-   - Note in CLAUDE.md that features/ is not used
-   - Agents will still function (just without status.xml tracking)
-
-### Epic Structure
-
-Each epic folder contains:
-
-**DESCRIPTION.md**:
-```markdown
-# Epic: [Epic Name]
-
-## Overview
-[What this epic accomplishes]
-
-## Goals
-- Goal 1
-- Goal 2
-
-## Success Criteria
-- [ ] Criterion 1
-- [ ] Criterion 2
-```
-
-**TASKS.md**:
-```markdown
-# Tasks for [Epic Name]
-
-## Story 1: [Story title]
-- [ ] Task 1
-- [ ] Task 2
-
-## Story 2: [Story title]
-- [ ] Task 1
-- [ ] Task 2
-```
-
-**NOTES.md**:
-```markdown
-# Implementation Notes for [Epic Name]
-
-## Technical Decisions
-- Decision 1: Rationale
-
-## Blockers
-- [Any blockers encountered]
-
-## Learnings
-- [What we learned during this epic]
-```
+    1.  Create the full Loom directory structure, including `docs/development/features/[feature-name]/epics/`.
+    2.  For the epics `[epic-1-name]`, `[epic-2-name]`, create the respective subdirectories.
+    3.  Inside each epic's directory, create the `stories` subdirectory and placeholder `DESCRIPTION.md`, `TASKS.md`, and `NOTES.md` files.
+    4.  Create and initialize the main `docs/development/status.xml` file, setting `[feature-name]` as the active feature.
+    ```
+3.  **Verify Output**: After the agent completes, verify that the directory structure and the `status.xml` file have been created correctly.
 
 ## Related Files
 - `../reference/status-xml.md` - Complete status.xml structure

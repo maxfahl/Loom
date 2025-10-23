@@ -1,45 +1,43 @@
-Your task is to update an existing Loom setup in a user's project to the latest version. You will use an intelligent synchronization script to copy the latest framework files and a migration script to update the project's story structure.
+Your task is to update an existing Loom setup to the latest version. You will assume the Current Working Directory is the root of the target project. You will use intelligent scripts to synchronize framework files and migrate project structures.
 
 ---
 
-### Step 1: Identify Target Project
-
-First, confirm the absolute path to the user's project directory that needs to be updated.
-
-### Step 2: Synchronize Core Framework Files
+### Step 1: Synchronize Core Framework Files
 
 The primary update mechanism is to sync the core files from the Loom source repository. This ensures all agents, commands, and essential configurations are up-to-date.
 
-1.  **Explain the action**: Inform the user that you are about to synchronize the core framework files to update their setup.
+1.  **Explain the action**: Inform the user that you are about to synchronize the core framework files into the current directory.
 
-2.  **Execute the sync script**: Run the `sync-loom-files.sh` script, providing the target project directory path.
+2.  **Execute the sync script**: Run the `sync-loom-files.sh` script. You must use the absolute path to the script (which you can determine from the path of this prompt) and provide `.` as the target directory path.
 
     ```bash
-    bash scripts/sync-loom-files.sh /path/to/user/project
+    # The agent must resolve the absolute path to the script
+    bash /path/to/loom/scripts/sync-loom-files.sh .
     ```
 
 3.  **Review the output**: Note which files were created or updated.
 
-### Step 3: Validate & Migrate Project-Specific Files
+### Step 2: Validate and Generate Documentation
 
-Next, you will run a validation agent to ensure the user's project-specific files (like `status.xml` and `PRD.md`) are structurally compliant with the latest Loom specification. This is a non-destructive operation that only adds missing sections or tags.
+Your next task is to ensure the project's documentation suite is complete and up-to-date. You will compare the project's `docs/development` directory against the canonical templates and generate any missing documentation from scratch.
 
-1.  **Explain the action**: Inform the user that you are about to scan their configuration and documentation to update their structure without altering their content.
-
-2.  **Execute the Structure Validator Agent**: Run the agent defined in `prompts/update-setup/1-structure-validator.md`. This agent will read the user's files, compare them to the canonical templates, and insert any missing structural elements.
+1.  **Read Canonical Templates**: Review `prompts/templates/doc-templates.md` to get the complete, authoritative list and content structure of all required documentation files.
+2.  **Scan Current Project**: Run `find ./docs/development -maxdepth 2` to list the currently existing documentation files.
+3.  **Compare and Generate**: Compare the actual file list with the canonical list. If any standard documentation files are missing, **spawn a `documentation-writer` agent** for each missing file to generate it from the templates.
+4.  **Validate Content**: After ensuring all files exist, **spawn the `structure-validator` agent**. This agent will scan the content of the existing files and non-destructively add any missing sections required by the latest specification.
 
 3.  **Review the output**: The agent will produce a report of all the structural changes it made. Present this summary to the user.
 
 ### Step 4: Migrate Story Structure
 
-Older versions of Loom used a different story structure. Run the migration script to move any old story files to their correct new location within the `epics` directory structure.
+Older versions of Loom used a different story structure. Run the migration script to move any old story files to their correct new location.
 
 1.  **Explain the action**: Inform the user that you are going to check for and migrate any stories from old locations.
 
-2.  **Execute the migration script**: Run the `migrate-stories.sh` script. You will need to get the feature name from the user or detect it from their `status.xml` file.
+2.  **Execute the migration script**: First, attempt to detect the active feature by parsing `docs/development/status.xml` for the `<is-active-feature>true</is-active-feature>` tag. If you find the feature name, use it. If not, then ask the user for the feature name.
 
     ```bash
-    # You may need to ask the user for the feature name
+    # Replace [feature-name] with the auto-detected or user-provided name
     bash scripts/migrate-stories.sh [feature-name]
     ```
 

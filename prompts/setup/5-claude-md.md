@@ -1,16 +1,16 @@
-# Phase 5: CLAUDE.md Creation
+# 5: CLAUDE.md Creation
 
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
+**Part of**: `setup.md`
 
 ## Purpose
 
-Create comprehensive CLAUDE.md file with all sections including Skills usage, parallel agent strategy, coordinator pattern, agents reference, commands reference, model reference, documentation structure, tech stack, project structure, methodology, code style, do/don't section, and pre-task checklist.
+Create a comprehensive `CLAUDE.md` file with all the necessary sections for the AI assistant to understand the project context and workflows.
 
 ## Related Files
 
-- [../reference/core-agents.md](../reference/core-agents.md) - Agents to document
-- [phase-4-commands.md](phase-4-commands.md) - Commands to document
-- [phase-6-features-setup.md](phase-6-features-setup.md) - Next phase
+- `../reference/core-agents.md` - Agents to document.
+- `../prepare-setup/2-create-commands.md` - Source for command documentation.
+- `3-features-setup.md` - The features setup phase that follows this one.
 
 ## Usage
 

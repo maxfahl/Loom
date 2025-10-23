@@ -8,15 +8,15 @@ Create all 12+ custom slash commands for the Loom framework.
 
 ## ⚠️ CRITICAL: Exact Command Names Required
 
-### Core Commands (REQUIRED - 12 total)
+### Core Commands (REQUIRED - 14 total)
 
-**You MUST create these EXACT 12 core commands (no more, no less)**:
+**You MUST create these EXACT 14 core commands (no more, no less)**:
 
 1. /dev - Continue development with automatic task tracking
 2. /dev-yolo - **SEPARATE** autonomous YOLO loop (NOT just /yolo)
 3. /commit - Smart commit
 4. /review - 7-phase code review
-5. /status - Project status
+5. /loom-status - Project status
 6. /test - Run tests
 7. /plan - Plan feature
 8. /docs - Update docs
@@ -24,6 +24,8 @@ Create all 12+ custom slash commands for the Loom framework.
 10. /create-feature - Create new feature
 11. /correct-course - Adjust feature direction
 12. /create-story - Create user story
+13. /one-off - Delegate a one-off task to the coordinator
+14. /fix - Address a bug by creating a new story
 
 ### Optional Commands (RECOMMENDED - 2+ total)
 
@@ -55,7 +57,7 @@ If fewer commands exist, you MUST create the missing ones before proceeding.
 - /dev
 - /commit
 - /review
-- /status
+- /loom-status
 
 **Batch 2** (4 commands in parallel):
 - /test
@@ -456,7 +458,7 @@ model: claude-sonnet-4-5
    [What to do next - prioritize Blockers → Improvements → Nits]
    ```
 
-**4. /project-status** - Project Status
+**4. /loom-status** - Project Status
 
 ```yaml
 ---
@@ -1191,5 +1193,58 @@ _Last updated: [YYYY-MM-DD]_
 - **WCAG AA**: All findings must reference specific WCAG criteria
 - **3 Viewports**: Always test desktop (1440px), tablet (768px), mobile (375px)
 - **Screenshots**: Include visual evidence for all findings
-- **No Theoretical Issues**: Only report observable UX problems
+   - **No Theoretical Issues**: Only report observable UX problems
 
+---
+
+**14. /one-off** - Delegate One-Off Task
+
+```yaml
+---
+description: "Delegates a one-off task to the coordinator agent for autonomous execution."
+allowed-tools: Task
+model: claude-sonnet-4-5
+argument-hint: "[Describe the one-off task you want to accomplish]"
+---
+```
+
+**Purpose**: Delegates a general-purpose task to the coordinator agent for autonomous execution, emphasizing parallelization and the use of Claude Code Skills.
+
+**Process**:
+
+1.  **Analyze the Request**: Break down the user's request into logical sub-tasks.
+2.  **Identify Sub-Agents**: Determine the best specialized sub-agents to handle each sub-task.
+3.  **Delegate in Parallel**: Spawn the required sub-agents to work on the sub-tasks simultaneously whenever possible.
+4.  **Instruct Sub-Agents**: Provide each sub-agent with a clear, detailed prompt that includes all necessary context and instructs them to use Claude Code Skills.
+5.  **Synthesize Results**: Gather results from sub-agents, ensure integration, and present the final solution.
+6.  **Context is Key**: Read `docs/development/INDEX.md` and `docs/development/status.xml` to provide relevant context to sub-agents.
+
+---
+
+**15. /fix** - Fix an Issue
+
+```yaml
+---
+description: "Handles a bug fix not in an existing story, with an option to create a new story."
+allowed-tools: Read, Write, Edit, Glob, Grep, Task
+model: claude-sonnet-4-5
+argument-hint: "[Describe the bug you want to fix]"
+---
+```
+
+**Purpose**: Intelligently handle a request to fix a bug by researching existing stories and, if necessary, creating a new high-priority story for the fix.
+
+**Process**:
+
+1.  **Research Existing Stories**: Scan all story files (`*.md`) within the active feature's `epics` directory to see if the bug is already covered.
+2.  **Report Findings and Ask User**:
+    *   If the fix is already planned, inform the user and stop.
+    *   If not, ask the user if they want to create a new story for the fix.
+3.  **Create New Story (If User Approved)**:
+    *   Determine the new story number (e.g., `3.2-fix`).
+    *   Create the new story file in the correct epic directory.
+    *   Populate the story with a title, description from the user, and TDD tasks.
+4.  **"Shoe Horn" the Story In**:
+    *   Update `docs/development/status.xml` to set the new fix story as the `<current-story>`.
+    *   Add a note to `<whats-next>` to remember the original story that was in progress.
+5.  **Confirm to User**: Report that the new story has been created and is ready to be worked on via the `/dev` command.

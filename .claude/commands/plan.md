@@ -1,306 +1,544 @@
 ---
-description: Plan implementation for a story or epic
+description: Plan next feature or task with detailed breakdown
+model: claude-sonnet-4-5
+argument-hint: [feature name or task]
 ---
 
-You are now in **PLANNING MODE** for Jump workspace manager. Let's break down the work! 📋
+# Plan Feature or Task
 
-## What I'll Help You Plan
+Create a detailed implementation plan with TDD breakdown, epic/story organization, and clear acceptance criteria.
 
-### 1. Story Implementation Plan
+## Purpose
 
-Break a story into concrete tasks following TDD:
+The `/plan` command helps break down features or tasks into actionable stories with:
+- Epic organization (if feature is large)
+- Story breakdown (2-5 days each)
+- Acceptance criteria
+- TDD task breakdown (RED → GREEN → REFACTOR)
+- Dependencies and complexity estimates
 
-- Acceptance criteria analysis
-- Test cases to write (RED phase)
-- Implementation steps (GREEN phase)
-- Refactoring opportunities (REFACTOR phase)
-- Time estimates
-- Dependencies
+## Process
 
-### 2. Epic Implementation Plan
+### 1. Understand Feature/Task Requirements
 
-Break an epic into story sequence:
+**Read existing documentation**:
+```bash
+# If planning a new feature
+- Read docs/development/PRD.md (understand overall product vision)
+- Read docs/development/TECHNICAL_SPEC.md (technical constraints)
+- Read docs/development/ARCHITECTURE.md (system design patterns)
+- Read docs/development/status.xml (current feature state)
 
-- Story prioritization
-- Dependencies between stories
-- Parallel work opportunities
-- Checkpoint criteria validation points
-- Epic timeline estimate
+# If planning a story for existing feature
+- Read docs/development/features/[feature]/INDEX.md
+- Read docs/development/features/[feature]/FEATURE_SPEC.md
+- Read docs/development/features/[feature]/epics/[epic]/DESCRIPTION.md
+```
 
-### 3. Technical Spike Plan
+**Gather requirements from user**:
+- What is the feature/task goal?
+- Who are the users?
+- What is the expected behavior?
+- Are there any constraints (performance, security, etc.)?
+- What is the priority/timeline?
 
-Investigate unknown technical areas:
+### 2. Determine Scope
 
-- Research questions to answer
-- Prototypes to build
-- Technologies to evaluate
-- Decision criteria
-- Time-boxed investigation
+**Feature Size Assessment**:
 
-## Story Planning Template
+- **Small** (1-5 days): Single epic, 1-3 stories
+  - Example: Add search bar to navigation
+  - Create single epic in `docs/development/features/[feature]/epics/epic-1-[name]/`
 
-When you run `/plan story-X.Y`, I'll create:
+- **Medium** (1-3 weeks): 2-3 epics, 3-8 stories total
+  - Example: User authentication system
+  - Create multiple epics (foundation, core, polish)
 
-````markdown
-# Story Implementation Plan: story-X.Y
+- **Large** (1-3 months): 4+ epics, 10+ stories
+  - Example: Complete e-commerce checkout flow
+  - Create comprehensive epic breakdown
 
-## Overview
+**If creating NEW FEATURE**:
+1. Create feature directory structure:
+   ```
+   features/[feature-name]/
+   docs/development/features/[feature-name]/
+   ├── INDEX.md
+   ├── FEATURE_SPEC.md
+   ├── TECHNICAL_DESIGN.md
+   ├── TASKS.md
+   ├── CHANGELOG.md
+   └── epics/
+   ```
 
-- **Epic**: X - <Epic Name>
-- **Story**: <Story Title>
-- **Estimate**: X-Y hours
-- **Status**: Not Started
+2. Add feature to `docs/development/status.xml`:
+   ```xml
+   <feature name="feature-name">
+     <is-active-feature>false</is-active-feature>
+     <current-epic>1</current-epic>
+     <current-story>1.1</current-story>
+     <status>planned</status>
+     <!-- ... -->
+   </feature>
+   ```
+
+### 3. Break Down into Epics (if needed)
+
+**Epic Organization** (for medium/large features):
+
+Organize work into **2-4 week chunks** that deliver value independently:
+
+**Epic 1: Foundation**
+- Setup, infrastructure, basic structure
+- Core dependencies
+- Base testing framework
+- Duration: 1-3 weeks
+
+**Epic 2: Core Functionality**
+- Main feature implementation
+- Business logic
+- API/data layer
+- Duration: 2-4 weeks
+
+**Epic 3: Polish & Integration**
+- UI refinement
+- Error handling
+- Performance optimization
+- Integration with existing features
+- Duration: 1-2 weeks
+
+**For each epic, create**:
+```
+docs/development/features/[feature]/epics/epic-[N]-[name]/
+├── DESCRIPTION.md      # Epic overview and goals
+├── TASKS.md           # High-level epic tasks
+├── NOTES.md           # Important decisions and context
+└── stories/           # Individual story files (created as planned)
+```
+
+### 4. Break Down into Stories
+
+**Story Definition**:
+- **Size**: 2-5 days of work for one developer
+- **Value**: Delivers testable, reviewable increment
+- **Independent**: Can be developed/tested in isolation
+- **Format**: `[epic].[story].md` (e.g., `1.1.md`, `2.3.md`)
+
+**Story Breakdown Strategy**:
+
+1. **Identify user journeys** - What can users do?
+2. **Break by technical layers** - API, business logic, UI
+3. **Separate concerns** - Auth, data, rendering
+4. **Include testing** - Each story has test requirements
+
+**Story Numbering**:
+- Epic 1, Story 1: `1.1.md`
+- Epic 1, Story 2: `1.2.md`
+- Epic 2, Story 1: `2.1.md`
+- Epic 2, Story 3: `2.3.md`
+
+**Create story files** using this template:
+
+```markdown
+# Story X.Y: [Story Title]
+
+**Epic**: [Epic X - Epic Name]
+**Created**: [ISO 8601 timestamp]
+**Status**: In Progress
+<!-- Valid status values: "In Progress" | "Waiting For Review" | "Done" -->
+
+## Story Description
+
+[1-2 paragraph description of what this story accomplishes]
 
 ## Acceptance Criteria
 
-1. <AC #1>
-2. <AC #2>
-3. <AC #3>
+- [ ] Criterion 1: [Specific, testable requirement]
+- [ ] Criterion 2: [Specific, testable requirement]
+- [ ] Criterion 3: [Specific, testable requirement]
 
-## Dependencies
+## Tasks and Subtasks
 
-- ✅ story-X.Y-1 complete
-- ✅ Component ABC exists
-- ⏸️ Design mockups (waiting)
+### Task 1: Write Tests (RED)
 
-## TDD Implementation Plan
+- [ ] Create test file: `tests/[component].test.ts`
+- [ ] Write unit tests for [function/component]
+- [ ] Write integration tests for [flow]
+- [ ] Run tests - confirm they FAIL (red state)
 
-### AC#1: <Acceptance Criterion>
+### Task 2: Implement Feature (GREEN)
 
-#### RED Phase (Write Failing Test)
+- [ ] Create source file: `src/[component].ts`
+- [ ] Implement minimal code to pass tests
+- [ ] Run tests - confirm they PASS (green state)
+- [ ] Verify acceptance criteria met
 
-**Test File**: `Tests/Jump/<Component>Tests.swift`
-**Test Method**: `test<Scenario>()`
+### Task 3: Refactor (REFACTOR)
 
-```swift
-func test<Scenario>() {
-    // Given: <setup>
-    // When: <action>
-    // Then: <assertion that will fail>
-}
+- [ ] Extract duplicate logic
+- [ ] Improve naming and structure
+- [ ] Add JSDoc comments
+- [ ] Run tests - confirm still PASS
+
+### Task 4: Documentation & Integration
+
+- [ ] Update API documentation
+- [ ] Add usage examples
+- [ ] Update CHANGELOG.md
+- [ ] Verify integration with existing features
+
+## Technical Details
+
+### Files to Create/Modify
+
+- `features/[feature]/src/[file].ts` - [Purpose]
+- `features/[feature]/tests/[file].test.ts` - [Test coverage]
+- `docs/development/features/[feature]/CHANGELOG.md` - Update changelog
+
+### Dependencies
+
+- Depends on: [Previous story ID or external dependency]
+- Blocks: [Future stories that depend on this]
+
+### Testing Requirements
+
+- [ ] Unit tests for [component] (target: 90%+ coverage)
+- [ ] Integration tests for [flow]
+- [ ] E2E tests for [user journey] (if applicable)
+
+## Notes
+
+[Any important context, decisions, or considerations]
+
+---
+
+**Last Updated**: [ISO 8601 timestamp]
 ```
-````
 
-**Estimated**: 30 minutes
+**Save story files** to:
+```
+docs/development/features/[feature]/epics/epic-[N]-[name]/stories/[epic].[story].md
+```
 
-#### GREEN Phase (Implement)
+### 5. Define Acceptance Criteria
 
-**File**: `Sources/Jump/<Component>.swift`
-**Changes**:
+**Good Acceptance Criteria** (INVEST principles):
 
-1. Add <property/method>
-2. Implement <logic>
-3. Handle <edge cases>
+- **Independent**: Can be tested independently
+- **Negotiable**: Room for implementation flexibility
+- **Valuable**: Delivers user/business value
+- **Estimable**: Can estimate effort
+- **Small**: Fits in 2-5 days
+- **Testable**: Can verify completion
 
-**Estimated**: 1 hour
+**Examples**:
 
-#### REFACTOR Phase (Clean Up)
+**Bad (vague)**:
+- [ ] Make the UI better
+- [ ] Fix bugs
+- [ ] Improve performance
 
-**Improvements**:
+**Good (specific, testable)**:
+- [ ] User can log in with email and password
+- [ ] Invalid credentials show error message within 2 seconds
+- [ ] Successful login redirects to dashboard
+- [ ] Login form validates email format client-side
 
-1. Extract <repeated code>
-2. Improve <readability>
-3. Optimize <performance>
+### 6. Create TDD Task Breakdown
 
-**Estimated**: 30 minutes
+**For EACH story, follow Red-Green-Refactor**:
 
----
-
-### AC#2: <Next Criterion>
-
-[Repeat structure]
-
----
-
-## Total Estimate
-
-- RED phases: 1.5 hours
-- GREEN phases: 3 hours
-- REFACTOR phases: 1.5 hours
-- **Total**: 6 hours
-
-## Technical Notes
-
-- Uses Result<T, JumpError> for error handling
-- Codable for JSON serialization
-- @Published for reactive state
-- MainActor for UI updates
-
-## Risks & Mitigation
-
-- **Risk**: File I/O might fail
-  **Mitigation**: Comprehensive error handling with Result pattern
-
-- **Risk**: JSON schema might change
-  **Mitigation**: Version field in JSON for migration
-
-## Success Criteria
-
-- [ ] All AC tests pass
-- [ ] Unit test coverage > 80%
-- [ ] E2E tests use XCUIApplication (if UI changes)
-- [ ] Code reviewed and approved
-- [ ] Documentation updated
-
-````
-
-## Epic Planning Template
-
-When you run `/plan epic-X`, I'll create:
+#### Phase 1: RED (Write Failing Tests)
 
 ```markdown
-# Epic Implementation Plan: Epic X - <Epic Name>
+### Task 1: Write Tests (RED)
 
-## Overview
-- **Epic**: X - <Epic Name>
-- **Stories**: Y total
-- **Estimate**: Z weeks
-- **Status**: Planned
-
-## Story Sequencing
-
-### Phase 1: Foundation (Week 1-2)
-1. **story-X.1** - <Title> (4 hours)
-   - Prerequisites: None
-   - Deliverable: <Core component>
-
-2. **story-X.2** - <Title> (6 hours)
-   - Prerequisites: story-X.1
-   - Deliverable: <Integration>
-
-### Phase 2: Features (Week 3-4)
-3. **story-X.3** - <Title> (8 hours)
-   - Prerequisites: story-X.2
-   - Deliverable: <Feature A>
-
-4. **story-X.4** - <Title> (8 hours)
-   - Prerequisites: story-X.2 (can run parallel with X.3!)
-   - Deliverable: <Feature B>
-
-### Phase 3: Polish (Week 5)
-5. **story-X.5** - <Title> (6 hours)
-   - Prerequisites: story-X.3, story-X.4
-   - Deliverable: <Integration + UX polish>
-
-## Parallel Work Opportunities
-- story-X.3 and story-X.4 can run in parallel (different components)
-- story-X.7 and story-X.8 can run in parallel (isolated features)
-
-## Checkpoint Criteria
-After this epic, validate:
-- [ ] <Checkpoint criterion 1>
-- [ ] <Checkpoint criterion 2>
-- [ ] Performance: <target>
-- [ ] Test coverage: > 80%
-
-## Timeline
-- **Start**: Week 1
-- **Foundation Complete**: End of Week 2
-- **Features Complete**: End of Week 4
-- **Epic Complete**: End of Week 5
-- **Checkpoint Validation**: Week 6
-
-## Risks
-- <Risk>: <Mitigation>
-````
-
-## Example Sessions
-
-### Example 1: Plan a Story
-
-```bash
-User: /plan story-2.1
-Assistant: Reading story-2.1 details...
-
-Story: Persist workspaces to JSON
-Epic: 2 - State Persistence
-Status: Not Started
-
-Creating detailed implementation plan...
-
-[Generates complete plan with TDD breakdown]
-
-Plan saved to: docs/plans/story-2.1-plan.md
-
-Would you like to start implementation? (/dev story-2.1)
+- [ ] Create test file: `tests/auth/login.test.ts`
+- [ ] Write test: "should accept valid email and password"
+- [ ] Write test: "should reject invalid email format"
+- [ ] Write test: "should reject incorrect credentials"
+- [ ] Write test: "should redirect on successful login"
+- [ ] Run `npm test` - confirm tests FAIL (red state)
 ```
 
-### Example 2: Plan an Epic
+**Expected outcome**: All tests fail because implementation doesn't exist yet.
 
-```bash
-User: /plan epic-2
-Assistant: Analyzing Epic 2: State Persistence...
+#### Phase 2: GREEN (Minimal Implementation)
 
-Stories: 10 total
-Estimated: 4-6 weeks
-Dependencies: Epic 1 complete ✅
+```markdown
+### Task 2: Implement Feature (GREEN)
 
-Creating epic roadmap with story sequencing...
-
-[Generates complete epic plan]
-
-Plan saved to: docs/plans/epic-2-plan.md
-
-Ready to start? (/dev story-2.1)
+- [ ] Create source file: `src/auth/login.ts`
+- [ ] Implement login validation logic
+- [ ] Implement credential verification
+- [ ] Implement redirect on success
+- [ ] Run `npm test` - confirm tests PASS (green state)
+- [ ] Verify 80%+ code coverage
 ```
 
-### Example 3: Plan Technical Spike
+**Expected outcome**: All tests pass with minimal implementation.
 
-```bash
-User: /plan spike "Evaluate CoreData vs JSON persistence"
-Assistant: Creating technical spike plan...
+#### Phase 3: REFACTOR (Clean Up)
 
-Research Questions:
-1. What's the performance difference?
-2. What's the migration complexity?
-3. What's the testing complexity?
+```markdown
+### Task 3: Refactor (REFACTOR)
 
-Time-boxed: 4 hours
-
-[Generates spike plan with research tasks]
-
-Plan saved to: docs/spikes/persistence-evaluation.md
+- [ ] Extract validation logic to `src/utils/validators.ts`
+- [ ] Improve error handling and messages
+- [ ] Add JSDoc comments to public functions
+- [ ] Remove code duplication
+- [ ] Run `npm test` - confirm tests STILL PASS
 ```
 
-## Planning Best Practices
+**Expected outcome**: Cleaner code, tests still green.
 
-### ✅ Good Plans
+#### Phase 4: Documentation & Integration
 
-- Break work into < 8 hour chunks
-- Identify dependencies explicitly
-- Estimate time realistically
-- Include testing time
-- Consider refactoring time
-- Document technical decisions
+```markdown
+### Task 4: Documentation & Integration
 
-### ❌ Bad Plans
+- [ ] Update `docs/api/auth.md` with login API
+- [ ] Add usage examples to README
+- [ ] Update `CHANGELOG.md` with new feature
+- [ ] Verify integration with existing auth flow
+- [ ] Run full test suite - confirm no regressions
+```
 
-- Massive stories (> 16 hours)
-- Ignore dependencies
-- Underestimate testing time
-- Skip refactoring phase
-- Assume everything works first try
+### 7. Identify Dependencies
 
-## Integration with TDD
+**For each story, document**:
 
-Every plan enforces TDD:
+**Depends on** (blocks this story):
+- Previous stories that must complete first
+- External APIs or services
+- Design approvals
+- Infrastructure setup
 
-- RED phase comes first (tests)
-- GREEN phase implements minimum code
-- REFACTOR phase improves quality
-- Each phase has time estimate
-- Each phase has clear deliverable
+**Blocks** (this story blocks):
+- Future stories that need this work
+- Other team dependencies
 
-## Planning Tools
+**Example**:
+```markdown
+### Dependencies
 
-I can help with:
+- Depends on: Story 1.1 (User model and database schema)
+- Depends on: Story 1.2 (Session management infrastructure)
+- Blocks: Story 2.1 (Password reset flow)
+- Blocks: Story 2.2 (OAuth integration)
+```
 
-- **/plan story-X.Y** - Detailed story plan
-- **/plan epic-X** - Epic roadmap
-- **/plan spike "topic"** - Technical investigation
-- **/plan refactor <component>** - Refactoring plan
-- **/plan performance <target>** - Performance optimization plan
+### 8. Estimate Complexity
 
----
+**Use T-shirt sizing**:
 
-**Proper planning prevents poor performance!** 📋
+- **XS** (< 1 day): Simple config change, minor fix
+- **S** (1-2 days): Small feature, straightforward implementation
+- **M** (2-3 days): Standard story size, moderate complexity
+- **L** (4-5 days): Complex feature, multiple components
+- **XL** (> 5 days): Too large - break down further
+
+**Add to story metadata**:
+```markdown
+**Complexity**: M (2-3 days)
+**Risk**: Low | Medium | High
+**Priority**: P0 (critical) | P1 (high) | P2 (medium) | P3 (low)
+```
+
+### 9. Update Project Documentation
+
+**After planning is complete**:
+
+1. **Update status.xml**:
+   ```xml
+   <feature name="feature-name">
+     <current-epic>1</current-epic>
+     <current-story>1.1</current-story>
+     <status>planned</status>
+     <stories-completed>0</stories-completed>
+     <stories-total>8</stories-total>
+   </feature>
+   ```
+
+2. **Update feature INDEX.md**:
+   ```markdown
+   ## Epics Overview
+
+   - [Epic 1: Foundation](epics/epic-1-foundation/DESCRIPTION.md) (3 stories)
+   - [Epic 2: Core](epics/epic-2-core/DESCRIPTION.md) (4 stories)
+   - [Epic 3: Polish](epics/epic-3-polish/DESCRIPTION.md) (1 story)
+
+   ## Current Status
+
+   - **Active Epic**: Epic 1 - Foundation
+   - **Current Story**: 1.1 - Setup project structure
+   - **Progress**: 0/8 stories completed
+   ```
+
+3. **Update TASKS.md** with high-level epic tasks
+
+4. **Update FEATURE_SPEC.md** with detailed feature specification
+
+## Output Structure
+
+After running `/plan [feature]`, you should have:
+
+```
+docs/development/features/[feature]/
+├── INDEX.md                    # Feature overview and navigation
+├── FEATURE_SPEC.md            # Detailed feature specification
+├── TECHNICAL_DESIGN.md        # Architecture and technical decisions
+├── TASKS.md                   # High-level task list
+├── CHANGELOG.md               # Feature changelog (initially empty)
+└── epics/
+    ├── epic-1-foundation/
+    │   ├── DESCRIPTION.md     # Epic 1 overview
+    │   ├── TASKS.md          # Epic 1 tasks
+    │   ├── NOTES.md          # Epic 1 notes
+    │   └── stories/
+    │       ├── 1.1.md        # Story 1.1
+    │       ├── 1.2.md        # Story 1.2
+    │       └── 1.3.md        # Story 1.3
+    ├── epic-2-core/
+    │   ├── DESCRIPTION.md
+    │   ├── TASKS.md
+    │   ├── NOTES.md
+    │   └── stories/
+    │       ├── 2.1.md
+    │       ├── 2.2.md
+    │       ├── 2.3.md
+    │       └── 2.4.md
+    └── epic-3-polish/
+        ├── DESCRIPTION.md
+        ├── TASKS.md
+        ├── NOTES.md
+        └── stories/
+            └── 3.1.md
+
+docs/development/status.xml     # Updated with new feature/epic/story
+features/[feature]/             # Feature source code (created during /dev)
+```
+
+## Example Planning Session
+
+**User**: `/plan user-authentication`
+
+**Agent Process**:
+
+1. **Gather requirements** (if not clear from docs):
+   ```
+   Planning user-authentication feature.
+
+   I'll need to understand:
+   - Auth methods: Email/password, OAuth, or both?
+   - Password requirements: Complexity, reset flow?
+   - Session management: JWT, cookies, or sessions?
+   - Security: 2FA, rate limiting, CAPTCHA?
+   ```
+
+2. **Determine scope**:
+   ```
+   Based on requirements, this is a MEDIUM feature (2-3 weeks).
+   I'll organize into 3 epics:
+
+   Epic 1: Foundation (1 week)
+   Epic 2: Core Auth (1-2 weeks)
+   Epic 3: Security & Polish (1 week)
+   ```
+
+3. **Create epics**:
+   - Epic 1: User model, database, session infrastructure
+   - Epic 2: Login, signup, password reset flows
+   - Epic 3: 2FA, rate limiting, security hardening
+
+4. **Break down into stories**:
+   ```
+   Epic 1 Stories (3 total):
+   - 1.1: User model and database schema (2 days)
+   - 1.2: Session management infrastructure (3 days)
+   - 1.3: Password hashing and validation (2 days)
+
+   Epic 2 Stories (4 total):
+   - 2.1: User signup flow (3 days)
+   - 2.2: User login flow (3 days)
+   - 2.3: Password reset flow (4 days)
+   - 2.4: Email verification (2 days)
+
+   Epic 3 Stories (1 total):
+   - 3.1: 2FA and security hardening (5 days)
+   ```
+
+5. **Create story files with TDD tasks**:
+   - Each story gets RED → GREEN → REFACTOR breakdown
+   - Clear acceptance criteria
+   - Testing requirements
+   - Dependencies documented
+
+6. **Update status.xml**:
+   ```xml
+   <feature name="user-authentication">
+     <is-active-feature>true</is-active-feature>
+     <current-epic>1</current-epic>
+     <current-story>1.1</current-story>
+     <status>planned</status>
+     <stories-completed>0</stories-completed>
+     <stories-total>8</stories-total>
+   </feature>
+   ```
+
+**Agent Output**:
+```
+✅ Feature planned: user-authentication
+
+Created:
+- 3 epics (Foundation, Core Auth, Security & Polish)
+- 8 stories (avg 2-3 days each)
+- Full TDD task breakdown for each story
+- Dependencies documented
+- status.xml updated
+
+Ready to start development with `/dev 1.1`
+```
+
+## Best Practices
+
+### Planning Tips
+
+1. **Start small**: Better to have small, complete stories than large incomplete ones
+2. **Think vertically**: Each story should deliver end-to-end value
+3. **Test first**: Always plan TDD tasks (RED → GREEN → REFACTOR)
+4. **Document dependencies**: Avoid surprise blockers later
+5. **Review with team**: Get feedback on epic/story breakdown
+6. **Adjust as needed**: Stories can be split/merged during development
+
+### Common Mistakes
+
+❌ **Don't**:
+- Plan stories > 5 days (too large, split them)
+- Skip acceptance criteria (how will you know it's done?)
+- Forget testing requirements (TDD is mandatory)
+- Ignore dependencies (causes blockers)
+- Plan everything upfront (just-in-time planning is better)
+
+✅ **Do**:
+- Keep stories 2-5 days
+- Write specific, testable acceptance criteria
+- Include TDD tasks for every story
+- Document dependencies clearly
+- Plan 1-2 epics ahead, adjust as you learn
+
+## Related Commands
+
+- **`/create-feature`** - Create new feature directory structure
+- **`/create-story`** - Create next story in current epic
+- **`/dev [story]`** - Start development on planned story
+- **`/status`** - View current feature/epic/story status
+- **`/correct-course`** - Adjust feature direction mid-development
+
+## Notes
+
+- Planning is iterative - adjust as you learn
+- Stories can be split/merged during development
+- Focus on delivering value incrementally
+- TDD is mandatory for all stories
+- Update documentation as plans change

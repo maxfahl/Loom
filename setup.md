@@ -1,12 +1,12 @@
-Your task is to set up the Loom agentic development framework in a user's new (greenfield) or existing (brownfield) project. You will orchestrate the setup process, focusing on creating project-specific documentation and copying the latest framework files (agents, commands) from the Loom source repository.
+Your task is to set up the Loom agentic development framework in the user's project. You will assume the Current Working Directory is the root of the target project. You will orchestrate the setup process by first autonomously analyzing the project, then creating documentation, and finally copying the latest framework files into the directory.
 
 ---
 
 ### Phase 1: Discovery & Analysis
 
-First, you must understand the user's project. Follow the instructions in `prompts/setup/1-discovery.md` to ask the discovery questions and, if it's a brownfield project, to perform the codebase analysis.
+First, you must understand the project in the Current Working Directory. Follow the instructions in `prompts/setup/1-discovery.md` to autonomously analyze the project.
 
-**CRITICAL**: You must get the absolute path to the user's project directory. This will be the `TARGET_DIR` for the synchronization script.
+**CRITICAL**: The Current Working Directory is the `TARGET_DIR` for the synchronization script.
 
 ### Phase 2: Documentation Creation
 
@@ -21,10 +21,11 @@ Instead of generating agents and commands from scratch, you will copy them from 
 
 1.  **Explain the action**: Inform the user that you are about to copy the necessary agent, command, and configuration files into their project.
 
-2.  **Execute the script**: Run the `sync-loom-files.sh` script, providing the target project directory path you obtained in Phase 1.
+2.  **Execute the script**: Run the `sync-loom-files.sh` script. You must use the absolute path to the script (which you can determine from the path of this prompt) and provide `.` as the target directory path.
 
     ```bash
-    bash scripts/sync-loom-files.sh /path/to/user/project
+    # The agent must resolve the absolute path to the script
+    bash /path/to/loom/scripts/sync-loom-files.sh .
     ```
 
 3.  **Confirm the output**: Review the output of the script to ensure that files were created and updated as expected.

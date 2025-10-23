@@ -1998,6 +1998,51 @@ model: sonnet
 
 - MCP: github, playwright, zai-mcp-server
 - Tools: search_issues, list_issues, console_messages, network_requests, analyze_image (screenshots)
+
+---
+
+### 14. codebase-analyzer
+
+**Name**: `codebase-analyzer`
+**Description**: Analyzes an existing (brownfield) codebase to understand its structure, stack, and conventions.
+**Model**: `claude-sonnet-4-5`
+
+**Workflow**:
+1.  Performs a deep scan of the directory structure using `find` and `ls`.
+2.  Reads configuration files (`package.json`, `requirements.txt`, etc.) to identify the technology stack and dependencies.
+3.  Searches for and reads all existing documentation (`README.md`, `docs/`) to infer the project's purpose and state.
+4.  Identifies testing frameworks and conventions to determine the project's TDD methodology.
+5.  Synthesizes all findings into a comprehensive `PROJECT_OVERVIEW.md` file.
+
+---
+
+### 15. project-scaffolder
+
+**Name**: `project-scaffolder`
+**Description**: Creates the standard Loom directory structures for features, epics, and stories.
+**Model**: `claude-haiku-4-5`
+
+**Workflow**:
+1.  Receives instructions for a new feature, including a list of epics.
+2.  Reads the canonical directory structure from `prompts/setup/3-features-setup.md`.
+3.  Uses `mkdir -p` to create the entire required directory tree, including `docs/development/features/[feature-name]/epics/[epic-name]/stories/`.
+4.  Initializes the `docs/development/status.xml` file based on the template in `prompts/reference/status-xml.md`.
+5.  Creates placeholder `DESCRIPTION.md`, `TASKS.md`, and `NOTES.md` files within each epic directory.
+
+---
+
+### 16. structure-validator
+
+**Name**: `structure-validator`
+**Description**: Non-destructively validates and updates the structure of user-owned configuration and documentation files.
+**Model**: `claude-sonnet-4-5`
+
+**Workflow**:
+1.  Reads a canonical template file (e.g., `prompts/reference/status-xml.md` or `prompts/templates/doc-templates.md`).
+2.  Reads the corresponding user file from the target project.
+3.  Compares the user file's structure (XML tags or Markdown headers) to the canonical template.
+4.  If any structural elements are missing from the user's file, it carefully inserts them without altering or removing any existing user content.
+5.  Generates a report of all changes made.
 - Usage: Find similar issues, browser testing, visual regression detection
 
 **qa-tester**:

@@ -22,12 +22,6 @@ DRY_RUN="${2:-false}"
 SYNC_ITEMS=(
     ".claude/agents"
     ".claude/commands"
-    "docs/development/CODE_REVIEW_PRINCIPLES.md"
-    "docs/development/DESIGN_PRINCIPLES.md"
-    "docs/development/SECURITY_REVIEW_CHECKLIST.md"
-    "docs/development/YOLO_MODE.md"
-    "prompts/templates/story-template.md"
-    "scripts/migrate-stories.sh"
 )
 
 # Colors for output
