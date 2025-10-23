@@ -12,7 +12,11 @@ Run all checks, review changes, create conventional commit with proper formattin
 
 ## Process
 
-**Step 0: Query AML for Commit Patterns** (NEW - Agent Memory & Learning):
+**Step 0: Query AML for Commit Patterns** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 Before creating the commit, query AML for commit message best practices and patterns:
 
@@ -58,6 +62,9 @@ const projectCommitPatterns = await aml.queryPatterns('coordinator', {
 - Predict commit message quality before creating commit
 - Use learned breaking change indicators
 
+**If AML is disabled**:
+- Skip this step and proceed to Step 1
+
 1. **Run Tests**:
    - Execute test suite
    - Verify all tests pass
@@ -84,7 +91,11 @@ const projectCommitPatterns = await aml.queryPatterns('coordinator', {
    - Create commit with formatted message
    - Handle pre-commit hooks if they modify files
 
-**Final Step: Record Commit to AML** (NEW - Agent Memory & Learning):
+**Final Step: Record Commit to AML** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 After successfully creating the commit, record the commit message effectiveness:
 
@@ -172,6 +183,9 @@ await aml.recordDecision('coordinator', {
 - Commit message quality and PR approval rates
 - Breaking change identification patterns
 - Commit size and atomicity best practices
+
+**If AML is disabled**:
+- Skip this step entirely
 
 ## Commit Message Format
 

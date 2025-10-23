@@ -17,7 +17,11 @@ Full code review using 7-phase hierarchical framework with automatic Review Task
    - Read story file at `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
    - Read acceptance criteria and requirements from story
 
-**Step 1.5: Query AML for Review Patterns** (NEW - Agent Memory & Learning):
+**Step 1.5: Query AML for Review Patterns** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 Before executing the review, query AML to load common review patterns and avoid missing known issues:
 
@@ -62,6 +66,9 @@ const falsePositives = await aml.queryPatterns('code-reviewer-pro', {
 - Skip false positive checks that wasted time in past reviews
 - Use proven review checklists for this component type
 - Predict review time based on similar code change sizes
+
+**If AML is disabled**:
+- Skip this step and proceed to Step 2
 
 2. **Embed Git Diff for Full Context**:
 
@@ -137,7 +144,11 @@ const falsePositives = await aml.queryPatterns('code-reviewer-pro', {
    - Add completion note to status.xml
    - Congratulate user on completing the story
 
-**Final Step: Record Review Patterns to AML** (NEW - Agent Memory & Learning):
+**Final Step: Record Review Patterns to AML** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 After completing the review, record outcomes to improve future reviews:
 
@@ -245,6 +256,9 @@ await aml.recordPattern('code-reviewer-pro', {
 - Review time estimates by code change size
 - Most effective review techniques per component type
 - Review quality metrics (findings per 100 lines of code)
+
+**If AML is disabled**:
+- Skip this step entirely
 
 ## Agent Delegation
 

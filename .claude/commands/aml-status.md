@@ -10,6 +10,29 @@ argument-hint: [--agent agent-name] [--detailed] [--trends]
 
 Displays comprehensive memory statistics, learning metrics, and pattern insights for all agents or a specific agent. Provides visual representation of memory usage, success rates, and learning trends to help you understand how your agents are improving over time.
 
+## Prerequisites Check
+
+**CRITICAL**: Before executing this command, check if AML is enabled:
+
+1. **Read status.xml**: Check `docs/development/status.xml` for `<aml enabled="true|false">`
+
+2. **If AML is disabled (`enabled="false"`)**:
+   ```
+   ⚠️  AML System Not Enabled
+
+   The Agent Memory & Learning system is not enabled for this project.
+
+   To enable AML, run the loomify.md prompt in update mode, which will
+   offer to install the AML system.
+
+   Cannot display AML status when system is disabled.
+   ```
+   **STOP EXECUTION** - Do not proceed with the rest of this command.
+
+3. **If AML is enabled (`enabled="true"`)**: Proceed with the command below.
+
+4. **If status.xml doesn't exist**: Inform user that Loom is not set up properly.
+
 ## Process
 
 1. **Read AML Configuration**:

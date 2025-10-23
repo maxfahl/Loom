@@ -10,6 +10,29 @@ argument-hint: [training-file] [--agent agent-name] [--validate]
 
 Allows manual training of agents with specific patterns, solutions, or decisions. Perfect for importing expert knowledge, seeding new agents with proven approaches, or accelerating learning with curated training data. Supports both interactive training and batch imports from files.
 
+## Prerequisites Check
+
+**CRITICAL**: Before executing this command, check if AML is enabled:
+
+1. **Read status.xml**: Check `docs/development/status.xml` for `<aml enabled="true|false">`
+
+2. **If AML is disabled (`enabled="false"`)**:
+   ```
+   ⚠️  AML System Not Enabled
+
+   The Agent Memory & Learning system is not enabled for this project.
+
+   To enable AML, run the loomify.md prompt in update mode, which will
+   offer to install the AML system.
+
+   Cannot execute AML commands when system is disabled.
+   ```
+   **STOP EXECUTION** - Do not proceed with the rest of this command.
+
+3. **If AML is enabled (`enabled="true"`)**: Proceed with the command below.
+
+4. **If status.xml doesn't exist**: Inform user that Loom is not set up properly.
+
 ## Process
 
 1. **Determine Training Mode**:

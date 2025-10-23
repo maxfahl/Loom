@@ -17,9 +17,8 @@
 
 **Meta-framework for autonomous AI development with Claude Code**
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.4.0-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![AML](https://img.shields.io/badge/AML-Learning_Enabled-green)](docs/aml/)
 
 </div>
 
@@ -51,12 +50,14 @@ AI coding assistants struggle with complex, multi-phase projects. They lose cont
 Loom provides:
 
 1. **Specialized agents** - 46 agents, each with focused expertise
-2. **Agent Memory & Learning** - Agents learn from every execution and improve 10x over time 🆕
-3. **TDD enforcement** - Red-Green-Refactor cycle is mandatory
-4. **Feature tracking** - Epics and stories organize work into manageable chunks
-5. **Autonomous loops** - Agents work through stories with configurable stopping points
-6. **Parallel execution** - Multiple agents work simultaneously (60-80% faster)
-7. **Minimal dependencies** - Only 2 required MCP servers (context7, playwright)
+2. **TDD enforcement** - Red-Green-Refactor cycle is mandatory
+3. **Feature tracking** - Epics and stories organize work into manageable chunks
+4. **Autonomous loops** - Agents work through stories with configurable stopping points
+5. **Parallel execution** - Multiple agents work simultaneously (60-80% faster)
+6. **Structured thinking** - 74 brainstorming/elicitation techniques for systematic planning
+7. **Automatic retrospectives** - Epic completion analysis with continuous improvement
+8. **Minimal dependencies** - Only 2 required MCP servers (context7, playwright)
+9. **Optional: Agent Memory & Learning (AML)** - Agents can learn from execution patterns (opt-in)
 
 ### Philosophy
 
@@ -87,7 +88,7 @@ Read and fully understand the prompt in the loomify.md file and execute the work
 
 ## 🧰 Core Components
 
-### 44 Specialized Agents
+### 46 Specialized Agents
 
 **Loom Framework Agents (6):**
 | Agent | Purpose |
@@ -138,32 +139,51 @@ Read and fully understand the prompt in the loomify.md file and execute the work
 | **database-optimizer** | Database performance tuning |
 | **graphql-architect** | GraphQL API design and optimization |
 
+**Thinking & Ideation (2):**
+| Agent | Purpose |
+|-------|---------|
+| **thought-partner** | Facilitates structured thinking sessions (36 brainstorming + 38 elicitation methods) |
+| **epic-reviewer** | Analyzes completed epics, generates retrospectives, extracts learnings |
+
 **Additional Specialists (15):**
 AI engineer, API documenter, data engineer, data scientist, documentation expert, DX optimizer, incident responder, legacy modernizer, ML engineer, product manager, prompt engineer, UI designer, UX designer, agent-organizer
 
-> See `.claude/AGENTS.md` for the complete directory of all 44 agents.
+> See `.claude/AGENTS.md` for the complete directory of all 46 agents.
 
-### 17 Commands
+### 18 Commands (+ 5 Optional AML Commands)
 
-| Command            | Purpose                                            |
-| ------------------ | -------------------------------------------------- |
-| `/dev`             | Continue development (respects YOLO configuration) |
-| `/commit`          | Smart commit with tests and linting                |
-| `/review`          | Comprehensive code review                          |
-| `/security-review` | OWASP-based security scan                          |
-| `/design-review`   | UI/UX + accessibility review                       |
-| `/test`            | Run tests with coverage (80%+ required)            |
-| `/plan`            | Plan feature/task with TDD breakdown               |
-| `/docs`            | Update documentation                               |
-| `/create-feature`  | Create new feature with epics and stories          |
-| `/correct-course`  | Adjust feature direction                           |
-| `/create-story`    | Generate next user story                           |
-| `/yolo`            | Configure autonomous mode breakpoints              |
-| `/one-off`         | Delegate one-off task to coordinator               |
-| `/fix`             | Create bug fix story                               |
-| `/loom-status`     | Show project status report                         |
-| `/create-agent`    | Create new specialized agent                       |
-| `/create-skill`    | Create reusable Claude Skill package               |
+**Core Commands (18):**
+
+| Command            | Purpose                                                    |
+| ------------------ | ---------------------------------------------------------- |
+| `/dev`             | Continue development (respects YOLO configuration)         |
+| `/commit`          | Smart commit with tests and linting                        |
+| `/review`          | Comprehensive code review                                  |
+| `/security-review` | OWASP-based security scan                                  |
+| `/design-review`   | UI/UX + accessibility review                               |
+| `/test`            | Run tests with coverage (80%+ required)                    |
+| `/think`           | Structured thinking session (brainstorming/elicitation) 🆕 |
+| `/plan`            | Plan feature/task with TDD breakdown                       |
+| `/docs`            | Update documentation                                       |
+| `/create-feature`  | Create new feature with epics and stories                  |
+| `/correct-course`  | Adjust feature direction                                   |
+| `/create-story`    | Generate next user story                                   |
+| `/yolo`            | Configure autonomous mode breakpoints                      |
+| `/one-off`         | Delegate one-off task to coordinator                       |
+| `/fix`             | Create bug fix story                                       |
+| `/loom-status`     | Show project status report                                 |
+| `/create-agent`    | Create new specialized agent                               |
+| `/create-skill`    | Create reusable Claude Skill package                       |
+
+**Optional AML Commands (requires opt-in during setup):**
+
+| Command       | Purpose                                        |
+| ------------- | ---------------------------------------------- |
+| `/aml-status` | Display memory statistics and learning metrics |
+| `/aml-train`  | Manually trigger pattern learning              |
+| `/aml-export` | Export agent memories for portability          |
+| `/aml-import` | Import shared patterns                         |
+| `/aml-reset`  | Clear agent memories (GDPR compliance)         |
 
 ### MCP Server Integration
 
@@ -445,6 +465,111 @@ When an epic completes, the **coordinator** automatically triggers the **epic-re
 
 ---
 
+## 🧠 Agent Memory & Learning (AML) - OPTIONAL
+
+**Status**: Opt-in feature during setup (not enabled by default)
+
+AML allows agents to learn from execution patterns and improve performance over time. This is a TypeScript-based system that runs alongside Loom.
+
+### What It Does
+
+- **Pattern Recognition**: Agents remember successful implementation patterns
+- **Solution Database**: Stores error resolutions and debugging solutions
+- **Decision Tracking**: Records architectural choices and their outcomes
+- **Performance Metrics**: Tracks success rates, time saved, confidence scores
+
+### How It Works
+
+1. **Before Delegation**: Coordinator queries AML for relevant patterns
+2. **During Execution**: Agent applies learned patterns to current task
+3. **After Completion**: Records outcome, updates confidence scores, creates new patterns
+
+### Example Learning
+
+```
+Context: Build React component with form validation
+AML Query: "frontend UI component with validation"
+
+Response: 3 patterns found
+- Pattern A: frontend-developer + test-automator parallel (95% success, 34 uses)
+- Pattern B: frontend-developer → test-automator sequential (87% success, 18 uses)
+- Pattern C: full-stack-developer solo (78% success, 12 uses)
+
+Decision: Use Pattern A (highest success rate)
+```
+
+### Data Stored
+
+- **Patterns**: Successful approaches with conditions and outcomes
+- **Solutions**: Error fixes with root causes and prevention strategies
+- **Decisions**: Architecture choices with trade-offs and results
+- **Metrics**: Performance data, success rates, learning trends
+
+### Storage
+
+All data stored locally in `.loom/memory/`:
+
+```
+.loom/memory/
+├── config.json              # AML configuration
+├── [agent-name]/
+│   ├── patterns.json       # Learned patterns
+│   ├── solutions.json      # Error solutions
+│   ├── decisions.json      # Architectural decisions
+│   └── metrics.json        # Performance metrics
+├── global/                 # Cross-agent patterns
+├── audit/                  # GDPR-compliant audit logs
+└── backup/                 # Automated backups
+```
+
+### Privacy & Security
+
+- **Local-only**: All data stored in your project (never sent externally)
+- **Encryption**: AES-256-GCM for sensitive data
+- **GDPR Compliant**: Right to access (`/aml-export`), right to deletion (`/aml-reset`)
+- **Audit Trail**: Complete log of all AML operations
+
+### Commands
+
+When AML is enabled:
+
+- `/aml-status` - View learning metrics and memory usage
+- `/aml-train` - Manually trigger pattern learning
+- `/aml-export` - Export memories for sharing or backup
+- `/aml-import` - Import shared patterns from team
+- `/aml-reset` - Clear all memories (GDPR compliance)
+
+### Performance Impact
+
+- Query latency: <50ms (cached: <5ms)
+- Write latency: <100ms
+- Storage overhead: ~5-50MB depending on usage
+- Cache hit rate: >80% after warm-up
+
+### Enabling AML
+
+During `loomify.md` setup, you'll be asked:
+
+```
+Would you like to enable Agent Memory & Learning (AML)?
+
+AML allows agents to learn from execution patterns and improve over time.
+Requires Node.js/TypeScript infrastructure.
+
+[y/N]:
+```
+
+Choose `y` to enable, `N` (default) to skip.
+
+### Current Status
+
+**Phase 1 Complete**: Core infrastructure (MemoryService, QueryEngine, CacheLayer, etc.)
+**Phase 2 In Progress**: Full agent integration and learning algorithms
+
+See `src/aml/README.md` for complete technical documentation.
+
+---
+
 ## 🧪 Review Frameworks
 
 ### Code Review (7-Phase)
@@ -509,10 +634,14 @@ When you run `loomify.md` on a new project, Loom creates:
 ```
 your-project/
 ├── .claude/
-│   ├── agents/          # 44 specialized agents
-│   ├── commands/        # 17 slash commands
+│   ├── agents/          # 46 specialized agents
+│   ├── commands/        # 18 slash commands (+ 5 optional AML)
 │   ├── skills/          # Claude Skills packages
 │   └── AGENTS.md        # Agent directory reference
+├── .loom/
+│   ├── thinking-sessions/   # Structured thinking artifacts
+│   ├── retrospectives/      # Epic completion analyses
+│   └── memory/             # AML data (optional, if enabled)
 ├── docs/development/
 │   ├── status.xml       # Feature tracking
 │   ├── INDEX.md         # Documentation hub
@@ -534,7 +663,7 @@ your-project/
 System of prompts and templates that scaffold development environments, not executable code.
 
 **Autonomous Agents**
-44 specialized AI agents with distinct responsibilities, working in parallel.
+46 specialized AI agents with distinct responsibilities, working in parallel.
 
 **Test-Driven Development**
 Mandatory Red-Green-Refactor cycle with 80%+ coverage requirements.
@@ -556,7 +685,7 @@ Only 2 required MCP servers (context7 for documentation, playwright for testing)
 ## 📖 Documentation
 
 - **[Unified Setup/Update](loomify.md)** - Single entry point (auto-detects mode)
-- **[Agent Directory](.claude/AGENTS.md)** - Complete directory of all 44 agents
+- **[Agent Directory](.claude/AGENTS.md)** - Complete directory of all 46 agents
 - **[MCP Servers Guide](MCP_SERVERS.md)** - Setup and requirements (only 2 required!)
 - **[YOLO Mode Guide](prompts/reference/yolo-mode.md)** - Autonomous workflow documentation
 - **[Framework Development](CLAUDE.md)** - For modifying Loom itself

@@ -14,6 +14,27 @@ aml_config:
 
 ## Start by Reading Documentation
 
+### AML Status Check (CRITICAL)
+
+Before using any AML features, you MUST verify that AML is enabled for this project:
+
+1. **Read status.xml**: Check `docs/development/status.xml` for `<aml enabled="true|false">`
+
+2. **If `<aml enabled="false">` or AML section is missing**:
+   - **DO NOT** query AML for patterns
+   - **DO NOT** record patterns/solutions/decisions to AML
+   - **DO NOT** use any AML-related features
+   - Work normally without AML features
+
+3. **If `<aml enabled="true">`**:
+   - Proceed with full AML integration as described below
+   - Query AML before tasks
+   - Record outcomes after tasks
+
+**This check is mandatory** - skipping it will cause errors if AML is not installed.
+
+---
+
 **CRITICAL: Before doing ANYTHING, read these files in order:**
 
 1. **.claude/AGENTS.md** - Complete directory of all 44 available agents (MUST READ for delegation)

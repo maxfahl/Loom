@@ -11,7 +11,11 @@ Create the next user story within the current epic with proper structure and tas
 
 ## Process
 
-**Step 0: Query AML for Story Patterns** (NEW - Agent Memory & Learning):
+**Step 0: Query AML for Story Patterns** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 Before creating the story, query AML for successful story structure patterns:
 
@@ -56,6 +60,9 @@ const qualityMetrics = await aml.queryPatterns('coordinator', {
 - Predict story completion time based on similar stories
 - Optimize task breakdown based on historical data
 - Identify common story quality issues to avoid
+
+**If AML is disabled**:
+- Skip this step and proceed to Step 1
 
 1. **Read Current Context**:
    - Read status.xml for current feature and epic
@@ -133,7 +140,11 @@ const qualityMetrics = await aml.queryPatterns('coordinator', {
 6. **Update status.xml** (optional):
    - If user wants to start immediately, set as current story
 
-**Final Step: Record Story Creation to AML** (NEW - Agent Memory & Learning):
+**Final Step: Record Story Creation to AML** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 After creating the story, record the story structure and quality for future improvement:
 
@@ -245,6 +256,9 @@ await aml.recordDecision('coordinator', {
 - Story completion rates by complexity
 - Estimation accuracy (planned vs actual) by story type
 - Common story quality issues and how to avoid them
+
+**If AML is disabled**:
+- Skip this step entirely
 
 ## Recommended Skills
 

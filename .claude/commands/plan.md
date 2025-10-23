@@ -12,7 +12,11 @@ Create detailed implementation plan with TDD breakdown and task organization.
 
 ## Process
 
-**Step 0: Query AML for Planning Patterns** (NEW - Agent Memory & Learning):
+**Step 0: Query AML for Planning Patterns** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 Before creating the plan, query AML for successful planning patterns and estimation data:
 
@@ -68,6 +72,9 @@ const knownRisks = await aml.querySolutions('coordinator', {
 - Identify known risks from similar features completed previously
 - Optimize phase ordering based on successful past plans
 - Predict story count and epic duration
+
+**If AML is disabled**:
+- Skip this step and proceed to Step 1
 
 1. **Read Agent Directory** (CRITICAL):
    - Read `.claude/AGENTS.md` to understand all available agents
@@ -134,7 +141,11 @@ const knownRisks = await aml.querySolutions('coordinator', {
    [Immediate actions to take]
    ```
 
-**Final Step: Record Planning to AML** (NEW - Agent Memory & Learning):
+**Final Step: Record Planning to AML** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 After creating the plan, record the planning decisions and estimations for future learning:
 
@@ -247,6 +258,9 @@ for (const risk of identifiedRisks) {
 - Optimal phase ordering and parallelization strategies
 - Agent assignment success rates by task type
 - Planning time vs feature completion time correlation
+
+**If AML is disabled**:
+- Skip this step entirely
 
 ## Agent Delegation
 

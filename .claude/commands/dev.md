@@ -18,7 +18,11 @@ Resume development following configured autonomy level. Behavior adapts based on
 - Read breakpoint configuration
 - Determine execution mode based on autonomy level
 
-**Step 0.5: Query AML for Context** (NEW - Agent Memory & Learning):
+**Step 0.5: Query AML for Context** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 Before starting development, query AML to load learned patterns and avoid known pitfalls:
 
@@ -62,6 +66,9 @@ const delegationPatterns = await aml.queryDecisions('coordinator', {
 - Optimize delegation based on historical agent performance
 - Predict time estimates based on similar completed stories
 - Choose optimal YOLO mode breakpoints based on story complexity
+
+**If AML is disabled**:
+- Skip this step entirely and proceed to Step 1
 
 **Step 1: Read Current Context**:
 
@@ -123,7 +130,11 @@ _For STORY/EPIC/CUSTOM Modes (Autonomous)_:
 - Coordinator **updates story file** after each phase
 - Coordinator **stops at configured breakpoints**
 
-**Step 4: Record Learning Outcomes** (NEW - Agent Memory & Learning):
+**Step 4: Record Learning Outcomes** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 After completing work (story/task/phase), record outcomes to improve future executions:
 
@@ -227,6 +238,9 @@ await aml.recordPattern('coordinator', {
 - Accurate time estimates based on historical data
 - Common pitfalls and their solutions
 - Workflow optimizations discovered during execution
+
+**If AML is disabled**:
+- Skip this step entirely and proceed to next task
 
 **TDD Variations**:
 

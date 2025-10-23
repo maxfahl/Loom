@@ -75,6 +75,16 @@ docs/development/
     <!-- Only ONE feature should have is-active-feature="true" at a time -->
   </metadata>
 
+  <aml enabled="true">
+    <!-- Agent Memory & Learning System (Optional Feature) -->
+    <!-- When enabled="true": Agents use persistent memory and learning -->
+    <!-- When enabled="false": Agents work without persistent memory -->
+    <description>Agent Memory &amp; Learning System is ENABLED for this project</description>
+    <memory-path>.loom/memory</memory-path>
+    <last-initialized>2025-10-23T00:00:00Z</last-initialized>
+    <version>2.0.0</version>
+  </aml>
+
   <epics>
     <!-- Epics are logical groupings of related tasks -->
     <!-- Each epic has its own folder: docs/development/features/[feature]/epics/[epic-name]/ -->
@@ -261,6 +271,14 @@ During the project setup, the `docs/development/status.xml` file is created and 
     <is-active-feature>true</is-active-feature>
     <!-- Set to true for the feature currently being developed -->
   </metadata>
+
+  <aml enabled="false">
+    <!-- Agent Memory & Learning System (Optional Feature) -->
+    <!-- Set enabled="true" to enable persistent memory and learning -->
+    <!-- Set enabled="false" to disable (agents work without persistent memory) -->
+    <description>Agent Memory &amp; Learning System is DISABLED for this project</description>
+    <note>Can be enabled by running loomify.md in update mode</note>
+  </aml>
 
   <epics>
     <!-- Divide feature into logical epics (groupings of related tasks) -->

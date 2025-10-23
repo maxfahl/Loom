@@ -151,7 +151,21 @@ Deploy the `CLAUDE.md` file using the `scripts/deploy-claude-md.sh` script. This
 
 ### Phase 5: Final Setup & Verification
 
-Follow the instructions in `prompts/setup/3-features-setup.md` and `prompts/setup/4-verification.md` to complete the setup, which includes creating the feature structure and the initial Git commit.
+Follow the instructions in `prompts/setup/3-features-setup.md` and `prompts/setup/4-verification.md` to complete the setup, which includes creating the feature structure.
+
+### Phase 6: Agent Memory & Learning (AML) Setup (Optional)
+
+Follow the instructions in `prompts/setup/6-aml-setup.md` to optionally install the Agent Memory & Learning system, which gives agents persistent memory and learning capabilities.
+
+This phase will:
+- Ask the user if they want to enable AML
+- Install AML infrastructure if user agrees
+- Update status.xml with the AML enabled/disabled flag
+- Configure the project for AML usage
+
+### Phase 7: Final Commit
+
+After all phases are complete (including optional AML setup), create the initial Git commit.
 
 After these steps, the user's project will be fully set up with the latest version of the Loom framework.
 
@@ -284,7 +298,23 @@ Older versions of Loom used a different story structure. Run the migration scrip
 
 3.  **Confirm the output**: The script will report if any stories were migrated.
 
-### Step 5: Final Verification
+### Step 5: Check AML Status and Offer Installation
+
+Check if AML (Agent Memory & Learning) is enabled in the project:
+
+1. **Read status.xml**: Check for `<aml enabled="true|false">` in `docs/development/status.xml`
+
+2. **If AML is disabled or missing**:
+   - Ask user if they want to enable AML now
+   - If yes, follow the instructions in `prompts/setup/6-aml-setup.md`
+   - If no, continue to Step 6
+
+3. **If AML is already enabled**:
+   - Check if AML files need updating (compare versions)
+   - If newer version available, offer to update
+   - Continue to Step 6
+
+### Step 6: Final Verification
 
 After the scripts have run, the project is up-to-date. Inform the user about the changes and suggest they commit the updates to their version control.
 

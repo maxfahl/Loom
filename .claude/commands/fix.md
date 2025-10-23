@@ -12,7 +12,11 @@ Create a high-priority story for a bug fix and optionally start working on it im
 
 ## Process
 
-**Step 0: Query AML for Bug Solutions** (NEW - Agent Memory & Learning):
+**Step 0: Query AML for Bug Solutions** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 Before creating the bug fix story, query AML for similar bug solutions and patterns:
 
@@ -58,6 +62,9 @@ const recurringBugs = await aml.queryPatterns('debugger', {
 - Identify root cause faster using historical bug patterns
 - Apply preventive measures from similar bugs
 - Estimate fix time based on bug complexity and historical data
+
+**If AML is disabled**:
+- Skip this step and proceed to Step 1
 
 1. **Gather Bug Details**:
    - Use `$ARGUMENTS` if provided
@@ -164,7 +171,11 @@ const recurringBugs = await aml.queryPatterns('debugger', {
    - Update status.xml to set as current story
    - Run `/dev` command to begin work
 
-**Final Step: Record Bug Fix to AML** (NEW - Agent Memory & Learning):
+**Final Step: Record Bug Fix to AML** (Optional - Only if AML is Enabled):
+
+First, check if AML is enabled by reading `docs/development/status.xml` and looking for `<aml enabled="true">`.
+
+**If AML is enabled**:
 
 After successfully fixing the bug (or creating the story), record the bug and solution for future reference:
 
@@ -284,6 +295,9 @@ if (preventiveMeasures.length > 0) {
 - Time to fix by bug severity and complexity
 - Prevention patterns to avoid similar bugs
 - Bug recurrence rates after fixes
+
+**If AML is disabled**:
+- Skip this step entirely
 
 ## Agent Delegation
 

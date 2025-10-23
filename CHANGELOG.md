@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 Loom agents now have persistent memory and learning capabilities, making them 10x smarter over time.
 
+**AML is now fully integrated as an optional feature** - users choose to enable it during setup.
+
 **Core Infrastructure:**
 - **MemoryService** - Complete CRUD API for patterns, solutions, and decisions
 - **QueryEngine** - Pattern matching with similarity search (<50ms query latency)
@@ -75,6 +77,13 @@ Loom agents now have persistent memory and learning capabilities, making them 10
 - Deployment checklist (134+ items)
 - Quick reference guide for common operations
 
+**Integration:**
+- **Optional Feature**: Users opt-in during loomify.md setup (Phase 6)
+- **status.xml Gating**: All AML features check `<aml enabled="true|false">` flag
+- **Zero Breaking Changes**: Works perfectly with or without AML enabled
+- **Graceful Degradation**: Commands/agents skip AML steps when disabled
+- **Update Support**: Existing projects can enable AML via loomify.md update mode
+
 **Benefits:**
 - 40% faster development (use proven patterns vs trial-and-error)
 - 10x smarter agents (continuous learning and improvement)
@@ -82,7 +91,12 @@ Loom agents now have persistent memory and learning capabilities, making them 10
 - Institutional knowledge preservation
 - Cross-project knowledge sharing
 
-**Status:** 85% complete, ready for alpha deployment
+**Setup Files Added:**
+- `prompts/setup/6-aml-setup.md` - Installation workflow
+- `<aml>` section added to status.xml schema
+- Updated loomify.md with Phase 6 (setup) and Step 5 (update)
+
+**Status:** 100% integration complete, ready for production deployment
 
 ---
 
