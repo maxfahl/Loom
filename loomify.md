@@ -18,6 +18,7 @@ fi
 ```
 
 **Based on the result**:
+
 - If `EXISTING_LOOM_PROJECT`: Execute **Update Mode** (see below)
 - If `NEW_LOOM_PROJECT`: Execute **Setup Mode** (see below)
 
@@ -41,24 +42,63 @@ Next, based on the information gathered in Phase 1, create the project-specific 
 
 ### Phase 3: Synchronize Framework Files
 
-Synchronize core framework files (agents, commands, skills) from the Loom repository using the `sync-loom-files.sh` script.
+Synchronize core framework files (agents, commands, skills) from the Loom repository.
 
-1.  **Explain the action**: Inform the user that you are about to copy the necessary agent, command, and configuration files into their project.
+1.  **Ask user for sync preference**: Before synchronizing files, ask the user:
+
+    ```
+    How would you like to sync framework files (agents, commands, skills)?
+
+    1. FULL REPLACEMENT (Recommended for clean installs)
+       - Completely replaces .claude/agents/, .claude/commands/, .claude/skills/
+       - Fastest option (uses cp)
+       - Removes any custom modifications you made to these folders
+
+    2. INTELLIGENT SYNC (Recommended if you have custom agents/commands)
+       - Uses rsync to merge changes
+       - Preserves your custom files
+       - Updates existing Loom files
+       - Slower but safer for customized setups
+
+    Choose: [1] Full Replacement or [2] Intelligent Sync
+    ```
 
 2.  **Resolve Loom repository path**: You know the full path to this prompt file because the user provided it when invoking this prompt (e.g., `/path/to/loom/loom.md`). Extract the directory portion to get LOOM_ROOT.
 
-3.  **Execute the sync script**: Run the `sync-loom-files.sh` script using the resolved LOOM_ROOT path.
+3.  **Execute sync based on user choice**:
+
+    **Option 1 - Full Replacement (Fast)**:
 
     ```bash
     # LOOM_ROOT is the directory containing this prompt file (loom.md)
-    # Example: if this prompt is at /Users/dev/loom/loom.md, then LOOM_ROOT=/Users/dev/loom
+    LOOM_ROOT="[directory-of-this-prompt-file]"
+    TARGET_DIR="."
+
+    # Remove existing directories
+    rm -rf "$TARGET_DIR/.claude/agents" "$TARGET_DIR/.claude/commands" "$TARGET_DIR/.claude/skills"
+
+    # Copy fresh from Loom repository
+    cp -r "$LOOM_ROOT/.claude/agents" "$TARGET_DIR/.claude/"
+    cp -r "$LOOM_ROOT/.claude/commands" "$TARGET_DIR/.claude/"
+    cp -r "$LOOM_ROOT/.claude/skills" "$TARGET_DIR/.claude/"
+
+    # Copy AGENTS.md
+    cp "$LOOM_ROOT/.claude/AGENTS.md" "$TARGET_DIR/.claude/"
+
+    echo "✅ Full replacement complete - all framework files synchronized"
+    ```
+
+    **Option 2 - Intelligent Sync (Safe)**:
+
+    ```bash
+    # LOOM_ROOT is the directory containing this prompt file (loom.md)
     LOOM_ROOT="[directory-of-this-prompt-file]"
 
-    # Execute sync script
+    # Execute sync script (uses rsync)
     bash "$LOOM_ROOT/scripts/sync-loom-files.sh" .
     ```
 
-4.  **Confirm the output**: Review the output of the script to ensure that files were created and updated as expected.
+4.  **Confirm the output**: Review the output to ensure that files were created/updated as expected.
 
 ### Phase 4: Deploy CLAUDE.md
 
@@ -127,18 +167,58 @@ Execute this workflow when `docs/development/status.xml` EXISTS.
 
 Synchronize core framework files (agents, commands, skills) from the Loom repository. This ensures all agents, commands, and essential configurations are up-to-date.
 
-1.  **Explain the action**: Inform the user that you are about to synchronize the core framework files into the current directory.
+1.  **Ask user for sync preference**: Before synchronizing files, ask the user:
+
+    ```
+    How would you like to sync framework files (agents, commands, skills)?
+
+    1. FULL REPLACEMENT (Recommended for most updates)
+       - Completely replaces .claude/agents/, .claude/commands/, .claude/skills/
+       - Fastest option (uses cp)
+       - Removes any custom modifications you made to these folders
+       - Ensures you have the latest framework versions
+
+    2. INTELLIGENT SYNC (Recommended if you have custom agents/commands)
+       - Uses rsync to merge changes
+       - Preserves your custom files
+       - Updates existing Loom files
+       - Slower but safer for customized setups
+
+    Choose: [1] Full Replacement or [2] Intelligent Sync
+    ```
 
 2.  **Resolve Loom repository path**: You know the full path to this prompt file because the user provided it when invoking this prompt (e.g., `/path/to/loom/loom.md`). Extract the directory portion to get LOOM_ROOT.
 
-3.  **Execute the sync script**: Run the `sync-loom-files.sh` script using the resolved LOOM_ROOT path.
+3.  **Execute sync based on user choice**:
+
+    **Option 1 - Full Replacement (Fast)**:
 
     ```bash
     # LOOM_ROOT is the directory containing this prompt file (loom.md)
-    # Example: if this prompt is at /Users/dev/loom/loom.md, then LOOM_ROOT=/Users/dev/loom
+    LOOM_ROOT="[directory-of-this-prompt-file]"
+    TARGET_DIR="."
+
+    # Remove existing directories
+    rm -rf "$TARGET_DIR/.claude/agents" "$TARGET_DIR/.claude/commands" "$TARGET_DIR/.claude/skills"
+
+    # Copy fresh from Loom repository
+    cp -r "$LOOM_ROOT/.claude/agents" "$TARGET_DIR/.claude/"
+    cp -r "$LOOM_ROOT/.claude/commands" "$TARGET_DIR/.claude/"
+    cp -r "$LOOM_ROOT/.claude/skills" "$TARGET_DIR/.claude/"
+
+    # Copy AGENTS.md
+    cp "$LOOM_ROOT/.claude/AGENTS.md" "$TARGET_DIR/.claude/"
+
+    echo "✅ Full replacement complete - all framework files synchronized"
+    ```
+
+    **Option 2 - Intelligent Sync (Safe)**:
+
+    ```bash
+    # LOOM_ROOT is the directory containing this prompt file (loom.md)
     LOOM_ROOT="[directory-of-this-prompt-file]"
 
-    # Execute sync script
+    # Execute sync script (uses rsync)
     bash "$LOOM_ROOT/scripts/sync-loom-files.sh" .
     ```
 

@@ -40,6 +40,7 @@ After completing work, update status.xml:
 
 - Receive user requests and analyze requirements
 - Identify independent sub-tasks suitable for parallelization
+- Output delegation thoughts using the template format before each Task tool call
 - Spawn multiple specialized sub-agents simultaneously using Task tool
 - Coordinate agent execution and collect results
 - Synthesize findings from all agents
@@ -47,6 +48,32 @@ After completing work, update status.xml:
 - Manage autonomous development workflow in YOLO mode
 - Loop through stories and epics until feature complete or stop condition reached
 - Abort and ask user when critical information is missing
+
+## Delegation Thought Template
+
+**CRITICAL**: Before EVERY Task tool call, output your delegation reasoning using this exact format:
+
+```
+### 🎯 Delegation Decision
+
+**Agent**: [agent-name]
+**Reason**: [Why this specific agent is the right choice for this task]
+**Context**: [Brief 1-2 sentence summary of what the agent should accomplish]
+**Dependencies**: [None | Depends on: agent-X, agent-Y]
+**Expected Output**: [What deliverable/outcome you expect from this agent]
+```
+
+**Example**:
+
+```
+### 🎯 Delegation Decision
+
+**Agent**: frontend-developer
+**Reason**: Specializes in React component development and has access to design tools
+**Context**: Build the user profile component with form validation and responsive layout
+**Dependencies**: None (can run in parallel with backend-architect)
+**Expected Output**: Functional React component with tests and Storybook documentation
+```
 
 ## MCP Server Integration
 
@@ -88,16 +115,36 @@ When invoked in YOLO mode (STORY/EPIC/CUSTOM), follow this complete autonomous w
 
 **Run these agents in parallel when needed**:
 
+**IMPORTANT**: Output delegation thoughts for EACH agent before calling Task tool.
+
 ```markdown
-# Research (if story needs external information)
+### 🎯 Delegation Decision
+
+**Agent**: [appropriate-agent]
+**Reason**: [Why this agent]
+**Context**: Research [specific topic] to inform implementation decisions
+**Dependencies**: None
+**Expected Output**: [Specific research findings]
 
 Task(subagent_type="[appropriate-agent]", prompt="Research [specific topic]...")
 
-# Documentation (if PRD/TECHNICAL_SPEC needs updates)
+### 🎯 Delegation Decision
+
+**Agent**: documentation-expert
+**Reason**: Specializes in technical documentation and PRD updates
+**Context**: Update [document] with [info] to reflect new requirements
+**Dependencies**: None (can run parallel with research)
+**Expected Output**: Updated PRD/TECHNICAL_SPEC with new sections
 
 Task(subagent_type="documentation-expert", prompt="Update [document] with [info]...")
 
-# Architecture Review (if story conflicts with specs)
+### 🎯 Delegation Decision
+
+**Agent**: [architect-agent]
+**Reason**: Expert in architecture review and alignment validation
+**Context**: Review story alignment with [spec] and identify conflicts
+**Dependencies**: None (can run parallel with documentation)
+**Expected Output**: Alignment report with conflict resolution recommendations
 
 Task(subagent_type="[architect-agent]", prompt="Review story alignment with [spec]...")
 ```
@@ -108,11 +155,37 @@ Task(subagent_type="[architect-agent]", prompt="Review story alignment with [spe
 
 **Spawn test-automator agents in parallel by test type**:
 
+**IMPORTANT**: Output delegation thoughts for EACH agent before calling Task tool.
+
 ```markdown
-# All test types run simultaneously
+### 🎯 Delegation Decision
+
+**Agent**: test-automator
+**Reason**: Expert in unit test design and TDD methodology
+**Context**: Write FAILING unit tests for [component] covering all acceptance criteria
+**Dependencies**: None
+**Expected Output**: Comprehensive unit test suite (RED phase - all failing)
 
 Task(subagent_type="test-automator", prompt="Write FAILING unit tests for [component]...")
+
+### 🎯 Delegation Decision
+
+**Agent**: test-automator
+**Reason**: Expert in integration testing and API contract validation
+**Context**: Write FAILING integration tests for [API] endpoints and service layer
+**Dependencies**: None (can run parallel with unit tests)
+**Expected Output**: Integration test suite (RED phase - all failing)
+
 Task(subagent_type="test-automator", prompt="Write FAILING integration tests for [API]...")
+
+### 🎯 Delegation Decision
+
+**Agent**: test-automator
+**Reason**: Expert in E2E testing and user journey validation
+**Context**: Write FAILING E2E tests for [user journey] covering complete workflows
+**Dependencies**: None (can run parallel with other test types)
+**Expected Output**: E2E test suite (RED phase - all failing)
+
 Task(subagent_type="test-automator", prompt="Write FAILING E2E tests for [user journey]...")
 ```
 
@@ -128,12 +201,47 @@ Task(subagent_type="test-automator", prompt="Write FAILING E2E tests for [user j
 
 **Spawn development agents in parallel by layer/component**:
 
+**IMPORTANT**: Output delegation thoughts for EACH agent before calling Task tool.
+
 ```markdown
-# Independent components run simultaneously
+### 🎯 Delegation Decision
+
+**Agent**: backend-architect
+**Reason**: Expert in API design and backend architecture
+**Context**: Implement [API endpoints] with minimal code to pass integration tests
+**Dependencies**: Depends on test-automator completing Phase 2
+**Expected Output**: Working API endpoints with all integration tests passing (GREEN phase)
 
 Task(subagent_type="backend-architect", prompt="Implement [API endpoints] to pass tests...")
+
+### 🎯 Delegation Decision
+
+**Agent**: frontend-developer
+**Reason**: Specializes in React/UI development and component architecture
+**Context**: Build [UI components] with minimal code to pass unit/E2E tests
+**Dependencies**: Depends on test-automator completing Phase 2
+**Expected Output**: Functional UI components with all frontend tests passing (GREEN phase)
+
 Task(subagent_type="frontend-developer", prompt="Build [UI components] to pass tests...")
+
+### 🎯 Delegation Decision
+
+**Agent**: mobile-developer
+**Reason**: Expert in React Native/Flutter and mobile UI patterns
+**Context**: Create [mobile screens] with minimal code to pass mobile tests
+**Dependencies**: Depends on test-automator completing Phase 2
+**Expected Output**: Working mobile screens with all mobile tests passing (GREEN phase)
+
 Task(subagent_type="mobile-developer", prompt="Create [mobile screens] to pass tests...")
+
+### 🎯 Delegation Decision
+
+**Agent**: full-stack-developer
+**Reason**: Can integrate across all layers and ensure end-to-end functionality
+**Context**: Integrate [full-stack feature] connecting frontend, backend, and data layer
+**Dependencies**: Depends on test-automator completing Phase 2
+**Expected Output**: Complete feature integration with all E2E tests passing (GREEN phase)
+
 Task(subagent_type="full-stack-developer", prompt="Integrate [full-stack feature]...")
 ```
 
@@ -150,7 +258,17 @@ Task(subagent_type="full-stack-developer", prompt="Integrate [full-stack feature
 
 **Single agent refactors while maintaining green tests**:
 
+**IMPORTANT**: Output delegation thought before calling Task tool.
+
 ```markdown
+### 🎯 Delegation Decision
+
+**Agent**: full-stack-developer
+**Reason**: Has full context from GREEN phase and can refactor across all layers
+**Context**: Refactor code for clarity and maintainability while keeping all tests green
+**Dependencies**: Depends on Phase 3 completing with all tests passing
+**Expected Output**: Improved code quality with all tests still passing (REFACTOR phase)
+
 Task(subagent_type="full-stack-developer", prompt="Refactor code for clarity and maintainability while keeping all tests green...")
 ```
 
@@ -166,11 +284,37 @@ Task(subagent_type="full-stack-developer", prompt="Refactor code for clarity and
 
 **Spawn all review agents simultaneously**:
 
-```markdown
-# All reviews run in parallel (60-80% time savings)
+**IMPORTANT**: Output delegation thoughts for EACH agent before calling Task tool.
 
-Task(subagent_type="code-reviewer", prompt="Review code for quality, security, maintainability...")
+```markdown
+### 🎯 Delegation Decision
+
+**Agent**: code-reviewer-pro
+**Reason**: Expert in code quality, maintainability, and best practices
+**Context**: Review refactored code for quality, security, and maintainability issues
+**Dependencies**: Depends on Phase 4 refactor completing
+**Expected Output**: Code review report with findings categorized by severity
+
+Task(subagent_type="code-reviewer-pro", prompt="Review code for quality, security, maintainability...")
+
+### 🎯 Delegation Decision
+
+**Agent**: security-reviewer
+**Reason**: Specializes in OWASP security scanning and vulnerability detection
+**Context**: Scan for security vulnerabilities, injection flaws, and compliance issues
+**Dependencies**: Depends on Phase 4 refactor completing (can run parallel with code-reviewer)
+**Expected Output**: Security audit report with OWASP findings and remediation steps
+
 Task(subagent_type="security-reviewer", prompt="Scan for OWASP vulnerabilities, security issues...")
+
+### 🎯 Delegation Decision
+
+**Agent**: design-reviewer
+**Reason**: Expert in UI/UX review and WCAG 2.1 AA accessibility compliance
+**Context**: Review UI changes for design consistency, UX quality, and accessibility
+**Dependencies**: Depends on Phase 4 refactor completing (can run parallel with other reviewers)
+**Expected Output**: Design review report with UX improvements and accessibility findings
+
 Task(subagent_type="design-reviewer", prompt="Review UI/UX, WCAG 2.1 AA compliance...") # Only if UI changes
 ```
 
@@ -283,11 +427,37 @@ Determine request type:
 
 ### Step 4: Delegate Using Task Tool
 
+**IMPORTANT**: Output delegation thoughts for EACH agent before calling Task tool.
+
 ```markdown
-# Parallel delegation example
+### 🎯 Delegation Decision
+
+**Agent**: frontend-developer
+**Reason**: Specializes in React/UI component development
+**Context**: Implement user profile UI with form validation and responsive design
+**Dependencies**: None
+**Expected Output**: Functional user profile component with tests
 
 Task(subagent_type="frontend-developer", prompt="Implement user profile UI...")
+
+### 🎯 Delegation Decision
+
+**Agent**: backend-architect
+**Reason**: Expert in API design and backend architecture
+**Context**: Create /users API endpoint with CRUD operations and validation
+**Dependencies**: None (can run parallel with frontend)
+**Expected Output**: Working API endpoint with integration tests
+
 Task(subagent_type="backend-architect", prompt="Create /users API endpoint...")
+
+### 🎯 Delegation Decision
+
+**Agent**: test-automator
+**Reason**: Expert in E2E testing and user journey validation
+**Context**: Write E2E tests for user profile covering create, update, delete flows
+**Dependencies**: None (can run parallel with implementation)
+**Expected Output**: Comprehensive E2E test suite
+
 Task(subagent_type="test-automator", prompt="Write E2E tests for user profile...")
 ```
 

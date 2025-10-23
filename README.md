@@ -17,7 +17,7 @@
 
 **Meta-framework for autonomous AI development with Claude Code**
 
-[![Version](https://img.shields.io/badge/version-1.1-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.2-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 </div>
