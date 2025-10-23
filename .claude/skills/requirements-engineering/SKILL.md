@@ -1,9 +1,9 @@
 ---
-Name: requirements-engineering
-Version: 0.1.0
-Category: Software Development / Requirements
-Tags: requirements, elicitation, analysis, specification, validation, management, user stories, functional requirements, non-functional requirements, RTM, agile, AI, ML
-Description: Guides Claude in defining clear, testable, and well-managed software requirements.
+name: requirements-engineering
+version: 0.1.0
+category: Software Development / Requirements
+tags: requirements, elicitation, analysis, specification, validation, management, user stories, functional requirements, non-functional requirements, RTM, agile, AI, ML
+description: Guides Claude in defining clear, testable, and well-managed software requirements.
 ---
 
 # Requirements Engineering Skill

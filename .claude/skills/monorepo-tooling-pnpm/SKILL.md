@@ -1,9 +1,9 @@
 ---
-Name: monorepo-tooling-pnpm
-Version: 1.0.0
-Category: Development / Build Tools
-Tags: monorepo, pnpm, workspaces, typescript, dependency management, build tools, nx, turborepo
-Description: Managing dependencies and workspaces efficiently within a monorepo using pnpm.
+name: monorepo-tooling-pnpm
+version: 1.0.0
+category: Development / Build Tools
+tags: monorepo, pnpm, workspaces, typescript, dependency management, build tools, nx, turborepo
+description: Managing dependencies and workspaces efficiently within a monorepo using pnpm.
 ---
 
 # Monorepo Tooling (pnpm) Skill

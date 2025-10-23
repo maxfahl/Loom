@@ -1,9 +1,9 @@
 ---
-Name: network-security-tls-mtls
-Version: 1.0.0
-Category: Security / Networking
-Tags: tls, mtls, network security, certificates, PKI, zero trust, service mesh, automation
-Description: Guides Claude on implementing secure network communications using TLS and mTLS, focusing on best practices for certificate management, zero trust architectures, and common pitfalls.
+name: network-security-tls-mtls
+version: 1.0.0
+category: Security / Networking
+tags: tls, mtls, network security, certificates, PKI, zero trust, service mesh, automation
+description: Guides Claude on implementing secure network communications using TLS and mTLS, focusing on best practices for certificate management, zero trust architectures, and common pitfalls.
 ---
 
 ## Skill Purpose

@@ -10,21 +10,21 @@ def analyze_angularjs_file(filepath):
         content = f.read()
 
     # Pattern for angular module definition
-    if re.search(r'angular.module(["\'].*?["\'])', content):
+    if re.search(r'angular\.module\s*\(\s*["\'].*?["\']', content, re.DOTALL):
         findings['module_definitions'].append(f'Found angular.module definition.')
 
     # Patterns for controllers, services, factories, directives
-    if re.search(r'.controller(["\'].*?["\'])', content):
+    if re.search(r'\.controller\s*\(\s*["\'].*?["\']', content, re.DOTALL):
         findings['controllers'].append(f'Found .controller definition.')
-    if re.search(r'.service(["\'].*?["\'])', content):
+    if re.search(r'\.service\s*\(\s*["\'].*?["\']', content, re.DOTALL):
         findings['services'].append(f'Found .service definition.')
-    if re.search(r'.factory(["\'].*?["\'])', content):
+    if re.search(r'\.factory\s*\(\s*["\'].*?["\']', content, re.DOTALL):
         findings['factories'].append(f'Found .factory definition.')
-    if re.search(r'.directive(["\'].*?["\'])', content):
+    if re.search(r'\.directive\s*\(\s*["\'].*?["\']', content, re.DOTALL):
         findings['directives'].append(f'Found .directive definition.')
 
     # Pattern for $scope usage
-    if re.search(r'$scope', content):
+    if re.search(r'\$scope', content):
         findings['scope_usage'].append(f'Found $scope usage.')
 
     # Pattern for direct DOM manipulation (e.g., element.css, element.on)
@@ -32,18 +32,22 @@ def analyze_angularjs_file(filepath):
         findings['dom_manipulation'].append(f'Found potential direct DOM manipulation.')
 
     # Pattern for direct HTTP calls within controllers (simplified)
-    if re.search(r'.controller([\s\S]*?(?:$http|fetch|axios).)', content):
+    if re.search(r'.controller([\s\S]*?(?:$http|fetch|axios))', content, re.DOTALL):
         findings['http_in_controller'].append(f'Found potential HTTP call within controller.')
 
     # Pattern for global variable declarations (simplified, might have false positives)
-    if re.search(r'^(var|let|const)\s+\w+\s*=\s*.*?;', content, re.MULTILINE):
+    if re.search(r'^(var|let|const)\s+\w+\s*=\s*[^;]*;', content, re.MULTILINE):
         findings['global_variables'].append(f'Found potential global variable declaration.')
 
     # Check controller complexity (simple line count heuristic)
-    controller_matches = re.findall(r'.controller(["\'].*?["\'],\s*function(.*?)\s*{([\s\S]*?)}\))', content)
+    controller_matches = re.findall(
+        r'\.controller\s*\(\s*(?:[\'"])(.*?)(?:[\'"])\s*,\s*function\s*\((.*?)\)\s*{([\s\S]*?)}\s*\)',
+        content,
+        re.DOTALL
+    )
     for match in controller_matches:
-        controller_body = match[1]
-        lines = controller_body.strip().split('\n')
+        controller_body = match[2].strip()
+        lines = controller_body.split('\n')
         if len(lines) > 50: # Heuristic for complex controller
             findings['complex_controllers'].append(f'Controller might be complex (>{len(lines)} lines).')
 

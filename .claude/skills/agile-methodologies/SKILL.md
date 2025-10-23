@@ -1,9 +1,9 @@
 ---
-Name: agile-methodologies
-Version: 1.0.0
-Category: Project Management / Software Development
-Tags: agile, scrum, kanban, lean, xp, project management, software development, team collaboration, continuous improvement
-Description: Enhances Claude's ability to guide and support agile software development teams, focusing on best practices, common challenges, and automation.
+name: agile-methodologies
+version: 1.0.0
+category: Project Management / Software Development
+tags: agile, scrum, kanban, lean, xp, project management, software development, team collaboration, continuous improvement
+description: Enhances Claude's ability to guide and support agile software development teams, focusing on best practices, common challenges, and automation.
 ---
 
 # Agile Methodologies

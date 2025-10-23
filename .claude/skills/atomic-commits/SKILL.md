@@ -1,3 +1,7 @@
+---
+name: atomic-commits
+---
+
 # Atomic Commits Skill
 
 ## Metadata

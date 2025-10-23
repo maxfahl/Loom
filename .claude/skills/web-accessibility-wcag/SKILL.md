@@ -1,3 +1,11 @@
+---
+name: web-accessibility-wcag
+version: 1.0.0
+category: Web Development / Accessibility
+tags: WCAG, accessibility, a11y, web, inclusive design, ARIA, semantic HTML
+description: Guides Claude on implementing Web Content Accessibility Guidelines (WCAG) for inclusive web application design.
+---
+
 # SKILL.md
 
 ## 1. Metadata Section

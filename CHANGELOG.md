@@ -4,35 +4,190 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [0.4] - 2025-10-23
+## [1.0] - 2025-01-24
 
 ### Added
-- **CLAUDE.md Template System**: Added `prompts/reference/claude-md-template.md` as the single source of truth for CLAUDE.md content, with marker-based section management (`<!-- LOOM_FRAMEWORK_START -->` / `<!-- LOOM_FRAMEWORK_END -->`).
-- **Automated CLAUDE.md Deployment**: Created `scripts/deploy-claude-md.sh` to intelligently deploy or update CLAUDE.md in user projects with marker-based section replacement, preserving user customizations.
-- **Reference Documentation**: Added `prompts/setup/5-claude-md.md` as reference documentation for the CLAUDE.md template architecture.
+
+- **MCP Server Documentation**: `MCP_SERVERS.md` - comprehensive guide for MCP server requirements and setup
+- **Update Summary**: `MCP_UPDATE_SUMMARY.md` - detailed summary of all v1.0 changes
 
 ### Changed
-- **Streamlined CLAUDE.md Content**: CLAUDE.md now focuses exclusively on:
-  - What Loom is (concise overview)
-  - Core components (agents, commands, epics/stories, YOLO mode)
-  - How Claude Code should work in Loom projects
-  - Folder structure with descriptions
-  - Clear guardrails for commands/agents (single responsibility, no deviation)
-- **Path Resolution**: Both `setup.md` and `update-setup.md` now explicitly resolve the Loom root path from the prompt file location provided by the user, eliminating ambiguity in script paths.
-- **Absolute Path Handling**: Updated `scripts/deploy-claude-md.sh` invocations to use `$(pwd)` to pass the absolute path to the target project directory.
-- **Marker-Based Updates**: Existing CLAUDE.md files with Loom markers are now updated non-destructively, preserving user customizations outside markers. Custom CLAUDE.md files without markers trigger creation of separate LOOM_FRAMEWORK.md file.
+
+- **MCP Server Consolidation**: Reduced from 5+ required to only 2 required MCP servers
+  - **Required**: context7 (documentation), playwright (testing)
+  - **Optional**: vibe-check, github, jina, firecrawl, zai-mcp-server, web-search-prime
+  - Removed sequential-thinking from 28 agents (not available)
+  - Removed magic tools from 5 agents (not available)
+  - 60% reduction in required dependencies
+
+### Fixed
+
+- **Agent Count Consistency**: Updated all references from 41 → 44 agents
+  - Fixed in CLAUDE.md (3 locations)
+  - Fixed in coordinator.md (2 locations)
+  - Fixed in prompts/templates/agent-template.md
+  - All documentation now consistent
+
+- **Removed Obsolete References**:
+  - Removed all `prepare-setup.md` references from create-agent.md (4 locations)
+  - Removed `/dev-yolo` command references from claude-md-template.md (3 locations)
+  - Fixed template file references in agent-template.md and command-template.md
+
+- **Framework Consistency**:
+  - All agents now have accurate tool lists
+  - Commands properly reference existing workflows
+  - Documentation reflects current architecture
+
+### Improved
+
+- **Onboarding Experience**: Users now only need 2 MCP servers instead of 5+
+- **Documentation Clarity**: Clear separation between required and optional dependencies
+- **Agent Functionality**: All agents remain fully functional with graceful degradation
+
+---
+
+## [0.9] - 2025-01-23
+
+### Added
+
+- **44 Specialized Agents** (up from 14): Complete agent ecosystem with 6 categories
+  - **Loom Framework (6)**: coordinator, agent-creator, skill-creator, codebase-analyzer, project-scaffolder, structure-validator
+  - **Quality & Review (3)**: code-reviewer (7-phase, Opus 4.5), design-reviewer (8-phase + WCAG 2.1 AA), security-reviewer (OWASP/NIST/ISO)
+  - **Development (7)**: full-stack-developer, frontend-developer, backend-architect, mobile-developer, test-automator, qa-expert, debugger
+  - **Technology Specialists (7)**: nextjs-pro, react-pro, typescript-pro, python-pro, golang-pro, postgres-pro, electron-pro
+  - **Architecture & Operations (6)**: cloud-architect, devops-incident-responder, deployment-engineer, performance-engineer, database-optimizer, graphql-architect
+  - **Additional Specialists (15)**: ai-engineer, api-documenter, data-engineer, data-scientist, documentation-expert, dx-optimizer, incident-responder, legacy-modernizer, ml-engineer, product-manager, prompt-engineer, ui-designer, ux-designer, agent-organizer, and more
+
+- **Setup Workflow Agents**: Three new agents for automated project setup and updates
+  - **codebase-analyzer**: Deep brownfield codebase analysis with 7-phase methodology, generates comprehensive PROJECT_OVERVIEW.md (5KB+ minimum)
+  - **project-scaffolder**: Automated Loom structure scaffolding, creates complete feature directory trees with all documentation files
+  - **structure-validator**: Non-destructive validation and migration of project structures, preserves 100% of user data
+
+- **MCP Server Integration**: Initial implementation with multiple servers
+  - **context7**: Library documentation & resolution
+  - **sequential-thinking**: Advanced multi-step reasoning (later removed in v1.0)
+  - **playwright**: Browser automation & testing
+  - **magic**: React component generation (later removed in v1.0)
+  - **jina**: Web search & content extraction
+  - **web-search-prime**: Enhanced web search
+  - **firecrawl**: Advanced web crawling
+  - **vibe-check**: Delegation strategy reflection (coordinator only)
+
+- **Unified Entry Point**: `loomify.md` - single master prompt that auto-detects setup vs update mode
+  - Automatically detects existing Loom installation via status.xml presence
+  - Routes to Setup Mode (new projects) or Update Mode (existing projects)
+  - Eliminates confusion about which prompt to use
+
+- **Agent Directory**: `.claude/AGENTS.md` as single source of truth for all 44 agents
+  - Complete directory with expertise, use cases, and delegation patterns
+  - Organized by category with quick reference guide
+  - Required reading for coordinator and all planning/delegation commands
+
+- **MCP Server Reference**: `MCP_SERVERS_REFERENCE.md` - complete inventory of all MCP capabilities
+  - Agent-by-agent usage matrix showing which servers each agent can access
+  - Tool documentation and adoption statistics
+  - Server categorization (ubiquitous, specialized, research, orchestration)
+
+- **Template-Based Command System**: 17 pre-made command templates (99% cost savings)
+  - 15 core commands: /dev, /commit, /review, /test, /plan, /docs, /create-feature, /correct-course, /create-story, /yolo, /one-off, /fix, /loom-status, /create-agent, /create-skill
+  - 2 optional commands: /security-review, /design-review
+  - Instant setup (<1 second vs ~40 minutes)
+  - Commands can be edited directly before or after copying
+
+- **YOLO Mode Simplification**: 4 intuitive autonomy presets
+  - **MANUAL**: Full control (stop at: development, commit, stories, epics)
+  - **BALANCED**: Recommended (stop at: commit, stories)
+  - **STORY**: Autonomous per story (stop at: stories)
+  - **EPIC**: Maximum speed (stop at: epics)
+  - **CUSTOM**: Advanced with conversational design and epic-specific rules
+
+- **CLAUDE.md Template System**: Marker-based deployment with intelligent updates
+  - `<!-- LOOM_FRAMEWORK_START/END -->` markers preserve user customizations
+  - `scripts/deploy-claude-md.sh` for automated deployment
+  - Backward compatible with existing CLAUDE.md files
+
+- **Comprehensive Documentation**:
+  - `SYSTEMATIC_REVIEW_REPORT.md`: Complete workflow analysis
+  - `AGENT_CREATION_SUMMARY.md`: Summary of new framework agents
+  - `docs/command-creation-guidelines.md`: Official command creation guide
+  - Official Claude Code skill creation guidelines integrated
+
+### Changed
+
+- **Simplified Architecture**: Templates now live directly in `.claude/` (no copying/generation needed for framework)
+  - Agent templates: `.claude/agents/*.md` (edit directly)
+  - Command templates: `.claude/commands/*.md` (edit directly)
+  - Agent directory: `.claude/AGENTS.md` (edit directly)
+  - 99% cost savings on setup time
+
+- **Agent Consolidation**: Merged and renamed agents for clarity
+  - senior-developer → full-stack-developer
+  - test-writer + qa-tester → test-automator
+  - documentation-writer → documentation-expert
+  - architecture-advisor → cloud-architect
+  - bug-finder → debugger
+  - Removed git-helper (operations simple enough for any agent)
+
+- **Command Consolidation**: Merged `/dev-yolo` into `/dev`
+  - `/dev` now automatically respects YOLO configuration
+  - Adaptive behavior: interactive for MANUAL/BALANCED, spawns coordinator for STORY/EPIC
+  - Reduced from 16 to 15 core commands
+
+- **YOLO Mode Improvements**:
+  - Changed from `<yolo-mode enabled="true/false">` to intuitive `<autonomy-level>manual|balanced|story|epic|custom</autonomy-level>`
+  - Simplified from 9 numbered breakpoints to 4 lettered breakpoints (A, B, C, D)
+  - Added conversational CUSTOM mode design
+  - BALANCED preset now recommended default
+
+- **Agent Count Updates**: All references updated from 41 → 44 agents
+  - README.md, CLAUDE.md, AGENTS.md, commands, documentation
+  - Agent count in one-off.md fixed (line 30)
+
+- **Path Resolution**: Both setup.md and update-setup.md explicitly resolve Loom root path
+  - Eliminates ambiguity in script paths
+  - Uses absolute path handling with `$(pwd)`
+
+- **Agent Collaboration**: Complete cross-agent awareness system
+  - All agents know about specialized agents and when to delegate
+  - Clear rules for delegation vs. doing work yourself
+  - Parallel execution patterns documented
 
 ### Removed
-- **Redundant Helper Script**: Removed `scripts/get-loom-root.sh` as path resolution is now handled directly by Claude Code deriving the directory from the prompt file path.
+
+- **Obsolete Workflow System**: Entire prepare-setup generation system
+  - `prepare-setup.md` (templates already in `.claude/`)
+  - `prompts/prepare-setup/1-create-agents.md`
+  - `prompts/prepare-setup/2-create-commands.md`
+
+- **Legacy Reference Files**: Replaced by AGENTS.md and agent templates
+  - `prompts/reference/core-agents.md` (3095 lines)
+  - `prompts/reference/mcp-integration.md`
+  - `prompts/reference/coordinator-workflow.md`
+  - `prompts/reference/template-system.md`
+  - `new-agents/` directory (moved to `.claude/agents/`)
+
+- **Unused Scripts**: 7 extraction/generation scripts
+  - extract-*.sh files (from old generation workflow)
+  - Framework now uses simple `cp` commands
+
+- **Redundant Command**: `/dev-yolo` (functionality merged into `/dev`)
+
+- **Helper Script**: `scripts/get-loom-root.sh` (path resolution handled directly)
+
+- **Duplicate Files**: Removed duplicate and misnamed agents
+  - `electorn-pro.md` → `electron-pro.md` (fixed typo)
+  - `security-auditor.md` (kept `security-reviewer.md`)
 
 ---
 
 ## [0.3] - 2025-10-23
 
 ### Added
+
 - **Skill Synchronization**: The `setup` and `update` flows now also synchronize the contents of the `.claude/skills` directory, ensuring that the project has the latest framework-provided skills. This operation is non-destructive and will not remove user-created skills.
 
 ### Changed
+
 - The `sync-loom-files.sh` script was updated to include the `.claude/skills` directory in its synchronization process.
 
 ---
@@ -40,10 +195,12 @@ All notable changes to this project will be documented in this file.
 ## [0.2] - 2025-10-23
 
 ### Added
+
 - **Autonomous Discovery**: The `setup` flow no longer asks the user questions upfront. It now autonomously analyzes the target project's file system to determine its state (greenfield/brownfield), tech stack, and testing conventions, only asking for clarification if it finds no information.
 - **`CHANGELOG.md`**: This file was created to track versions.
 
 ### Changed
+
 - **Major Prompt Refactoring**: The entire prompt structure was reorganized. The single `project-setup-meta-prompt.md` was replaced by three distinct entry points (`setup.md`, `update-setup.md`, `prepare-setup.md`).
 - **Script-Based File Sync**: The setup and update flows now use a `sync-loom-files.sh` script to copy/update framework files, replacing the previous prompt-based generation and validation for user projects.
 - **Simplified User Interaction**: Both `setup` and `update` flows now assume they are run from within the target project's directory, removing the need to ask the user for the path.
@@ -55,8 +212,8 @@ All notable changes to this project will be documented in this file.
 ## [0.1] - 2025-10-22
 
 ### Added
+
 - **Initial Loom Framework**: The first version of the Loom agentic coding framework was created.
 - **Monolithic Meta-Prompt**: All setup and update logic was orchestrated by a single, comprehensive `project-setup-meta-prompt.md`.
 - **Prompt-Based Generation**: The framework used a 7-phase, prompt-based workflow to generate all agents, commands, and documentation from scratch for every new project.
 - **Complex Validation**: The update workflow relied on a suite of 6 parallel validation agents to check for discrepancies.
-

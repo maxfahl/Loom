@@ -1,9 +1,9 @@
 ---
-Name: csharp-dotnet-development
-Version: 1.0.0
-Category: Backend Development / .NET
-Tags: csharp, dotnet, .net, backend, webapi, mvc, azure, cloud, microservices, entity-framework, solid, clean-architecture, performance, security, testing
-Description: Guides Claude on best practices for modern C# .NET development, focusing on robust, scalable, and secure applications.
+name: csharp-dotnet-development
+version: 1.0.0
+category: Backend Development / .NET
+tags: csharp, dotnet, .net, backend, webapi, mvc, azure, cloud, microservices, entity-framework, solid, clean-architecture, performance, security, testing
+description: Guides Claude on best practices for modern C# .NET development, focusing on robust, scalable, and secure applications.
 ---
 
 # C# .NET Development Skill

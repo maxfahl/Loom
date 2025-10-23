@@ -1,9 +1,10 @@
-### 1. Metadata Section
-- Name: container-orchestration-kubernetes-docker-swarm
-- Version: 1.0.0
-- Category: DevOps / Container Orchestration
-- Tags: Kubernetes, Docker Swarm, containers, orchestration, deployment, scaling, microservices, cloud-native
-- Description: Guides Claude on best practices for deploying, managing, and scaling containerized applications using Kubernetes and Docker Swarm.
+---
+name: container-orchestration-kubernetes-docker-swarm
+version: 1.0.0
+category: DevOps / Container Orchestration
+tags: Kubernetes, Docker Swarm, containers, orchestration, deployment, scaling, microservices, cloud-native
+description: Guides Claude on best practices for deploying, managing, and scaling containerized applications using Kubernetes and Docker Swarm.
+---
 
 ### 2. Skill Purpose
 This skill enables Claude to effectively assist with tasks related to container orchestration, specifically using Kubernetes and Docker Swarm. It covers designing resilient deployments, ensuring security, optimizing resource utilization, and automating common operational tasks for containerized applications.

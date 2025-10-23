@@ -1,9 +1,9 @@
 ---
-Name: role-based-access-control
-Version: 1.0.0
-Category: Security / Authorization
-Tags: RBAC, authorization, access control, security, TypeScript, Node.js, NestJS
-Description: Designing and enforcing fine-grained authorization policies for system resources.
+name: role-based-access-control
+version: 1.0.0
+category: Security / Authorization
+tags: RBAC, authorization, access control, security, TypeScript, Node.js, NestJS
+description: Designing and enforcing fine-grained authorization policies for system resources.
 ---
 
 # Role-Based Access Control (RBAC)

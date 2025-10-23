@@ -1,9 +1,9 @@
 ---
-Name: high-availability-setup
-Version: 1.0.0
-Category: DevOps / Infrastructure
-Tags: high availability, HA, redundancy, failover, disaster recovery, scalability, infrastructure
-Description: Guides Claude on designing and implementing high availability solutions for robust system operation, covering best practices, architectures, and common pitfalls.
+name: high-availability-setup
+version: 1.0.0
+category: DevOps / Infrastructure
+tags: high availability, HA, redundancy, failover, disaster recovery, scalability, infrastructure
+description: Guides Claude on designing and implementing high availability solutions for robust system operation, covering best practices, architectures, and common pitfalls.
 ---
 
 ## Skill Purpose

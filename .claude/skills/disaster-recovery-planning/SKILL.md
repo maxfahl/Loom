@@ -1,9 +1,10 @@
-### 1. Metadata Section
-- Name: disaster-recovery-planning
-- Version: 1.0.0
-- Category: Infrastructure / Operations
-- Tags: disaster recovery, DRP, backup, replication, RTO, RPO, cloud, cybersecurity, automation, resilience
-- Description: Designing and implementing automated backup, replication, and point-in-time recovery strategies for robust disaster recovery.
+---
+name: disaster-recovery-planning
+version: 1.0.0
+category: Infrastructure / Operations
+tags: disaster recovery, DRP, backup, replication, RTO, RPO, cloud, cybersecurity, automation, resilience
+description: Designing and implementing automated backup, replication, and point-in-time recovery strategies for robust disaster recovery.
+---
 
 ### 2. Skill Purpose
 This skill enables Claude to design, implement, and validate comprehensive Disaster Recovery Plans (DRP) that ensure business continuity and data integrity in the face of unforeseen events. It covers strategies for automated backups, data replication, point-in-time recovery, and leveraging cloud-native and hybrid cloud solutions, all while adhering to modern cybersecurity best practices.

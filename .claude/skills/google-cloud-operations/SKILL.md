@@ -1,9 +1,9 @@
 --- 
-Name: google-cloud-operations
-Version: 0.1.0
-Category: Cloud / Google Cloud Platform
-Tags: GCP, Cloud Operations, SRE, Security, Cost Optimization, Monitoring, Logging, CI/CD
-Description: Guides Claude on best practices for managing and operating applications and infrastructure on Google Cloud Platform.
+name: google-cloud-operations
+version: 0.1.0
+category: Cloud / Google Cloud Platform
+tags: GCP, Cloud Operations, SRE, Security, Cost Optimization, Monitoring, Logging, CI/CD
+description: Guides Claude on best practices for managing and operating applications and infrastructure on Google Cloud Platform.
 ---
 
 ## Skill Purpose

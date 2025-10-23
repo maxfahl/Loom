@@ -1,9 +1,9 @@
 ---
-Name: performance-optimization
-Version: 1.0.0
-Category: System Design / Performance
-Tags: performance, optimization, web, backend, database, typescript, scalability, speed, efficiency, core web vitals
-Description: Guides Claude on optimizing system performance across web, backend, and database layers for efficiency and scalability.
+name: performance-optimization
+version: 1.0.0
+category: System Design / Performance
+tags: performance, optimization, web, backend, database, typescript, scalability, speed, efficiency, core web vitals
+description: Guides Claude on optimizing system performance across web, backend, and database layers for efficiency and scalability.
 ---
 
 # Performance Optimization Skill

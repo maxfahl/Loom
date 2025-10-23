@@ -1,9 +1,9 @@
 ---
-Name: java-spring-framework
-Version: 1.0.0
-Category: Backend / Java
-Tags: Java, Spring, Spring Boot, Microservices, REST API, JPA, Security, Cloud
-Description: Guides Claude in developing robust, scalable, and secure applications using the Java Spring Framework, focusing on modern Spring Boot 3.x best practices.
+name: java-spring-framework
+version: 1.0.0
+category: Backend / Java
+tags: Java, Spring, Spring Boot, Microservices, REST API, JPA, Security, Cloud
+description: Guides Claude in developing robust, scalable, and secure applications using the Java Spring Framework, focusing on modern Spring Boot 3.x best practices.
 ---
 
 # Java Spring Framework Skill

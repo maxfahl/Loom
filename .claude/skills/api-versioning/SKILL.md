@@ -1,9 +1,9 @@
 ---
-Name: api-versioning
-Version: 1.0.0
-Category: API Development
-Tags: API, Versioning, REST, GraphQL, gRPC, Microservices
-Description: Strategies and best practices for versioning APIs to ensure backward compatibility and smooth evolution.
+name: api-versioning
+version: 1.0.0
+category: API Development
+tags: API, Versioning, REST, GraphQL, gRPC, Microservices
+description: Strategies and best practices for versioning APIs to ensure backward compatibility and smooth evolution.
 ---
 
 ## Skill Purpose

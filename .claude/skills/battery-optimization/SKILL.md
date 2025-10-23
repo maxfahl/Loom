@@ -1,9 +1,10 @@
-### 1. Metadata Section
-- Name: battery-optimization
-- Version: 1.0.0
-- Category: Mobile Development / Performance
-- Tags: battery, optimization, mobile, performance, energy-efficiency, android, ios, react-native, typescript
-- Description: Guides Claude on creating energy-efficient mobile applications by optimizing battery usage.
+---
+name: battery-optimization
+version: 1.0.0
+category: Mobile Development / Performance
+tags: battery, optimization, mobile, performance, energy-efficiency, android, ios, react-native, typescript
+description: Guides Claude on creating energy-efficient mobile applications by optimizing battery usage.
+---
 
 ### 2. Skill Purpose
 This skill enables Claude to assist developers in building mobile applications that consume less battery power, leading to a better user experience, improved app retention, and compliance with platform guidelines. It covers best practices for background tasks, network operations, location services, UI rendering, and general code efficiency.

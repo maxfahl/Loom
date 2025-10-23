@@ -1,9 +1,9 @@
 ---
-Name: rest-api-design
-Version: 1.0.0
-Category: Web Development / API Design
-Tags: REST, API design, RESTful, HTTP, API best practices, microservices
-Description: Best practices for designing robust, scalable, and developer-friendly RESTful APIs.
+name: rest-api-design
+version: 1.0.0
+category: Web Development / API Design
+tags: REST, API design, RESTful, HTTP, API best practices, microservices
+description: Best practices for designing robust, scalable, and developer-friendly RESTful APIs.
 ---
 
 # REST API Design Skill

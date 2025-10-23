@@ -1,10 +1,10 @@
-### 1. Metadata Section
-
-- Name: api-design-rest-graphql
-- Version: 1.0.0
-- Category: Web Development / API
-- Tags: REST, GraphQL, API design, microservices, security, performance, documentation, versioning
-- Description: Designing and implementing robust and scalable RESTful and GraphQL APIs.
+---
+name: api-design-rest-graphql
+version: 1.0.0
+category: Web Development / API
+tags: REST, GraphQL, API design, microservices, security, performance, documentation, versioning
+description: Designing and implementing robust and scalable RESTful and GraphQL APIs.
+---
 
 ### 2. Skill Purpose
 

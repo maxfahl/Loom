@@ -1,9 +1,9 @@
 ---
-Name: nextjs-app-router
-Version: 1.0.0
-Category: Web Development / Framework
-Tags: Next.js, App Router, React, Server Components, Client Components, Data Fetching, Routing, Server Actions
-Description: Guiding Claude on effective and idiomatic use of the Next.js App Router for building modern web applications.
+name: nextjs-app-router
+version: 1.0.0
+category: Web Development / Framework
+tags: Next.js, App Router, React, Server Components, Client Components, Data Fetching, Routing, Server Actions
+description: Guiding Claude on effective and idiomatic use of the Next.js App Router for building modern web applications.
 ---
 
 # Next.js App Router Skill

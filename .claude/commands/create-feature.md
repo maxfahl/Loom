@@ -1,120 +1,102 @@
 ---
 description: Create a new feature with proper setup and documentation
-model: claude-sonnet-4-5
+model: sonnet
 argument-hint: [feature name]
 ---
 
 # /create-feature - Create New Feature
 
-**Purpose**: Set up complete feature structure with epics, documentation, and status tracking
+## What This Command Does
+
+Set up complete feature structure with epics, documentation, and status tracking.
 
 ## Process
 
-1. **Clarify Feature Details**
-   - Name
-   - Description
-   - Priority
-   - Complexity
+1. **Clarify Feature Details**:
+   - Feature name (from `$ARGUMENTS` or ask user)
+   - Description and goals
+   - Priority (High/Medium/Low)
+   - Complexity estimate
 
-2. **Read Meta Prompt for Setup Requirements**
-   - Review `prompts/project-setup-meta-prompt.md` for authoritative instructions
+2. **Read Meta Prompt**:
+   - Review setup requirements
+   - Verify project structure exists
+   - Note that agents/commands are shared across features
 
-3. **Review Existing Project Setup**
-   - Agents and commands are shared across features (don't recreate)
+3. **Divide Feature into Epics**:
+   - Break down feature into logical groupings
+   - Create epic structure (Epic 1, Epic 2, etc.)
+   - Define goals for each epic
 
-4. **Divide Feature into Epics**
-   - Break down feature into logical groupings of related tasks
-   - Examples: epic-1-foundation, epic-2-core, epic-3-polish
-
-5. **Create Feature Directory Structure**
+4. **Create Feature Directory Structure**:
 
    ```
    docs/development/
-   └── status.xml        # Feature tracking (SINGLE FILE for ALL features)
+   └── status.xml        # Update with new feature
    └── features/[feature-name]/
        ├── INDEX.md
        ├── FEATURE_SPEC.md
        ├── TASKS.md
        ├── TECHNICAL_DESIGN.md
        ├── CHANGELOG.md
-       └── epics/            # Epic folders with stories
+       └── epics/
            ├── epic-1-[name]/
-           │   ├── DESCRIPTION.md  # Epic overview and goals
-           │   ├── TASKS.md        # Epic-specific task list
-           │   ├── NOTES.md        # Implementation notes
-           │   └── stories/        # Stories for this epic
-           │       ├── 1.1.md
-           │       ├── 1.2.md
-           │       └── 1.3.md
-           ├── epic-2-[name]/
            │   ├── DESCRIPTION.md
            │   ├── TASKS.md
            │   ├── NOTES.md
            │   └── stories/
-           │       ├── 2.1.md
-           │       └── 2.2.md
+           │       ├── 1.1.md
+           │       ├── 1.2.md
+           │       └── 1.3.md
+           ├── epic-2-[name]/
+           │   └── ...
            └── epic-3-[name]/
-               ├── DESCRIPTION.md
-               ├── TASKS.md
-               ├── NOTES.md
-               └── stories/
-                   └── 3.1.md
+               └── ...
    ```
 
-6. **Update status.xml**
-   - Add new feature section in `docs/development/status.xml`
-   - Configure epics tracking
-   - Set up current-story tracking
+5. **Create Documentation Files**:
+   - **INDEX.md**: Project overview, tech stack, key references
+   - **FEATURE_SPEC.md**: Feature requirements and acceptance criteria
+   - **TASKS.md**: High-level task list
+   - **TECHNICAL_DESIGN.md**: Architecture and design decisions
+   - **CHANGELOG.md**: Track feature evolution
 
-7. **CRITICAL: Create Feature Documentation**
-   - **Correct location**: `docs/development/features/[feature-name]/`
-   - **NOT**: `features/[feature-name]/docs/`
-   - Create: FEATURE_SPEC.md, TASKS.md, TECHNICAL_DESIGN.md, etc.
-   - This is separate from the features/ directory
+6. **Update status.xml**:
+   - Add new feature to tracking
+   - Set current feature if it's the first
+   - Initialize YOLO configuration
+   - Set status to "Planning"
 
-8. **CRITICAL: Create Epic Folders**
-   - **Correct location**: `docs/development/features/[feature-name]/epics/[epic-name]/`
-   - **NOT**: `features/[feature-name]/epics/`
-   - Create for each epic: DESCRIPTION.md, TASKS.md, NOTES.md
+7. **Create First Story** (optional):
+   - Ask if user wants to create first story now
+   - If yes, run `/create-story` command
 
-9. **CRITICAL: Create Stories Folder**
-   - **Correct location**: `docs/development/features/[feature-name]/epics/[epic-name]/stories/`
-   - **NOT**: `features/[feature-name]/stories/`
-   - **NOT**: `docs/development/features/[feature-name]/stories/`
-   - ONLY in the epic-specific stories/ folder
+## Recommended Skills
 
-10. **Handle Active Feature Switching**
-    - Only ONE feature can be active at a time
-    - Set `<is-active-feature>true/false</is-active-feature>`
-    - Set `<current-epic>` to track which epic is being worked on
+<!-- TODO: Add relevant skills from .claude/skills/ -->
 
-11. **Populate Pending Tasks**
-    - Read TASKS.md
-    - Distribute tasks into appropriate epics
+- `agile-methodologies` - For epic/story structure
+- `requirements-engineering` - For feature specifications
+- `clean-architecture` - For technical design
 
-12. **Show Summary and Next Steps**
-    - Report what was created
-    - Mention using `/create-story` to create first story
+Use these skills heavily throughout execution to ensure best practices.
 
-## Important Notes
+**Skill Troubleshooting Authority**: If any referenced skill does not work or any script within the skill does not work, Claude Code has the authority to fix them.
 
-- Reads `prompts/project-setup-meta-prompt.md` for authoritative instructions
-- **Divide all feature tasks into epics** (e.g., epic-1-foundation, epic-2-core, epic-3-polish)
-- Each epic has its own folder in `docs/development/features/[feature-name]/epics/[epic-name]/`
-- Each epic contains a stories/ subfolder for user stories
-- Agents and commands are SHARED across features (don't recreate)
-- Sets `<is-active-feature>true/false</is-active-feature>` appropriately
-- Sets `<current-epic>` to track which epic is being worked on
-- User chooses "now" (develop immediately) or "later" (setup only)
+## Arguments
 
-## When to Use
+- `$ARGUMENTS`: Feature name
 
-- Starting a new major feature in the project
-- Need to organize complex work into epics
-- Setting up structure before development begins
+## Examples
 
-## When NOT to Use
+```
+/create-feature user-authentication
+```
 
-- Adding small improvements to existing feature (use `/create-story`)
-- One-off tasks (use `/one-off`)
-- Bug fixes (use `/fix`)
+Creates complete feature structure for user authentication.
+
+```
+/create-feature
+```
+
+Asks for feature name interactively.

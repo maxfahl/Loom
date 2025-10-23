@@ -1,9 +1,9 @@
 ---
-Name: clean-code-principles
-Version: 1.0.0
-Category: Software Engineering / Quality
-Tags: clean code, readability, maintainability, software quality, best practices, refactoring, code standards
-Description: Principles for writing clean, readable, and maintainable code to enhance software quality and team collaboration.
+name: clean-code-principles
+version: 1.0.0
+category: Software Engineering / Quality
+tags: clean code, readability, maintainability, software quality, best practices, refactoring, code standards
+description: Principles for writing clean, readable, and maintainable code to enhance software quality and team collaboration.
 ---
 
 # Clean Code Principles Skill

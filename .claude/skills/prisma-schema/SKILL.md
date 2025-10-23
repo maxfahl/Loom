@@ -1,9 +1,9 @@
 ---
-Name: prisma-schema
-Version: 1.0.0
-Category: Database / ORM
-Tags: Prisma, Schema, Database, ORM, TypeScript, Migration
-Description: Designing and managing database schemas with Prisma ORM.
+name: prisma-schema
+version: 1.0.0
+category: Database / ORM
+tags: Prisma, Schema, Database, ORM, TypeScript, Migration
+description: Designing and managing database schemas with Prisma ORM.
 ---
 
 # Prisma Schema Design

@@ -1,9 +1,9 @@
 ---
-Name: python-django-flask-development
-Version: 1.0.0
-Category: Backend Development / Python
-Tags: python, django, flask, web, backend, api, orm, rest, microservices, security, testing, deployment
-Description: Guides Claude on best practices for Python web development using Django and Flask, focusing on modern patterns, security, and maintainability.
+name: python-django-flask-development
+version: 1.0.0
+category: Backend Development / Python
+tags: python, django, flask, web, backend, api, orm, rest, microservices, security, testing, deployment
+description: Guides Claude on best practices for Python web development using Django and Flask, focusing on modern patterns, security, and maintainability.
 ---
 
 # Python (Django/Flask) Development Skill

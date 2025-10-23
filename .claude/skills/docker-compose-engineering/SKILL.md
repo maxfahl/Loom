@@ -1,9 +1,9 @@
 ---
-Name: docker-compose-engineering
-Version: 1.0.0
-Category: DevOps / Containerization
-Tags: Docker, Docker Compose, Containerization, DevOps, Microservices, YAML, Infrastructure as Code
-Description: Guides Claude on best practices for defining and running multi-container Docker applications with Docker Compose.
+name: docker-compose-engineering
+version: 1.0.0
+category: DevOps / Containerization
+tags: Docker, Docker Compose, Containerization, DevOps, Microservices, YAML, Infrastructure as Code
+description: Guides Claude on best practices for defining and running multi-container Docker applications with Docker Compose.
 ---
 
 # Docker Compose Engineering Skill

@@ -1,3 +1,8 @@
+---
+name: git-flow
+description: Implement Git Flow branching model with feature, develop, release, and hotfix branches for structured version control and release management.
+---
+
 # Git Flow Branching Model Skill
 
 ## Metadata

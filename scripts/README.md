@@ -1,6 +1,6 @@
-# Migration Scripts
+# Loom Framework Scripts
 
-This directory contains automation scripts for maintaining and migrating the AgentDevMetaPrompt repository structure.
+This directory contains core automation scripts for the Loom framework.
 
 ## migrate-stories.sh
 
@@ -134,4 +134,166 @@ This script is used by the **Structure Updater** agent in the update workflow. I
 
 ### Reference Documentation
 
-See `/Users/maxfahl/Fahl/Common/AgentDevMetaPrompt/docs/STORY-MIGRATION-GUIDE.md` for complete migration context and manual procedures.
+See update-setup.md for integration with the update workflow.
+
+---
+
+## sync-loom-files.sh
+
+**Purpose**: Intelligently copy agent templates, command templates, and skills from the Loom framework source to a target project directory.
+
+### Quick Start
+
+```bash
+# Sync to current directory
+bash scripts/sync-loom-files.sh .
+
+# Sync to specific project
+bash scripts/sync-loom-files.sh /path/to/my-project
+
+# Dry run (preview changes)
+bash scripts/sync-loom-files.sh /path/to/my-project true
+```
+
+### What Gets Synced
+
+The script syncs these directories from Loom framework to target project:
+
+- **Agent templates**: `.claude/agents/*.md` → `.claude/agents/*.md`
+- **Command templates**: `.claude/commands/*.md` → `.claude/commands/*.md`
+- **Skills**: `.claude/skills/*` → `.claude/skills/*`
+
+### Features
+
+- **Hash-based detection**: Uses SHA256 to detect file changes
+- **Smart updates**: Only copies when source differs from target
+- **Color-coded output**:
+  - GREEN: File created
+  - YELLOW: File updated
+  - (Quiet): File skipped (no changes)
+- **Dry run mode**: Preview changes without modifying files
+- **Source:target mapping**: Flexible path mapping syntax
+
+### Usage
+
+```bash
+bash scripts/sync-loom-files.sh [TARGET_DIR] [DRY_RUN]
+```
+
+**Parameters**:
+- `TARGET_DIR`: Target project directory (required)
+- `DRY_RUN`: "true" for dry run, "false" for actual sync (default: "false")
+
+**Examples**:
+
+```bash
+# Sync to current directory
+bash scripts/sync-loom-files.sh .
+
+# Dry run to preview changes
+bash scripts/sync-loom-files.sh /path/to/project true
+
+# Sync to specific directory
+bash scripts/sync-loom-files.sh /path/to/project false
+```
+
+### Output Example
+
+```
+================================================
+      Loom Framework Files Synchronization
+================================================
+Source:  /Users/dev/loom
+Target:  /Users/dev/my-project
+Dry Run: false
+================================================
+
+Syncing directory: .claude/agents → .claude/agents
+  CREATE:  coordinator.md
+  CREATE:  senior-developer.md
+  UPDATE:  test-specialist.md (hashes differ)
+  ...
+
+Syncing directory: .claude/commands → .claude/commands
+  CREATE:  dev.md
+  CREATE:  commit.md
+  ...
+
+✅ Synchronization complete.
+```
+
+### Integration
+
+This script is used by setup.md and update-setup.md workflows to copy framework files into user projects.
+
+---
+
+## deploy-claude-md.sh
+
+**Purpose**: Deploy the CLAUDE.md operating manual to user projects with project-specific customization.
+
+### Quick Start
+
+```bash
+bash scripts/deploy-claude-md.sh \
+  "." \
+  "My Project" \
+  "Next.js 14, TypeScript, Prisma" \
+  "STRICT" \
+  "npm run dev" \
+  "npm test" \
+  "npm run build"
+```
+
+### What It Does
+
+1. Creates CLAUDE.md in target project root
+2. Inserts project-specific configuration
+3. Uses marker-based template system
+4. Preserves custom sections between markers
+
+### Features
+
+- **Template-based**: Uses `prompts/reference/claude-md-template.md`
+- **Marker system**: `<!-- LOOM_FRAMEWORK_START -->` and `<!-- LOOM_FRAMEWORK_END -->`
+- **Project customization**: Injects project name, tech stack, TDD level, commands
+- **Safe updates**: Preserves content outside markers
+
+### Usage
+
+```bash
+bash scripts/deploy-claude-md.sh \
+  [TARGET_DIR] \
+  [PROJECT_NAME] \
+  [TECH_STACK] \
+  [TDD_LEVEL] \
+  [PREVIEW_CMD] \
+  [TEST_CMD] \
+  [BUILD_CMD]
+```
+
+**Parameters**:
+- `TARGET_DIR`: Target project directory (absolute path or ".")
+- `PROJECT_NAME`: Name of the project
+- `TECH_STACK`: Technology stack description
+- `TDD_LEVEL`: STRICT | RECOMMENDED | OPTIONAL
+- `PREVIEW_CMD`: Development server command (e.g., "npm run dev")
+- `TEST_CMD`: Test execution command (e.g., "npm test")
+- `BUILD_CMD`: Build command (e.g., "npm run build")
+
+**Example**:
+
+```bash
+bash /path/to/loom/scripts/deploy-claude-md.sh \
+  "." \
+  "E-Commerce Platform" \
+  "Next.js 14, React 18, TypeScript, Prisma, PostgreSQL" \
+  "STRICT" \
+  "npm run dev" \
+  "npm test" \
+  "npm run build"
+```
+
+### Integration
+
+This script is used by setup.md workflow (Phase 4) to deploy CLAUDE.md during initial project setup.

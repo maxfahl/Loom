@@ -1,9 +1,9 @@
 ---
-Name: solid-principles
-Version: 1.0.0
-Category: Software Engineering / Design
-Tags: SOLID, design principles, software architecture, object-oriented design, maintainability, extensibility, SRP, OCP, LSP, ISP, DIP
-Description: Five design principles intended to make software designs more understandable, flexible, and maintainable.
+name: solid-principles
+version: 1.0.0
+category: Software Engineering / Design
+tags: SOLID, design principles, software architecture, object-oriented design, maintainability, extensibility, SRP, OCP, LSP, ISP, DIP
+description: Five design principles intended to make software designs more understandable, flexible, and maintainable.
 ---
 
 # SOLID Principles Skill

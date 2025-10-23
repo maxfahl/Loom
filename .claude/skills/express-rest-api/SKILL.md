@@ -1,9 +1,9 @@
 ---
-Name: express-rest-api
-Version: 1.0.0
-Category: Backend / Node.js
-Tags: Express.js, Node.js, REST API, API design, Middleware, Authentication, Validation, Error Handling
-Description: Guiding Claude on building robust, scalable, and maintainable REST APIs with Express.js.
+name: express-rest-api
+version: 1.0.0
+category: Backend / Node.js
+tags: Express.js, Node.js, REST API, API design, Middleware, Authentication, Validation, Error Handling
+description: Guiding Claude on building robust, scalable, and maintainable REST APIs with Express.js.
 ---
 
 # Express.js REST API Skill

@@ -1,9 +1,9 @@
 ---
-Name: k6-load-testing
-Version: 1.0.0
-Category: Performance Testing / Load Testing
-Tags: k6, load testing, performance, stress testing, typescript, ci/cd, github actions
-Description: Enables Claude to design, implement, and analyze k6 load tests with TypeScript, integrating them into CI/CD pipelines.
+name: k6-load-testing
+version: 1.0.0
+category: Performance Testing / Load Testing
+tags: k6, load testing, performance, stress testing, typescript, ci/cd, github actions
+description: Enables Claude to design, implement, and analyze k6 load tests with TypeScript, integrating them into CI/CD pipelines.
 ---
 
 ## 2. Skill Purpose

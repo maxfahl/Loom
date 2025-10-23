@@ -1,3 +1,8 @@
+---
+name: conventional-commits
+description: Write standardized commit messages following Conventional Commits specification for automated versioning and changelog generation.
+---
+
 # Conventional Commits Skill
 
 ## Metadata

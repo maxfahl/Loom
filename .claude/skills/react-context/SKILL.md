@@ -1,9 +1,9 @@
 ---
-Name: react-context
-Version: 1.0.0
-Category: Web Development / React
-Tags: React, Context API, useContext, global state, prop drilling, state management
-Description: Guiding Claude on effective and idiomatic use of React Context for state management.
+name: react-context
+version: 1.0.0
+category: Web Development / React
+tags: React, Context API, useContext, global state, prop drilling, state management
+description: Guiding Claude on effective and idiomatic use of React Context for state management.
 ---
 
 # React Context Skill

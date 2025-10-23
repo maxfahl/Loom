@@ -1,99 +1,130 @@
 ---
 description: Configure YOLO mode breakpoints interactively
-allowed-tools: Read, Write, Edit
-model: claude-haiku-4-5
+model: haiku
 ---
 
 # /yolo - Configure YOLO Mode
 
-**Purpose**: Configure YOLO mode and breakpoints where agents should stop
+## What This Command Does
+
+Configure autonomous development mode with simple presets or custom stopping conditions.
 
 ## Process
 
-1. Read current status.xml for active feature
-2. Show current YOLO mode status and breakpoints
-3. **Ask about stopping granularity** (NEW):
+1. **Read Current Configuration**:
+   - Read `docs/development/status.xml`
+   - Show current autonomy level
+   - Show enabled breakpoints
+
+2. **Present Preset Options**:
 
    ```
-   Select your stopping granularity:
+   Configure YOLO mode - Choose your autonomy level:
 
-   A. STORY-LEVEL: Stop at specific breakpoints within each story (default)
-   B. EPIC-LEVEL: Only stop when full epics are completed (autonomous per epic)
-   C. CUSTOM: Select individual breakpoints manually
+   1. MANUAL - Full control (stop at every major step)
+      └─ Stop at: After development → Before commit → Between stories → Between epics
 
-   Enter choice (A/B/C):
+   2. BALANCED - Recommended (stop at code review + commit)
+      └─ Stop at: Before commit → Between stories
+
+   3. STORY - Autonomous per story (only stop between stories)
+      └─ Stop at: Between stories only
+
+   4. EPIC - Maximum speed (only stop between epics)
+      └─ Stop at: Between epics only
+
+   5. CUSTOM - Advanced (configure breakpoints manually)
+      └─ Pick individual breakpoints
+
+   Enter choice (1-5):
    ```
 
-4. **If user selects B (EPIC-LEVEL)**:
-   - Enable breakpoint 9 only
-   - Disable all other breakpoints (1-8)
-   - Set YOLO mode enabled="true"
-   - Agents will autonomously complete entire epics before stopping
+3. **Apply Preset Configuration** (if 1-4 selected):
+   - Update status.xml with preset
+   - Set `<autonomy-level>` appropriately
+   - Configure breakpoints automatically
 
-5. **If user selects A (STORY-LEVEL) or C (CUSTOM)**, present numbered list of common breakpoints:
+4. **Custom Configuration** (if 5 selected):
+
+   Engage in conversational design:
 
    ```
-   Select breakpoints where agents should STOP and ask for confirmation:
+   You've selected CUSTOM mode. Let's design your stopping conditions together.
 
-   1. After completing development, before code review
-   2. After code review, before running tests
-   3. After tests pass, before user testing
-   4. After user testing, before committing
-   5. After commit, before pushing to remote
-   6. Before making any file changes (very cautious)
-   7. Before running any tests (very cautious)
-   8. Before major refactoring
-   9. After completing epic, before starting next epic (EPIC-LEVEL only)
+   Tell me about your specific needs:
+   - What are you working on right now?
+   - When do you want agents to stop and check in with you?
+   - Are there specific epics or stories where you want different behavior?
 
-   Enter numbers separated by commas (e.g., "1, 3, 4, 8")
-   Or enter "all" for maximum control (stop at all breakpoints)
-   Or enter "none" for maximum speed (YOLO mode ON, skip all breakpoints)
+   Examples of custom conditions:
+   - "Work autonomously until Epic 4 is complete" (currently in Epic 1)
+   - "Stop before committing, but only for stories in Epic 2"
+   - "Full autonomy for Epic 1 and 2, then manual control for Epic 3"
+   - "Stop between stories, except for Epic 5 which should be fully autonomous"
+
+   Describe your ideal stopping condition:
    ```
 
-6. Parse user response (e.g., "1, 3, 4, 8")
-7. Update status.xml with selected breakpoints
-8. Show confirmation:
+   - Ask clarifying questions
+   - Understand trust level and risk tolerance
+   - Identify epic/story-specific requirements
+   - Propose configuration
+   - Confirm before applying
+
+5. **Update status.xml**:
+
+   ```xml
+   <autonomy-level>manual|balanced|story|epic|custom</autonomy-level>
+   <breakpoints>
+     <after-development>true|false</after-development>
+     <before-commit>true|false</before-commit>
+     <between-stories>true|false</between-stories>
+     <between-epics>true|false</between-epics>
+   </breakpoints>
+   ```
+
+6. **Show Confirmation**:
 
    ```
    ✅ YOLO mode configured!
 
-   Stopping Granularity: [STORY-LEVEL / EPIC-LEVEL / CUSTOM]
-   Mode: [ON/OFF]
+   Autonomy Level: [MANUAL/BALANCED/STORY/EPIC/CUSTOM]
 
-   Agents will STOP at these breakpoints:
-   - Breakpoint 1: After completing development, before code review
-   - Breakpoint 3: After tests pass, before user testing
-   - Breakpoint 4: After user testing, before committing
-   - Breakpoint 8: Before major refactoring
+   Agents will STOP at:
+   - [X/  ] After development, before code review
+   - [X/  ] After review, before commit
+   - [X/  ] Between stories
+   - [  /X] Between epics
 
-   Agents will SKIP these breakpoints:
-   - Breakpoint 2: After code review, before running tests
-   - Breakpoint 5: After commit, before pushing to remote
-   - Breakpoint 6: Before making any file changes
-   - Breakpoint 7: Before running any tests
-   - Breakpoint 9: After completing epic, before starting next epic
+   Agents will work autonomously through all other steps.
    ```
 
-## YOLO Mode Logic
+## Preset Configurations
 
-- If user selects "none": Set `<yolo-mode enabled="true">`, all breakpoints disabled
-- If user selects "all": Set `<yolo-mode enabled="false">`, all breakpoints 1-8 enabled
-- If user selects EPIC-LEVEL (B): Set `<yolo-mode enabled="true">`, only breakpoint 9 enabled, set `<stopping-granularity>epic</stopping-granularity>`
-- If user selects specific numbers: Configure individual breakpoints
+- **MANUAL**: All breakpoints enabled (A, B, C, D)
+- **BALANCED**: Breakpoints B, C (before commit, between stories)
+- **STORY**: Breakpoint C only (between stories)
+- **EPIC**: Breakpoint D only (between epics)
+- **CUSTOM**: Conversational design based on user needs
 
-## EPIC-LEVEL Mode Benefits
+## Recommended Skills
 
-- Agents autonomously complete entire epics without interruption
-- Only stops when switching between major epic milestones
-- Ideal for high-trust autonomous development
-- Agents handle all story-level decisions (dev → review → test → commit)
-- User reviews work at logical epic boundaries
+<!-- TODO: Add relevant skills from .claude/skills/ -->
 
-## Important Notes
+- `agile-methodologies` - For understanding story/epic structure
 
-- Breakpoints are stored in `docs/development/status.xml` under `<yolo-mode>`
-- YOLO mode enabled="true" means agents work autonomously (skip breakpoints)
-- YOLO mode enabled="false" means stop at ALL configured breakpoints
-- EPIC-LEVEL granularity is the highest autonomy mode (only stop between epics)
-- STORY-LEVEL granularity allows fine-grained control within each story
-- CUSTOM granularity lets you pick specific breakpoints manually
+Use these skills heavily throughout execution to ensure best practices.
+
+**Skill Troubleshooting Authority**: If any referenced skill does not work or any script within the skill does not work, Claude Code has the authority to fix them.
+
+## Arguments
+
+This command takes no arguments. It's fully interactive.
+
+## Examples
+
+```
+/yolo
+```
+
+Starts interactive YOLO mode configuration.

@@ -1,9 +1,9 @@
 ---
-Name: clean-architecture
-Version: 1.0.0
-Category: Software Architecture / Design Patterns
-Tags: clean architecture, hexagonal architecture, onion architecture, domain-driven design, ddd, typescript, software design, architecture
-Description: A software design philosophy that separates the elements of a design into ring levels, ensuring maintainability, scalability, and testability.
+name: clean-architecture
+version: 1.0.0
+category: Software Architecture / Design Patterns
+tags: clean architecture, hexagonal architecture, onion architecture, domain-driven design, ddd, typescript, software design, architecture
+description: A software design philosophy that separates the elements of a design into ring levels, ensuring maintainability, scalability, and testability.
 ---
 
 ## Skill Purpose

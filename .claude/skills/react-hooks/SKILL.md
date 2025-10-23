@@ -1,9 +1,9 @@
 ---
-Name: react-hooks
-Version: 1.0.0
-Category: Web Development / React
-Tags: React, Hooks, useState, useEffect, useContext, useRef, useCallback, useMemo, custom hooks
-Description: Guiding Claude on effective and idiomatic use of React Hooks for state and side effects.
+name: react-hooks
+version: 1.0.0
+category: Web Development / React
+tags: React, Hooks, useState, useEffect, useContext, useRef, useCallback, useMemo, custom hooks
+description: Guiding Claude on effective and idiomatic use of React Hooks for state and side effects.
 ---
 
 # React Hooks Skill

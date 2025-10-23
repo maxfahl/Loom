@@ -1,9 +1,9 @@
 ---
-Name: microservices-architecture
-Version: 1.0.0
-Category: System Design / Architecture
-Tags: microservices, distributed systems, architecture patterns, event-driven, serverless, service mesh, api gateway, ddd, devops, scalability, resilience
-Description: Best practices and patterns for designing, implementing, and managing microservices architectures.
+name: microservices-architecture
+version: 1.0.0
+category: System Design / Architecture
+tags: microservices, distributed systems, architecture patterns, event-driven, serverless, service mesh, api gateway, ddd, devops, scalability, resilience
+description: Best practices and patterns for designing, implementing, and managing microservices architectures.
 ---
 
 # Microservices Architecture Skill

@@ -1,9 +1,9 @@
 ---
-Name: stripe-payments
-Version: 0.1.0
-Category: Payments / E-commerce
-Tags: Stripe, Payments, Subscriptions, Webhooks, TypeScript, PCI DSS, API Integration
-Description: Best practices for integrating Stripe payments, webhooks, and subscriptions securely and efficiently.
+name: stripe-payments
+version: 0.1.0
+category: Payments / E-commerce
+tags: Stripe, Payments, Subscriptions, Webhooks, TypeScript, PCI DSS, API Integration
+description: Best practices for integrating Stripe payments, webhooks, and subscriptions securely and efficiently.
 ---
 
 # Stripe Payments Integration Patterns

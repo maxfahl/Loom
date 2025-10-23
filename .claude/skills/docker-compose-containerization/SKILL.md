@@ -1,9 +1,9 @@
 ---
-Name: docker-compose-containerization
-Version: 1.0.0
-Category: Containerization / Orchestration
-Tags: docker, docker-compose, container, orchestration, microservices, development, deployment
-Description: Enables Claude to effectively use Docker Compose for multi-container application development and deployment.
+name: docker-compose-containerization
+version: 1.0.0
+category: Containerization / Orchestration
+tags: docker, docker-compose, container, orchestration, microservices, development, deployment
+description: Enables Claude to effectively use Docker Compose for multi-container application development and deployment.
 ---
 
 # Docker Compose Containerization Skill

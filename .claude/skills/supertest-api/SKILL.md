@@ -1,9 +1,9 @@
 --- 
-Name: supertest-api
-Version: 0.1.0
-Category: Testing / API
-Tags: node.js, express, supertest, typescript, jest, mocha, api testing, integration testing
-Description: Enables Claude to write robust integration tests for Node.js HTTP APIs using Supertest and TypeScript.
+name: supertest-api
+version: 0.1.0
+category: Testing / API
+tags: node.js, express, supertest, typescript, jest, mocha, api testing, integration testing
+description: Enables Claude to write robust integration tests for Node.js HTTP APIs using Supertest and TypeScript.
 ---
 
 ## Skill Purpose

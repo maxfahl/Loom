@@ -1,10 +1,14 @@
+---
+name: prettier-formatting
+---
+
 
 ---
-Name: prettier-formatting
-Version: 1.0.0
-Category: Code Quality / Formatting
-Tags: prettier, code-formatter, typescript, javascript, linting, style-guide
-Description: An opinionated code formatter to ensure consistent style across the entire codebase.
+name: prettier-formatting
+version: 1.0.0
+category: Code Quality / Formatting
+tags: prettier, code-formatter, typescript, javascript, linting, style-guide
+description: An opinionated code formatter to ensure consistent style across the entire codebase.
 ---
 
 ## 1. Skill Purpose

@@ -1,9 +1,9 @@
 ---
-Name: redux-toolkit
-Version: 1.0.0
-Category: State Management / Frontend
-Tags: redux, redux toolkit, rtk, react, typescript, state management, createSlice, createAsyncThunk, rtk query
-Description: Enables Claude to efficiently implement and manage state in React applications using Redux Toolkit with TypeScript, including RTK Query for data fetching.
+name: redux-toolkit
+version: 1.0.0
+category: State Management / Frontend
+tags: redux, redux toolkit, rtk, react, typescript, state management, createSlice, createAsyncThunk, rtk query
+description: Enables Claude to efficiently implement and manage state in React applications using Redux Toolkit with TypeScript, including RTK Query for data fetching.
 ---
 
 ## 2. Skill Purpose

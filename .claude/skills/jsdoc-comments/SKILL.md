@@ -1,9 +1,9 @@
 ---
-Name: jsdoc-comments
-Version: 1.0.0
-Category: Documentation / JavaScript
-Tags: jsdoc, javascript, typescript, documentation, type checking, frontend
-Description: Guiding Claude to write effective JSDoc comments for JavaScript and TypeScript.
+name: jsdoc-comments
+version: 1.0.0
+category: Documentation / JavaScript
+tags: jsdoc, javascript, typescript, documentation, type checking, frontend
+description: Guiding Claude to write effective JSDoc comments for JavaScript and TypeScript.
 ---
 
 # JSDoc Comments: Enhancing JavaScript/TypeScript Documentation and Type Checking

@@ -1,9 +1,9 @@
 ---
-Name: java-11-development
-Version: 1.0.0
-Category: Backend Development / Java
-Tags: Java, Java 11, JDK 11, Backend, JVM, Spring Boot, Maven, Gradle
-Description: Provides comprehensive guidance for developing applications with Java 11, including best practices, modern features, and common pitfalls.
+name: java-11-development
+version: 1.0.0
+category: Backend Development / Java
+tags: Java, Java 11, JDK 11, Backend, JVM, Spring Boot, Maven, Gradle
+description: Provides comprehensive guidance for developing applications with Java 11, including best practices, modern features, and common pitfalls.
 ---
 
 # Java 11 Development Skill

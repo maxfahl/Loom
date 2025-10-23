@@ -1,9 +1,9 @@
 ---
-Name: infrastructure-as-code-terraform-cloudformation
-Version: 1.0.0
-Category: Cloud Infrastructure / DevOps
-Tags: IaC, Terraform, CloudFormation, AWS, Azure, GCP, infrastructure, automation, DevOps
-Description: Enables programmatic management and provisioning of cloud infrastructure using Terraform and CloudFormation.
+name: infrastructure-as-code-terraform-cloudformation
+version: 1.0.0
+category: Cloud Infrastructure / DevOps
+tags: IaC, Terraform, CloudFormation, AWS, Azure, GCP, infrastructure, automation, DevOps
+description: Enables programmatic management and provisioning of cloud infrastructure using Terraform and CloudFormation.
 ---
 
 # Infrastructure as Code (Terraform, CloudFormation)

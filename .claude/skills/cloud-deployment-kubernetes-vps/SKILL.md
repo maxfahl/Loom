@@ -1,9 +1,9 @@
 ---
-Name: cloud-deployment-kubernetes-vps
-Version: 1.0.0
-Category: Cloud Infrastructure
-Tags: Kubernetes, K8s, VPS, Cloud, Deployment, CI/CD, GitOps, Docker, Infrastructure as Code, IaC
-Description: Deploying and managing applications on cloud platforms using Kubernetes or Virtual Private Servers.
+name: cloud-deployment-kubernetes-vps
+version: 1.0.0
+category: Cloud Infrastructure
+tags: Kubernetes, K8s, VPS, Cloud, Deployment, CI/CD, GitOps, Docker, Infrastructure as Code, IaC
+description: Deploying and managing applications on cloud platforms using Kubernetes or Virtual Private Servers.
 ---
 
 # Cloud Deployment (Kubernetes/VPS) Skill

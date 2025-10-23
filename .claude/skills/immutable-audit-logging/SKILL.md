@@ -1,9 +1,9 @@
 ---
-Name: immutable-audit-logging
-Version: 1.0.0
-Category: Security / Compliance
-Tags: audit, logging, immutability, security, compliance, typescript, blockchain, WORM
-Description: Implement tamper-proof audit trails for all system activities to ensure compliance and security.
+name: immutable-audit-logging
+version: 1.0.0
+category: Security / Compliance
+tags: audit, logging, immutability, security, compliance, typescript, blockchain, WORM
+description: Implement tamper-proof audit trails for all system activities to ensure compliance and security.
 ---
 
 # Immutable Audit Logging Skill

@@ -1,9 +1,9 @@
 ---
-Name: api-security-best-practices
-Version: 1.0.0
-Category: Security / API
-Tags: API, Security, Best Practices, OWASP, Authentication, Authorization, Data Protection, Threat Modeling, Zero Trust, Shift Left, AI Security
-Description: Essential guidelines and practices for securing APIs against common vulnerabilities and emerging threats, incorporating 2025 insights.
+name: api-security-best-practices
+version: 1.0.0
+category: Security / API
+tags: API, Security, Best Practices, OWASP, Authentication, Authorization, Data Protection, Threat Modeling, Zero Trust, Shift Left, AI Security
+description: Essential guidelines and practices for securing APIs against common vulnerabilities and emerging threats, incorporating 2025 insights.
 ---
 
 # API Security Best Practices

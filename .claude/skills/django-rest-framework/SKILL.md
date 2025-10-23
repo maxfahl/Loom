@@ -1,9 +1,9 @@
 ---
-Name: django-rest-framework
-Version: 1.0.0
-Category: Backend Development / Python
-Tags: Django, DRF, REST API, Python, web development, serializers, viewsets, authentication
-Description: Building robust, scalable, and secure REST APIs with Django REST Framework.
+name: django-rest-framework
+version: 1.0.0
+category: Backend Development / Python
+tags: Django, DRF, REST API, Python, web development, serializers, viewsets, authentication
+description: Building robust, scalable, and secure REST APIs with Django REST Framework.
 ---
 
 # Django REST Framework (DRF) Skill

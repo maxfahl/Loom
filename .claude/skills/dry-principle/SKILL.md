@@ -1,9 +1,9 @@
 ---
-Name: dry-principle
-Version: 1.0.0
-Category: Software Engineering / Principles
-Tags: DRY, Don't Repeat Yourself, code quality, reusability, maintainability
-Description: Guides on applying the Don't Repeat Yourself (DRY) principle for cleaner, more maintainable code.
+name: dry-principle
+version: 1.0.0
+category: Software Engineering / Principles
+tags: DRY, Don't Repeat Yourself, code quality, reusability, maintainability
+description: Guides on applying the Don't Repeat Yourself (DRY) principle for cleaner, more maintainable code.
 ---
 
 # Don't Repeat Yourself (DRY) Principle

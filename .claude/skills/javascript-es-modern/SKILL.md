@@ -1,9 +1,9 @@
 ---
-Name: javascript-es-modern
-Version: 1.0.0
-Category: JavaScript / Language Features
-Tags: ES6, ES2015, ESNext, async/await, destructuring, modules, modern-javascript, typescript
-Description: Enables Claude to understand, generate, and refactor code using modern JavaScript (ES2015+) features and best practices.
+name: javascript-es-modern
+version: 1.0.0
+category: JavaScript / Language Features
+tags: ES6, ES2015, ESNext, async/await, destructuring, modules, modern-javascript, typescript
+description: Enables Claude to understand, generate, and refactor code using modern JavaScript (ES2015+) features and best practices.
 ---
 
 # Modern JavaScript Features (ES2015+)

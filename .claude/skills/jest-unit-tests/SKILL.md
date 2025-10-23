@@ -1,9 +1,9 @@
 ---
-Name: jest-unit-tests
-Version: 1.0.0
-Category: Web Development / Testing
-Tags: Jest, unit testing, JavaScript, TypeScript, testing framework, mocking, assertions
-Description: Writing effective unit tests with Jest for JavaScript and TypeScript applications.
+name: jest-unit-tests
+version: 1.0.0
+category: Web Development / Testing
+tags: Jest, unit testing, JavaScript, TypeScript, testing framework, mocking, assertions
+description: Writing effective unit tests with Jest for JavaScript and TypeScript applications.
 ---
 
 # Jest Unit Tests Skill

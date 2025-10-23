@@ -1,9 +1,9 @@
 ---
-Name: mobile-ui-ux-guidelines
-Version: 0.1.0
-Category: Mobile Development / UI/UX
-Tags: mobile, ui, ux, material design, human interface guidelines, android, ios, native, design system, accessibility, personalization
-Description: Guides Claude in applying Material Design and Human Interface Guidelines for native mobile UI/UX.
+name: mobile-ui-ux-guidelines
+version: 0.1.0
+category: Mobile Development / UI/UX
+tags: mobile, ui, ux, material design, human interface guidelines, android, ios, native, design system, accessibility, personalization
+description: Guides Claude in applying Material Design and Human Interface Guidelines for native mobile UI/UX.
 ---
 
 # Mobile UI/UX Guidelines (Material Design, Human Interface Guidelines)

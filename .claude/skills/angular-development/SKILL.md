@@ -1,9 +1,9 @@
 ---
-Name: angular-development
-Version: 1.0.0
-Category: Web Development / Framework
-Tags: Angular, TypeScript, Frontend, Web, SPA, Reactive Programming
-Description: Guides Claude on best practices for modern Angular application development.
+name: angular-development
+version: 1.0.0
+category: Web Development / Framework
+tags: Angular, TypeScript, Frontend, Web, SPA, Reactive Programming
+description: Guides Claude on best practices for modern Angular application development.
 ---
 
 ## 2. Skill Purpose

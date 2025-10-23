@@ -1,9 +1,9 @@
 ---
-Name: aws-cloud-operations
-Version: 1.0.0
-Category: Cloud Operations / AWS
-Tags: AWS, Cloud, Operations, CLI, Boto3, CloudFormation, CDK, Security, Cost Optimization, Automation, IaC
-Description: Enables efficient and secure management of AWS cloud resources through CLI and automation.
+name: aws-cloud-operations
+version: 1.0.0
+category: Cloud Operations / AWS
+tags: AWS, Cloud, Operations, CLI, Boto3, CloudFormation, CDK, Security, Cost Optimization, Automation, IaC
+description: Enables efficient and secure management of AWS cloud resources through CLI and automation.
 ---
 
 # AWS Cloud Operations Skill
@@ -231,7 +231,7 @@ aws ec2 run-instances \
 ```yaml
 # GOOD: Version-controlled, auditable, repeatable, supports rollbacks
 AWSTemplateFormatVersion: '2010-09-09'
-Description: A simple EC2 instance deployed via CloudFormation
+description: A simple EC2 instance deployed via CloudFormation
 
 Parameters:
   KeyPairName:

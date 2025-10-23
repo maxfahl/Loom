@@ -1,9 +1,9 @@
 ---
-Name: playwright-e2e
-Version: 0.1.0
-Category: Testing / E2E
-Tags: playwright, e2e testing, end-to-end, typescript, web testing, browser automation, ci/cd
-Description: Enables Claude to write, maintain, and debug robust end-to-end tests for web applications using Playwright and TypeScript.
+name: playwright-e2e
+version: 0.1.0
+category: Testing / E2E
+tags: playwright, e2e testing, end-to-end, typescript, web testing, browser automation, ci/cd
+description: Enables Claude to write, maintain, and debug robust end-to-end tests for web applications using Playwright and TypeScript.
 ---
 
 ## Skill Purpose

@@ -23,7 +23,14 @@ All documentation structures and boilerplate content are defined in: `../templat
     *   `CODE_REVIEW_PRINCIPLES.md`
     *   `SECURITY_REVIEW_CHECKLIST.md`
     *   `DESIGN_PRINCIPLES.md`
-3.  **Generate Each File**: For each of the **global** documents listed above, **spawn a dedicated `documentation-writer` agent** tasked with creating that specific file in the user's `docs/development` directory.
-4.  **Use Parallel Execution**: To be efficient, spawn the `documentation-writer` agents in parallel batches.
+
+2.5. **Copy AGENTS.md**: Copy the agent directory reference file from Loom framework to user project:
+    ```bash
+    # Copy from Loom source to user project
+    cp "$LOOM_ROOT/.claude/AGENTS.md" .claude/AGENTS.md
+    ```
+    This file contains the complete directory of all 41 available agents and should be referenced by commands and agents when delegating work.
+3.  **Generate Each File**: For each of the **global** documents listed above, **spawn a dedicated `documentation-expert` agent** tasked with creating that specific file in the user's `docs/development` directory.
+4.  **Use Parallel Execution**: To be efficient, spawn the `documentation-expert` agents in parallel batches.
 5.  **Customize Content**: Where appropriate, use the information gathered during the Discovery phase (`1-discovery.md`) to customize the generated documents with the project's name, technology stack, and other specifics.
 

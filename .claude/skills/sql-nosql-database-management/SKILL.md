@@ -1,9 +1,9 @@
 ---
-Name: sql-nosql-database-management
-Version: 1.0.0
-Category: Database Management
-Tags: SQL, NoSQL, database, data modeling, performance, scalability, security, data integrity, polyglot persistence, AI/ML, cloud
-Description: Guides Claude on best practices for managing SQL and NoSQL databases, focusing on performance, scalability, security, and modern development challenges.
+name: sql-nosql-database-management
+version: 1.0.0
+category: Database Management
+tags: SQL, NoSQL, database, data modeling, performance, scalability, security, data integrity, polyglot persistence, AI/ML, cloud
+description: Guides Claude on best practices for managing SQL and NoSQL databases, focusing on performance, scalability, security, and modern development challenges.
 ---
 
 ## 2. Skill Purpose

@@ -1,9 +1,9 @@
 ---
-Name: rust-development-general
-Version: 0.1.0
-Category: Backend / Systems Programming
-Tags: Rust, Systems, Performance, Safety, Concurrency, CLI
-Description: General best practices and core knowledge for developing robust and efficient applications in Rust.
+name: rust-development-general
+version: 0.1.0
+category: Backend / Systems Programming
+tags: Rust, Systems, Performance, Safety, Concurrency, CLI
+description: General best practices and core knowledge for developing robust and efficient applications in Rust.
 ---
 
 # Rust Development - General

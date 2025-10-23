@@ -1,9 +1,9 @@
 ---
-Name: angularjs-development
-Version: 1.0.0
-Category: Web Development / Legacy
-Tags: angularjs, angular 1.x, legacy, migration, javascript, frontend
-Description: Guidance for maintaining, understanding, and migrating legacy AngularJS (1.x) applications.
+name: angularjs-development
+version: 1.0.0
+category: Web Development / Legacy
+tags: angularjs, angular 1.x, legacy, migration, javascript, frontend
+description: Guidance for maintaining, understanding, and migrating legacy AngularJS (1.x) applications.
 ---
 
 # AngularJS Development (Angular 1.x) Skill

@@ -1,11 +1,8 @@
+---
+name: api-error-responses
+description: Design and implement consistent, informative API error responses following RFC 9457 Problem Details standard for HTTP APIs.
+---
 
-### 1. Metadata Section
-
-- **Name**: api-error-responses
-- **Version**: 1.0.0
-- **Category**: Web Development / API Design
-- **Tags**: api, error, http, rfc-7807, rfc-9457, problem-details
-- **Description**: Enables Claude to design, implement, and review standardized, machine-readable API error responses following RFC 9457 (Problem Details for HTTP APIs).
 
 ### 2. Skill Purpose
 

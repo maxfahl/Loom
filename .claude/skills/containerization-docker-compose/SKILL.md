@@ -1,10 +1,10 @@
-### 1. Metadata Section
-
-- Name: containerization-docker-compose
-- Version: 1.0.0
-- Category: DevOps / Infrastructure
-- Tags: Docker, Docker Compose, containerization, microservices, CI/CD, security, deployment
-- Description: Managing containerized applications using Docker and Docker Compose.
+---
+name: containerization-docker-compose
+version: 1.0.0
+category: DevOps / Infrastructure
+tags: Docker, Docker Compose, containerization, microservices, CI/CD, security, deployment
+description: Managing containerized applications using Docker and Docker Compose.
+---
 
 ### 2. Skill Purpose
 

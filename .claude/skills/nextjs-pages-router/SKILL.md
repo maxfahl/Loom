@@ -1,3 +1,7 @@
+---
+name: nextjs-pages-router
+---
+
 # Next.js Pages Router Skill
 
 ## Metadata

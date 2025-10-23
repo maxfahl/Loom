@@ -19,10 +19,11 @@ TARGET_DIR="${1}"
 DRY_RUN="${2:-false}"
 
 # Files and directories to sync
+# Note: We sync from prompts/reference/* (templates) to target's .claude/* directories
 SYNC_ITEMS=(
-    ".claude/agents"
-    ".claude/commands"
-    ".claude/skills"
+    ".claude/agents:.claude/agents"
+    ".claude/commands:.claude/commands"
+    ".claude/skills:.claude/skills"
 )
 
 # Colors for output
@@ -59,9 +60,23 @@ get_file_hash() {
 
 # Function to sync a single file or a directory
 sync_item() {
-    local item_path=$1
-    local source_base_path="$LOOM_SOURCE_ROOT/$item_path"
-    local target_base_path="$TARGET_DIR/$item_path"
+    local item_spec=$1
+
+    # Parse source:target mapping (e.g., ".claude/agents:.claude/agents")
+    local source_path
+    local target_path
+
+    if [[ "$item_spec" == *":"* ]]; then
+        source_path="${item_spec%%:*}"
+        target_path="${item_spec##*:}"
+    else
+        # If no mapping, use same path for both
+        source_path="$item_spec"
+        target_path="$item_spec"
+    fi
+
+    local source_base_path="$LOOM_SOURCE_ROOT/$source_path"
+    local target_base_path="$TARGET_DIR/$target_path"
 
     if [ ! -e "$source_base_path" ]; then
         echo -e "${YELLOW}⚠️ Warning: Source item does not exist, skipping: $source_base_path${NC}"
@@ -70,43 +85,47 @@ sync_item() {
 
     # If it's a directory, sync its contents recursively
     if [ -d "$source_base_path" ]; then
-        echo -e "${BLUE}Syncing directory: $item_path${NC}"
+        echo -e "${BLUE}Syncing directory: $source_path → $target_path${NC}"
         find "$source_base_path" -type f | while read -r source_file; do
-            local relative_path="${source_file#$LOOM_SOURCE_ROOT/}"
-            sync_single_file "$relative_path"
+            # Get relative path from source directory
+            local file_relative_to_source="${source_file#$source_base_path/}"
+            # Build target file path
+            local target_file="$target_base_path/$file_relative_to_source"
+            sync_single_file "$source_file" "$target_file" "$file_relative_to_source"
         done
     # If it's a single file
     else
-        sync_single_file "$item_path"
+        local target_file="$target_base_path"
+        sync_single_file "$source_base_path" "$target_file" "$source_path"
     fi
 }
 
 # Function to sync a single file
 sync_single_file() {
-    local file_relative_path=$1
-    local source_file="$LOOM_SOURCE_ROOT/$file_relative_path"
-    local target_file="$TARGET_DIR/$file_relative_path"
+    local source_file=$1
+    local target_file=$2
+    local display_path=$3
 
     local source_hash=$(get_file_hash "$source_file")
     local target_hash=$(get_file_hash "$target_file")
 
     # 1. If target does not exist
     if [ -z "$target_hash" ]; then
-        echo -e "  ${GREEN}CREATE${NC}:  $file_relative_path"
+        echo -e "  ${GREEN}CREATE${NC}:  $display_path"
         if [ "$DRY_RUN" = "false" ]; then
             mkdir -p "$(dirname "$target_file")"
             cp "$source_file" "$target_file"
         fi
     # 2. If hashes are different
     elif [ "$source_hash" != "$target_hash" ]; then
-        echo -e "  ${YELLOW}UPDATE${NC}:  $file_relative_path (hashes differ)"
+        echo -e "  ${YELLOW}UPDATE${NC}:  $display_path (hashes differ)"
         if [ "$DRY_RUN" = "false" ]; then
             cp "$source_file" "$target_file"
         fi
     # 3. If hashes are the same
     else
         # Quiet by default, uncomment to be verbose
-        # echo -e "  SKIP:    $file_relative_path (hashes match)"
+        # echo -e "  SKIP:    $display_path (hashes match)"
         :
     fi
 }

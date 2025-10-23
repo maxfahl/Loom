@@ -1,9 +1,9 @@
 ---
-Name: offline-data-synchronization
-Version: 0.1.0
-Category: Mobile Development / Data Management
-Tags: offline, data sync, mobile, intermittent connectivity, data persistence, conflict resolution
-Description: Enables robust mobile applications to function seamlessly with intermittent or no network connectivity.
+name: offline-data-synchronization
+version: 0.1.0
+category: Mobile Development / Data Management
+tags: offline, data sync, mobile, intermittent connectivity, data persistence, conflict resolution
+description: Enables robust mobile applications to function seamlessly with intermittent or no network connectivity.
 ---
 
 ## Skill Purpose

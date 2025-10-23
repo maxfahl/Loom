@@ -1,9 +1,9 @@
 ---
-Name: swiftui-uikit-development-ios
-Version: 1.0.0
-Category: Mobile Development / iOS
-Tags: SwiftUI, UIKit, iOS, Swift, Mobile, UI/UX
-Description: Enables Claude to assist with developing iOS applications using SwiftUI, UIKit, and their interoperability.
+name: swiftui-uikit-development-ios
+version: 1.0.0
+category: Mobile Development / iOS
+tags: SwiftUI, UIKit, iOS, Swift, Mobile, UI/UX
+description: Enables Claude to assist with developing iOS applications using SwiftUI, UIKit, and their interoperability.
 ---
 
 ## Skill Purpose

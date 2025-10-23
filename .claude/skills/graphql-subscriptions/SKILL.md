@@ -1,9 +1,9 @@
 ---
-Name: graphql-subscriptions
-Version: 0.1.0
-Category: Real-time Communication / GraphQL
-Tags: graphql, subscriptions, real-time, websocket, apollo-server, apollo-client, typescript, pubsub
-Description: Best practices and patterns for implementing GraphQL subscriptions for real-time data.
+name: graphql-subscriptions
+version: 0.1.0
+category: Real-time Communication / GraphQL
+tags: graphql, subscriptions, real-time, websocket, apollo-server, apollo-client, typescript, pubsub
+description: Best practices and patterns for implementing GraphQL subscriptions for real-time data.
 ---
 
 # GraphQL Subscriptions

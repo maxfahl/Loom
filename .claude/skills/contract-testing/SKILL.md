@@ -1,9 +1,9 @@
 --- 
-Name: contract-testing
-Version: 1.0.0
-Category: Testing / Integration
-Tags: contract testing, consumer-driven contracts, microservices, API testing, Pact, OpenAPI, TypeScript
-Description: Guides Claude on implementing and managing contract tests for robust microservice integrations.
+name: contract-testing
+version: 1.0.0
+category: Testing / Integration
+tags: contract testing, consumer-driven contracts, microservices, API testing, Pact, OpenAPI, TypeScript
+description: Guides Claude on implementing and managing contract tests for robust microservice integrations.
 ---
 
 # Contract Testing Skill

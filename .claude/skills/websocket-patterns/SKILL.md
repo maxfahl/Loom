@@ -1,9 +1,9 @@
 ---
-Name: websocket-patterns
-Version: 0.1.0
-Category: Real-time Communication / Networking
-Tags: websocket, real-time, communication, networking, typescript, wss, pubsub, request-response
-Description: Best practices and patterns for building robust WebSocket applications.
+name: websocket-patterns
+version: 0.1.0
+category: Real-time Communication / Networking
+tags: websocket, real-time, communication, networking, typescript, wss, pubsub, request-response
+description: Best practices and patterns for building robust WebSocket applications.
 ---
 
 # WebSocket Patterns

@@ -1,12 +1,12 @@
+---
+name: github-actions-workflows
+version: 1.0.0
+category: CI/CD / Automation
+tags: github actions, workflows, ci/cd, automation, yaml, best practices
+description: Guides Claude on creating, managing, and optimizing GitHub Actions workflows.
+---
+
 # SKILL.md for github-actions-workflows
-
-### 1. Metadata Section
-
-- Name: github-actions-workflows
-- Version: 1.0.0
-- Category: CI/CD / Automation
-- Tags: github actions, workflows, ci/cd, automation, yaml, best practices
-- Description: Guides Claude on creating, managing, and optimizing GitHub Actions workflows.
 
 ### 2. Skill Purpose
 

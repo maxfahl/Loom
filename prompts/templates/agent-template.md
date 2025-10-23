@@ -6,15 +6,15 @@ Generic template for creating custom agents. Shows required sections and structu
 
 ## Related Files
 
-- `../reference/core-agents.md` - Core agent definitions
-- `../prepare-setup/1-create-agents.md` - The workflow that uses this template.
+- `.claude/AGENTS.md` - Complete agent directory (44 agents)
+- `.claude/agents/*.md` - All agent templates
 
 ## Usage
 
 Read this file:
-- When creating technology-specific agents (Phase 3)
+- When creating new custom agents
 - To understand basic agent structure
-- For agents not covered in core-agents.md
+- As a starting point for agent templates
 
 ---
 

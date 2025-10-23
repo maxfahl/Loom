@@ -1,9 +1,9 @@
 ---
-Name: threat-modeling
-Version: 1.0.0
-Category: Security / Application Security
-Tags: threat modeling, security, application security, DevSecOps, STRIDE, PASTA, DREAD, AI, automation, shift left
-Description: Proactively identifies and addresses security vulnerabilities in systems and applications.
+name: threat-modeling
+version: 1.0.0
+category: Security / Application Security
+tags: threat modeling, security, application security, DevSecOps, STRIDE, PASTA, DREAD, AI, automation, shift left
+description: Proactively identifies and addresses security vulnerabilities in systems and applications.
 ---
 
 # Threat Modeling Skill

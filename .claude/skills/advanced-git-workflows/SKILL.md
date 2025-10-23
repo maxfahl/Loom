@@ -1,9 +1,9 @@
 ---
-Name: advanced-git-workflows
-Version: 0.1.0
-Category: Version Control / Git
-Tags: git, workflow, branching, rebase, merge, collaboration, CI/CD, trunk-based, gitflow, github-flow, gitlab-flow, conventional-commits, gitops
-Description: Empowers Claude to navigate and apply advanced Git workflows for efficient version control and collaborative development.
+name: advanced-git-workflows
+version: 0.1.0
+category: Version Control / Git
+tags: git, workflow, branching, rebase, merge, collaboration, CI/CD, trunk-based, gitflow, github-flow, gitlab-flow, conventional-commits, gitops
+description: Empowers Claude to navigate and apply advanced Git workflows for efficient version control and collaborative development.
 ---
 
 ## Skill Purpose

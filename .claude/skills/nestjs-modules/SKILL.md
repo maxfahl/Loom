@@ -1,9 +1,9 @@
 ---
-Name: nestjs-modules
-Version: 1.0.0
-Category: Web Development / Node.js Framework
-Tags: nestjs, modules, architecture, typescript, backend, microservices, organization
-Description: Building modular and scalable applications with NestJS modules.
+name: nestjs-modules
+version: 1.0.0
+category: Web Development / Node.js Framework
+tags: nestjs, modules, architecture, typescript, backend, microservices, organization
+description: Building modular and scalable applications with NestJS modules.
 ---
 
 # NestJS Modules Skill

@@ -1,9 +1,9 @@
 ---
-Name: python-docstrings
-Version: 1.0.0
-Category: Documentation / Python
-Tags: python, docstrings, documentation, pep257, sphinx, numpy, google, type hints
-Description: Guiding Claude to write effective Python docstrings for clear and maintainable code.
+name: python-docstrings
+version: 1.0.0
+category: Documentation / Python
+tags: python, docstrings, documentation, pep257, sphinx, numpy, google, type hints
+description: Guiding Claude to write effective Python docstrings for clear and maintainable code.
 ---
 
 # Python Docstrings: Crafting Clear and Comprehensive Code Documentation

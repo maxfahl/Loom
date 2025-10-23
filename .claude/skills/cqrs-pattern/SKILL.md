@@ -1,9 +1,9 @@
 ---
-Name: cqrs-pattern
-Version: 1.0.0
-Category: Architectural Patterns / Backend
-Tags: CQRS, Event Sourcing, TypeScript, Architecture, Domain-Driven Design
-Description: Enables robust, scalable, and maintainable applications by separating command and query responsibilities.
+name: cqrs-pattern
+version: 1.0.0
+category: Architectural Patterns / Backend
+tags: CQRS, Event Sourcing, TypeScript, Architecture, Domain-Driven Design
+description: Enables robust, scalable, and maintainable applications by separating command and query responsibilities.
 ---
 
 # CQRS Pattern

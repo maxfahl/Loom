@@ -1,12 +1,12 @@
+---
+name: terraform-modules
+version: 1.0.0
+category: Infrastructure as Code / Terraform
+tags: terraform, modules, iac, infrastructure, best practices, reusability
+description: Guides Claude on creating and using reusable Terraform modules effectively.
+---
+
 # SKILL.md for terraform-modules
-
-### 1. Metadata Section
-
-- Name: terraform-modules
-- Version: 1.0.0
-- Category: Infrastructure as Code / Terraform
-- Tags: terraform, modules, iac, infrastructure, best practices, reusability
-- Description: Guides Claude on creating and using reusable Terraform modules effectively.
 
 ### 2. Skill Purpose
 

@@ -6,7 +6,7 @@ Generic template for creating custom slash commands.
 
 ## Related Files
 
-- `../prepare-setup/2-create-commands.md` - The workflow that uses this template.
+- `.claude/commands/*.md` - All command templates
 
 ## Usage
 

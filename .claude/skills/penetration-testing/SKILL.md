@@ -1,9 +1,9 @@
 ---
-Name: penetration-testing
-Version: 0.1.0
-Category: Security / Offensive Security
-Tags: penetration testing, pentest, security, ethical hacking, vulnerability assessment, red teaming, offensive security
-Description: Guides Claude on performing and assisting with penetration testing activities.
+name: penetration-testing
+version: 0.1.0
+category: Security / Offensive Security
+tags: penetration testing, pentest, security, ethical hacking, vulnerability assessment, red teaming, offensive security
+description: Guides Claude on performing and assisting with penetration testing activities.
 ---
 
 # Penetration Testing Skill

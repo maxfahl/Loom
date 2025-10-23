@@ -1,9 +1,9 @@
 ---
-Name: tdd-red-green-refactor
-Version: 1.0.0
-Category: Software Development / Testing
-Tags: TDD, Test-Driven Development, Red Green Refactor, unit testing, refactoring, clean code
-Description: The core cycle of Test-Driven Development (TDD) for building robust and maintainable software.
+name: tdd-red-green-refactor
+version: 1.0.0
+category: Software Development / Testing
+tags: TDD, Test-Driven Development, Red Green Refactor, unit testing, refactoring, clean code
+description: The core cycle of Test-Driven Development (TDD) for building robust and maintainable software.
 ---
 
 # TDD: Red-Green-Refactor Skill

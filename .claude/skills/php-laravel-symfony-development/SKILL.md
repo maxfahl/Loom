@@ -1,9 +1,9 @@
 ---
-Name: php-laravel-symfony-development
-Version: 1.0.0
-Category: Web Development / Backend
-Tags: PHP, Laravel, Symfony, Backend, Web, API, Microservices, ORM, MVC
-Description: Guides Claude on modern PHP development using Laravel and Symfony frameworks, focusing on best practices, performance, security, and maintainability.
+name: php-laravel-symfony-development
+version: 1.0.0
+category: Web Development / Backend
+tags: PHP, Laravel, Symfony, Backend, Web, API, Microservices, ORM, MVC
+description: Guides Claude on modern PHP development using Laravel and Symfony frameworks, focusing on best practices, performance, security, and maintainability.
 ---
 
 ## Skill Purpose

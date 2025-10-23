@@ -1,150 +1,104 @@
 ---
 description: Correct course on a feature based on new requirements or direction changes
-model: claude-sonnet-4-5
+model: sonnet
 argument-hint: [feature name or current]
 ---
 
-# /correct-course - Correct Feature Direction
+# /correct-course - Correct Course
 
-**Purpose**: Adjust feature direction based on changing requirements, mistakes, or new insights
+## What This Command Does
+
+Adjust feature direction based on new requirements, feedback, or changed priorities.
 
 ## Process
 
-1. **Identify Feature**
-   - Use "current" for active feature
-   - Or specify feature name explicitly
+1. **Identify Feature**:
+   - If `$ARGUMENTS` is "current", use current feature from status.xml
+   - Otherwise, use feature name from `$ARGUMENTS`
+   - Read feature documentation (INDEX.md, FEATURE_SPEC.md, etc.)
 
-2. **Read Current Feature State**
-   - Read `status.xml` for feature tracking
-   - Read epic documentation (DESCRIPTION.md, TASKS.md, NOTES.md)
-   - Read feature documentation (FEATURE_SPEC.md, TECHNICAL_DESIGN.md, etc.)
-   - Review committed code
-   - Review commit history
+2. **Understand Current State**:
+   - Read all epic descriptions
+   - Read completed stories
+   - Read in-progress stories
+   - Identify what's been built so far
 
-3. **Show User Current State Summary**
-   - Feature overview
-   - Epic breakdown and status
-   - Completed work
-   - Current progress
-   - Pending tasks
+3. **Gather New Requirements**:
+   - Ask user what changed
+   - Understand new direction
+   - Clarify new priorities
+   - Identify impact on existing work
 
-4. **Understand Desired Changes**
-   - Ask user what needs to change
-   - Clarify new requirements
-   - Understand why correction is needed
-   - Identify scope of changes
+4. **Analyze Impact**:
+   - Which epics are affected?
+   - Which stories need to change?
+   - What work can be preserved?
+   - What needs to be redone?
+   - What new work is needed?
 
-5. **Analyze Impact**
-   - Code to keep
-   - Code to modify
-   - Code to remove
-   - Tests to update
-   - Documentation to revise
-   - Epics to reorganize
+5. **Create Adjustment Plan**:
+   ```markdown
+   # Course Correction Plan
 
-6. **Update Epic Documentation**
-   - Update DESCRIPTION.md with changes
-   - Update TASKS.md with new/modified/removed tasks
-   - Add notes to NOTES.md explaining changes
-   - Update story files if needed
+   ## What Changed
+   [Describe new requirements/direction]
 
-7. **Update Feature Documentation**
+   ## Impact Analysis
+   - Affected Epics: [List]
+   - Stories to Modify: [List]
+   - Stories to Deprecate: [List]
+   - New Stories Needed: [List]
+
+   ## Preserved Work
+   [What existing work is still valid]
+
+   ## New Work Required
+   [What needs to be created/modified]
+
+   ## Next Steps
+   1. [Immediate action]
+   2. [Follow-up action]
+   3. ...
+   ```
+
+6. **Update Documentation**:
    - Update FEATURE_SPEC.md with new requirements
-   - Update TECHNICAL_DESIGN.md with architectural changes
-   - Add entry to CHANGELOG.md documenting the correction
-   - Update INDEX.md if structure changed
+   - Update epic DESCRIPTION.md files as needed
+   - Update affected story files
+   - Create new story files if needed
+   - Update CHANGELOG.md with course correction
 
-8. **Update status.xml**
+7. **Update status.xml**:
+   - Mark affected stories appropriately
+   - Update current story if needed
    - Add course correction notes
-   - Update epic status if changed
-   - Mark tasks as cancelled if appropriate
-   - Update `<current-epic>` if switching epics
-   - Add `<cancelled-tasks>` section if needed
 
-9. **Create Action Plan**
-   - **Cleanup**: Remove obsolete code/tests/docs
-   - **Modify**: Update existing implementations
-   - **Add**: Create new functionality
-   - **Update Docs**: Revise all affected documentation
-   - **Verify**: Run tests and ensure nothing broke
+## Recommended Skills
 
-10. **Execute Corrections**
-    - Present plan to user
-    - Offer options:
-      - Automatic: Execute all changes autonomously
-      - Step-by-step: Confirm each major change
-      - Manual: Provide plan, user executes
+<!-- TODO: Add relevant skills from .claude/skills/ -->
 
-11. **Handle Git History**
-    - Revert commits if needed
-    - Create new branch if significant changes
-    - Document reasoning in commit messages
+- `requirements-engineering` - For requirement analysis
+- `agile-methodologies` - For agile adaptation
+- `risk-management` - For impact analysis
 
-12. **Verify Corrections**
-    - Run tests
-    - Check documentation accuracy
-    - Verify status.xml reflects new state
-    - Ensure epic task lists are correct
+Use these skills heavily throughout execution to ensure best practices.
 
-13. **Update Epic Task Lists**
-    - Reflect new direction in TASKS.md
-    - Mark completed tasks
-    - Add new tasks from corrections
+**Skill Troubleshooting Authority**: If any referenced skill does not work or any script within the skill does not work, Claude Code has the authority to fix them.
 
-14. **Update status.xml Final State**
-    - Confirm all changes are tracked
-    - Set correct `<current-epic>` and `<current-story>`
-    - Update `<last-updated>` timestamp
+## Arguments
 
-## Important Notes
+- `$ARGUMENTS`: Feature name or "current" for current feature
 
-- Reads `prompts/project-setup-meta-prompt.md` for guidance
-- Reviews ALL existing work before making changes (including all epic folders)
-- Documents WHY correction was needed in:
-  - Feature docs (CHANGELOG.md)
-  - Epic NOTES.md
-- Updates status.xml to reflect new direction (including epic status)
-- Handles cancelled tasks appropriately (mark epic as cancelled if needed)
-- May reorganize epics if direction changes significantly
-- Updates `<current-epic>` if switching to different epic
-- May add `<cancelled-tasks>` section to status.xml
+## Examples
 
-## When to Use
+```
+/correct-course current
+```
 
-- Requirements changed after starting development
-- Discovered better approach mid-implementation
-- Need to pivot feature direction
-- Major bugs require architectural changes
-- Epics need reorganization
+Corrects course for the currently active feature.
 
-## When NOT to Use
+```
+/correct-course user-authentication
+```
 
-- Small bug fixes (use `/fix`)
-- Minor code improvements (use `/dev`)
-- Adding new story to existing epic (use `/create-story`)
-
-## Example Scenarios
-
-**Scenario 1: Changed Requirements**
-- User: "We need to support OAuth2 instead of basic auth"
-- Command analyzes current auth implementation
-- Updates epic-1-authentication tasks
-- Marks basic auth code for removal
-- Adds OAuth2 implementation tasks
-- Updates documentation
-
-**Scenario 2: Epic Reorganization**
-- User: "Epic 2 is too large, split into epic 2 and 3"
-- Command analyzes epic-2 tasks
-- Creates new epic-3 folder
-- Redistributes tasks logically
-- Updates status.xml epic tracking
-- Moves stories to correct epics
-
-**Scenario 3: Architectural Change**
-- User: "Switch from REST API to GraphQL"
-- Command analyzes current API code
-- Updates TECHNICAL_DESIGN.md
-- Reorganizes epic tasks
-- Plans migration strategy
-- Documents reasoning
+Corrects course for specific feature.

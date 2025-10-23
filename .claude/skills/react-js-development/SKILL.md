@@ -1,9 +1,9 @@
 ---
-Name: react-js-development
-Version: 1.0.0
-Category: Web Development / Frontend
-Tags: React, JavaScript, TypeScript, Frontend, UI, Hooks, Components
-Description: Guides Claude in building modern, performant, and maintainable React.js applications with TypeScript.
+name: react-js-development
+version: 1.0.0
+category: Web Development / Frontend
+tags: React, JavaScript, TypeScript, Frontend, UI, Hooks, Components
+description: Guides Claude in building modern, performant, and maintainable React.js applications with TypeScript.
 ---
 
 # React.js Development Skill

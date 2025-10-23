@@ -193,6 +193,14 @@ def main():
 
     args = parser.parse_args()
 
+    # Remove --rest and --graphql from sys.argv if present, to prevent Locust from trying to parse them
+    if "--rest" in sys.argv:
+        sys.argv.remove("--rest")
+    if "--graphql" in sys.argv:
+        sys.argv.remove("--graphql")
+    if "--verbose" in sys.argv:
+        sys.argv.remove("--verbose")
+
     # Set the host for the HttpUser classes dynamically
     HttpUser.host = args.host
 

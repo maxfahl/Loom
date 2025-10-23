@@ -1,9 +1,9 @@
 ---
-Name: pytest-fixtures
-Version: 1.0.0
-Category: Testing / Python
-Tags: pytest, fixtures, python, testing, unit testing, integration testing
-Description: Mastering pytest fixtures for efficient and maintainable Python test setups.
+name: pytest-fixtures
+version: 1.0.0
+category: Testing / Python
+tags: pytest, fixtures, python, testing, unit testing, integration testing
+description: Mastering pytest fixtures for efficient and maintainable Python test setups.
 ---
 
 # Pytest Fixtures: Efficient Test Setup and Teardown

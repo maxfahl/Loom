@@ -1,9 +1,9 @@
 ---
-Name: owasp-top-10
-Version: 2021.0.1
-Category: Security / Web Application
-Tags: security, web, owasp, vulnerabilities, prevention, secure-coding, application-security
-Description: The top 10 most critical web application security risks and their mitigations.
+name: owasp-top-10
+version: 2021.0.1
+category: Security / Web Application
+tags: security, web, owasp, vulnerabilities, prevention, secure-coding, application-security
+description: The top 10 most critical web application security risks and their mitigations.
 ---
 
 ## Skill Purpose

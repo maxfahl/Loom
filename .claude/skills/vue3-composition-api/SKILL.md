@@ -1,9 +1,9 @@
 ---
-Name: vue3-composition-api
-Version: 1.0.0
-Category: Web Development / Frontend / Vue.js
-Tags: vue, vue3, composition-api, typescript, frontend, reactivity, composables
-Description: Patterns and best practices for using the Vue 3 Composition API with TypeScript.
+name: vue3-composition-api
+version: 1.0.0
+category: Web Development / Frontend / Vue.js
+tags: vue, vue3, composition-api, typescript, frontend, reactivity, composables
+description: Patterns and best practices for using the Vue 3 Composition API with TypeScript.
 ---
 
 # Vue 3 Composition API Skill

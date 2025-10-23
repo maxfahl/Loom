@@ -1,9 +1,9 @@
 ---
-Name: svelte-basics
-Version: 1.0.0
-Category: Web Development / Frontend / Svelte
-Tags: svelte, sveltekit, frontend, reactivity, typescript, components, stores
-Description: Core concepts and best practices for building applications with Svelte and SvelteKit.
+name: svelte-basics
+version: 1.0.0
+category: Web Development / Frontend / Svelte
+tags: svelte, sveltekit, frontend, reactivity, typescript, components, stores
+description: Core concepts and best practices for building applications with Svelte and SvelteKit.
 ---
 
 # Svelte Basics Skill

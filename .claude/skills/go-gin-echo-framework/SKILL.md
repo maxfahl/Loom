@@ -1,9 +1,9 @@
 ---
-Name: go-gin-echo-framework
-Version: 1.0.0
-Category: Web Development / Backend
-Tags: Go, Golang, Gin, Echo, Web Framework, API, Microservices, Backend
-Description: Enables Claude to build high-performance web applications and APIs using Go with Gin or Echo frameworks.
+name: go-gin-echo-framework
+version: 1.0.0
+category: Web Development / Backend
+tags: Go, Golang, Gin, Echo, Web Framework, API, Microservices, Backend
+description: Enables Claude to build high-performance web applications and APIs using Go with Gin or Echo frameworks.
 ---
 
 # Go (Gin/Echo) Framework Skill

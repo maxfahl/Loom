@@ -1,9 +1,9 @@
 ---
-Name: database-performance-tuning
-Version: 0.1.0
-Category: Database / Performance
-Tags: database, performance, tuning, optimization, sql, indexing, query, schema, maintenance
-Description: Optimizing database operations for improved speed, efficiency, and scalability.
+name: database-performance-tuning
+version: 0.1.0
+category: Database / Performance
+tags: database, performance, tuning, optimization, sql, indexing, query, schema, maintenance
+description: Optimizing database operations for improved speed, efficiency, and scalability.
 ---
 
 # Database Performance Tuning

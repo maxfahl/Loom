@@ -1,9 +1,9 @@
 ---
-Name: python-pep8
-Version: 1.0.0
-Category: Python / Style Guide
-Tags: python, pep8, style, linting, code quality, best practices
-Description: Enforces and guides adherence to the official Python style guide (PEP 8).
+name: python-pep8
+version: 1.0.0
+category: Python / Style Guide
+tags: python, pep8, style, linting, code quality, best practices
+description: Enforces and guides adherence to the official Python style guide (PEP 8).
 ---
 
 # Python PEP 8 Style Guide

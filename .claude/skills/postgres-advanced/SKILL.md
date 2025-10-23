@@ -1,9 +1,9 @@
 ---
-Name: postgres-advanced
-Version: 0.1.0
-Category: Database / PostgreSQL
-Tags: postgresql, database, performance, scaling, security, indexing, partitioning, replication, jsonb, rls, pgtune, explain, analyze
-Description: Enables Claude to assist with advanced PostgreSQL features, performance tuning, and best practices.
+name: postgres-advanced
+version: 0.1.0
+category: Database / PostgreSQL
+tags: postgresql, database, performance, scaling, security, indexing, partitioning, replication, jsonb, rls, pgtune, explain, analyze
+description: Enables Claude to assist with advanced PostgreSQL features, performance tuning, and best practices.
 ---
 
 # PostgreSQL Advanced Features Skill

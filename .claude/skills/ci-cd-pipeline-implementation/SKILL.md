@@ -1,9 +1,9 @@
 ---
-Name: ci-cd-pipeline-implementation
-Version: 1.0.0
-Category: DevOps / Automation
-Tags: CI, CD, Pipeline, Automation, DevOps, GitHub Actions, GitLab CI, Jenkins, Deployment, Testing, Security
-Description: Guides Claude in designing, implementing, and optimizing CI/CD pipelines for robust software delivery.
+name: ci-cd-pipeline-implementation
+version: 1.0.0
+category: DevOps / Automation
+tags: CI, CD, Pipeline, Automation, DevOps, GitHub Actions, GitLab CI, Jenkins, Deployment, Testing, Security
+description: Guides Claude in designing, implementing, and optimizing CI/CD pipelines for robust software delivery.
 ---
 
 # CI/CD Pipeline Implementation Skill

@@ -1,9 +1,9 @@
 ---
-Name: deployment-strategies
-Version: 1.0.0
-Category: DevOps / Deployment
-Tags: deployment, devops, ci/cd, blue-green, canary, rolling, release, kubernetes, cloud-native
-Description: Strategies for deploying applications with minimal downtime and risk.
+name: deployment-strategies
+version: 1.0.0
+category: DevOps / Deployment
+tags: deployment, devops, ci/cd, blue-green, canary, rolling, release, kubernetes, cloud-native
+description: Strategies for deploying applications with minimal downtime and risk.
 ---
 
 ## Skill Purpose

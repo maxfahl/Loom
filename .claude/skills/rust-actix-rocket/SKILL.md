@@ -1,9 +1,9 @@
 ---
-Name: rust-actix-rocket
-Version: 1.0.0
-Category: Backend Development / Web Frameworks
-Tags: Rust, Web, Actix, Rocket, API, Backend, Asynchronous
-Description: Guides Claude on building high-performance web applications with Rust using Actix Web and Rocket frameworks.
+name: rust-actix-rocket
+version: 1.0.0
+category: Backend Development / Web Frameworks
+tags: Rust, Web, Actix, Rocket, API, Backend, Asynchronous
+description: Guides Claude on building high-performance web applications with Rust using Actix Web and Rocket frameworks.
 ---
 
 # Rust (Actix/Rocket) Framework Skill

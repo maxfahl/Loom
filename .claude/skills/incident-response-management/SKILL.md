@@ -1,9 +1,9 @@
 ---
-Name: incident-response-management
-Version: 1.0.0
-Category: Operations / SRE
-Tags: incident, response, SRE, DevOps, production, outage, post-mortem, runbook, playbook
-Description: Guides Claude in effective handling of production incidents, from detection to post-mortem.
+name: incident-response-management
+version: 1.0.0
+category: Operations / SRE
+tags: incident, response, SRE, DevOps, production, outage, post-mortem, runbook, playbook
+description: Guides Claude in effective handling of production incidents, from detection to post-mortem.
 ---
 
 ## Skill Purpose

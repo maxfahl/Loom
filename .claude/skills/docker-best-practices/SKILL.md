@@ -1,9 +1,9 @@
 --- 
-Name: docker-best-practices
-Version: 1.0.0
-Category: DevOps / Containerization
-Tags: Docker, Dockerfile, Containerization, Security, Optimization, CI/CD
-Description: Guides on building secure, optimized, and efficient Docker images and managing containers.
+name: docker-best-practices
+version: 1.0.0
+category: DevOps / Containerization
+tags: Docker, Dockerfile, Containerization, Security, Optimization, CI/CD
+description: Guides on building secure, optimized, and efficient Docker images and managing containers.
 ---
 
 # Docker Best Practices

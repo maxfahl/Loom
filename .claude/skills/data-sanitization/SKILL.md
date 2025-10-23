@@ -1,10 +1,10 @@
-### 1. Metadata Section
-
-- Name: data-sanitization
-- Version: 1.0.0
-- Category: Data Management / Security
-- Tags: data privacy, anonymization, masking, synthetic data, GDPR, CCPA, HIPAA
-- Description: Implementing processes to sanitize sensitive data for non-production environments.
+---
+name: data-sanitization
+version: 1.0.0
+category: Data Management / Security
+tags: data privacy, anonymization, masking, synthetic data, GDPR, CCPA, HIPAA
+description: Implementing processes to sanitize sensitive data for non-production environments.
+---
 
 ### 2. Skill Purpose
 

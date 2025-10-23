@@ -1,9 +1,9 @@
 ---
-Name: fastify
-Version: 1.0.0
-Category: Web Development / Node.js Framework
-Tags: fastify, node.js, web framework, api, microservices, typescript, performance
-Description: Builds high-performance, low-overhead web APIs and microservices with Fastify.
+name: fastify
+version: 1.0.0
+category: Web Development / Node.js Framework
+tags: fastify, node.js, web framework, api, microservices, typescript, performance
+description: Builds high-performance, low-overhead web APIs and microservices with Fastify.
 ---
 
 # Fastify Skill

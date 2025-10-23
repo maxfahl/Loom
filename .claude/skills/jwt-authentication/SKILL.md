@@ -1,3 +1,11 @@
+---
+name: jwt-authentication
+version: 1.0.0
+category: Security / Authentication
+tags: JWT, Authentication, Authorization, Security, Token, Web Security, TypeScript
+description: Guides Claude on implementing secure JSON Web Token (JWT) authentication in modern applications, focusing on TypeScript best practices.
+---
+
 # SKILL.md - JWT Authentication
 
 ## Metadata Section

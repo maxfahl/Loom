@@ -1,9 +1,9 @@
 ---
-Name: svelte-development
-Version: 1.0.0
-Category: Web Development / Framework
-Tags: Svelte, SvelteKit, Frontend, Fullstack, JavaScript, TypeScript, UI, Web
-Description: Guides Claude on best practices for building performant and maintainable web applications with Svelte and SvelteKit.
+name: svelte-development
+version: 1.0.0
+category: Web Development / Framework
+tags: Svelte, SvelteKit, Frontend, Fullstack, JavaScript, TypeScript, UI, Web
+description: Guides Claude on best practices for building performant and maintainable web applications with Svelte and SvelteKit.
 ---
 
 # Svelte Development Skill

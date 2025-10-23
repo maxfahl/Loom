@@ -1,9 +1,10 @@
-### 1. Metadata Section
-- Name: observability-stack-implementation
-- Version: 1.0.0
-- Category: DevOps / Monitoring
-- Tags: observability, Prometheus, Grafana, Jaeger, OpenTelemetry, metrics, tracing, logging, monitoring, alerting
-- Description: Setting up and integrating Prometheus, Grafana, and Jaeger (OpenTelemetry) for comprehensive monitoring, tracing, and logging.
+---
+name: observability-stack-implementation
+version: 1.0.0
+category: DevOps / Monitoring
+tags: observability, Prometheus, Grafana, Jaeger, OpenTelemetry, metrics, tracing, logging, monitoring, alerting
+description: Setting up and integrating Prometheus, Grafana, and Jaeger (OpenTelemetry) for comprehensive monitoring, tracing, and logging.
+---
 
 ### 2. Skill Purpose
 This skill enables Claude to design, implement, and maintain a robust observability stack using industry-standard tools like OpenTelemetry, Prometheus, Grafana, and Jaeger. It covers best practices for collecting, storing, visualizing, and alerting on metrics, traces, and logs to provide deep insights into application and infrastructure health, performance, and behavior in distributed systems.

@@ -1,425 +1,92 @@
 ---
 description: Run tests with coverage and detailed reporting
-allowed-tools: Bash(npm:*)
-model: claude-haiku-4-5
+model: haiku
 argument-hint: [test pattern]
 ---
 
-You are now in **TEST MODE**. Time to validate everything works! 🧪
+# /test - Run Tests
 
-## Purpose
+## What This Command Does
 
-Execute tests and analyze results with detailed coverage reporting. This command:
+Execute tests and analyze results with optional pattern filtering.
 
-1. Detects project type (Node.js, Swift, Python, etc.)
-2. Runs appropriate test command with coverage
-3. Displays test results
-4. Shows coverage report
-5. Highlights failed tests
-6. Shows coverage percentage (must be ≥80%)
+## Process
 
-## Test Execution Strategy
+1. **Determine Test Command**:
+   - Check package.json for test scripts
+   - Detect test framework (Jest, Vitest, Mocha, etc.)
 
-### Step 1: Detect Project Type
+2. **Run Tests**:
+   ```bash
+   # With pattern if provided
+   npm test -- $ARGUMENTS --coverage --verbose
 
-Determine the project type by checking for:
+   # Without pattern
+   npm test -- --coverage --verbose
+   ```
 
-- **Node.js**: `package.json` exists
-- **Swift**: `Package.swift` exists or `.xcodeproj` exists
-- **Python**: `setup.py`, `pyproject.toml`, or `requirements.txt` exists
-- **Rust**: `Cargo.toml` exists
-- **Other**: Check for language-specific markers
+3. **Analyze Results**:
+   - Parse test output for pass/fail counts
+   - Extract coverage percentages
+   - Identify failing tests with details
+   - Show coverage report summary
 
-### Step 2: Run Tests with Coverage
+4. **Report Findings**:
+   ```markdown
+   # Test Results
 
-Based on project type, run the appropriate test command:
+   ## Summary
+   - Tests Run: [X]
+   - Passed: [X]
+   - Failed: [X]
+   - Skipped: [X]
 
-**Node.js/TypeScript**:
-```bash
-npm test -- --coverage
-# or
-npm run test:coverage
-# or
-npx jest --coverage
-```
+   ## Coverage
+   - Statements: [X]%
+   - Branches: [X]%
+   - Functions: [X]%
+   - Lines: [X]%
 
-**Swift (Package Manager)**:
-```bash
-swift test --enable-code-coverage
-```
+   ## Failing Tests (if any)
+   - [Test name]: [Error message]
+     File: [file:line]
 
-**Swift (Xcode)**:
-```bash
-xcodebuild test -scheme <scheme> -enableCodeCoverage YES
-```
+   ## Next Steps
+   [Recommendations for fixing failures or improving coverage]
+   ```
 
-**Python**:
-```bash
-pytest --cov=. --cov-report=term --cov-report=html
-```
+## Recommended Skills
 
-**Rust**:
-```bash
-cargo test
-# For coverage:
-cargo tarpaulin --out Xml --out Html
-```
+<!-- TODO: Add relevant skills from .claude/skills/ -->
 
-### Step 3: Parse Test Results
+- `jest-unit-tests` - For Jest test execution
+- `tdd-red-green-refactor` - For TDD methodology
+- `playwright-e2e` - For E2E tests
 
-Extract and display:
+Use these skills heavily throughout execution to ensure best practices.
 
-- Total tests run
-- Tests passed
-- Tests failed
-- Test execution time
-- Coverage percentage
-- Failed test details (file, line, reason)
+**Skill Troubleshooting Authority**: If any referenced skill does not work or any script within the skill does not work, Claude Code has the authority to fix them.
 
-### Step 4: Analyze Coverage
+## Arguments
 
-**Coverage Requirements**:
-- **Minimum**: 80% (MANDATORY)
-- **Target**: 90%
-- **Critical paths**: 100%
+- `$ARGUMENTS`: Optional test pattern to filter which tests to run
 
-**Coverage Report**:
-- Overall percentage
-- Per-file breakdown (if coverage < 80%)
-- Uncovered lines/functions
-- Suggestions for improvement
-
-### Step 5: Generate Report
-
-Display comprehensive test report with:
+## Examples
 
 ```
-══════════════════════════════════════════════════
-TEST RESULTS
-══════════════════════════════════════════════════
-
-✅ Tests Passed: X
-❌ Tests Failed: Y
-⏱️  Duration: Xs
-📊 Coverage: X%
-
-══════════════════════════════════════════════════
-FAILED TESTS (if any)
-══════════════════════════════════════════════════
-
-❌ Test Name
-  Location: file.test.ts:45
-  Reason: Expected X but got Y
-
-  Fix: [Suggested fix]
-
-══════════════════════════════════════════════════
-COVERAGE REPORT
-══════════════════════════════════════════════════
-
-Overall: X% (target: 80%+)
-
-Files Below Threshold:
-- file1.ts: 65% (needs +15%)
-- file2.ts: 72% (needs +8%)
-
-Uncovered Lines:
-- file1.ts: lines 45-52, 78-81
-- file2.ts: lines 23-29
-
-══════════════════════════════════════════════════
-DECISION
-══════════════════════════════════════════════════
-
-✅ PASS - All tests passing, coverage ≥80%
-❌ BLOCK - Fix failing tests or improve coverage
-
-══════════════════════════════════════════════════
-```
-
-## Test Pattern Argument (Optional)
-
-If a test pattern is provided, run only matching tests:
-
-**Node.js**:
-```bash
-npm test -- --testNamePattern="<pattern>"
-```
-
-**Swift**:
-```bash
-swift test --filter <pattern>
-```
-
-**Python**:
-```bash
-pytest -k "<pattern>"
-```
-
-**Rust**:
-```bash
-cargo test <pattern>
-```
-
-## Test Quality Checks
-
-### ✅ Good Tests
-
-- Written BEFORE implementation (TDD)
-- Isolated (no shared state between tests)
-- Fast (unit tests < 100ms, integration tests < 5s)
-- Clear Given-When-Then structure
-- Descriptive test names
-- Test one thing per test
-
-### ❌ Bad Tests
-
-- Written AFTER implementation (not TDD)
-- Tests leak state (affect other tests)
-- Slow tests (> 1s for unit, > 10s for integration)
-- Unclear what's being tested
-- Vague test names
-- Testing multiple concerns in one test
-
-## TDD Enforcement
-
-The `/test` command validates TDD compliance:
-
-- ✅ Tests exist for all new code
-- ✅ Coverage meets 80% minimum
-- ✅ All tests pass before merge
-- ❌ Blocks merge if tests missing or failing
-- ❌ Blocks merge if coverage < 80%
-
-## Performance Targets
-
-- **Unit Tests**: < 100ms per test
-- **Integration Tests**: < 5s per test
-- **Total Suite**: < 2 minutes
-- **Coverage**: ≥ 80%
-
-## Example Usage
-
-### Run All Tests
-```bash
 /test
 ```
 
-### Run Specific Test Pattern
-```bash
-/test authentication
+Runs all tests with coverage.
+
+```
+/test auth
 ```
 
-### Run with Verbose Output
-```bash
-/test --verbose
+Runs only tests matching "auth" pattern.
+
+```
+/test src/components/Button.test.ts
 ```
 
-## Implementation Steps
-
-When you run `/test`, I will:
-
-1. **Detect Project Type**
-   - Check for package.json, Package.swift, Cargo.toml, etc.
-   - Determine test framework (Jest, XCTest, pytest, etc.)
-
-2. **Run Test Command**
-   - Execute appropriate test command with coverage
-   - Capture output (stdout and stderr)
-   - Parse test results
-
-3. **Analyze Results**
-   - Count passed/failed tests
-   - Extract failure details (file, line, reason)
-   - Calculate coverage percentage
-   - Identify uncovered code
-
-4. **Generate Report**
-   - Display formatted test results
-   - Highlight failures with context
-   - Show coverage report
-   - Provide actionable suggestions
-
-5. **Make Decision**
-   - ✅ PASS: All tests pass, coverage ≥80%
-   - ❌ BLOCK: Tests fail or coverage <80%
-
-## Example Session (Node.js)
-
-```bash
-User: /test
-Assistant: Running tests with coverage...
-
-Detected: Node.js project (package.json found)
-Running: npm test -- --coverage
-
-══════════════════════════════════════════════════
-TEST RESULTS
-══════════════════════════════════════════════════
-
-✅ Tests Passed: 45
-❌ Tests Failed: 0
-⏱️  Duration: 3.2s
-📊 Coverage: 87%
-
-Test Suites: 8 passed, 8 total
-Tests:       45 passed, 45 total
-
-══════════════════════════════════════════════════
-COVERAGE REPORT
-══════════════════════════════════════════════════
-
-Overall: 87% (target: 80%+) ✅
-
-File Coverage:
-- auth.service.ts: 95%
-- user.controller.ts: 89%
-- data.repository.ts: 82%
-- validation.utils.ts: 78% ⚠️
-
-Files Below Threshold:
-- validation.utils.ts: 78% (needs +2%)
-
-Uncovered Lines:
-- validation.utils.ts: lines 45-48 (error handling)
-
-══════════════════════════════════════════════════
-DECISION
-══════════════════════════════════════════════════
-
-✅ PASS - All tests passing, coverage ≥80%
-
-💡 Suggestions:
-- Add tests for validation.utils.ts error handling (lines 45-48)
-- Current coverage: 87% (target: 90%)
-
-══════════════════════════════════════════════════
-```
-
-## Example Session (Swift)
-
-```bash
-User: /test
-Assistant: Running tests with coverage...
-
-Detected: Swift project (Package.swift found)
-Running: swift test --enable-code-coverage
-
-══════════════════════════════════════════════════
-TEST RESULTS
-══════════════════════════════════════════════════
-
-✅ Tests Passed: 63
-❌ Tests Failed: 0
-⏱️  Duration: 5.8s
-📊 Coverage: 92%
-
-Test Suites:
-✅ WorkspacePersistenceTests: 12/12 passed
-✅ WorkspaceStoreTests: 8/8 passed
-✅ ContextDetectorTests: 15/15 passed
-✅ TargetManagerTests: 10/10 passed
-
-══════════════════════════════════════════════════
-COVERAGE REPORT
-══════════════════════════════════════════════════
-
-Overall: 92% (target: 80%+) ✅
-
-Module Coverage:
-- Jump: 94%
-- JumpUI: 88%
-- JumpCore: 95%
-
-══════════════════════════════════════════════════
-DECISION
-══════════════════════════════════════════════════
-
-✅ PASS - All tests passing, coverage ≥80%
-
-🎉 Excellent coverage! Ready to ship.
-
-══════════════════════════════════════════════════
-```
-
-## Example with Failures
-
-```bash
-User: /test
-Assistant: Running tests with coverage...
-
-Detected: Node.js project (package.json found)
-Running: npm test -- --coverage
-
-══════════════════════════════════════════════════
-TEST RESULTS
-══════════════════════════════════════════════════
-
-✅ Tests Passed: 44
-❌ Tests Failed: 1
-⏱️  Duration: 3.1s
-📊 Coverage: 85%
-
-══════════════════════════════════════════════════
-FAILED TESTS
-══════════════════════════════════════════════════
-
-❌ auth.service.test.ts › AuthService › should validate expired tokens
-
-  Location: tests/auth.service.test.ts:45
-  Reason: Expected token to be invalid, but validation passed
-
-  Expected: { valid: false, reason: 'expired' }
-  Actual: { valid: true }
-
-  Issue: Token expiration check not working
-
-  Fix: Update auth.service.ts:78 to check token expiration:
-  ```typescript
-  if (decoded.exp < Date.now() / 1000) {
-    return { valid: false, reason: 'expired' };
-  }
-  ```
-
-══════════════════════════════════════════════════
-COVERAGE REPORT
-══════════════════════════════════════════════════
-
-Overall: 85% (target: 80%+) ✅
-
-══════════════════════════════════════════════════
-DECISION
-══════════════════════════════════════════════════
-
-❌ BLOCK - Fix failing tests before proceeding
-
-Next Steps:
-1. Fix token expiration validation in auth.service.ts
-2. Re-run tests with: /test auth
-3. Verify fix resolves the issue
-
-══════════════════════════════════════════════════
-
-Would you like me to fix this issue? (yes/no)
-```
-
-## Integration with Other Commands
-
-The `/test` command integrates with:
-
-- **`/dev`** - Runs tests after implementation
-- **`/commit`** - Runs tests before committing
-- **`/review`** - Checks test coverage in code review
-- **`/plan`** - Ensures test plan exists before implementation
-
-## Notes
-
-- **Always run tests before committing** - Use `/commit` to ensure this
-- **TDD is mandatory** - Write tests FIRST, then implementation
-- **Coverage is not quality** - 100% coverage doesn't mean good tests
-- **Fast tests are valuable** - Keep unit tests under 100ms
-- **Flaky tests are failures** - Fix or remove non-deterministic tests
-
----
-
-**Tests are your safety net. Never skip them!** 🧪
+Runs specific test file.

@@ -1,9 +1,9 @@
 ---
-Name: hashicorp-vault-integration
-Version: 1.0.0
-Category: Security / Secrets Management
-Tags: HashiCorp Vault, secrets management, security, dynamic secrets, TypeScript, Kubernetes, CI/CD, Zero Trust
-Description: Securely managing and rotating secrets using HashiCorp Vault.
+name: hashicorp-vault-integration
+version: 1.0.0
+category: Security / Secrets Management
+tags: HashiCorp Vault, secrets management, security, dynamic secrets, TypeScript, Kubernetes, CI/CD, Zero Trust
+description: Securely managing and rotating secrets using HashiCorp Vault.
 ---
 
 # HashiCorp Vault Integration

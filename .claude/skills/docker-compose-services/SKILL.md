@@ -1,9 +1,9 @@
 ---
-Name: docker-compose-services
-Version: 1.0.0
-Category: DevOps / Container Orchestration
-Tags: Docker Compose, Multi-container, YAML, Development, Production, Environment Management
-Description: Defines and manages multi-container Docker applications for development and production environments.
+name: docker-compose-services
+version: 1.0.0
+category: DevOps / Container Orchestration
+tags: Docker Compose, Multi-container, YAML, Development, Production, Environment Management
+description: Defines and manages multi-container Docker applications for development and production environments.
 ---
 
 # Docker Compose Services

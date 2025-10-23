@@ -1,9 +1,9 @@
 --- 
-Name: openai-api
-Version: 1.0.0
-Category: AI / API Integration
-Tags: openai, api, gpt, llm, typescript, ai, nlp, chat, completions, embeddings, function-calling, streaming, security
-Description: Integrating with the OpenAI API for AI-powered features, focusing on best practices for TypeScript, security, and performance.
+name: openai-api
+version: 1.0.0
+category: AI / API Integration
+tags: openai, api, gpt, llm, typescript, ai, nlp, chat, completions, embeddings, function-calling, streaming, security
+description: Integrating with the OpenAI API for AI-powered features, focusing on best practices for TypeScript, security, and performance.
 ---
 
 # OpenAI API Skill

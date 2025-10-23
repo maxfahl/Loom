@@ -1,236 +1,177 @@
 ---
 description: UI/UX design review with Playwright live testing, WCAG 2.1 AA validation, and responsive design checks
-allowed-tools: Read, Task
-model: claude-sonnet-4-5
+model: sonnet
 ---
 
-# /design-review - UI/UX Design Review
+# /design-review - Design Review
 
-**Phase 3 Enhancement: Design Review**
+## What This Command Does
 
-**Model**: Sonnet 4.5
-
-**Purpose**: Comprehensive UI/UX review with Playwright live testing, WCAG 2.1 AA validation, and responsive design checks
-
-**Prerequisites**: Requires Playwright MCP server and live preview environment
+UI/UX design review with Playwright live testing, WCAG 2.1 AA accessibility validation, and responsive design checks.
 
 ## Process
 
-### 1. Verify Preview Environment
+1. **Read Current Context**:
+   - Read status.xml for active feature
+   - Read current story file
+   - Read DESIGN_SYSTEM.md if exists
+   - Understand design requirements
 
-- Confirm dev server is running
-- Get preview URL from user or start dev server
-- Verify MCP Playwright server is connected
+2. **Identify UI Changes**:
+   ```bash
+   # Find modified UI files
+   git diff --name-only origin/HEAD... | grep -E '\.(tsx|jsx|vue|svelte|html|css|scss)$'
 
-### 2. Launch design-reviewer Agent
+   # Get diff
+   git diff origin/HEAD...
+   ```
 
-Spawn design-reviewer agent (Sonnet model) with 7-phase design methodology:
+3. **Delegate to Design Reviewer Agent**:
+
+   ```markdown
+   Task(
+     subagent_type="design-reviewer",
+     description="UI/UX design review with Playwright testing",
+     prompt="Execute comprehensive design review using 7-phase methodology:
+
+     PHASE 1: Start local development server
+     PHASE 2: Launch Playwright and navigate to changed pages
+     PHASE 3: Capture screenshots (desktop/tablet/mobile)
+     PHASE 4: Test WCAG 2.1 AA compliance
+     PHASE 5: Verify responsive design
+     PHASE 6: Check design system adherence
+     PHASE 7: Evaluate UX patterns
+
+     For each finding, provide:
+     - Design issue description
+     - Screenshot reference
+     - WCAG guideline (if accessibility)
+     - Suggested fix
+     - Priority (Critical/High/Medium/Low)
+
+     Test at breakpoints: 1920px, 1024px, 768px, 375px"
+   )
+   ```
+
+4. **Design Reviewer Will Execute**:
+   - Start local dev server (npm run dev / yarn dev)
+   - Launch Playwright browser
+   - Navigate to changed pages
+   - Capture screenshots at multiple viewports
+   - Test keyboard navigation
+   - Check color contrast ratios
+   - Verify ARIA labels
+   - Test responsive behavior
+   - Compare against design system
+
+5. **Report Format**:
+   ```markdown
+   # Design Review Results
+
+   **Review Date**: [Date]
+   **Methodology**: 7-Phase Design Review + WCAG 2.1 AA
+   **Pages Reviewed**: [List]
+
+   ## Summary
+   - Total Findings: [X]
+   - Accessibility Issues: [X]
+   - Responsive Issues: [X]
+   - Design System Violations: [X]
+   - UX Concerns: [X]
+
+   ## Accessibility (WCAG 2.1 AA)
+
+   ### 1. [Issue] - [Guideline]
+   **Location**: [Component/Page]
+   **WCAG**: [1.4.3 Contrast (Minimum)]
+   **Severity**: [Critical/High/Medium/Low]
+
+   **Issue**:
+   [Description]
+
+   **Screenshot**:
+   ![Screenshot](path/to/screenshot.png)
+
+   **Fix**:
+   - Change background from #ddd to #ccc
+   - Contrast ratio: 3.2:1 → 4.5:1
+
+   ## Responsive Design
+
+   ### Desktop (1920px)
+   ✅ Looks good
+
+   ### Tablet (768px)
+   ⚠️ Navigation menu overlaps content
+   ![Tablet](tablet-screenshot.png)
+
+   ### Mobile (375px)
+   ❌ Buttons too small for touch targets (32px, should be 44px)
+   ![Mobile](mobile-screenshot.png)
+
+   ## Design System Adherence
+
+   - ✅ Uses correct color palette
+   - ⚠️ Button variant not from design system
+   - ✅ Typography follows guidelines
+   - ❌ Spacing uses hardcoded values instead of tokens
+
+   ## UX Evaluation
+
+   - ✅ Clear call-to-action hierarchy
+   - ⚠️ Form validation messages not visible enough
+   - ✅ Loading states implemented
+   - ❌ Error states missing
+
+   ## Recommendations
+   [Overall design recommendations]
+   ```
+
+## Agent Delegation
 
 ```markdown
-Task: Design review for [feature/story name]
-
-**Preview URL**: [URL from user or localhost]
-
-**Review using 7-phase design methodology**:
-
-## Phase 0: Preparation
-- Navigate to preview URL using Playwright
-- Analyze PR description/story for design intent
-- Review code diff for implementation scope
-- Set initial viewport (1440x900 desktop)
-
-## Phase 1: Interaction and User Flow
-- Execute primary user flow from story
-- Test all interactive states (hover, active, focus, disabled)
-- Verify destructive action confirmations
-- Assess perceived performance and responsiveness
-- Take screenshots of key states
-
-## Phase 2: Responsiveness Testing
-- Desktop viewport (1440px): Capture screenshot, verify layout
-- Tablet viewport (768px): Verify layout adaptation, no horizontal scroll
-- Mobile viewport (375px): Ensure touch optimization, readable text
-- Check element overlap and spacing at each breakpoint
-
-## Phase 3: Visual Polish
-- Assess layout alignment and spacing consistency
-- Verify typography hierarchy and legibility
-- Check color palette consistency
-- Ensure visual hierarchy guides user attention
-- Verify image quality and aspect ratios
-
-## Phase 4: Accessibility (WCAG 2.1 AA)
-- Test complete keyboard navigation (Tab order logical)
-- Verify visible focus states on all interactive elements
-- Confirm keyboard operability (Enter/Space activation)
-- Validate semantic HTML usage (headings, landmarks, lists)
-- Check form labels and associations
-- Verify image alt text
-- Test color contrast ratios (4.5:1 minimum for normal text, 3:1 for large text)
-
-## Phase 5: Robustness Testing
-- Test form validation with invalid inputs
-- Stress test with content overflow scenarios (long text, many items)
-- Verify loading, empty, and error states
-- Check edge case handling (no data, single item, max items)
-
-## Phase 6: Code Health
-- Verify component reuse over duplication
-- Check for design token usage (no magic numbers in styles)
-- Ensure adherence to component library priority order (check DESIGN_SYSTEM.md)
-- Verify consistent patterns across similar features
-
-## Phase 7: Content and Console
-- Review grammar and clarity of all text
-- Check console for errors/warnings using Playwright
-- Verify no broken images or missing resources
-
-**Reference**: DESIGN_PRINCIPLES.md for complete methodology
+Task(
+  subagent_type="design-reviewer",
+  description="Design review with Playwright",
+  prompt="Execute 7-phase design review: Start dev server, launch Playwright, capture screenshots (1920/1024/768/375px), test WCAG 2.1 AA compliance, verify responsive design, check design system adherence, evaluate UX patterns. Report findings with screenshots."
+)
 ```
 
-### 3. Playwright Testing Workflow
+## Recommended Skills
 
-```javascript
-// Standard workflow for each phase
+<!-- TODO: Add relevant skills from .claude/skills/ -->
 
-// Phase 0: Setup
-await mcp__playwright__browser_navigate({ url: previewURL });
-await mcp__playwright__browser_resize({ width: 1440, height: 900 });
+- `web-accessibility-wcag` - For WCAG compliance
+- `ui-ux-principles` - For UX evaluation
+- `mobile-ui-ux-guidelines` - For mobile design
 
-// Phase 1: Interactions
-await mcp__playwright__browser_take_screenshot({ filename: "desktop-initial.png" });
-await mcp__playwright__browser_click({ element: "Primary CTA", ref: "button[data-testid='cta']" });
-await mcp__playwright__browser_take_screenshot({ filename: "desktop-clicked.png" });
+Use these skills heavily throughout execution to ensure best practices.
 
-// Phase 2: Responsive testing
-await mcp__playwright__browser_resize({ width: 768, height: 1024 }); // Tablet
-await mcp__playwright__browser_take_screenshot({ filename: "tablet-view.png" });
+**Skill Troubleshooting Authority**: If any referenced skill does not work or any script within the skill does not work, Claude Code has the authority to fix them.
 
-await mcp__playwright__browser_resize({ width: 375, height: 667 }); // Mobile
-await mcp__playwright__browser_take_screenshot({ filename: "mobile-view.png" });
+## Arguments
 
-// Phase 7: Console check
-const consoleMessages = await mcp__playwright__browser_console_messages({ onlyErrors: true });
+This command takes no arguments. Reviews all UI changes.
+
+## Examples
+
+```
+/design-review
 ```
 
-### 4. Output Format
+Executes comprehensive design review with Playwright testing.
 
-```markdown
-## Design Review Summary
+## Prerequisites
 
-- **Overall Assessment**: [Positive opening statement about what works well]
-- **Blockers**: X critical issues (must fix before merge)
-- **High-Priority**: Y important improvements
-- **Medium-Priority**: Z suggestions
-- **Nitpicks**: N minor polish items
-
-**Screenshots**: [Number] screenshots attached
-
----
-
-## Findings
-
-### Blockers (Must Fix Before Merge)
-
-#### [Blocker 1]: [Problem Description]
-
-**Problem**: [Describe user-facing impact, not technical implementation]
-
-**Screenshot**: ![Screenshot](./path/to/screenshot.png)
-
-**Impact**: [How this affects users - accessibility, usability, visual hierarchy]
-
-**WCAG Violation**: [If applicable] WCAG 2.1 [Criterion Number] Level AA
-
-**Viewport**: [Where issue occurs - Desktop/Tablet/Mobile/All]
-
----
-
-### High-Priority (Strong Recommendations)
-
-#### [High 1]: [Problem Description]
-
-**Problem**: [Describe the issue]
-
-**Screenshot**: ![Screenshot](./path/to/screenshot.png)
-
-**Suggestion**: [Let implementer choose solution - describe problem, not prescription]
-
----
-
-### Medium-Priority (Suggestions)
-
-#### [Medium 1]: [Improvement Idea]
-
-**Current**: [What exists now]
-
-**Opportunity**: [How it could be better]
-
----
-
-### Nitpicks (Minor Polish)
-
-- Nit: [Small spacing inconsistency at 375px viewport]
-- Nit: [Button label could be more descriptive]
-
----
-
-## WCAG 2.1 AA Compliance
-
-- [x] 1.4.3 Contrast (Minimum) - 4.5:1 for normal text
-- [x] 2.1.1 Keyboard - All functionality available via keyboard
-- [x] 2.4.7 Focus Visible - Focus indicator clearly visible
-- [x] 3.2.4 Consistent Navigation - Navigation consistent across pages
-- [x] 4.1.2 Name, Role, Value - All UI components properly labeled
-- [ ] **FAIL**: 1.4.11 Non-text Contrast - Icon contrast only 2.8:1 (needs 3:1)
-
----
-
-## Responsive Testing Results
-
-| Viewport | Width | Status | Issues |
-|----------|-------|--------|--------|
-| Desktop  | 1440px | ✅ Pass | None |
-| Tablet   | 768px  | ⚠️ Minor | Text wrapping on sidebar |
-| Mobile   | 375px  | ❌ Fail | Button text truncated |
-
----
-
-## Console Errors
-
-- ✅ No console errors detected
-OR
-- ⚠️ Warning: [Description]
-- ❌ Error: [Description]
-
----
-
-## Component Library Check
-
-Verified component library priority order from DESIGN_SYSTEM.md:
-- [x] Checked Kibo UI - [Component] used
-- [ ] Could use Blocks.so [Component] instead of custom implementation
-```
-
-### 5. Triage Categories
-
-- **Blocker**: WCAG violations, broken user flows, major visual bugs
-- **High-Priority**: Inconsistent patterns, poor UX, significant polish issues
-- **Medium-Priority**: Minor improvements, suggestions, optimization opportunities
-- **Nitpick**: Tiny spacing, wording tweaks, micro-interactions
-
-### 6. Philosophy: "Problems Over Prescriptions"
-
-- Describe the problem and user impact
-- Let the implementer choose the solution
-- Avoid prescriptive "change X to Y" feedback
-- Focus on what's broken, not how to fix it
+- Local development server must be configured (npm run dev / yarn dev)
+- Playwright must be installed (agent will check and install if needed)
+- Changed pages must be accessible via localhost
 
 ## Important Notes
 
-- **Playwright Required**: This command requires Playwright MCP server
-- **Live Environment First**: Test actual UI before analyzing code
-- **WCAG AA**: All findings must reference specific WCAG criteria
-- **3 Viewports**: Always test desktop (1440px), tablet (768px), mobile (375px)
-- **Screenshots**: Include visual evidence for all findings
-- **No Theoretical Issues**: Only report observable UX problems
+- Uses **Playwright MCP server** for live browser testing
+- Captures visual evidence (screenshots)
+- Tests real user interactions (keyboard, mouse, touch)
+- Validates against WCAG 2.1 AA standards
+- Checks responsive behavior at 4 breakpoints
+- Verifies design system compliance

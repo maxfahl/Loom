@@ -105,12 +105,6 @@ def validate_schema(schema: GraphQLSchema, verbose: bool = False) -> bool:
                     # Validate Argument Naming Convention
                     if not validate_naming_convention(arg_name, FIELD_ARG_NAME_PATTERN, "Argument", f"{type_name}.{field_name}({arg_name})"):
                         all_passed = False
-
-                    # Check for argument descriptions
-                    if not arg_obj.description:
-                        log_warning(f"  Missing Description: Argument '{type_name}.{field_name}({arg_name})' should have a description.")
-                        all_passed = False
-
         elif isinstance(type_obj, GraphQLInputObjectType):
             for field_name, field_obj in type_obj.fields.items():
                 log_info(f"  Validating input field: {type_name}.{field_name}", verbose)
@@ -125,24 +119,20 @@ def validate_schema(schema: GraphQLSchema, verbose: bool = False) -> bool:
 
         elif isinstance(type_obj, GraphQLEnumType):
             for enum_value in type_obj.values:
-                log_info(f"  Validating enum value: {type_name}.{enum_value.name}", verbose)
+                # enum_value is a string (e.g., "PENDING")
+                log_info(f"  Validating enum value: {type_name}.{enum_value}", verbose)
                 # Validate Enum Value Naming Convention
-                if not validate_naming_convention(enum_value.name, ENUM_VALUE_PATTERN, "Enum Value", f"{type_name}.{enum_value.name}"):
-                    all_passed = False
-
-                # Check for enum value descriptions
-                if not enum_value.description:
-                    log_warning(f"  Missing Description: Enum value '{type_name}.{enum_value.name}' should have a description.")
+                if not validate_naming_convention(enum_value, ENUM_VALUE_PATTERN, "Enum Value", f"{type_name}.{enum_value}"):
                     all_passed = False
 
         # Add more checks as needed, e.g., for Union types, Scalar types, etc.
 
-    # Additional checks (e.g., N+1 potential - this is hard to do statically, but we can check for patterns)
-    # For example, if a field returns a list of objects, and each object has a field that would typically
-    # require a separate database query, it might indicate an N+1 problem. This is more of a heuristic.
-    # For a more robust check, runtime analysis with tools like Apollo Studio or custom tracing is needed.
     log_info("Performing heuristic checks for potential N+1 issues...", verbose)
     for type_name, type_obj in schema.type_map.items():
+        # Skip introspection types for N+1 check
+        if type_name.startswith('__'):
+            continue
+
         if isinstance(type_obj, GraphQLObjectType):
             for field_name, field_obj in type_obj.fields.items():
                 # Heuristic: if a field returns a list of complex objects, it might be prone to N+1

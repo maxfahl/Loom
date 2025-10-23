@@ -1,9 +1,9 @@
 --- 
-Name: java-dropwizard-framework
-Version: 1.0.0
-Category: Backend / Java / Microservices
-Tags: Java, DropWizard, REST, Microservices, API, Backend, Jetty, Jersey, Jackson
-Description: Enables Claude to assist with building high-performance RESTful microservices using the DropWizard framework.
+name: java-dropwizard-framework
+version: 1.0.0
+category: Backend / Java / Microservices
+tags: Java, DropWizard, REST, Microservices, API, Backend, Jetty, Jersey, Jackson
+description: Enables Claude to assist with building high-performance RESTful microservices using the DropWizard framework.
 ---
 
 

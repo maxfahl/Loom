@@ -1,9 +1,9 @@
 ---
-Name: vue-js-development
-Version: 1.0.0
-Category: Web Development / Frontend
-Tags: Vue.js, Vue 3, Composition API, Pinia, TypeScript, Frontend, JavaScript
-Description: Guides Claude on best practices for modern Vue.js 3 development with TypeScript.
+name: vue-js-development
+version: 1.0.0
+category: Web Development / Frontend
+tags: Vue.js, Vue 3, Composition API, Pinia, TypeScript, Frontend, JavaScript
+description: Guides Claude on best practices for modern Vue.js 3 development with TypeScript.
 ---
 
 # Vue.js Development Skill

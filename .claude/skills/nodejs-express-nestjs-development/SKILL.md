@@ -1,9 +1,9 @@
 ---
-Name: nodejs-express-nestjs-development
-Version: 0.1.0
-Category: Backend Development / Node.js
-Tags: Node.js, Express, NestJS, TypeScript, Backend, API, Microservices
-Description: Guides Claude in developing robust, scalable, and maintainable Node.js applications using Express.js and NestJS frameworks.
+name: nodejs-express-nestjs-development
+version: 0.1.0
+category: Backend Development / Node.js
+tags: Node.js, Express, NestJS, TypeScript, Backend, API, Microservices
+description: Guides Claude in developing robust, scalable, and maintainable Node.js applications using Express.js and NestJS frameworks.
 ---
 
 # Node.js (Express/NestJS) Development Skill

@@ -1,9 +1,9 @@
 ---
-Name: database-migration-management
-Version: 1.0.0
-Category: Database / DevOps
-Tags: PostgreSQL, migrations, node-pg-migrate, TypeScript, database, schema evolution, DevOps
-Description: Manages PostgreSQL database schema evolution using node-pg-migrate with TypeScript.
+name: database-migration-management
+version: 1.0.0
+category: Database / DevOps
+tags: PostgreSQL, migrations, node-pg-migrate, TypeScript, database, schema evolution, DevOps
+description: Manages PostgreSQL database schema evolution using node-pg-migrate with TypeScript.
 ---
 
 # Database Migration Management with node-pg-migrate

@@ -1,9 +1,9 @@
 ---
-Name: event-driven-architecture-patterns
-Version: 1.0.0
-Category: Architecture / Distributed Systems
-Tags: EDA, Event-Driven, Microservices, Asynchronous, TypeScript, Patterns
-Description: Designing and implementing systems that react to events for loose coupling and scalability.
+name: event-driven-architecture-patterns
+version: 1.0.0
+category: Architecture / Distributed Systems
+tags: EDA, Event-Driven, Microservices, Asynchronous, TypeScript, Patterns
+description: Designing and implementing systems that react to events for loose coupling and scalability.
 ---
 
 # Event-Driven Architecture Patterns

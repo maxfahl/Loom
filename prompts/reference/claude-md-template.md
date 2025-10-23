@@ -31,8 +31,9 @@ The deployment script uses markers to identify which sections to update:
 ## 🧵 What is Loom?
 
 Loom is an **AI-native meta-framework** that provides:
-- **16+ specialized AI agents** (coordinator, senior-developer, test-writer, code-reviewer, etc.)
-- **16+ slash commands** (/dev, /review, /commit, /yolo, /create-story, etc.)
+
+- **44 specialized AI agents** (coordinator, full-stack-developer, test-automator, code-reviewer, etc.)
+- **15 slash commands** (/dev, /review, /commit, /yolo, /create-story, etc.)
 - **Epic/Story organization** for feature tracking
 - **YOLO mode** for autonomous development with configurable breakpoints
 - **status.xml** for real-time project state tracking
@@ -43,28 +44,78 @@ Loom is an **AI-native meta-framework** that provides:
 
 ## 🏗️ Loom Framework Components
 
-### 1. Specialized Agents (`.claude/agents/`)
+### 1. Specialized Agents (`.claude/agents/`) - 44 Total
 
 **Purpose**: Domain experts that perform specific tasks autonomously.
 
+**Loom Framework Agents (6)**:
 | Agent | Use For |
 |-------|---------|
-| **coordinator** | Orchestrate complex multi-phase tasks, spawn parallel sub-agents |
-| **senior-developer** | Implement features following architecture and best practices |
-| **test-writer** | Write comprehensive tests (TDD Red phase) |
-| **code-reviewer** | 7-phase code review with triage matrix |
-| **bug-finder** | Identify bugs, edge cases, potential issues |
-| **refactor-specialist** | Improve code quality (only when tests GREEN) |
-| **qa-tester** | Run tests, validate functionality |
-| **git-helper** | Manage git operations, conventional commits |
-| **architecture-advisor** | Review system design, SOLID principles |
-| **performance-optimizer** | Analyze and optimize performance |
-| **documentation-writer** | Update docs, JSDoc, API references |
-| **codebase-analyzer** | Analyze brownfield codebases |
-| **security-reviewer** | OWASP Top 10 security scanning |
-| **design-reviewer** | UI/UX + WCAG 2.1 AA compliance |
+| **coordinator** | Orchestrate parallel sub-agents, manage autonomous workflows |
+| **agent-creator** | Create new specialized agents with proper structure |
+| **skill-creator** | Create reusable Claude Skills packages |
+| **codebase-analyzer** | Analyze brownfield codebases to generate PROJECT_OVERVIEW.md |
+| **project-scaffolder** | Create feature directory structures and initialize tracking files |
+| **structure-validator** | Validate and migrate project structures non-destructively |
 
-**Guardrail**: Each agent has a **single responsibility**. Don't use `code-reviewer` for implementation or `test-writer` for refactoring.
+**Quality & Review Agents (3)**:
+| Agent | Use For |
+|-------|---------|
+| **code-reviewer** | 7-phase code review with pragmatic quality framework (Opus) |
+| **design-reviewer** | UI/UX review with Playwright + WCAG 2.1 AA validation |
+| **security-reviewer** | OWASP/NIST/ISO 27001 security auditing |
+
+**Development Agents (7)**:
+| Agent | Use For |
+|-------|---------|
+| **full-stack-developer** | End-to-end web application development |
+| **frontend-developer** | Frontend development (React, Angular, Vue) |
+| **backend-architect** | Server-side logic and API development |
+| **mobile-developer** | iOS/Android native app development |
+| **test-automator** | Automated testing frameworks and coverage |
+| **qa-expert** | Quality assurance strategy and test planning |
+| **debugger** | Bug analysis and root cause investigation |
+
+**Technology Specialists (7)**:
+| Agent | Use For |
+|-------|---------|
+| **nextjs-pro** | Next.js expert (App Router, Server Components) |
+| **react-pro** | React specialist (hooks, context, performance) |
+| **typescript-pro** | TypeScript expert (strict mode, type safety) |
+| **python-pro** | Python development (FastAPI, Django) |
+| **golang-pro** | Go development (Gin, Echo, concurrency) |
+| **postgres-pro** | PostgreSQL optimization and schema design |
+| **electron-pro** | Electron desktop app development |
+
+**Architecture & Operations (6)**:
+| Agent | Use For |
+|-------|---------|
+| **cloud-architect** | AWS/GCP/Azure infrastructure design |
+| **devops-incident-responder** | Incident response and reliability engineering |
+| **deployment-engineer** | CI/CD pipelines and deployment automation |
+| **performance-engineer** | Performance optimization and scalability |
+| **database-optimizer** | Database performance tuning and indexing |
+| **graphql-architect** | GraphQL API design and optimization |
+
+**Additional Specialists (15)**:
+| Agent | Use For |
+|-------|---------|
+| **ai-engineer** | AI/ML integration and model deployment |
+| **api-documenter** | API documentation (OpenAPI, Swagger) |
+| **data-engineer** | Data pipelines and ETL workflows |
+| **data-scientist** | Data analysis and ML model development |
+| **documentation-expert** | Technical writing and user guides |
+| **dx-optimizer** | Developer experience optimization |
+| **incident-responder** | Production incident management |
+| **legacy-modernizer** | Legacy code modernization and refactoring |
+| **ml-engineer** | Machine learning engineering and MLOps |
+| **product-manager** | Product requirements and roadmapping |
+| **prompt-engineer** | LLM prompt optimization and engineering |
+| **ui-designer** | UI design and component systems |
+| **ux-designer** | UX research and interaction design |
+| **agent-organizer** | Agent workflow coordination and task decomposition |
+
+**Guardrail**: Each agent has a **single responsibility**. Don't use `code-reviewer` for implementation or `test-automator` for refactoring.
 
 ---
 
@@ -72,24 +123,23 @@ Loom is an **AI-native meta-framework** that provides:
 
 **Purpose**: Streamlined workflows for common operations.
 
-| Command | What It Does | Guardrail |
-|---------|--------------|-----------|
-| `/dev` | Continue development on current story | ONLY works on current story tasks; reads status.xml first |
-| `/dev-yolo` | Launch autonomous development loop | Respects YOLO breakpoints; stops when configured |
-| `/commit` | Smart commit with tests + linting | ONLY commits if tests pass and coverage ≥80% |
-| `/review` | Comprehensive code review | ONLY reviews uncommitted changes; creates Review Tasks if issues found |
-| `/test` | Run tests with coverage report | Reports coverage; fails if <80% |
-| `/loom-status` | Show project status report | Read-only; shows git, tasks, tests |
-| `/plan` | Plan feature/task with TDD breakdown | Creates plan docs; doesn't implement |
-| `/create-feature` | Create new feature with epics | Scaffolds structure; doesn't implement code |
-| `/create-story` | Generate next user story | Creates story file; doesn't implement |
-| `/correct-course` | Adjust feature direction | Reorganizes epics; doesn't delete work |
-| `/yolo` | Configure YOLO mode breakpoints | Interactive config; doesn't start development |
-| `/docs` | Update documentation | ONLY updates docs; doesn't change code |
-| `/one-off` | Delegate ad-hoc task to coordinator | For tasks outside story workflow |
-| `/fix` | Create high-priority bug fix story | Creates story; doesn't fix immediately |
-| `/security-review` | OWASP security scan | Analysis only; creates findings report |
-| `/design-review` | UI/UX + accessibility review | Analysis only; creates findings report |
+| Command            | What It Does                          | Guardrail                                                              |
+| ------------------ | ------------------------------------- | ---------------------------------------------------------------------- |
+| `/dev`             | Continue development on current story | ONLY works on current story tasks; reads status.xml first              |
+| `/commit`          | Smart commit with tests + linting     | ONLY commits if tests pass and coverage ≥80%                           |
+| `/review`          | Comprehensive code review             | ONLY reviews uncommitted changes; creates Review Tasks if issues found |
+| `/test`            | Run tests with coverage report        | Reports coverage; fails if <80%                                        |
+| `/loom-status`     | Show project status report            | Read-only; shows git, tasks, tests                                     |
+| `/plan`            | Plan feature/task with TDD breakdown  | Creates plan docs; doesn't implement                                   |
+| `/create-feature`  | Create new feature with epics         | Scaffolds structure; doesn't implement code                            |
+| `/create-story`    | Generate next user story              | Creates story file; doesn't implement                                  |
+| `/correct-course`  | Adjust feature direction              | Reorganizes epics; doesn't delete work                                 |
+| `/yolo`            | Configure YOLO mode breakpoints       | Interactive config; doesn't start development                          |
+| `/docs`            | Update documentation                  | ONLY updates docs; doesn't change code                                 |
+| `/one-off`         | Delegate ad-hoc task to coordinator   | For tasks outside story workflow                                       |
+| `/fix`             | Create high-priority bug fix story    | Creates story; doesn't fix immediately                                 |
+| `/security-review` | OWASP security scan                   | Analysis only; creates findings report                                 |
+| `/design-review`   | UI/UX + accessibility review          | Analysis only; creates findings report                                 |
 
 **Guardrail**: Commands are **single-purpose workflows**. They do EXACTLY what their name says—no more, no less.
 
@@ -99,9 +149,11 @@ Loom is an **AI-native meta-framework** that provides:
 
 **Structure**:
 ```
+
 Feature → Epic 1, Epic 2, Epic 3
-  Epic 1 → Story 1.1, 1.2, 1.3
-  Epic 2 → Story 2.1, 2.2
+Epic 1 → Story 1.1, 1.2, 1.3
+Epic 2 → Story 2.1, 2.2
+
 ```
 
 **Rules**:
@@ -128,63 +180,67 @@ Feature → Epic 1, Epic 2, Epic 3
 
 ## 📁 Loom Project Structure
 
-**ALWAYS read `docs/development/INDEX.md` first—it's your navigation hub.**
+**CRITICAL FILES TO READ**:
+1. **`.claude/AGENTS.md`** - Complete agent directory (read before delegating work)
+2. **`docs/development/INDEX.md`** - Navigation hub for all documentation
 
 ```
+
 project/
-├── .claude/                          # Loom framework files
-│   ├── agents/                       # 16+ AI agents (*.md files)
-│   │   ├── coordinator.md            # Master orchestrator
-│   │   ├── senior-developer.md       # Implementation expert
-│   │   ├── test-writer.md            # TDD specialist
-│   │   └── ...                       # 13+ more agents
-│   ├── commands/                     # 16+ slash commands (*.md files)
-│   │   ├── dev.md                    # /dev command
-│   │   ├── review.md                 # /review command
-│   │   └── ...                       # 14+ more commands
-│   └── skills/                       # 100+ reusable Claude Skills
-│       ├── react-js-development/
-│       ├── tdd-red-green-refactor/
-│       └── ...
+├── .claude/ # Loom framework files
+│ ├── AGENTS.md # 🚨 CRITICAL: Directory of all 44 agents
+│ ├── agents/ # 44 AI agents (*.md files)
+│ │ ├── coordinator.md # Master orchestrator
+│ │ ├── full-stack-developer.md # Full-stack implementation
+│ │ ├── code-reviewer.md # 7-phase review (Opus)
+│ │ └── ... # 41+ more agents
+│ ├── commands/ # 15 slash commands (_.md files)
+│ │ ├── dev.md # /dev command
+│ │ ├── review.md # /review command
+│ │ └── ... # 13+ more commands
+│ └── skills/ # 100+ reusable Claude Skills
+│ ├── react-js-development/
+│ ├── tdd-red-green-refactor/
+│ └── ...
 │
 ├── docs/
-│   └── development/                  # LOOM DOCUMENTATION ROOT
-│       ├── INDEX.md                  # 🚨 READ THIS FIRST - Master navigation
-│       ├── status.xml                # 🚨 GLOBAL: Current feature/epic/story state
-│       │
-│       ├── PROJECT_SUMMARY.md        # Project overview
-│       ├── START_HERE.md             # Onboarding guide
-│       ├── YOLO_MODE.md              # YOLO configuration guide
-│       ├── CODE_REVIEW_PRINCIPLES.md # 7-phase review workflow
-│       ├── SECURITY_REVIEW_CHECKLIST.md # OWASP guidelines
-│       ├── DESIGN_PRINCIPLES.md      # UI/UX guidelines
-│       │
-│       └── features/                 # Feature-specific documentation
-│           └── [feature-name]/       # One directory per feature
-│               ├── PRD.md            # Product requirements
-│               ├── FEATURE_SPEC.md   # Detailed specifications
-│               ├── TECHNICAL_DESIGN.md # Technical blueprint
-│               ├── ARCHITECTURE.md   # System design
-│               ├── DESIGN_SYSTEM.md  # UI/UX guidelines
-│               ├── DEVELOPMENT_PLAN.md # TDD workflow
-│               │
-│               └── epics/            # Epic breakdown
-│                   └── [epic-name]/  # One directory per epic
-│                       ├── DESCRIPTION.md # Epic overview
-│                       ├── TASKS.md       # Epic tasks
-│                       ├── NOTES.md       # Epic notes
-│                       │
-│                       └── stories/       # Story files
-│                           ├── story-1.1-setup-auth.md
-│                           ├── story-1.2-login-endpoint.md
-│                           └── ...
+│ └── development/ # LOOM DOCUMENTATION ROOT
+│ ├── INDEX.md # 🚨 READ THIS FIRST - Master navigation
+│ ├── status.xml # 🚨 GLOBAL: Current feature/epic/story state
+│ │
+│ ├── PROJECT_SUMMARY.md # Project overview
+│ ├── START_HERE.md # Onboarding guide
+│ ├── YOLO_MODE.md # YOLO configuration guide
+│ ├── CODE_REVIEW_PRINCIPLES.md # 7-phase review workflow
+│ ├── SECURITY_REVIEW_CHECKLIST.md # OWASP guidelines
+│ ├── DESIGN_PRINCIPLES.md # UI/UX guidelines
+│ │
+│ └── features/ # Feature-specific documentation
+│ └── [feature-name]/ # One directory per feature
+│ ├── PRD.md # Product requirements
+│ ├── FEATURE_SPEC.md # Detailed specifications
+│ ├── TECHNICAL_DESIGN.md # Technical blueprint
+│ ├── ARCHITECTURE.md # System design
+│ ├── DESIGN_SYSTEM.md # UI/UX guidelines
+│ ├── DEVELOPMENT_PLAN.md # TDD workflow
+│ │
+│ └── epics/ # Epic breakdown
+│ └── [epic-name]/ # One directory per epic
+│ ├── DESCRIPTION.md # Epic overview
+│ ├── TASKS.md # Epic tasks
+│ ├── NOTES.md # Epic notes
+│ │
+│ └── stories/ # Story files
+│ ├── story-1.1-setup-auth.md
+│ ├── story-1.2-login-endpoint.md
+│ └── ...
 │
-├── src/                              # Project source code
-│   └── ...                           # [Project-specific structure]
+│── [...SOURCE_DIRECTORIES] # [Project source code, depending on project type]
 │
-├── CLAUDE.md                         # 👈 This file (AI instructions)
-└── README.md                         # Project README
-```
+├── CLAUDE.md # 👈 This file (AI instructions)
+└── README.md # Project README
+
+````
 
 ### 📍 File Location Quick Reference
 
@@ -243,7 +299,7 @@ Before starting ANY task, perform these steps in order:
 - Agents and commands do ONLY what they're designed for
 - Don't use `/review` to implement code
 - Don't use `/dev` to configure YOLO mode
-- Don't use `test-writer` for refactoring
+- Don't use `test-automator` for refactoring
 
 **Rule 2: Respect Boundaries**
 - Work on current story ONLY (unless using `/one-off`)
@@ -299,18 +355,20 @@ Before starting ANY task, perform these steps in order:
 6. Run: /review
 7. If issues → Fix Review Tasks → Repeat from step 6
 8. If no issues → Run: /commit
-```
+````
 
 **Workflow 2: Start Autonomous Development**
+
 ```bash
 1. Configure breakpoints: /yolo
-2. Launch: /dev-yolo
+2. Launch: /dev (with YOLO mode configured)
 3. Coordinator autonomously completes stories
 4. Stops at configured breakpoints
-5. Review work, then resume: /dev-yolo
+5. Review work, then resume: /dev
 ```
 
 **Workflow 3: Create New Story**
+
 ```bash
 1. Run: /create-story
 2. Story file created with acceptance criteria
@@ -319,6 +377,7 @@ Before starting ANY task, perform these steps in order:
 ```
 
 **Workflow 4: Fix Bug Outside Story**
+
 ```bash
 1. Run: /fix "Description of bug"
 2. High-priority fix story created
@@ -361,22 +420,22 @@ Before starting ANY task, perform these steps in order:
 
 ## 🎯 Quick Reference
 
-| Need To... | Command/Action |
-|------------|----------------|
-| Continue development | `/dev` |
-| Start autonomous mode | `/dev-yolo` |
-| Review changes | `/review` |
-| Commit work | `/commit` |
-| Run tests | `/test` |
-| Check project status | `/loom-status` |
-| Create new story | `/create-story` |
-| Fix a bug | `/fix "description"` |
-| Plan a feature | `/plan` |
-| Update docs | `/docs` |
-| Configure YOLO | `/yolo` |
-| Find documentation | Read `docs/development/INDEX.md` |
-| Find current task | Read `docs/development/status.xml` |
-| Find story details | Read `docs/development/features/[feature]/epics/[epic]/stories/[story].md` |
+| Need To...            | Command/Action                                                             |
+| --------------------- | -------------------------------------------------------------------------- |
+| Continue development  | `/dev`                                                                     |
+| Start autonomous mode | `/dev` (with YOLO mode configured)                                        |
+| Review changes        | `/review`                                                                  |
+| Commit work           | `/commit`                                                                  |
+| Run tests             | `/test`                                                                    |
+| Check project status  | `/loom-status`                                                             |
+| Create new story      | `/create-story`                                                            |
+| Fix a bug             | `/fix "description"`                                                       |
+| Plan a feature        | `/plan`                                                                    |
+| Update docs           | `/docs`                                                                    |
+| Configure YOLO        | `/yolo`                                                                    |
+| Find documentation    | Read `docs/development/INDEX.md`                                           |
+| Find current task     | Read `docs/development/status.xml`                                         |
+| Find story details    | Read `docs/development/features/[feature]/epics/[epic]/stories/[story].md` |
 
 ---
 
@@ -386,6 +445,7 @@ Before starting ANY task, perform these steps in order:
 **Purpose**: Single source of truth for project state
 
 **Key Tags**:
+
 ```xml
 <project>
   <features>
@@ -411,8 +471,8 @@ Before starting ANY task, perform these steps in order:
 
 **Loom is a framework that organizes AI agents to build software autonomously.**
 
-- You have 16+ specialized agents at your disposal
-- You have 16+ streamlined commands for common workflows
+- You have 44 specialized agents at your disposal
+- You have 15+ streamlined commands for common workflows
 - You have a clear epic/story structure for tracking
 - You have YOLO mode for autonomous development
 - You have guardrails to keep work focused and safe
@@ -420,6 +480,7 @@ Before starting ANY task, perform these steps in order:
 **Your job**: Execute tasks efficiently using these tools while respecting boundaries.
 
 **When in doubt**:
+
 1. Read `docs/development/INDEX.md`
 2. Read `docs/development/status.xml`
 3. Read current story file
@@ -432,12 +493,15 @@ Before starting ANY task, perform these steps in order:
 ## 📊 Project-Specific Details
 
 ### Tech Stack
+
 [TECH_STACK]
 
 ### TDD Enforcement
+
 **Level**: [TDD_LEVEL]
 
 [IF STRICT]
+
 - **MANDATORY**: Red-Green-Refactor cycle enforced
 - Write failing tests FIRST (RED)
 - Implement minimal code to pass (GREEN)
@@ -446,26 +510,34 @@ Before starting ANY task, perform these steps in order:
 - Tests MUST pass before committing
 
 [IF RECOMMENDED]
+
 - **RECOMMENDED**: Tests should be written before or alongside implementation
 - Write tests for all new features
 - Coverage target: ≥80%
 - Tests should pass before committing
 
 [IF OPTIONAL]
+
 - **OPTIONAL**: Add tests for critical functionality
 - Coverage measured but not strictly enforced
 
 ### Preview Command
+
 [PREVIEW_COMMAND]
 
 ### Test Command
+
 [TEST_COMMAND]
 
 ### Build Command
+
 [BUILD_COMMAND]
 
 ---
 
 _Last Updated: [YYYY-MM-DD]_
 _Loom Framework Version: 1.0_
+
+```
+
 ```

@@ -1,9 +1,9 @@
 ---
-Name: tanstack-query
-Version: 1.0.0
-Category: Web Development / Data Management
-Tags: react-query, tanstack-query, data-fetching, state-management, typescript, react
-Description: Efficient data fetching, caching, and state management for React applications using TanStack Query.
+name: tanstack-query
+version: 1.0.0
+category: Web Development / Data Management
+tags: react-query, tanstack-query, data-fetching, state-management, typescript, react
+description: Efficient data fetching, caching, and state management for React applications using TanStack Query.
 ---
 
 # TanStack Query Skill

@@ -1,9 +1,9 @@
 ---
-Name: risk-management
-Version: 0.1.0
-Category: Project Management / Security
-Tags: risk, mitigation, security, project, agile, devsecops, compliance, threat modeling
-Description: Guides Claude in identifying, assessing, and mitigating project and technical risks in software development.
+name: risk-management
+version: 0.1.0
+category: Project Management / Security
+tags: risk, mitigation, security, project, agile, devsecops, compliance, threat modeling
+description: Guides Claude in identifying, assessing, and mitigating project and technical risks in software development.
 ---
 
 # Risk Management Skill

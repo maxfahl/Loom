@@ -8,8 +8,8 @@ Patterns for parallel agent execution including Pattern 1 (Full-Stack Feature), 
 
 ## Related Files
 
-- [coordinator-workflow.md](coordinator-workflow.md) - Coordinator spawns parallel agents
-- [core-agents.md](core-agents.md) - Agents that can be spawned in parallel
+- [coordinator agent](../../.claude/agents/coordinator.md) - Coordinator spawns parallel agents
+- [AGENTS.md](../../.claude/AGENTS.md) - Complete directory of all 44 agents available for delegation
 - All phase files - Each phase has parallelization opportunities
 
 ## Usage
@@ -90,10 +90,10 @@ Each agent reads only the agent creation section (~500 lines) instead of all rea
 User: "Add payment processing feature"
 Coordinator spawns in parallel:
 
-- Agent 1 (senior-developer-backend): API endpoints + database schema + payment integration
-- Agent 2 (senior-developer-frontend): Payment form UI + validation + user feedback
-- Agent 3 (test-writer): API tests + integration tests + E2E tests
-- Agent 4 (documentation-writer): API documentation + user guide
+- Agent 1 (full-stack-developer-backend): API endpoints + database schema + payment integration
+- Agent 2 (full-stack-developer-frontend): Payment form UI + validation + user feedback
+- Agent 3 (test-automator): API tests + integration tests + E2E tests
+- Agent 4 (documentation-expert): API documentation + user guide
 
 ```
 
@@ -104,8 +104,8 @@ User: "Review my authentication code and implement authorization"
 Coordinator spawns in parallel:
 
 - Agent 1 (code-reviewer): Review authentication implementation
-- Agent 2 (senior-developer): Implement authorization system
-- Agent 3 (test-writer): Write tests for authorization
+- Agent 2 (full-stack-developer): Implement authorization system
+- Agent 3 (test-automator): Write tests for authorization
 
 ```
 
@@ -115,10 +115,10 @@ Coordinator spawns in parallel:
 User: "Build dashboard with charts, tables, and filters"
 Coordinator spawns in parallel:
 
-- Agent 1 (senior-developer): Charts component + data visualization
-- Agent 2 (senior-developer): Tables component + sorting/pagination
-- Agent 3 (senior-developer): Filters component + state management
-- Agent 4 (senior-developer): Integration + layout + responsive design
+- Agent 1 (full-stack-developer): Charts component + data visualization
+- Agent 2 (full-stack-developer): Tables component + sorting/pagination
+- Agent 3 (full-stack-developer): Filters component + state management
+- Agent 4 (full-stack-developer): Integration + layout + responsive design
 
 ```
 

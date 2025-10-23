@@ -1,3 +1,11 @@
+---
+name: secrets-management
+version: 1.0.0
+category: Security / Operations
+tags: Secrets, Security, Environment Variables, Key Management, Vault, .env, Best Practices, DevOps
+description: Guides Claude on best practices for securely managing sensitive information (secrets) in applications and infrastructure.
+---
+
 # SKILL.md - Secrets Management
 
 ## Metadata Section

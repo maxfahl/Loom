@@ -1,9 +1,9 @@
 ---
-Name: ci-cd-pipelines-github-actions
-Version: 1.0.0
-Category: DevOps / CI/CD
-Tags: github actions, ci/cd, automation, devops, security, typescript
-Description: Guides Claude on setting up and managing CI/CD pipelines using GitHub Actions, focusing on best practices for security, efficiency, and maintainability.
+name: ci-cd-pipelines-github-actions
+version: 1.0.0
+category: DevOps / CI/CD
+tags: github actions, ci/cd, automation, devops, security, typescript
+description: Guides Claude on setting up and managing CI/CD pipelines using GitHub Actions, focusing on best practices for security, efficiency, and maintainability.
 ---
 
 ## Skill Purpose

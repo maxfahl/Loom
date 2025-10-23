@@ -1,9 +1,9 @@
 ---
-Name: typescript-strict-mode
-Version: 1.0.0
-Category: Web Development / TypeScript
-Tags: TypeScript, strict mode, type checking, static analysis, best practices
-Description: Enforcing strict type-checking in TypeScript for robust and maintainable code.
+name: typescript-strict-mode
+version: 1.0.0
+category: Web Development / TypeScript
+tags: TypeScript, strict mode, type checking, static analysis, best practices
+description: Enforcing strict type-checking in TypeScript for robust and maintainable code.
 ---
 
 # TypeScript Strict Mode Skill

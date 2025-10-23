@@ -1,9 +1,9 @@
 ---
-Name: ruby-on-rails-development
-Version: 0.1.0
-Category: Web Development / Backend
-Tags: Ruby, Rails, Web, Backend, MVC, Hotwire, Database, API
-Description: Guides Claude in developing robust, scalable, and secure Ruby on Rails applications following modern best practices.
+name: ruby-on-rails-development
+version: 0.1.0
+category: Web Development / Backend
+tags: Ruby, Rails, Web, Backend, MVC, Hotwire, Database, API
+description: Guides Claude in developing robust, scalable, and secure Ruby on Rails applications following modern best practices.
 ---
 
 # Ruby on Rails Development Skill

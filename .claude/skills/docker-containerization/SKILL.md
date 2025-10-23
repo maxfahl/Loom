@@ -1,9 +1,9 @@
 ---
-Name: docker-containerization
-Version: 1.0.0
-Category: DevOps / Containerization
-Tags: Docker, Container, DevOps, Microservices, Image Optimization, Security, Orchestration
-Description: Guides on efficient, secure, and scalable Docker containerization practices.
+name: docker-containerization
+version: 1.0.0
+category: DevOps / Containerization
+tags: Docker, Container, DevOps, Microservices, Image Optimization, Security, Orchestration
+description: Guides on efficient, secure, and scalable Docker containerization practices.
 ---
 
 # Docker Containerization Skill

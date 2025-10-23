@@ -1,9 +1,9 @@
 ---
-Name: python-type-hints
-Version: 1.0.0
-Category: Backend Development / Python
-Tags: Python, type hints, static analysis, mypy, pyright, best practices
-Description: Using type hints in Python for improved code quality, maintainability, and static analysis.
+name: python-type-hints
+version: 1.0.0
+category: Backend Development / Python
+tags: Python, type hints, static analysis, mypy, pyright, best practices
+description: Using type hints in Python for improved code quality, maintainability, and static analysis.
 ---
 
 # Python Type Hints Skill

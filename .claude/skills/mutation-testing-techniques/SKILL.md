@@ -1,9 +1,9 @@
 ---
-Name: mutation-testing-techniques
-Version: 1.0.0
-Category: Software Quality / Testing
-Tags: mutation testing, testing, quality, stryker, typescript, javascript, jest, mocha
-Description: Applying mutation testing to assess test suite effectiveness and identify weak tests.
+name: mutation-testing-techniques
+version: 1.0.0
+category: Software Quality / Testing
+tags: mutation testing, testing, quality, stryker, typescript, javascript, jest, mocha
+description: Applying mutation testing to assess test suite effectiveness and identify weak tests.
 ---
 
 ## Skill Purpose

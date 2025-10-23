@@ -1,9 +1,9 @@
 ---
-Name: figma-specialist
-Version: 1.0.0
-Category: Design Tools / Automation
-Tags: Figma, API, automation, design system, design tokens, plugins, screenshots, TypeScript
-Description: Enables Claude to effectively use the Figma API for design automation, data extraction, and integration.
+name: figma-specialist
+version: 1.0.0
+category: Design Tools / Automation
+tags: Figma, API, automation, design system, design tokens, plugins, screenshots, TypeScript
+description: Enables Claude to effectively use the Figma API for design automation, data extraction, and integration.
 ---
 
 # Figma Specialist Skill

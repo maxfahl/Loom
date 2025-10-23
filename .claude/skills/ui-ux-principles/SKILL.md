@@ -1,9 +1,9 @@
 ---
-Name: ui-ux-principles
-Version: 1.0.0
-Category: Frontend / Design
-Tags: UI, UX, Design, Accessibility, Usability, Frontend, Principles
-Description: Guides Claude on creating intuitive and user-friendly interfaces by applying core UI/UX principles and modern best practices.
+name: ui-ux-principles
+version: 1.0.0
+category: Frontend / Design
+tags: UI, UX, Design, Accessibility, Usability, Frontend, Principles
+description: Guides Claude on creating intuitive and user-friendly interfaces by applying core UI/UX principles and modern best practices.
 ---
 
 # UI/UX Principles

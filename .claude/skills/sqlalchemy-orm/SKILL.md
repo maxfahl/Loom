@@ -1,9 +1,9 @@
 ---
-Name: sqlalchemy-orm
-Version: 1.0.0
-Category: Python / Database / ORM
-Tags: SQLAlchemy, ORM, Python, Database, Data Modeling, Alembic
-Description: Leveraging SQLAlchemy ORM for efficient and robust database interactions in Python applications.
+name: sqlalchemy-orm
+version: 1.0.0
+category: Python / Database / ORM
+tags: SQLAlchemy, ORM, Python, Database, Data Modeling, Alembic
+description: Leveraging SQLAlchemy ORM for efficient and robust database interactions in Python applications.
 ---
 
 ## Skill Purpose

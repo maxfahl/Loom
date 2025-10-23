@@ -1,9 +1,9 @@
 ---
-Name: code-refactoring-techniques
-Version: 1.0.0
-Category: Software Engineering / Code Quality
-Tags: refactoring, code quality, maintainability, clean code, technical debt, automation
-Description: Guides Claude on applying various code refactoring techniques to improve code quality and maintainability.
+name: code-refactoring-techniques
+version: 1.0.0
+category: Software Engineering / Code Quality
+tags: refactoring, code quality, maintainability, clean code, technical debt, automation
+description: Guides Claude on applying various code refactoring techniques to improve code quality and maintainability.
 ---
 
 # Code Refactoring Techniques

@@ -1,133 +1,99 @@
 ---
 description: Delegate a one-off task to the coordinator agent
-allowed-tools: Task
-model: claude-sonnet-4-5
-argument-hint: [Describe the one-off task you want to accomplish]
+model: sonnet
+argument-hint: [Describe the one-off task]
 ---
 
-# /one-off - Delegate One-Off Task
+# /one-off - One-Off Task
 
-**Purpose**: Delegates a general-purpose task to the coordinator agent for autonomous execution, emphasizing parallelization and the use of Claude Code Skills.
+## What This Command Does
+
+Delegate a one-off task to the coordinator agent for tasks outside the normal feature development workflow.
 
 ## Process
 
-1. **Analyze the Request**: Break down the user's request into logical sub-tasks.
-2. **Identify Sub-Agents**: Determine the best specialized sub-agents to handle each sub-task.
-3. **Delegate in Parallel**: Spawn the required sub-agents to work on the sub-tasks simultaneously whenever possible.
-4. **Instruct Sub-Agents**: Provide each sub-agent with a clear, detailed prompt that includes all necessary context and instructs them to use Claude Code Skills.
-5. **Synthesize Results**: Gather results from sub-agents, ensure integration, and present the final solution.
-6. **Context is Key**: Read `docs/development/INDEX.md` and `docs/development/status.xml` to provide relevant context to sub-agents.
+1. **Gather Task Description**:
+   - Use `$ARGUMENTS` if provided
+   - Otherwise, ask user for task description
+   - Clarify scope and expectations
 
-## Usage Examples
+2. **Delegate to Coordinator**:
 
-```bash
-# Delegate a complex documentation update
-/one-off "Update all API documentation to reflect the new authentication flow"
+   **CRITICAL**: The coordinator will automatically read `.claude/AGENTS.md` to access the full agent directory before delegating.
 
-# Delegate a research task
-/one-off "Research best practices for implementing rate limiting in our API"
+   ```markdown
+   Task(
+     subagent_type="coordinator",
+     description="Complete one-off task: [brief description]",
+     prompt="Execute the following one-off task: $ARGUMENTS
 
-# Delegate a refactoring task
-/one-off "Refactor the authentication module to use the new token service"
-```
+     IMPORTANT: Read .claude/AGENTS.md first to understand all 44 available agents.
 
-## When to Use
+     This is outside the normal feature development workflow. Complete the task efficiently and report results.
 
-- One-off tasks that don't fit into current story workflow
-- Research and analysis tasks
-- Documentation updates across multiple files
-- Cross-cutting concerns not tied to specific features
-- Experimental work or proof-of-concepts
+     If the task requires multiple steps or specialized expertise, spawn appropriate sub-agents in parallel based on the agent directory."
+   )
+   ```
 
-## When NOT to Use
+3. **Report Results**:
+   - Coordinator completes task
+   - Reports back with results
+   - User can review and provide feedback
 
-- Regular feature development (use `/dev` instead)
-- Bug fixes that should be tracked (use `/fix` instead)
-- Tasks that are part of current story (use `/dev` instead)
+## Use Cases
 
-## Coordinator Agent Instructions
+- Quick code refactoring not tied to a story
+- Research tasks
+- Fixing a build issue
+- Updating dependencies
+- Creating a utility script
+- Generating reports
+- Ad-hoc analysis
 
-When this command is invoked, the coordinator agent receives:
+## Agent Delegation
 
 ```markdown
-Task: One-off task delegation
-
-User Request: [user's task description]
-
-Instructions:
-
-You are the coordinator agent executing a one-off task outside the normal story workflow.
-
-**Your Mission**:
-1. Analyze the request and break it into logical sub-tasks
-2. Identify which specialized agents are best suited for each sub-task
-3. Spawn sub-agents in parallel whenever possible (maximize parallelization)
-4. Provide each sub-agent with complete context and clear instructions
-5. Instruct sub-agents to use Claude Code Skills when appropriate
-6. Synthesize results from all sub-agents
-7. Ensure all work is integrated and complete
-8. Report final results to user
-
-**Context Sources**:
-- Read docs/development/INDEX.md for project overview
-- Read docs/development/status.xml for current project state
-- Read relevant feature documentation if applicable
-- Read CLAUDE.md for project-specific conventions
-
-**Parallelization Strategy**:
-- Spawn 4-6 agents simultaneously for independent sub-tasks
-- Examples:
-  - Documentation updates: Spawn agents per doc section
-  - Research tasks: Spawn agents per research topic
-  - Refactoring: Spawn agents per module/component
-  - Analysis: Spawn agents per codebase area
-
-**Claude Code Skills**:
-- Encourage sub-agents to create Skills for reusable logic
-- Use existing Skills when available
-- Package common patterns as Skills for future use
-
-**Success Criteria**:
-- All sub-tasks completed
-- Results integrated cohesively
-- No conflicts or inconsistencies
-- Clear report of what was accomplished
-- Any new patterns documented
-
-**Report Format**:
-
-When complete, provide:
-
-```
-✅ One-Off Task Complete
-
-**Task**: [brief description]
-
-**What Was Done**:
-- Sub-task 1: [description] (agent: [name])
-- Sub-task 2: [description] (agent: [name])
-- Sub-task 3: [description] (agent: [name])
-
-**Agents Used**:
-- [agent-1]: [what they did]
-- [agent-2]: [what they did]
-
-**Files Modified**:
-- [file-1]: [changes]
-- [file-2]: [changes]
-
-**Skills Created** (if applicable):
-- [skill-name]: [description]
-
-**Next Steps** (if applicable):
-- [suggested follow-up actions]
-```
+Task(
+  subagent_type="coordinator",
+  description="One-off task: $ARGUMENTS",
+  prompt="Complete this one-off task: $ARGUMENTS. Use specialized sub-agents if needed. Report results when complete."
+)
 ```
 
-## Notes
+## Recommended Skills
 
-- This command does NOT update status.xml or story files
-- Use this for work outside the normal feature/epic/story workflow
-- Coordinator will handle all sub-agent spawning and coordination
-- Results are reported but not tracked in project status
-- Ideal for exploratory work, research, and one-time tasks
+<!-- TODO: Add relevant skills from .claude/skills/ -->
+
+Skills depend on the task type. Coordinator will select appropriate skills.
+
+**Skill Troubleshooting Authority**: If any referenced skill does not work or any script within the skill does not work, Claude Code has the authority to fix them.
+
+## Arguments
+
+- `$ARGUMENTS`: Description of the one-off task
+
+## Examples
+
+```
+/one-off Update all npm dependencies
+```
+
+Delegates dependency update task to coordinator.
+
+```
+/one-off Refactor the authentication module to use async/await
+```
+
+Delegates refactoring task.
+
+```
+/one-off Generate a performance report for the API
+```
+
+Delegates report generation.
+
+```
+/one-off
+```
+
+Asks user to describe the task interactively.

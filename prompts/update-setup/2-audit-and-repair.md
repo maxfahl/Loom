@@ -45,7 +45,7 @@ Now, scan the `docs/development/` directory (but not its subdirectories) to find
 
         May I create a placeholder file for `[missing-global-doc.md]` now? (yes/no)
         ```
-        *   **If the user says yes**, spawn a `documentation-writer` agent to create the missing file with boilerplate content in the `docs/development/` directory.
+        *   **If the user says yes**, spawn a `documentation-expert` agent to create the missing file with boilerplate content in the `docs/development/` directory.
         *   **If the user says no**, acknowledge their choice and move on to the next missing global document.
 
 ### Part C: Audit and Repair Each Feature Directory

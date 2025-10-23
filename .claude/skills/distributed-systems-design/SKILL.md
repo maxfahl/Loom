@@ -1,9 +1,9 @@
 ---
-Name: distributed-systems-design
-Version: 1.0.0
-Category: System Design / Architecture
-Tags: distributed systems, microservices, scalability, fault tolerance, consistency, resilience, cloud-native, event-driven, patterns, anti-patterns
-Description: Enables Claude to design robust, scalable, and fault-tolerant distributed systems.
+name: distributed-systems-design
+version: 1.0.0
+category: System Design / Architecture
+tags: distributed systems, microservices, scalability, fault tolerance, consistency, resilience, cloud-native, event-driven, patterns, anti-patterns
+description: Enables Claude to design robust, scalable, and fault-tolerant distributed systems.
 ---
 
 # Distributed Systems Design

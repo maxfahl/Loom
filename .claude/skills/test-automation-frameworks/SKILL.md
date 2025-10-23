@@ -1,9 +1,9 @@
 ---
-Name: test-automation-frameworks
-Version: 1.0.0
-Category: Quality Assurance / Testing
-Tags: Playwright, Selenium, TypeScript, E2E, UI Testing, Automation, QA
-Description: Guides Claude on implementing robust end-to-end test automation using Playwright and Selenium with TypeScript.
+name: test-automation-frameworks
+version: 1.0.0
+category: Quality Assurance / Testing
+tags: Playwright, Selenium, TypeScript, E2E, UI Testing, Automation, QA
+description: Guides Claude on implementing robust end-to-end test automation using Playwright and Selenium with TypeScript.
 ---
 
 # Test Automation Frameworks (Playwright, Selenium)

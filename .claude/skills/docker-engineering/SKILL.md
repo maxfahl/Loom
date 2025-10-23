@@ -1,9 +1,9 @@
 ---
-Name: docker-engineering
-Version: 1.0.0
-Category: DevOps / Containerization
-Tags: Docker, Container, DevOps, CI/CD, Image Optimization, Security, Performance, TypeScript
-Description: Enables Claude to apply best practices for Docker image creation, container management, and secure deployment.
+name: docker-engineering
+version: 1.0.0
+category: DevOps / Containerization
+tags: Docker, Container, DevOps, CI/CD, Image Optimization, Security, Performance, TypeScript
+description: Enables Claude to apply best practices for Docker image creation, container management, and secure deployment.
 ---
 
 # Docker Engineering Skill
