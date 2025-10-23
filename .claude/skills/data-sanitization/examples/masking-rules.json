@@ -1,0 +1,43 @@
+
+{
+  "rules": [
+    {
+      "field": "email",
+      "method": "shuffle_domain",
+      "params": {
+        "domains": ["example.com", "test.org", "anon.net"]
+      }
+    },
+    {
+      "field": "ssn",
+      "method": "mask_partial",
+      "params": {
+        "prefix_length": 0,
+        "suffix_length": 4,
+        "mask_char": "X"
+      }
+    },
+    {
+      "field": "credit_card_number",
+      "method": "tokenize"
+    },
+    {
+      "field": "address.street",
+      "method": "substitute",
+      "params": {
+        "lookup_table": {
+          "123 Main St": "456 Oak Ave",
+          "789 Pine Ln": "101 Elm Rd"
+        }
+      }
+    },
+    {
+      "field": "phone_number",
+      "method": "random_number_sequence",
+      "params": {
+        "length": 10,
+        "format": "###-###-####"
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+name: Reusable Build and Test
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        required: false
+        type: string
+        default: '18.x'
+        description: 'Node.js version to use'
+      package_manager:
+        required: false
+        type: string
+        default: 'npm'
+        description: 'Package manager to use (npm, yarn, pnpm)'
+    outputs:
+      build_status:
+        description: "Status of the build job"
+        value: ${{ jobs.build-and-test.status }}
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@b4ffde65f46336ab88eb5afa53bb794d44cc353d # Pin to specific SHA
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4 # Pin to specific version
+      with:
+        node-version: ${{ inputs.node_version }}
+        cache: ${{ inputs.package_manager }}
+
+    - name: Cache dependencies
+      uses: actions/cache@v4 # Pin to specific version
+      with:
+        path: | # Adjust based on package manager
+          ~/.npm
+          ~/.cache/yarn
+          ~/.pnpm-store
+        key: ${{ runner.os }}-${{ inputs.package_manager }}-${{ hashFiles('**/package-lock.json', '**/yarn.lock', '**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-${{ inputs.package_manager }}-
+
+    - name: Install dependencies
+      run: ${{ inputs.package_manager }} install
+
+    - name: Run Lint
+      run: ${{ inputs.package_manager }} run lint
+
+    - name: Run Tests
+      run: ${{ inputs.package_manager }} test
+
+    - name: Build Project
+      run: ${{ inputs.package_manager }} run build # Assuming a 'build' script in package.json
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4 # Pin to specific version
+      with:
+        name: build-artifacts
+        path: dist/ # Adjust to your build output directory
+        retention-days: 1

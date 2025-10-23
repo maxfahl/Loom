@@ -4,13 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [Unreleased]
+## [0.3] - 2025-10-23
 
 ### Added
-- 
+- **Skill Synchronization**: The `setup` and `update` flows now also synchronize the contents of the `.claude/skills` directory, ensuring that the project has the latest framework-provided skills. This operation is non-destructive and will not remove user-created skills.
 
 ### Changed
-- 
+- The `sync-loom-files.sh` script was updated to include the `.claude/skills` directory in its synchronization process.
 
 ---
 

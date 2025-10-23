@@ -1,0 +1,21 @@
+// package.json (root)
+{
+  "name": "my-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2", // Hoisted dev dependency
+    "eslint": "^8.56.0",
+    "prettier": "^3.2.5",
+    "react": "^18.2.0", // Hoisted common dependency (if used by multiple packages)
+    "@types/react": "^18.2.60",
+    "lodash": "^4.17.21", // Hoisted common dependency
+    "@types/lodash": "^4.14.202"
+  }
+}

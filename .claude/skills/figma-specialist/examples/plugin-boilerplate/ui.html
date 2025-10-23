@@ -1,0 +1,56 @@
+<div id="app">
+  <h2>Figma Plugin Boilerplate</h2>
+  <p>This is a basic UI for a Figma plugin.</p>
+  <label for="count">Number of rectangles:</label>
+  <input type="number" id="count" value="3" min="1" />
+  <button id="create">Create Rectangles</button>
+  <button id="close">Close Plugin</button>
+  <p id="message"></p>
+</div>
+
+<style>
+  body {
+    font-family: sans-serif;
+    padding: 10px;
+  }
+  #app {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  button {
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  input {
+    padding: 8px;
+  }
+</style>
+
+<script>
+  // This script runs in the UI thread and communicates with the main plugin thread.
+
+  const createButton = document.getElementById('create');
+  const closeButton = document.getElementById('close');
+  const countInput = document.getElementById('count');
+  const messageParagraph = document.getElementById('message');
+
+  createButton.onclick = () => {
+    const count = parseInt(countInput.value, 10);
+    parent.postMessage({ pluginMessage: { type: 'create-rectangles', count } }, '*');
+  };
+
+  closeButton.onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'close' } }, '*');
+  };
+
+  // Listen for messages from the main plugin thread
+  onmessage = (event) => {
+    const pluginMessage = event.data.pluginMessage;
+    if (pluginMessage.type === 'rectangles-created') {
+      messageParagraph.textContent = `Created ${pluginMessage.count} rectangles!`;
+    } else if (pluginMessage.type === 'initial-data') {
+      messageParagraph.textContent = pluginMessage.message;
+    }
+  };
+</script>

@@ -22,6 +22,7 @@ DRY_RUN="${2:-false}"
 SYNC_ITEMS=(
     ".claude/agents"
     ".claude/commands"
+    ".claude/skills"
 )
 
 # Colors for output

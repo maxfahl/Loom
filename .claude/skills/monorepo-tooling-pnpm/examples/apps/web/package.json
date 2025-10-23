@@ -1,0 +1,15 @@
+// apps/web/package.json
+{
+  "name": "web",
+  "version": "1.0.0",
+  "dependencies": {
+    "my-shared-lib": "workspace:^" // Correct workspace protocol
+  },
+  "devDependencies": {
+    // No typescript here, it's hoisted to root
+  },
+  "scripts": {
+    "build": "next build",
+    "typecheck": "tsc --noEmit"
+  }
+}

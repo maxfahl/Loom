@@ -1,0 +1,24 @@
+
+{
+  "type": "/errors/validation-error",
+  "title": "Validation Error",
+  "status": 422,
+  "detail": "The request body contains invalid or missing fields.",
+  "instance": "/api/v1/users",
+  "invalid-params": [
+    {
+      "name": "email",
+      "reason": "The email field must be a valid email address.",
+      "value": "not-an-email"
+    },
+    {
+      "name": "password",
+      "reason": "The password must be at least 12 characters long.",
+      "value": "short"
+    },
+    {
+      "name": "age",
+      "reason": "The age must be a positive number."
+    }
+  ]
+}

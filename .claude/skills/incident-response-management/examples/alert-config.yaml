@@ -1,0 +1,43 @@
+# Prometheus Alert Rule Example
+
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: service-x-alerts
+  namespace: monitoring
+spec:
+  groups:
+  - name: service-x.rules
+    rules:
+    - alert: ServiceXHighErrorRate
+      expr: sum(rate(http_requests_total{job="service-x", status=~"5.."}[5m])) by (service_name) / sum(rate(http_requests_total{job="service-x"}[5m])) by (service_name) > 0.05
+      for: 5m
+      labels:
+        severity: p1
+        team: backend
+      annotations:
+        summary: "High error rate detected for Service X ({{ $labels.service_name }})"
+        description: "Service X ({{ $labels.service_name }}) is experiencing a high rate of 5xx errors (over 5% for 5 minutes). This indicates a potential outage or severe degradation. Please investigate immediately."
+        runbook: "https://docs.example.com/runbooks/service-x-high-error-rate.md"
+
+    - alert: ServiceXLatencyHigh
+      expr: histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{job="service-x"}[5m])) by (le, service_name)) > 0.5
+      for: 10m
+      labels:
+        severity: p2
+        team: backend
+      annotations:
+        summary: "High latency detected for Service X ({{ $labels.service_name }})"
+        description: "The 99th percentile latency for Service X ({{ $labels.service_name }}) is consistently above 500ms for 10 minutes. Users may be experiencing slow responses."
+        runbook: "https://docs.example.com/runbooks/service-x-high-latency.md"
+
+    - alert: ServiceXPodRestarting
+      expr: sum(kube_pod_container_status_restarts_total{namespace="production", pod=~"service-x-.*"}) by (pod) > 0
+      for: 15m
+      labels:
+        severity: p3
+        team: backend
+      annotations:
+        summary: "Service X pod restarting ({{ $labels.pod }})"
+        description: "A pod for Service X ({{ $labels.pod }}) has restarted. This could indicate an issue with the application or underlying infrastructure. Investigate logs for errors."
+        runbook: "https://docs.example.com/runbooks/kubernetes-pod-restarts.md"

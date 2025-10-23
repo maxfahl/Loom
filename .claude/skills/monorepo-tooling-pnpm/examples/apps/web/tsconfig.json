@@ -1,0 +1,10 @@
+// apps/web/tsconfig.json
+{
+  "extends": "../../tsconfig.base.json", // Extends root base config
+  "compilerOptions": {
+    "outDir": "./dist",
+    "noEmit": true // If bundler handles transpilation
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}

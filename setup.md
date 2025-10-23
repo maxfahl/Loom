@@ -10,10 +10,7 @@ First, you must understand the project in the Current Working Directory. Follow 
 
 ### Phase 2: Documentation Creation
 
-Next, based on the information gathered in Phase 1, create the project-specific documentation. Follow the instructions in `prompts/setup/2-documentation.md`.
-
-- For brownfield projects, this includes creating the `PROJECT_OVERVIEW.md` and handling legacy documentation.
-- For all projects, this includes creating the `PRD.md`, `TECHNICAL_SPEC.md`, `ARCHITECTURE.md`, etc.
+Next, based on the information gathered in Phase 1, create the project-specific documentation by following the instructions in `prompts/setup/2-documentation.md`.
 
 ### Phase 3: Synchronize Framework Files
 
@@ -32,9 +29,6 @@ Instead of generating agents and commands from scratch, you will copy them from 
 
 ### Phase 4: Final Setup & Verification
 
-Follow the instructions in `prompts/setup/3-features-setup.md` and `prompts/setup/4-verification.md` to complete the setup.
-
-- This includes creating the `features/` directory structure and the `status.xml` file.
-- It concludes with creating the initial Git commit for the user.
+Follow the instructions in `prompts/setup/3-features-setup.md` and `prompts/setup/4-verification.md` to complete the setup, which includes creating the feature structure and the initial Git commit.
 
 After these steps, the user's project will be fully set up with the latest version of the Loom framework.

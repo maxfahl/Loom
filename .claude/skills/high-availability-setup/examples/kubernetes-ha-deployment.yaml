@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-ha-app
+  labels:
+    app: my-ha-app
+spec:
+  replicas: 3 # Ensure multiple instances for high availability
+  selector:
+    matchLabels:
+      app: my-ha-app
+  template:
+    metadata:
+      labels:
+        app: my-ha-app
+    spec:
+      affinity:
+        podAntiAffinity: # Prefer not to schedule pods on the same node
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: my-ha-app
+              topologyKey: kubernetes.io/hostname # Spread pods across different nodes
+        nodeAffinity: # Prefer scheduling pods on nodes in different availability zones
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+              - key: topology.kubernetes.io/zone
+                operator: In
+                values: # Replace with your cluster's availability zones
+                  - us-east-1a
+                  - us-east-1b
+                  - us-east-1c
+      containers:
+      - name: my-app-container
+        image: my-app-image:latest # Replace with your application image
+        ports:
+        - containerPort: 8080
+        livenessProbe: # Ensure the application is running and responsive
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe: # Ensure the application is ready to serve traffic
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-ha-app-service
+spec:
+  selector:
+    app: my-ha-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer # Expose the service externally with a load balancer

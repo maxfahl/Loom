@@ -1,0 +1,36 @@
+{
+  "_comment": "This is the Stryker configuration for the simple-function example.",
+  "mutate": [
+    "src/**/*.ts",
+    "!src/**/*.d.ts"
+  ],
+  "testRunner": "jest",
+  "mutator": {
+    "plugins": [
+      "typescript"
+    ]
+  },
+  "reporters": [
+    "html",
+    "clear-text",
+    "progress"
+  ],
+  "coverageAnalysis": "perTest",
+  "jest": {
+    "projectType": "custom",
+    "config": {
+      "testEnvironment": "node",
+      "roots": [
+        "<rootDir>/test"
+      ],
+      "transform": {
+        "^.+\\.tsx?$": "ts-jest"
+      }
+    }
+  },
+  "thresholds": {
+    "break": 80,
+    "high": 90,
+    "low": 60
+  }
+}

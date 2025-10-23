@@ -1,0 +1,53 @@
+# Example YAML configuration for generate-audit-event-type.py
+interfaceName: AuditEvent
+fields:
+  - name: id
+    type: string
+    description: Unique event ID
+  - name: timestamp
+    type: string
+    description: ISO 8601 UTC timestamp
+  - name: actor
+    type: |
+      {
+        id: string;
+        type: 'user' | 'system' | 'anonymous';
+        ipAddress?: string;
+        userAgent?: string;
+      }
+    description: Details about the entity that performed the action
+  - name: action
+    type: |
+      {
+        type: string; // e.g., 'USER_LOGIN', 'RECORD_DELETED'
+        details?: Record<string, any>; // Action-specific details
+      }
+    description: Details about the action performed
+  - name: entity
+    type: |
+      {
+        type: string; // e.g., 'User', 'Product'
+        id: string;
+        changes?: {
+          [key: string]: {
+            oldValue: any;
+            newValue: any;
+          };
+        };
+      }
+    optional: true
+    description: Details about the entity affected by the action
+  - name: outcome
+    type: 'success' | 'failure'
+    description: The outcome of the action
+  - name: errorMessage
+    type: string
+    optional: true
+    description: Error message if the outcome was failure
+  - name: previousEventHash
+    type: string
+    optional: true
+    description: Cryptographic link to the hash of the previous event
+  - name: eventHash
+    type: string
+    description: Hash of the current event data

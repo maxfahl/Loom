@@ -346,38 +346,25 @@ The coordinator agent reads YOLO configuration and automatically handles the com
 
 **ALWAYS read INDEX.md first** - it's your navigation hub.
 
-### Core Documentation
+### Global Documentation (in `docs/development/`)
 
-1. **INDEX.md** - Master navigation (READ FIRST ALWAYS)
-2. **README.md** - User getting started guide
-3. **START_HERE.md** - Navigation guide for new developers
-4. **PROJECT_SUMMARY.md** - Executive overview
+1.  **INDEX.md** - Master navigation (READ FIRST ALWAYS)
+2.  **START_HERE.md** - Navigation guide for new developers
+3.  **PROJECT_SUMMARY.md** - Executive overview
+4.  **YOLO_MODE.md** - Autonomous development guide
+5.  **CODE_REVIEW_PRINCIPLES.md** - Code review workflow (7-phase)
+6.  **SECURITY_REVIEW_CHECKLIST.md** - Security requirements (OWASP)
+7.  **DESIGN_PRINCIPLES.md** - Core design principles
+8.  **status.xml** - Feature/epic progress tracking (SINGLE FILE)
 
-### Product & Requirements
+### Feature-Specific Documentation (in `docs/development/features/[feature-name]/`)
 
-5. **PRD.md** - Product requirements document
-6. **FEATURE_SPEC.md** - Feature specifications (per feature)
-
-### Technical Documentation
-
-7. **TECHNICAL_SPEC.md** - Implementation details (per epic)
-8. **ARCHITECTURE.md** - System design and patterns
-9. **DESIGN_SYSTEM.md** - UI/UX guidelines
-
-### Development Guides
-
-10. **DEVELOPMENT_PLAN.md** - TDD workflow and timeline
-11. **YOLO_MODE.md** - Autonomous development guide
-
-### Standards & Best Practices
-
-12. **CODE_REVIEW_PRINCIPLES.md** - Code review workflow (7-phase)
-13. **SECURITY_REVIEW_CHECKLIST.md** - Security requirements (OWASP)
-14. **DESIGN_PRINCIPLES.md** - Core design principles
-
-### Project Tracking
-
-15. **status.xml** - Feature/epic progress tracking (SINGLE FILE)
+9.  **PRD.md** - Product requirements document
+10. **FEATURE_SPEC.md** - Feature specifications
+11. **TECHNICAL_DESIGN.md** - The technical blueprint for the feature
+12. **ARCHITECTURE.md** - System design and patterns relevant to the feature
+13. **DESIGN_SYSTEM.md** - UI/UX guidelines for the feature
+14. **DEVELOPMENT_PLAN.md** - TDD workflow and timeline for the feature
 
 ---
 
@@ -389,14 +376,17 @@ project/
 │   └── ...
 ├── docs/
 │   └── development/
-│       ├── status.xml         # GLOBAL: Tracks status across all features
-│       ├── INDEX.md           # GLOBAL: Project-wide documentation index
+│       ├── status.xml         # GLOBAL
+│       ├── INDEX.md           # GLOBAL
+│       ├── PROJECT_SUMMARY.md # GLOBAL
 │       └── features/
 │           └── [feature-name]/  # All docs for a specific feature live here
-│               ├── PRD.md
-│               ├── FEATURE_SPEC.md
-│               ├── TECHNICAL_DESIGN.md
-│               ├── ARCHITECTURE.md
+│               ├── PRD.md               # FEATURE-SPECIFIC
+│               ├── FEATURE_SPEC.md      # FEATURE-SPECIFIC
+│               ├── TECHNICAL_DESIGN.md  # FEATURE-SPECIFIC
+│               ├── ARCHITECTURE.md      # FEATURE-SPECIFIC
+│               ├── DESIGN_SYSTEM.md     # FEATURE-SPECIFIC
+│               ├── DEVELOPMENT_PLAN.md  # FEATURE-SPECIFIC
 │               └── epics/
 │                   └── [epic-name]/
 │                       └── ...

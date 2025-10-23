@@ -1,0 +1,19 @@
+{
+  "name": "sql-nosql-scripts",
+  "version": "1.0.0",
+  "description": "Scripts for SQL/NoSQL Database Management skill",
+  "main": "",
+  "scripts": {
+    "generate-data": "ts-node generate_test_data.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@types/node": "^20.8.7",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "yargs": "^17.7.2"
+  }
+}

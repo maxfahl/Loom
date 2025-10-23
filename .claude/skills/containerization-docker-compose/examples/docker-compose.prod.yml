@@ -1,0 +1,63 @@
+
+# docker-compose.prod.yml
+# Docker Compose configuration for production deployment.
+# Focuses on security, performance, and scalability.
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.optimized
+    image: myapp:1.0.0 # Tag your production images
+    ports:
+      - "80:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://user:${DB_PASSWORD}@db:5432/mydatabase # Use environment variable for password
+    # Use Docker Secrets for sensitive data in production
+    # secrets:
+    #   - db_password
+    deploy:
+      replicas: 3 # Scale out for high availability
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: ${DB_PASSWORD} # Use environment variable for password
+    # secrets:
+    #   - db_password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager # Pin database to a manager node if using Swarm
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d mydatabase"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+# secrets:
+#   db_password:
+#     external: true # Assumes secret is created externally
+
+volumes:
+  db_data:

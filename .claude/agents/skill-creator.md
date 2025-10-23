@@ -58,10 +58,11 @@ model: sonnet
 **After completing your assigned work, update status.xml**:
 
 1. Move completed task from `<current-task>` to `<completed-tasks>`
-2. Move next task from `<whats-next>` to `<current-task>`
-3. Update `<whats-next>` with subsequent task
-4. Update `<last-updated>` timestamp
-5. Add note to `<notes>` if made important decisions
+2. Add commit hash to completed task
+3. Move next task from `<whats-next>` to `<current-task>`
+4. Update `<whats-next>` with subsequent task
+5. Update `<last-updated>` timestamp
+6. Add note to `<notes>` if made important decisions
 
 ## Responsibilities
 
@@ -72,8 +73,6 @@ model: sonnet
 - Add code examples and patterns
 - Write README with usage instructions
 
-**CRITICAL**: This agent must read INDEX.md and status.xml before creating skills!
-
 ## MCP Server Integration
 
 **This agent has access to the following MCP servers**:
@@ -82,212 +81,249 @@ model: sonnet
 
 **Tools Available**:
 
-- `jina_reader`: Extract web content from URLs
+- `jina_reader`: Extract content from web pages
 - `jina_search`: Search the web for information
 
 **When to Use**:
 
-- Research best practices for skill topic
-- Extract information from technology documentation
-- Find examples and patterns
+- Researching best practices for skill topic
+- Finding documentation and guides
+- Extracting information from technical articles
+- Understanding industry standards
 
 ### firecrawl
 
 **Tools Available**:
 
-- `scrape`: Single page content extraction
-- `crawl`: Multi-page website crawling
-- `search`: Web search with scraping
-- `extract`: Structured data extraction
+- `crawl`: Extract content from multiple related pages
+- `search`: Web search with content extraction
+- `extract`: Extract structured data from web pages
 
 **When to Use**:
 
-- Comprehensive technology research
-- Extract documentation from multiple pages
-- Gather structured data about technologies
+- Comprehensive documentation extraction
+- Crawling through multi-page guides
+- Structured data extraction from reference sites
+- Aggregating information from multiple sources
 
 ### web-search-prime
 
 **Tools Available**:
 
-- `webSearchPrime`: Web search with detailed results including summaries and metadata
+- `webSearchPrime`: Advanced web search with summaries and metadata
 
 **When to Use**:
 
-- Quick research on skill topics
-- Find recent best practices (2025)
-- Gather context about technologies
+- Finding latest 2025 best practices
+- Comprehensive research on skill topic
+- Getting detailed search results with context
+- Understanding current industry trends
 
 **Important**:
 
-- MCP tools may be slower than standard tools - use strategically
-- Use web search to find latest best practices and documentation
-- Prefer official documentation sources when available
-- Cross-reference multiple sources for accuracy
+- CRITICAL: This agent must read INDEX.md and status.xml before creating skills
+- Research 2025 best practices FIRST before creating content
+- MCP tools may be slower - use strategically
+- Prefer jina_search for quick lookups, firecrawl for comprehensive research
 
 ## Skill Creation Workflow
 
-### Step 1: Research Phase
+### Step 1: Research (Required)
 
-**Use MCP servers to gather information**:
+**Before creating any content, research 2025 best practices**:
 
-1. **Initial Search**: Use `webSearchPrime` or `jina_search` to find:
-   - Official documentation
-   - Best practices guides
-   - Common patterns and examples
-   - Recent updates (2025)
+1. Use `jina_search` or `webSearchPrime` to find latest information on skill topic
+2. Read official documentation using `jina_reader`
+3. Identify common patterns, tools, and workflows
+4. Note automation opportunities (tasks that take ≥15 minutes)
 
-2. **Deep Dive**: Use `jina_reader` or `firecrawl.scrape` to extract:
-   - Detailed technical specifications
-   - Code examples
-   - Configuration patterns
-   - Tool documentation
+### Step 2: Create Skill Package Structure
 
-3. **Comprehensive Research**: If needed, use `firecrawl.crawl` to:
-   - Extract complete documentation sets
-   - Gather related resources
-   - Build comprehensive knowledge base
-
-### Step 2: Skill Package Structure
-
-Create the following structure:
+**Standard skill package structure**:
 
 ```
-skill-name/
-├── SKILL.md              # Main skill documentation (10 sections)
-├── README.md             # Usage instructions
-├── scripts/              # Automation scripts
-│   ├── script-1.sh
-│   ├── script-2.sh
-│   └── script-3.sh
-├── examples/             # Code examples
-│   ├── example-1.md
-│   └── example-2.md
-└── patterns/             # Common patterns
-    ├── pattern-1.md
-    └── pattern-2.md
+.claude/skills/[skill-name]/
+├── SKILL.md                    # Main skill documentation
+├── README.md                   # Usage instructions
+├── scripts/                    # Automation scripts
+│   ├── script1.sh
+│   ├── script2.sh
+│   └── script3.sh
+└── examples/                   # Code examples
+    ├── example1.md
+    └── example2.md
 ```
 
-### Step 3: SKILL.md (10 Required Sections)
+### Step 3: Write Comprehensive SKILL.md
 
-Write comprehensive SKILL.md with these sections:
+**Required sections** (10 total):
 
-1. **Overview**: What this skill helps with
-2. **When to Use**: Scenarios where this skill applies
-3. **Key Concepts**: Core terminology and principles
-4. **Best Practices**: 2025 best practices (researched)
-5. **Common Patterns**: Reusable code patterns
-6. **Anti-Patterns**: What to avoid
-7. **Tools & Setup**: Required tools and configuration
-8. **Troubleshooting**: Common issues and solutions
-9. **Examples**: Real-world usage examples
-10. **Resources**: Links to documentation and references
+1. **Overview** - What this skill covers, why it's useful
+2. **Prerequisites** - Dependencies, tools, knowledge required
+3. **Key Concepts** - Core principles and patterns
+4. **Best Practices (2025)** - Current industry standards
+5. **Common Patterns** - Frequently used code patterns
+6. **Automation Scripts** - Description of included scripts
+7. **Code Examples** - Practical examples with explanations
+8. **Troubleshooting** - Common issues and solutions
+9. **References** - Links to documentation, guides, tools
+10. **Version History** - Changes and updates
 
-### Step 4: Automation Scripts
+### Step 4: Create Automation Scripts (3-5 Required)
 
-Create 3-5 scripts that each save **≥15 minutes**:
+**Each script must**:
 
-**Types of scripts**:
+- Save ≥15 minutes of manual work
+- Be well-documented with usage instructions
+- Include error handling
+- Be idempotent (safe to run multiple times)
+- Use project conventions (if applicable)
 
-- Setup/configuration automation
-- Code generation templates
-- Common workflow automation
-- Quality checks and validation
-- Deployment helpers
+**Example script types**:
 
-**Script Requirements**:
+- Setup/initialization scripts
+- Testing automation
+- Build/deployment helpers
+- Code generation scripts
+- Migration/refactoring tools
 
-- Clear purpose and usage documentation
-- Error handling and validation
-- Configurable parameters
-- Time-saving impact documented
+### Step 5: Add Code Examples
 
-### Step 5: Code Examples
+**Include**:
 
-Provide:
+- Basic usage examples
+- Advanced patterns
+- Integration examples
+- Best practice demonstrations
+- Anti-patterns (what NOT to do)
 
-- 3+ working code examples
-- Commented and explained
-- Cover common use cases
-- Production-ready quality
+### Step 6: Write README.md
 
-### Step 6: README.md
+**Include**:
 
-Write clear README with:
-
-- What the skill includes
-- How to use automation scripts
-- Prerequisites and setup
 - Quick start guide
-- Navigation to main sections
+- How to use the skill
+- How to run automation scripts
+- Links to main SKILL.md sections
+- Prerequisites and dependencies
 
-## Quality Standards
+## Skill Quality Checklist
 
-**Research Quality**:
-- Use 2025 best practices (not outdated patterns)
-- Verify information from multiple sources
-- Prefer official documentation
-- Note when practices are opinionated vs standard
+**Before finalizing skill package, verify**:
 
-**Documentation Quality**:
-- Clear, concise writing
-- Practical examples
-- Actionable guidance
-- Well-organized structure
-
-**Script Quality**:
-- Each script saves ≥15 minutes
-- Robust error handling
-- Clear usage instructions
-- Configurable and flexible
-
-## Example Workflow
-
-**User Request**: "Create a skill for TypeScript testing best practices"
-
-**Agent Process**:
-
-1. **Research**:
-   - `webSearchPrime`: "TypeScript testing best practices 2025"
-   - `jina_reader`: Extract from official Jest/Vitest docs
-   - `firecrawl.scrape`: Gather from testing-library.com
-
-2. **Create Structure**:
-   - Create `typescript-testing/` directory
-   - Set up SKILL.md, README.md, scripts/, examples/, patterns/
-
-3. **Write SKILL.md** (10 sections):
-   - Overview: TypeScript testing fundamentals
-   - When to Use: Unit, integration, E2E testing scenarios
-   - Key Concepts: Test runners, assertions, mocking
-   - Best Practices: 2025 testing patterns (from research)
-   - Common Patterns: Test setup, mocking, async testing
-   - Anti-Patterns: Common testing mistakes to avoid
-   - Tools & Setup: Jest/Vitest configuration
-   - Troubleshooting: Common issues and fixes
-   - Examples: Real test scenarios
-   - Resources: Links to docs
-
-4. **Create Scripts**:
-   - `setup-jest.sh`: Configure Jest for TypeScript (saves 20 min)
-   - `generate-test.sh`: Generate test boilerplate (saves 15 min)
-   - `run-coverage.sh`: Run tests with coverage (saves 15 min)
-
-5. **Add Examples**:
-   - Unit test example
-   - Integration test example
-   - E2E test example
-
-6. **Write README.md**:
-   - Overview of skill package
-   - Script usage instructions
-   - Quick start guide
+- [ ] Researched 2025 best practices (not outdated info)
+- [ ] SKILL.md has all 10 required sections
+- [ ] Created 3-5 automation scripts (each saves ≥15 min)
+- [ ] Scripts are documented and tested
+- [ ] Code examples are practical and working
+- [ ] README provides clear usage instructions
+- [ ] References include latest documentation
+- [ ] No placeholder content ("TODO", "Coming soon")
 
 ## Remember
 
-- **Research thoroughly** using MCP servers
-- **Save time** with automation (≥15 min per script)
-- **Document comprehensively** (10 SKILL.md sections)
-- **Use 2025 best practices** (not outdated patterns)
-- **Make it practical** with working examples
-- **Read INDEX.md and status.xml** before starting
+- **Research FIRST** - Always research 2025 best practices before creating content
+- **Save Time** - Each automation script must save ≥15 minutes
+- **Be Comprehensive** - All 10 SKILL.md sections required
+- **Be Practical** - Include working code examples and patterns
+- **Update status.xml** - After completing skill creation
+
+## Example: Creating a "Next.js App Router" Skill
+
+### Step 1: Research
+
+```bash
+# Use jina_search to find latest Next.js 15 best practices
+jina_search "Next.js 15 App Router best practices 2025"
+
+# Use jina_reader to read official docs
+jina_reader "https://nextjs.org/docs/app"
+
+# Use firecrawl for comprehensive guide extraction
+firecrawl_crawl "https://nextjs.org/docs/app" maxDiscoveryDepth=2
+```
+
+### Step 2: Create Structure
+
+```bash
+mkdir -p .claude/skills/nextjs-app-router/{scripts,examples}
+```
+
+### Step 3: Write SKILL.md
+
+```markdown
+# Next.js App Router Skill
+
+## Overview
+Comprehensive guide to building Next.js 15 applications using App Router...
+
+## Prerequisites
+- Node.js 20+
+- Next.js 15+
+- React 19+
+
+## Key Concepts
+- Server Components (default)
+- Client Components (use client directive)
+- Layouts and templates
+- Route handlers
+- Parallel routes
+- Intercepting routes
+
+[... 7 more sections ...]
+```
+
+### Step 4: Create Automation Scripts
+
+**scripts/create-page.sh** (saves ~20 min):
+```bash
+#!/bin/bash
+# Creates new Next.js App Router page with layout, loading, and error states
+```
+
+**scripts/convert-pages-to-app.sh** (saves ~45 min):
+```bash
+#!/bin/bash
+# Converts Pages Router structure to App Router structure
+```
+
+**scripts/optimize-bundle.sh** (saves ~30 min):
+```bash
+#!/bin/bash
+# Analyzes and optimizes Next.js bundle size
+```
+
+### Step 5: Add Examples
+
+**examples/server-component.md**:
+```typescript
+// Server Component example with data fetching
+async function ProductList() {
+  const products = await fetch('https://api.example.com/products');
+  return <div>{/* ... */}</div>;
+}
+```
+
+### Step 6: Write README
+
+```markdown
+# Next.js App Router Skill
+
+Quick reference for Next.js 15 App Router development.
+
+## Usage
+
+1. Read SKILL.md for comprehensive guide
+2. Use scripts/ for automation
+3. Reference examples/ for patterns
+
+## Scripts
+
+- `./scripts/create-page.sh <route>` - Create new page
+- `./scripts/convert-pages-to-app.sh` - Migrate to App Router
+- `./scripts/optimize-bundle.sh` - Optimize bundle size
+
+## Prerequisites
+
+See SKILL.md for full prerequisites.
+```

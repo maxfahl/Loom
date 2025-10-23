@@ -1,0 +1,28 @@
+{
+  "name": "api-contract-validator",
+  "version": "1.0.0",
+  "description": "Validates API contracts against actual service responses.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "validate": "ts-node src/index.ts"
+  },
+  "keywords": [
+    "api",
+    "contract",
+    "validation",
+    "distributed-systems"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "axios": "^1.7.2",
+    "commander": "^12.1.0",
+    "openapi-sampler": "^1.2.0",
+    "swagger-parser": "^10.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3"
+  }
+}

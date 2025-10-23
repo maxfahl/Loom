@@ -17,6 +17,9 @@
 
 **AI-only development framework with autonomous agents, TDD workflows, and epic-based feature tracking.**
 
+</div>
+
+[![Version](https://img.shields.io/badge/version-0.3-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Built for Claude Code](https://img.shields.io/badge/Built%20for-Claude%20Code-5A67D8)](https://claude.ai/code)
@@ -426,10 +429,12 @@ project/
 │       ├── INDEX.md           # GLOBAL: Project-wide documentation index
 │       └── features/
 │           └── [feature-name]/  # All docs for a specific feature live here
-│               ├── PRD.md
-│               ├── FEATURE_SPEC.md
-│               ├── TECHNICAL_DESIGN.md
-│               ├── ARCHITECTURE.md
+│               ├── PRD.md               # FEATURE-SPECIFIC
+│               ├── FEATURE_SPEC.md      # FEATURE-SPECIFIC
+│               ├── TECHNICAL_DESIGN.md  # FEATURE-SPECIFIC
+│               ├── ARCHITECTURE.md      # FEATURE-SPECIFIC
+│               ├── DESIGN_SYSTEM.md     # FEATURE-SPECIFIC
+│               ├── DEVELOPMENT_PLAN.md  # FEATURE-SPECIFIC
 │               └── epics/
 │                   └── [epic-name]/
 │                       ├── DESCRIPTION.md

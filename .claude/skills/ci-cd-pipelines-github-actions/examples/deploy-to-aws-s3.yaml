@@ -1,0 +1,44 @@
+name: Deploy to AWS S3
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1 # Customize your AWS region
+  S3_BUCKET_NAME: your-static-site-bucket # Customize your S3 bucket name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production # Use environments for protection rules and secrets
+    permissions:
+      contents: read
+      id-token: write # Required for OIDC authentication
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@b4ffde65f46336ab88eb5afa53bb794d44cc353d # Pin to specific SHA
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4 # Pin to specific version
+      with:
+        role-to-assume: arn:aws:iam::123456789012:role/github-actions-oidc-role # Customize your IAM role ARN
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Download build artifacts (if built in a previous job)
+      uses: actions/download-artifact@v4 # Pin to specific version
+      with:
+        name: build-artifacts
+        path: ./dist # Adjust to where your artifacts should be downloaded
+
+    - name: Deploy static site to S3
+      run: |
+        aws s3 sync ./dist s3://${{ env.S3_BUCKET_NAME }} --delete
+        aws cloudfront create-invalidation --distribution-id YOUR_CLOUDFRONT_DISTRIBUTION_ID --paths "/*" # Optional: Invalidate CloudFront cache
+      env:
+        # Ensure your build output is in the 'dist/' directory or adjust path
+        # Replace YOUR_CLOUDFRONT_DISTRIBUTION_ID with your actual CloudFront Distribution ID
+        # This step assumes AWS CLI is available on the runner, which it is on ubuntu-latest

@@ -806,3 +806,14 @@ Feature complete?
 - **Stop at feature completion** - don't start new features without user
 - **Use vibe_check before major decisions** - prevent cascading errors
 - **Parallel execution is key** - spawn multiple agents simultaneously
+
+## Update status.xml When Done
+
+**After completing your assigned work, update status.xml**:
+
+1. Move completed task from `<current-task>` to `<completed-tasks>`
+2. Add commit hash to completed task
+3. Move next task from `<whats-next>` to `<current-task>`
+4. Update `<whats-next>` with subsequent task
+5. Update `<last-updated>` timestamp
+6. Add note to `<notes>` if made important decisions
