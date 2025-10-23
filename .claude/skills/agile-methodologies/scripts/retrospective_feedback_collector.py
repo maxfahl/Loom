@@ -90,7 +90,7 @@ def main():
     )
     parser.add_argument('retro_name', help='The name of the retrospective (e.g., "Sprint 5 Retro").')
     parser.add_argument('-o', '--output-file', default=None,
-                        help='Path to the output markdown file. Defaults to 'retro_feedback_<retro_name_slug>.md'.')
+                        help="Path to the output markdown file. Defaults to 'retro_feedback_<retro_name_slug>.md'.")
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='Enable verbose output.')
 

@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [0.4] - 2025-10-23
+
+### Added
+- **CLAUDE.md Template System**: Added `prompts/reference/claude-md-template.md` as the single source of truth for CLAUDE.md content, with marker-based section management (`<!-- LOOM_FRAMEWORK_START -->` / `<!-- LOOM_FRAMEWORK_END -->`).
+- **Automated CLAUDE.md Deployment**: Created `scripts/deploy-claude-md.sh` to intelligently deploy or update CLAUDE.md in user projects with marker-based section replacement, preserving user customizations.
+- **Reference Documentation**: Added `prompts/setup/5-claude-md.md` as reference documentation for the CLAUDE.md template architecture.
+
+### Changed
+- **Streamlined CLAUDE.md Content**: CLAUDE.md now focuses exclusively on:
+  - What Loom is (concise overview)
+  - Core components (agents, commands, epics/stories, YOLO mode)
+  - How Claude Code should work in Loom projects
+  - Folder structure with descriptions
+  - Clear guardrails for commands/agents (single responsibility, no deviation)
+- **Path Resolution**: Both `setup.md` and `update-setup.md` now explicitly resolve the Loom root path from the prompt file location provided by the user, eliminating ambiguity in script paths.
+- **Absolute Path Handling**: Updated `scripts/deploy-claude-md.sh` invocations to use `$(pwd)` to pass the absolute path to the target project directory.
+- **Marker-Based Updates**: Existing CLAUDE.md files with Loom markers are now updated non-destructively, preserving user customizations outside markers. Custom CLAUDE.md files without markers trigger creation of separate LOOM_FRAMEWORK.md file.
+
+### Removed
+- **Redundant Helper Script**: Removed `scripts/get-loom-root.sh` as path resolution is now handled directly by Claude Code deriving the directory from the prompt file path.
+
+---
+
 ## [0.3] - 2025-10-23
 
 ### Added

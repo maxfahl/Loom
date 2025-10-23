@@ -63,16 +63,22 @@ def extract_ngmodule_info(filepath):
         print(f"{Colors.FAIL}Error: File {filepath} does not appear to be an NgModule.{Colors.ENDC}")
         sys.exit(1)
 
-    declarations = re.search(r'declarations:\s*\[([^\]]*)(\s*,[^\].*)*\]', content, re.DOTALL)
-    imports = re.search(r'imports:\s*\[([^\]]*)(\s*,[^\].*)*\]', content, re.DOTALL)
-    exports = re.search(r'exports:\s*\[([^\]]*)(\s*,[^\].*)*\]', content, re.DOTALL)
-    providers = re.search(r'providers:\s*\[([^\]]*)(\s*,[^\].*)*\]', content, re.DOTALL)
+    # Use non-greedy matching to find everything between the brackets
+    declarations = re.search(r'declarations:\s*\[(.*?)\]', content, re.DOTALL)
+    imports = re.search(r'imports:\s*\[(.*?)\]', content, re.DOTALL)
+    exports = re.search(r'exports:\s*\[(.*?)\]', content, re.DOTALL)
+    providers = re.search(r'providers:\s*\[(.*?)\]', content, re.DOTALL)
+
+    def clean_list(match_group):
+        if not match_group: return []
+        # Split by comma, strip whitespace and newlines, filter out empty strings
+        return [item.strip() for item in match_group.group(1).split(',') if item.strip()]
 
     info = {
-        'declarations': [d.strip() for d in declarations.group(1).split(',') if d.strip()] if declarations else [],
-        'imports': [i.strip() for i in imports.group(1).split(',') if i.strip()] if imports else [],
-        'exports': [e.strip() for e in exports.group(1).split(',') if e.strip()] if exports else [],
-        'providers': [p.strip() for p in providers.group(1).split(',') if p.strip()] if providers else []
+        'declarations': clean_list(declarations),
+        'imports': clean_list(imports),
+        'exports': clean_list(exports),
+        'providers': clean_list(providers)
     }
     return info, content
 

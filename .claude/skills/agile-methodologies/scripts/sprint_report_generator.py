@@ -11,17 +11,6 @@ def generate_sprint_report(csv_file: str, sprint_name: str, output_file: str,
                            assignee_col: str = 'Assignee', verbose: bool = False):
     """
     Generates a markdown-formatted sprint report from a CSV export of a task management tool.
-
-    Args:
-        csv_file (str): Path to the input CSV file.
-        sprint_name (str): The name of the sprint for the report.
-        output_file (str): Path to the output markdown file.
-        id_col (str): Name of the column containing issue IDs.
-        summary_col (str): Name of the column containing issue summaries.
-        status_col (str): Name of the column containing issue statuses.
-        story_points_col (str): Name of the column containing story points.
-        assignee_col (str): Name of the column containing assignee names.
-        verbose (bool): If True, print detailed processing messages.
     """
     if verbose:
         print(f"Generating sprint report for '{sprint_name}' from '{csv_file}'...")
@@ -48,7 +37,6 @@ def generate_sprint_report(csv_file: str, sprint_name: str, output_file: str,
         print(f"Available columns: {', '.join(df.columns)}")
         return
 
-    # Fill NaN story points with 0 for calculations
     if story_points_col in df.columns:
         df[story_points_col] = pd.to_numeric(df[story_points_col], errors='coerce').fillna(0)
 
@@ -64,85 +52,44 @@ def generate_sprint_report(csv_file: str, sprint_name: str, output_file: str,
 
     velocity = completed_issues[story_points_col].sum() if story_points_col else 'N/A'
 
-    report_content = f"# Sprint Report: {sprint_name}
-
-"
-    report_content += f"**Generated On:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-
-"
-    report_content += "## Summary
-
-"
-    report_content += f"- Total Issues: **{total_issues}**
-"
-    report_content += f"- Completed Issues: **{completed_count}**
-"
-    report_content += f"- In Progress Issues: **{in_progress_count}**
-"
-    report_content += f"- Blocked Issues: **{blocked_count}**
-"
-    report_content += f"- Remaining Issues: **{remaining_count}**
-"
+    # --- Report Generation (Safe Method) ---
+    report_lines = []
+    report_lines.append(f"# Sprint Report: {sprint_name}")
+    report_lines.append("")
+    report_lines.append(f"**Generated On:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    report_lines.append("")
+    report_lines.append("## Summary")
+    report_lines.append("")
+    report_lines.append(f"- Total Issues: **{total_issues}**")
+    report_lines.append(f"- Completed Issues: **{completed_count}**")
+    report_lines.append(f"- In Progress Issues: **{in_progress_count}**")
+    report_lines.append(f"- Blocked Issues: **{blocked_count}**")
+    report_lines.append(f"- Remaining Issues: **{remaining_count}**")
     if story_points_col:
-        report_content += f"- Achieved Velocity (Story Points): **{velocity}**
+        report_lines.append(f"- Achieved Velocity (Story Points): **{velocity}**")
+    report_lines.append("")
 
-"
-    else:
-        report_content += "
-"
-
-    if not completed_issues.empty:
-        report_content += "## Completed Issues
-
-"
-        for _, row in completed_issues.iterrows():
+    def append_issues_section(title, dataframe):
+        if dataframe.empty:
+            return
+        report_lines.append(f"## {title}")
+        report_lines.append("")
+        for _, row in dataframe.iterrows():
             sp = f" ({int(row[story_points_col])} SP)" if story_points_col else ""
             assignee = f" - {row[assignee_col]}" if assignee_col and pd.notna(row[assignee_col]) else ""
-            report_content += f"- [{row[id_col]}] {row[summary_col]}{sp}{assignee}
-"
-        report_content += "
-"
+            status_text = f" (Status: {row[status_col]})" if title == "In Progress Issues" else ""
+            report_lines.append(f"- [{row[id_col]}] {row[summary_col]}{status_text}{sp}{assignee}")
+        report_lines.append("")
 
-    if not in_progress_issues.empty:
-        report_content += "## In Progress Issues
+    append_issues_section("Completed Issues", completed_issues)
+    append_issues_section("In Progress Issues", in_progress_issues)
+    append_issues_section("Blocked Issues", blocked_issues)
 
-"
-        for _, row in in_progress_issues.iterrows():
-            sp = f" ({int(row[story_points_col])} SP)" if story_points_col else ""
-            assignee = f" - {row[assignee_col]}" if assignee_col and pd.notna(row[assignee_col]) else ""
-            report_content += f"- [{row[id_col]}] {row[summary_col]} (Status: {row[status_col]}){sp}{assignee}
-"
-        report_content += "
-"
+    remaining_issues_df = df[~df[status_col].isin(['Done', 'Closed', 'Resolved', 'In Progress', 'In Review', 'Testing', 'Open']) &
+                             ~df[status_col].str.contains('Blocked', case=False, na=False)]
+    append_issues_section("Remaining Issues (Not Started / Backlog)", remaining_issues_df)
 
-    if not blocked_issues.empty:
-        report_content += "## Blocked Issues
-
-"
-        for _, row in blocked_issues.iterrows():
-            sp = f" ({int(row[story_points_col])} SP)" if story_points_col else ""
-            assignee = f" - {row[assignee_col]}" if assignee_col and pd.notna(row[assignee_col]) else ""
-            report_content += f"- [{row[id_col]}] {row[summary_col]}{sp}{assignee}
-"
-        report_content += "
-"
-
-    if remaining_count > 0:
-        # Assuming remaining issues are those not completed, in progress, or blocked
-        remaining_issues_df = df[~df[status_col].isin(['Done', 'Closed', 'Resolved', 'In Progress', 'In Review', 'Testing', 'Open']) &
-                                 ~df[status_col].str.contains('Blocked', case=False, na=False)]
-        if not remaining_issues_df.empty:
-            report_content += "## Remaining Issues (Not Started / Backlog)
-
-"
-            for _, row in remaining_issues_df.iterrows():
-                sp = f" ({int(row[story_points_col])} SP)" if story_points_col else ""
-                assignee = f" - {row[assignee_col]}" if assignee_col and pd.notna(row[assignee_col]) else ""
-                report_content += f"- [{row[id_col]}] {row[summary_col]}{sp}{assignee}
-"
-            report_content += "
-"
-
+    report_content = "\n".join(report_lines)
 
     try:
         with open(output_file, 'w') as f:
@@ -168,17 +115,16 @@ def main():
     parser.add_argument('--status-col', default='Status',
                         help='Name of the column containing issue statuses (default: "Status").')
     parser.add_argument('--story-points-col', default='Story points',
-                        help='Name of the column containing story points (default: "Story points"). '
+                        help='Name of the column containing story points (default: "Story points"). ' 
                              'Set to empty string "" to exclude story points from calculations and report.')
     parser.add_argument('--assignee-col', default='Assignee',
-                        help='Name of the column containing assignee names (default: "Assignee"). '
+                        help='Name of the column containing assignee names (default: "Assignee"). ' 
                              'Set to empty string "" to exclude assignees from the report.')
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='Enable verbose output.')
 
     args = parser.parse_args()
 
-    # Check for pandas installation
     try:
         import pandas as pd
     except ImportError:

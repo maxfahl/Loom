@@ -1,0 +1,77 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, tap, map } from 'rxjs/operators';
+import { I__RESOURCE_PASCAL_CASE__, ICreate__RESOURCE_PASCAL_CASE__, IUpdate__RESOURCE_PASCAL_CASE__ } from './__RESOURCE_KEBAB_CASE__.interface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class __RESOURCE_PASCAL_CASE__Service {
+  private apiUrl = '/api/__RESOURCE_KEBAB_CASE__'; // Configure your API base URL here
+  private cache = new Map<string, I__RESOURCE_PASCAL_CASE__[] | I__RESOURCE_PASCAL_CASE__>();
+
+  constructor(private http: HttpClient) { }
+
+  private handleError(error: any): Observable<never> {
+    console.error('API Error:', error);
+    return throwError(() => new Error(error.message || 'Server error'));
+  }
+
+  getAll(forceRefresh: boolean = false): Observable<I__RESOURCE_PASCAL_CASE__[]> {
+    const cacheKey = `all-__RESOURCE_KEBAB_CASE__`;
+    if (!forceRefresh && this.cache.has(cacheKey)) {
+      return of(this.cache.get(cacheKey) as I__RESOURCE_PASCAL_CASE__[]);
+    }
+    return this.http.get<I__RESOURCE_PASCAL_CASE__[]>(this.apiUrl).pipe(
+      tap(data => this.cache.set(cacheKey, data)),
+      catchError(this.handleError)
+    );
+  }
+
+  getById(id: string, forceRefresh: boolean = false): Observable<I__RESOURCE_PASCAL_CASE__> {
+    const cacheKey = `__RESOURCE_KEBAB_CASE__-${id}`;
+    if (!forceRefresh && this.cache.has(cacheKey)) {
+      return of(this.cache.get(cacheKey) as I__RESOURCE_PASCAL_CASE__);
+    }
+    return this.http.get<I__RESOURCE_PASCAL_CASE__>(`${this.apiUrl}/${id}`).pipe(
+      tap(data => this.cache.set(cacheKey, data)),
+      catchError(this.handleError)
+    );
+  }
+
+  create(data: ICreate__RESOURCE_PASCAL_CASE__): Observable<I__RESOURCE_PASCAL_CASE__> {
+    return this.http.post<I__RESOURCE_PASCAL_CASE__>(this.apiUrl, data).pipe(
+      tap(() => this.clearAllCache()),
+      catchError(this.handleError)
+    );
+  }
+
+  update(id: string, data: IUpdate__RESOURCE_PASCAL_CASE__): Observable<I__RESOURCE_PASCAL_CASE__> {
+    return this.http.put<I__RESOURCE_PASCAL_CASE__>(`${this.apiUrl}/${id}`, data).pipe(
+      tap(() => {
+        this.clearCache(`__RESOURCE_KEBAB_CASE__-${id}`);
+        this.clearAllCache();
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  delete(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => {
+        this.clearCache(`__RESOURCE_KEBAB_CASE__-${id}`);
+        this.clearAllCache();
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  private clearCache(key: string): void {
+    this.cache.delete(key);
+  }
+
+  private clearAllCache(): void {
+    this.cache.clear();
+  }
+}

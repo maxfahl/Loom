@@ -19,7 +19,7 @@
 
 </div>
 
-[![Version](https://img.shields.io/badge/version-0.3-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.4-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Built for Claude Code](https://img.shields.io/badge/Built%20for-Claude%20Code-5A67D8)](https://claude.ai/code)
@@ -57,7 +57,7 @@ The epic/story structure provides granularity without rigidity. YOLO mode provid
 
 ### 1. New Project Setup (Greenfield or Brownfield)
 
-From the root directory of your new or existing project, give your AI coding agent this prompt (you will need to use the absolute path to the Loom framework repository):
+From the root directory of your new or existing project, run the prompt below, make sure to change "/path/to/loom" to the absolute path of the Loom framework repository on your computer.
 
 ```
 # Run this from your project's directory
@@ -70,7 +70,7 @@ The agent will autonomously analyze your project, generate the necessary documen
 
 ### 2. Update an Existing Loom Setup
 
-From the root directory of your project that already uses Loom, run the `update-setup.md` prompt:
+From the root directory of your project that already uses Loom, run the prompt below, make sure to change "/path/to/loom" to the absolute path of the Loom framework repository on your computer.
 
 ```
 # Run this from your project's directory
@@ -101,7 +101,6 @@ This will intelligently synchronize all agents and commands, and then generate o
 - **codebase-analyzer** - Autonomously analyzes brownfield projects.
 - **project-scaffolder** - Creates standard Loom directory structures.
 - **structure-validator** - Non-destructively updates the structure of existing files.
-
 
 ### 16+ Slash Commands
 
