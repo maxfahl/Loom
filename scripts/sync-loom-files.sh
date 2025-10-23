@@ -24,6 +24,7 @@ SYNC_ITEMS=(
     ".claude/agents:.claude/agents"
     ".claude/commands:.claude/commands"
     ".claude/skills:.claude/skills"
+    "prompts/templates:prompts/templates"
 )
 
 # Colors for output
@@ -146,6 +147,32 @@ echo ""
 for item in "${SYNC_ITEMS[@]}"; do
     sync_item "$item"
 done
+
+# --- Create Project Directories ---
+
+echo -e "${BLUE}Creating project directories...${NC}"
+
+# Create thinking sessions directory
+THINKING_SESSIONS_DIR="$TARGET_DIR/.loom/thinking-sessions"
+if [ ! -d "$THINKING_SESSIONS_DIR" ]; then
+    echo -e "  ${GREEN}CREATE${NC}:  .loom/thinking-sessions/"
+    if [ "$DRY_RUN" = "false" ]; then
+        mkdir -p "$THINKING_SESSIONS_DIR"
+    fi
+else
+    echo -e "  SKIP:    .loom/thinking-sessions/ (already exists)"
+fi
+
+# Create retrospectives directory
+RETROSPECTIVES_DIR="$TARGET_DIR/.loom/retrospectives"
+if [ ! -d "$RETROSPECTIVES_DIR" ]; then
+    echo -e "  ${GREEN}CREATE${NC}:  .loom/retrospectives/"
+    if [ "$DRY_RUN" = "false" ]; then
+        mkdir -p "$RETROSPECTIVES_DIR"
+    fi
+else
+    echo -e "  SKIP:    .loom/retrospectives/ (already exists)"
+fi
 
 echo ""
 echo -e "${GREEN}✅ Synchronization complete.${NC}"

@@ -4,6 +4,117 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.4.0] - 2025-10-23
+
+### Added - Automatic Epic Retrospectives
+
+**New Agent:**
+
+- `epic-reviewer` - Analyzes completed epics and generates technical retrospectives
+  - **Epic Analysis**: Loads all story files, calculates velocity metrics (completion rate, cycle time, story points)
+  - **Pattern Recognition**: Identifies recurring blockers, technical debt themes, course corrections, estimation accuracy
+  - **Technical Learning Extraction**: Documents architecture decisions, gotchas, best practices, anti-patterns
+  - **Readiness Validation**: Three technical questions (testing complete, codebase stable, blockers resolved)
+  - **Retrospective Reporting**: Generates comprehensive reports in `.loom/retrospectives/epic-[N]-retro-[date].md`
+  - **Status Integration**: Updates status.xml with retrospective summary and action items
+
+**New Template:**
+
+- `prompts/templates/retrospective-template.md` - Epic retrospective report template
+  - Epic summary with delivery and technical metrics
+  - Story analysis (effective patterns, improvement opportunities, course corrections)
+  - Technical learnings (architecture decisions, gotchas, best practices, technical debt)
+  - Technical validation (testing status, codebase stability, blocker resolution)
+  - Next epic preparation (dependencies, risks, setup requirements)
+  - Action items (process improvements, technical debt priorities, documentation needs)
+
+**Coordinator Integration:**
+
+- **Phase 10: Epic Retrospective** - Automatic trigger when all epic stories complete
+  - Checks for existing retrospective (skip if already exists)
+  - Delegates to epic-reviewer agent with complete epic context
+  - Waits for retrospective completion
+  - Extracts action items from report (P0/P1/P2 priorities)
+  - Updates status.xml with key insights
+  - Proceeds to Breakpoint D check (EPIC mode continuation logic)
+- **Phase 9 Modified**: "All epic stories done" now triggers Phase 10 BEFORE Breakpoint D check
+- **Responsibilities Updated**: Added retrospective triggering, insight extraction, next epic planning integration
+- **AML Memory Updated**: Added "Retrospective Integration Patterns" focus area
+
+**Deployment:**
+
+- `.loom/retrospectives/` directory created automatically during project setup/update
+- Template deployed via `sync-loom-files.sh` to user projects
+
+**Integration Points:**
+
+- **coordinator → epic-reviewer**: Auto-delegates when epic completes (no manual command needed)
+- **Retrospective insights → Next epic planning**: Coordinator reads status.xml notes for velocity adjustments, risk identification, process improvements
+- **Action items → Technical debt tracking**: P0/P1/P2 items captured for prioritization in future stories
+- **Learnings → Estimation**: Velocity metrics and pattern analysis improve story estimates in next epic
+
+**Why This Matters:**
+Continuous improvement requires systematic learning from completed work. Loom now automatically analyzes each epic to extract velocity patterns, identify technical debt, validate readiness, and prepare for the next epic. This closes the learning loop: plan → execute → analyze → improve. Each epic becomes an experiment, and retrospectives capture what worked for replication and what failed for avoidance.
+
+**Loom Voice Transformation:**
+Retrospectives use objective, data-driven analysis rather than subjective team feedback. No "what went well" or "celebrate wins" - instead: "effective patterns identified" with specific story citations, "improvement opportunities" with root cause analysis, "technical learnings" with concrete architectural decisions. Engineering-focused, quantifiable, actionable.
+
+### Changed
+
+- Agent count: 45 → 46
+- coordinator agent: Added Phase 10 (Epic Retrospective), updated Phase 9 EPIC mode logic, added responsibilities
+- `.claude/AGENTS.md`: Added epic-reviewer to "Thinking & Ideation" category (1 → 2 agents)
+
+---
+
+## [1.3.0] - 2025-10-23
+
+### Added - Thinking Integration
+
+**New Command:**
+
+- `/think` - Structured thinking sessions for ideation, problem-solving, and analysis
+  - **Brainstorming mode**: 36 techniques across 7 categories (collaborative, creative, deep, introspective, structured, theatrical, wild)
+  - **Elicitation mode**: 38 methods across 14 categories (advanced, core, risk, structural, optimization, and more)
+  - **Hybrid mode**: Combines divergent thinking (brainstorming) and convergent analysis (elicitation)
+  - Generates artifacts in `.loom/thinking-sessions/YYYY-MM-DD-topic.md`
+
+**New Agent:**
+
+- `thought-partner` - Facilitates structured thinking sessions
+  - Context-aware technique/method selection based on problem type, team energy, time available
+  - Interactive facilitation using "yes, and..." methodology
+  - Energy monitoring with check-ins every 15-20 minutes
+  - Session management: convergent phase, action planning, artifact generation
+  - Integrates with story creation and status.xml updates
+
+**New Reference Libraries:**
+
+- `prompts/templates/brainstorming-techniques.md` - Complete library of 36 techniques with facilitation prompts, use cases, energy levels, duration estimates
+- `prompts/templates/elicitation-methods.md` - Complete library of 38 methods with application guides, output patterns, best-for scenarios
+- `prompts/templates/thinking-session-template.md` - Session artifact template with metadata, outputs, insights, action plan
+
+**Integration Points:**
+
+- `/think` → `/create-story`: Create stories directly from prioritized brainstorming ideas
+- `/think` → `/plan`: Use thinking session insights to improve feature breakdown
+- `/think` → `/correct-course`: Analyze situation before making course corrections
+- `/think` → `status.xml`: Automatically updates with session insights when relevant to current epic
+
+**Why This Matters:**
+Software development requires structured thinking before execution. Loom now supports ideation and analysis phases with the same rigor as implementation phases. Developers can systematically explore solutions, challenge assumptions, and refine designs before committing to code. Thinking sessions prevent premature commitment to suboptimal solutions and reduce rework from inadequate planning.
+
+**Voice & Language:**
+All techniques and methods use Loom's engineering-focused voice: technical mechanisms, concrete outcomes, specific applicability conditions. No marketing hype or superlatives - excitement comes from demonstrated capabilities.
+
+### Changed
+
+- Command count: 17 → 18
+- Agent count: 44 → 45
+- Added "Thinking & Ideation" category to agent directory
+
+---
+
 ## [1.2.1] - 2025-01-23
 
 ### Fixed

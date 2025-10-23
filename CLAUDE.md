@@ -26,6 +26,7 @@ loomify.md        -> Unified entry point (auto-detects setup vs update mode)
 ## 3. Core Rule: Maintain Cross-References
 
 When you change ANY file:
+
 - Search ALL files for references to it
 - Analyze the surrounding instructions/context around each reference
 - Update those references AND their surrounding context to reflect the change
@@ -51,7 +52,7 @@ Entry Point:
 └── loomify.md -> prompts/setup/* + prompts/update-setup/* (auto-detects mode)
 
 Templates (EDIT DIRECTLY):
-├── .claude/agents/*.md (44 agent templates)
+├── .claude/agents/*.md (46 agent templates)
 ├── .claude/commands/*.md (17 command templates)
 ├── .claude/AGENTS.md (agent directory)
 └── .claude/skills/*.md (Claude Skills packages)
@@ -82,7 +83,7 @@ Scripts:
    - Include: expertise, use cases, delegation pattern, model
 
 3. **Update counts everywhere**:
-   - Search for "44 agents" and update to new count throughout codebase
+   - Search for "46 agents" and update to new count throughout codebase
    - Update CHANGELOG.md
 
 ### Edit Existing Agent
@@ -106,7 +107,7 @@ Scripts:
      - "Examples" section
 
 2. **Update counts everywhere**:
-   - Search for "17 commands" and update to new count
+   - Search for "18 commands" and update to new count
    - Update CHANGELOG.md
 
 ### Edit Existing Command
@@ -118,11 +119,13 @@ Scripts:
 ### Command Naming and Frontmatter Guidelines
 
 **Naming Convention**:
+
 - Filename without `.md` becomes command name: `optimize.md` → `/optimize`
 - Use lowercase and hyphens only
 - No spaces, underscores, or special characters
 
 **YAML Frontmatter Fields** (all optional):
+
 ```yaml
 ---
 description: Brief command summary (required for programmatic access)
@@ -132,6 +135,7 @@ argument-hint: [arg1] [arg2] (guide for auto-completion)
 ```
 
 **Common Patterns**:
+
 - Simple prompt commands: No agent delegation, direct instructions
 - Agent delegation commands: Use Task tool with subagent_type
 - Multi-step workflow commands: Combine bash execution and file operations
@@ -150,7 +154,7 @@ Edit prompts in `prompts/setup/`, `prompts/update-setup/`, `prompts/templates/` 
 
 ## 7. Before Committing
 
-- Verify counts (agents: 44, commands: 17)
+- Verify counts (agents: 46, commands: 18)
 - Test that templates work correctly
 - Update CHANGELOG.md and version
 

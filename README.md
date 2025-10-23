@@ -17,7 +17,7 @@
 
 **Meta-framework for autonomous AI development with Claude Code**
 
-[![Version](https://img.shields.io/badge/version-1.2.1-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.4.0-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 </div>
@@ -30,8 +30,8 @@ Loom is a meta-framework that scaffolds AI development environments. It's not co
 
 Run one unified setup prompt in your project, and Loom generates:
 
-- **44 specialized AI agents** (coordinator, full-stack-developer, test-automator, code-reviewer, etc.)
-- **17 workflow commands** (/dev, /commit, /review, /test, /create-feature, etc.)
+- **46 specialized AI agents** (coordinator, full-stack-developer, test-automator, code-reviewer, epic-reviewer, etc.)
+- **18 workflow commands** (/dev, /commit, /review, /test, /think, /create-feature, etc.)
 - **Complete documentation system** (PRD, technical specs, architecture, tracking)
 - **Feature tracking framework** (epics, stories, status.xml)
 
@@ -366,6 +366,38 @@ Feature: User Authentication
     ├── Story 3.2: 2FA implementation
     └── Story 3.3: Audit logging
 ```
+
+### Automatic Epic Retrospectives
+
+When an epic completes, the **coordinator** automatically triggers the **epic-reviewer** agent to analyze the work:
+
+**Analyzes:**
+
+- Velocity metrics (cycle time, completion rate, story points)
+- Pattern recognition (recurring blockers, technical debt themes)
+- Technical learnings (architecture decisions, gotchas, best practices)
+- Estimation accuracy (over/under estimated story types)
+
+**Validates Readiness:**
+
+- Testing completeness (regression tests run?)
+- Codebase stability (maintainable state?)
+- Blocker resolution (issues cleared for next epic?)
+
+**Generates:**
+
+- Comprehensive report in `.loom/retrospectives/epic-N-retro-YYYY-MM-DD.md`
+- Action items with priorities (P0/P1/P2)
+- Next epic preparation checklist (dependencies, risks, setup)
+
+**Feeds Forward:**
+
+- Updates status.xml with key insights
+- Coordinator uses learnings for next epic planning
+- Velocity data improves story estimates
+- Identified patterns guide risk mitigation
+
+**No manual command needed** - fully automatic learning loop: Plan → Execute → Analyze → Improve.
 
 ---
 
