@@ -73,7 +73,7 @@ From your project directory, run the following command.
 ```bash
 Read and fully understand the prompt in the loomify.md file and execute the workflow.
 
-/path/to/loom/loomify.md
+`/path/to/loom/loomify.md`
 ```
 
 **What happens:**
@@ -166,10 +166,12 @@ AI engineer, API documenter, data engineer, data scientist, documentation expert
 ### MCP Server Integration
 
 **Required (2):**
+
 - **context7** - Documentation lookup and research (used by 84% of agents)
 - **playwright** - Browser automation and testing
 
 **Optional (When Available):**
+
 - **vibe-check** - Enhanced coordinator reflection
 - **github** - GitHub operations
 - **jina** - Web content extraction
