@@ -78,15 +78,96 @@ _For STORY/EPIC/CUSTOM Modes (Autonomous)_:
 
 ## Agent Delegation
 
-**For STORY/EPIC/CUSTOM modes**:
+**For MANUAL mode** (Interactive Development):
+
+```markdown
+# Direct execution - No coordinator agent spawned
+# Work interactively with user on current story
+# Stop at all breakpoints (A, B, C, D)
+# User maintains full control over each step
+```
+
+**For BALANCED mode** (Semi-Autonomous):
+
+```markdown
+# Direct execution - No coordinator agent spawned initially
+# Work semi-autonomously on story tasks
+# Stop at breakpoints B (before commit) and C (between stories)
+# Balance between autonomy and user control
+```
+
+**For STORY mode** (Complete Single Story):
 
 ```markdown
 Use the Task tool to spawn coordinator agent:
 
 Task(
-subagent_type="coordinator",
-description="Complete [story/epic] following TDD and YOLO configuration",
-prompt="Execute development workflow for [story/epic details]. Follow configured autonomy level and stop at enabled breakpoints. Execute complete TDD cycle with parallel sub-agents."
+  subagent_type="coordinator",
+  description="Complete story [X.Y] with TDD",
+  prompt="Execute development workflow for Story [X.Y].
+
+  YOLO Mode: STORY
+  Breakpoint A (before research): DISABLED - Work through research
+  Breakpoint B (before commit): DISABLED - Auto-commit when ready
+  Breakpoint C (between stories): ENABLED - STOP after this story
+  Breakpoint D (between epics): N/A - Will stop at C first
+
+  Instructions:
+  1. Execute complete 9-phase TDD workflow for this story
+  2. Work autonomously through all phases
+  3. Auto-commit when appropriate
+  4. STOP and report back after story completion
+  5. Do NOT continue to next story - wait for user"
+)
+```
+
+**For EPIC mode** (CRITICAL - Must enable auto-continuation):
+
+```markdown
+Use the Task tool to spawn coordinator agent:
+
+Task(
+  subagent_type="coordinator",
+  description="Complete entire epic autonomously",
+  prompt="CRITICAL: You are in EPIC MODE with continuous execution.
+
+  Current Epic: [epic number and name]
+  Starting Story: [X.Y]
+  YOLO Mode: EPIC
+  Breakpoint C (between stories): DISABLED - DO NOT STOP
+  Breakpoint D (between epics): [enabled/disabled from status.xml]
+
+  CRITICAL INSTRUCTIONS FOR EPIC MODE:
+  1. Execute complete 9-phase workflow for current story
+  2. After completing each story, check if more stories exist in epic
+  3. If more stories exist: IMMEDIATELY spawn another coordinator for next story
+  4. DO NOT return control between stories
+  5. DO NOT ask for user confirmation
+  6. Continue autonomously until entire epic is complete
+  7. Only stop at epic boundary if Breakpoint D is enabled
+
+  Remember: You MUST self-spawn for the next story. This is EPIC mode - full autonomy within the epic."
+)
+```
+
+**For CUSTOM mode**:
+
+```markdown
+Use the Task tool to spawn coordinator agent:
+
+Task(
+  subagent_type="coordinator",
+  description="Execute custom autonomy workflow",
+  prompt="Execute development workflow with custom autonomy settings.
+
+  Custom Breakpoints:
+  - A (before research): [enabled/disabled]
+  - B (before commit): [enabled/disabled]
+  - C (between stories): [enabled/disabled]
+  - D (between epics): [enabled/disabled]
+
+  Follow the specific breakpoint configuration and continue/stop accordingly.
+  If C is disabled and in an epic, self-spawn for next story."
 )
 ```
 

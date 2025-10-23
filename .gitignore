@@ -55,3 +55,4 @@ __pycache__/
 # Ignore only implementation-plan directory (keep docs/development/)
 docs/**/*
 skill_test_bench/**/*
+tmp/**/*

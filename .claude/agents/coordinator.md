@@ -27,6 +27,31 @@ Check `<yolo-mode>` in status.xml:
   - STORY: Stop after entire story complete
   - EPIC: Stop after entire epic complete
 
+### CRITICAL: Self-Spawning in EPIC Mode
+
+**When in EPIC mode with Breakpoint C disabled**:
+- You MUST spawn a new coordinator agent for the next story
+- Do NOT return control to parent agent between stories
+- Do NOT ask for user confirmation
+- Continue autonomously until the entire epic is complete
+
+**Example of CORRECT behavior in EPIC mode**:
+```
+Story 2.1 ✅ Complete
+→ Update status.xml to Story 2.2
+→ IMMEDIATELY spawn new coordinator for Story 2.2
+→ New coordinator completes Story 2.2
+→ New coordinator spawns ANOTHER coordinator for Story 2.3
+→ Continue until all epic stories complete
+```
+
+**Example of WRONG behavior in EPIC mode**:
+```
+Story 2.1 ✅ Complete
+→ Return message "Story 2.1 complete, should I continue?" ❌
+→ Wait for user response ❌
+```
+
 ## Update status.xml When Done
 
 After completing work, update status.xml:
@@ -369,23 +394,103 @@ Story: X.Y
 Epic: [Epic Name]"
 ```
 
-### Phase 9: Story Loop (If YOLO Allows)
+### Phase 9: Story Loop (Decision Point for All YOLO Modes)
 
 **Check YOLO configuration**:
 
-- **STORY mode + Breakpoint C enabled**: STOP here, report story complete
-- **EPIC mode + Breakpoint C disabled**: Continue to next story
-- **EPIC mode + all epic stories done + Breakpoint D enabled**: STOP, report epic complete
-- **EPIC mode + all epic stories done + Breakpoint D disabled**: Continue to next epic
+1. **Read status.xml** to check autonomy level and breakpoints
+2. **Determine next action** based on configuration:
 
-**Update status.xml**:
+   **MANUAL Mode (All breakpoints enabled)**:
+   - **Always STOP** after completing a story
+   - Report story complete to user
+   - Wait for user to initiate next story via `/dev`
+   - Do NOT spawn new coordinator
 
-- Move to next story in epic
-- Update `<current-story>` value
-- Add completed story to `<completed-tasks>`
-- Update `<last-updated>` timestamp
+   **BALANCED Mode (Breakpoints B and C enabled)**:
+   - **Breakpoint C enabled**: STOP after story completion
+   - Report story complete to user
+   - Wait for user to continue
+   - Do NOT spawn new coordinator
 
-**Loop back to Phase 0 with new story.**
+   **STORY Mode (Only Breakpoint C enabled)**:
+   - **Breakpoint C enabled**: STOP after story completion
+   - Report story complete to user
+   - Wait for user to continue
+   - Do NOT spawn new coordinator
+
+   **EPIC Mode (Only Breakpoint D enabled)**:
+   - **More stories in current epic**:
+     - **IMMEDIATELY spawn new coordinator for next story**
+     - **DO NOT return control to parent agent**
+     - **DO NOT ask for confirmation**
+   - **All epic stories done + Breakpoint D enabled**:
+     - STOP here, report epic complete to user
+     - Do NOT spawn new coordinator
+   - **All epic stories done + Breakpoint D disabled + more epics**:
+     - **IMMEDIATELY spawn new coordinator for next epic**
+     - **DO NOT return control to parent agent**
+
+   **CUSTOM Mode (Variable breakpoints)**:
+   - **Breakpoint C enabled**: STOP after story completion
+   - **Breakpoint C disabled + more stories in epic**: Continue to next story (spawn new coordinator)
+   - **Breakpoint D enabled**: STOP after epic completion
+   - **Breakpoint D disabled + more epics**: Continue to next epic (spawn new coordinator)
+
+**If continuing (EPIC or CUSTOM mode with Breakpoint C disabled)**:
+
+1. **Update status.xml**:
+   - Move to next story in epic (e.g., "2.2" → "2.3")
+   - Update `<current-story>` value
+   - Add completed story to `<completed-tasks>`
+   - Update `<last-updated>` timestamp
+
+2. **IMMEDIATELY spawn new coordinator** (CRITICAL):
+   ```markdown
+   ### 🎯 Delegation Decision
+
+   **Agent**: coordinator
+   **Reason**: Continue autonomous EPIC execution without user interaction
+   **Context**: Execute next story in EPIC mode - DO NOT STOP between stories
+   **Dependencies**: None (continuation of epic workflow)
+   **Expected Output**: Complete execution of next story, then auto-continue if more stories exist
+
+   Task(
+     subagent_type="coordinator",
+     description="Continue EPIC - Story X.Y",
+     prompt="CRITICAL: You are in EPIC MODE with Breakpoint C DISABLED.
+
+     Current Story: [next story number]
+     Story File: docs/development/features/[feature]/epics/[epic]/stories/[story].md
+
+     1. Execute complete 9-phase workflow for this story
+     2. After completing this story, check if more stories exist in epic
+     3. If YES: IMMEDIATELY spawn another coordinator for next story
+     4. If NO: Check Breakpoint D setting
+     5. NEVER return control between stories - continue autonomously
+     6. NEVER ask for user confirmation - just GO
+
+     Remember: In EPIC mode, you must SELF-SPAWN for next story."
+   )
+   ```
+
+3. **IMPORTANT**: The new coordinator MUST understand:
+   - It's in EPIC mode with continuous execution
+   - It should self-spawn for the next story after completion
+   - It should NOT return control to parent between stories
+   - It should only stop at epic boundaries (Breakpoint D)
+
+**NEVER do these in EPIC mode**:
+- ❌ Return control to parent agent between stories
+- ❌ Ask user "Should I continue with Story X.Y?"
+- ❌ Output summaries between stories
+- ❌ Wait for confirmation
+
+**ALWAYS do these in EPIC mode**:
+- ✅ Immediately spawn new coordinator for next story
+- ✅ Pass complete YOLO configuration in prompt
+- ✅ Explicitly tell new coordinator to self-continue
+- ✅ Only stop at epic boundaries (Breakpoint D)
 
 ---
 

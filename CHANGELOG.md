@@ -4,6 +4,61 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.2.1] - 2025-01-23
+
+### Fixed
+
+- **CRITICAL YOLO Mode Fix**: Resolved issue where agents didn't work fully autonomously in EPIC mode
+  - **Root Cause**: Coordinator agent was stopping between stories and asking for user confirmation
+  - **Solution**: Added explicit self-spawning logic in Phase 9 (Story Loop)
+  - Coordinator now automatically spawns new coordinator for next story in EPIC mode
+  - No more "Should I continue?" prompts between stories
+
+- **Comprehensive YOLO Mode Support**: All 5 YOLO modes now properly handled
+  - **MANUAL**: Stops at all breakpoints (A, B, C, D) - full user control
+  - **BALANCED**: Stops at B (commit) and C (stories) - semi-autonomous
+  - **STORY**: Completes single story autonomously, stops at C
+  - **EPIC**: Completes entire epic autonomously with self-spawning between stories
+  - **CUSTOM**: Respects user-defined breakpoint configuration
+
+### Added
+
+- **Self-Spawning Instructions**: Coordinator agent Phase 9 now includes:
+  - Clear decision tree for all YOLO modes
+  - Explicit self-spawning logic for EPIC and CUSTOM modes
+  - Examples of correct vs wrong behavior
+  - Critical instructions to never return control between stories
+
+- **Test Cases Documentation**: Created comprehensive test scenarios in YOLO-MODE-TEST-CASES.md
+  - 5 test scenarios covering all YOLO modes
+  - Expected vs wrong behavior examples
+  - Validation checklist
+  - Success criteria
+
+### Changed
+
+- **Coordinator Agent** (`.claude/agents/coordinator.md`):
+  - Phase 9 rewritten with comprehensive mode handling
+  - Added "CRITICAL: Self-Spawning in EPIC Mode" section
+  - Clear examples of correct EPIC mode flow
+  - Explicit "NEVER/ALWAYS" instructions for EPIC mode
+
+- **Dev Command** (`.claude/commands/dev.md`):
+  - Added delegation instructions for all 5 YOLO modes
+  - MANUAL/BALANCED modes: Direct execution (no coordinator spawn)
+  - STORY mode: Single coordinator spawn with stop instruction
+  - EPIC mode: Coordinator spawn with self-continuation instructions
+  - CUSTOM mode: Configurable breakpoint handling
+
+### Impact
+
+- EPIC mode now truly autonomous - completes entire epics without user intervention
+- Significant time savings: No manual restarts between stories
+- Clear behavioral expectations for each YOLO mode
+- Proper delegation strategy based on autonomy level
+
+---
+
 ## [1.2] - 2025-01-24
 
 ### Added
