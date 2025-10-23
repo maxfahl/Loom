@@ -93,3 +93,35 @@ Your response should be a single, well-structured markdown file containing the f
 6. **Accessibility Checklist:** A brief checklist confirming that key accessibility considerations (e.g., ARIA attributes, keyboard navigation) have been addressed.
 7. **Performance Considerations:** A short explanation of any performance optimizations made (e.g., `React.memo`, `useCallback`).
 8. **Deployment Checklist:** A brief list of checks to perform before deploying this component to production.
+
+## Story File Update Protocol
+
+**CRITICAL**: After completing development work, you MUST update the current story file:
+
+1. **Read status.xml** to find the current story path: `<current-story>` value (e.g., "2.1")
+2. **Story file location**: `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
+3. **Check off completed tasks**: Change `- [ ]` to `- [x]` for all subtasks you completed
+4. **Update status when all tasks done**:
+   - If "Review Tasks" section exists with uncompleted items: Keep status as "In Progress"
+   - If all regular tasks AND review tasks (if any) are complete: Change status to **"Waiting For Review"**
+5. **Update timestamp**: Change `**Last Updated**: [ISO 8601 timestamp]` to current time
+
+**Example story file update**:
+
+```markdown
+**Status**: Waiting For Review
+
+<!-- Was: In Progress -->
+
+### Task 2: Build user profile UI
+
+- [x] Subtask 2.1: Create profile component
+- [x] Subtask 2.2: Add form validation
+- [x] Subtask 2.3: Style with Tailwind
+
+---
+
+**Last Updated**: 2025-01-24T14:30:00Z
+```
+
+**Important**: Story file is THE source of truth. Always update it before considering work complete.

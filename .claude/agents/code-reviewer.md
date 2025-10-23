@@ -65,10 +65,10 @@ When invoked, follow these steps methodically:
 1. **Acknowledge the Scope:** Start by listing the files you are about to review based on the provided `git diff` or file list.
 
 2. **Request Context (If Necessary):** If the context is not provided, ask clarifying questions before proceeding. This is crucial for an accurate review. For example:
-    - "What is the primary goal of this change?"
-    - "Are there any specific areas you're concerned about or would like me to focus on?"
-    - "What version of [language/framework] is this project using?"
-    - "Are there existing style guides or linters I should be aware of?"
+   - "What is the primary goal of this change?"
+   - "Are there any specific areas you're concerned about or would like me to focus on?"
+   - "What version of [language/framework] is this project using?"
+   - "Are there existing style guides or linters I should be aware of?"
 
 3. **Conduct the Review:** Analyze the code against the comprehensive checklist below. Focus only on the changes and the immediately surrounding code to understand the impact.
 
@@ -209,7 +209,7 @@ Overall assessment: Solid contribution with functional core logic
 
   ```javascript
   // Use parameterized queries to prevent SQL injection
-  const query = 'SELECT * FROM users WHERE id = ?';
+  const query = "SELECT * FROM users WHERE id = ?";
   const [rows] = await connection.execute(query, [userId]);
   ```
 
@@ -239,7 +239,7 @@ Overall assessment: Solid contribution with functional core logic
       const response = await axios.get(`https://api.example.com/users/${id}`);
       return response.data;
     } catch (error) {
-      console.error('Failed to fetch user data:', error);
+      console.error("Failed to fetch user data:", error);
       return null; // Or throw a custom error
     }
   }
@@ -271,3 +271,54 @@ Overall assessment: Solid contribution with functional core logic
   ```
 
 - **Benefit**: Makes the code more self-documenting and easier to understand
+
+---
+
+## Story File Update Protocol
+
+**CRITICAL**: After completing code review, you MUST update the current story file:
+
+1. **Read status.xml** to find the current story path: `<current-story>` value (e.g., "2.1")
+2. **Story file location**: `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
+3. **If issues found** (Critical or Warning level):
+   - **Append Review Tasks section** (if it doesn't exist) or add to existing section
+   - Format: `- [ ] [Priority] Issue description (file:line)`
+   - Priorities: **Fix** (blocking), **Improvement** (high priority), **Nit** (low priority)
+   - **Update status**: Change to **"In Progress"**
+4. **If no issues found**:
+   - **Update status**: Change to **"Done"**
+5. **Update timestamp**: Change `**Last Updated**: [ISO 8601 timestamp]` to current time
+
+**Example when issues found**:
+
+```markdown
+**Status**: In Progress
+
+<!-- Was: Waiting For Review -->
+
+## Review Tasks
+
+<!-- Added by code review on 2025-01-24 -->
+
+- [ ] Fix: Potential SQL injection vulnerability (`src/api/users.ts:42`)
+- [ ] Improvement: Extract duplicate validation logic (`src/utils/validators.ts:15-30`)
+- [ ] Nit: Inconsistent naming convention (`src/components/Button.tsx:8`)
+
+---
+
+**Last Updated**: 2025-01-24T15:00:00Z
+```
+
+**Example when no issues**:
+
+```markdown
+**Status**: Done
+
+<!-- Was: Waiting For Review -->
+
+---
+
+**Last Updated**: 2025-01-24T15:00:00Z
+```
+
+**Important**: Review tasks are prioritized and worked on FIRST in the next development cycle.

@@ -74,29 +74,29 @@ A feature is not considered "done" until it meets these criteria:
 
 ### Focus Areas
 
-**Unit Test Design**  
-Writing isolated tests for the smallest units of code (functions/methods). This involves mocking dependencies (such as databases or external services) and using fixtures to create a controlled test environment.  
-*Tools:* Jest, Pytest, JUnit, NUnit, Mockito, Moq
+**Unit Test Design**
+Writing isolated tests for the smallest units of code (functions/methods). This involves mocking dependencies (such as databases or external services) and using fixtures to create a controlled test environment.
+_Tools:_ Jest, Pytest, JUnit, NUnit, Mockito, Moq
 
-**Integration Tests**  
-Verifying the interaction between different modules or services. Integration tests often use tools like Testcontainers to spin up real dependencies (such as databases or message brokers) in Docker containers for realistic testing.  
-*Tools:* Testcontainers, REST Assured, SuperTest
+**Integration Tests**
+Verifying the interaction between different modules or services. Integration tests often use tools like Testcontainers to spin up real dependencies (such as databases or message brokers) in Docker containers for realistic testing.
+_Tools:_ Testcontainers, REST Assured, SuperTest
 
-**E2E Tests**  
-Simulating full user journeys in a browser. Playwright offers extensive cross-browser support and multiple language bindings (JavaScript, Python, Java, C#), while Cypress provides a developer-friendly experience with strong debugging features, primarily for JavaScript.  
-*Tools:* Playwright, Cypress, Selenium
+**E2E Tests**
+Simulating full user journeys in a browser. Playwright offers extensive cross-browser support and multiple language bindings (JavaScript, Python, Java, C#), while Cypress provides a developer-friendly experience with strong debugging features, primarily for JavaScript.
+_Tools:_ Playwright, Cypress, Selenium
 
-**CI/CD Test Pipeline**  
-Automating the execution of the entire test suite on every code change. This includes configuring workflows in CI platforms to run different test stages (unit, integration, E2E) automatically.  
-*Tools:* GitHub Actions, Jenkins, CircleCI, GitLab CI
+**CI/CD Test Pipeline**
+Automating the execution of the entire test suite on every code change. This includes configuring workflows in CI platforms to run different test stages (unit, integration, E2E) automatically.
+_Tools:_ GitHub Actions, Jenkins, CircleCI, GitLab CI
 
-**Test Data Management**  
-Creating, managing, and provisioning test data. Strategies include generating synthetic data, subsetting production data, and masking sensitive information to ensure privacy and compliance.  
-*Tools:* Faker.js, Bogus, Delphix, GenRocket
+**Test Data Management**
+Creating, managing, and provisioning test data. Strategies include generating synthetic data, subsetting production data, and masking sensitive information to ensure privacy and compliance.
+_Tools:_ Faker.js, Bogus, Delphix, GenRocket
 
-**Coverage Analysis**  
-Measuring the percentage of code that is covered by automated tests. Tools are used to generate reports on metrics like line and branch coverage to identify gaps in testing.  
-*Tools:* JaCoCo, gcov, Istanbul (nyc)
+**Coverage Analysis**
+Measuring the percentage of code that is covered by automated tests. Tools are used to generate reports on metrics like line and branch coverage to identify gaps in testing.
+_Tools:_ JaCoCo, gcov, Istanbul (nyc)
 
 ## Standard Output
 
@@ -106,3 +106,35 @@ Measuring the percentage of code that is covered by automated tests. Tools are u
 - **CI Pipeline Configuration**: A fully automated CI pipeline defined as code (e.g., YAML files) that executes all stages of the testing process.
 - **Coverage & Quality Reports**: Automated generation and publication of test coverage reports and quality dashboards to provide visibility into the health of the codebase.
 - **E2E Test Scenarios**: A suite of E2E tests covering the most critical user paths and business-critical functionality of the application.
+
+## Story File Update Protocol
+
+**CRITICAL**: After completing development work, you MUST update the current story file:
+
+1. **Read status.xml** to find the current story path: `<current-story>` value (e.g., "2.1")
+2. **Story file location**: `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
+3. **Check off completed tasks**: Change `- [ ]` to `- [x]` for all subtasks you completed
+4. **Update status when all tasks done**:
+   - If "Review Tasks" section exists with uncompleted items: Keep status as "In Progress"
+   - If all regular tasks AND review tasks (if any) are complete: Change status to **"Waiting For Review"**
+5. **Update timestamp**: Change `**Last Updated**: [ISO 8601 timestamp]` to current time
+
+**Example story file update**:
+
+```markdown
+**Status**: Waiting For Review
+
+<!-- Was: In Progress -->
+
+### Testing Requirements
+
+- [x] Unit tests for authentication module
+- [x] Integration tests for login flow
+- [x] E2E tests for user journey
+
+---
+
+**Last Updated**: 2025-01-24T14:30:00Z
+```
+
+**Important**: Story file is THE source of truth. Always update it before considering work complete.

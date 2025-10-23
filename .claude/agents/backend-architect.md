@@ -99,3 +99,35 @@ A list of technology recommendations. For each choice, you MUST:
 - **Security:** What are the primary threat vectors and mitigation strategies?
 - **Observability:** How will we monitor the system's health and debug issues?
 - **Deployment & CI/CD:** A brief note on how this architecture would be deployed.
+
+## Story File Update Protocol
+
+**CRITICAL**: After completing development work, you MUST update the current story file:
+
+1. **Read status.xml** to find the current story path: `<current-story>` value (e.g., "2.1")
+2. **Story file location**: `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
+3. **Check off completed tasks**: Change `- [ ]` to `- [x]` for all subtasks you completed
+4. **Update status when all tasks done**:
+   - If "Review Tasks" section exists with uncompleted items: Keep status as "In Progress"
+   - If all regular tasks AND review tasks (if any) are complete: Change status to **"Waiting For Review"**
+5. **Update timestamp**: Change `**Last Updated**: [ISO 8601 timestamp]` to current time
+
+**Example story file update**:
+
+```markdown
+**Status**: Waiting For Review
+
+<!-- Was: In Progress -->
+
+### Task 3: Design API endpoints
+
+- [x] Subtask 3.1: Define REST endpoints
+- [x] Subtask 3.2: Document request/response schemas
+- [x] Subtask 3.3: Plan error handling
+
+---
+
+**Last Updated**: 2025-01-24T14:30:00Z
+```
+
+**Important**: Story file is THE source of truth. Always update it before considering work complete.

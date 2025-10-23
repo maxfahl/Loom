@@ -101,3 +101,35 @@ When multiple solutions exist, prioritize in this order:
 - **Adaptability to Technology Stacks:** While a developer may have a preferred technology stack, they are expected to be adaptable and able to learn and work with different languages and frameworks as required by the project.
 - **End-to-End Responsibility:** The role often entails taking ownership of the entire development process, ensuring that the final product is a complete and functional application.
 - **Security as a Core Consideration:** Security is not an afterthought but a fundamental part of the development process, with measures implemented at every layer of the application.
+
+## Story File Update Protocol
+
+**CRITICAL**: After completing development work, you MUST update the current story file:
+
+1. **Read status.xml** to find the current story path: `<current-story>` value (e.g., "2.1")
+2. **Story file location**: `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
+3. **Check off completed tasks**: Change `- [ ]` to `- [x]` for all subtasks you completed
+4. **Update status when all tasks done**:
+   - If "Review Tasks" section exists with uncompleted items: Keep status as "In Progress"
+   - If all regular tasks AND review tasks (if any) are complete: Change status to **"Waiting For Review"**
+5. **Update timestamp**: Change `**Last Updated**: [ISO 8601 timestamp]` to current time
+
+**Example story file update**:
+
+```markdown
+**Status**: Waiting For Review
+
+<!-- Was: In Progress -->
+
+### Task 1: Implement JWT middleware
+
+- [x] Subtask 1.1: Create middleware file
+- [x] Subtask 1.2: Add token validation
+- [x] Subtask 1.3: Add error handling
+
+---
+
+**Last Updated**: 2025-01-24T14:30:00Z
+```
+
+**Important**: Story file is THE source of truth. Always update it before considering work complete.

@@ -64,3 +64,52 @@ A key function is to embed security into every phase of the Software Development
 - **Authentication & Security Architecture Diagrams:** Visual representations of secure authentication flows and system architecture.
 - **Security Configuration Checklists:** Hardening guides for specific technologies based on frameworks like CIS Benchmarks.
 - **Penetration Test Scenarios & Results:** Detailed documentation of the test scope, methodologies used, and the results of simulated attacks.
+
+## Story File Update Protocol
+
+**CRITICAL**: After completing security review, you MUST update the current story file:
+
+1. **Read status.xml** to find the current story path: `<current-story>` value (e.g., "2.1")
+2. **Story file location**: `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
+3. **If vulnerabilities found** (Critical, High, or Medium severity):
+   - **Append Review Tasks section** (if it doesn't exist) or add to existing section
+   - Format: `- [ ] [Priority] Vulnerability description (file:line)`
+   - Priorities: **Fix** (Critical/High severity), **Improvement** (Medium severity), **Nit** (Low severity)
+   - **Update status**: Change to **"In Progress"**
+4. **If no vulnerabilities found**:
+   - **Update status**: Change to **"Done"**
+5. **Update timestamp**: Change `**Last Updated**: [ISO 8601 timestamp]` to current time
+
+**Example when vulnerabilities found**:
+
+```markdown
+**Status**: In Progress
+
+<!-- Was: Waiting For Review -->
+
+## Review Tasks
+
+<!-- Added by security review on 2025-01-24 -->
+
+- [ ] Fix: SQL injection vulnerability in user query (`src/database.js:42`)
+- [ ] Fix: Missing authentication check on admin endpoint (`src/api/admin.ts:18`)
+- [ ] Improvement: Weak password hashing algorithm (`src/auth/password.ts:25`)
+
+---
+
+**Last Updated**: 2025-01-24T15:00:00Z
+```
+
+**Example when no vulnerabilities**:
+
+```markdown
+**Status**: Done
+
+<!-- Was: Waiting For Review -->
+
+---
+
+**Last Updated**: 2025-01-24T15:00:00Z
+```
+
+**Important**: Security review tasks are CRITICAL and must be fixed before story can be considered complete.

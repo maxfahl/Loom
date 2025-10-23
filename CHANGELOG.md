@@ -4,6 +4,75 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.1] - 2025-01-24
+
+### Added
+
+- **Story File Update Protocol**: All coding and review agents now automatically update story files
+  - **Coding agents (6)**: full-stack-developer, frontend-developer, backend-architect, mobile-developer, test-automator, debugger
+    - Check off completed tasks (`[ ]` → `[x]`)
+    - Update status to "Waiting For Review" when all tasks complete
+    - Update timestamp with ISO 8601 format
+  - **Review agents (3)**: code-reviewer, design-reviewer, security-reviewer
+    - Append "Review Tasks" section when issues found
+    - Set status to "In Progress" if issues found
+    - Set status to "Done" if no issues found
+    - Prioritize tasks: Fix (blocking) > Improvement (high) > Nit (low)
+  - Story file is now THE definitive source of truth for feature progress
+
+- **9-Phase Autonomous Workflow**: Coordinator now executes comprehensive YOLO mode workflow
+  - **Phase 0**: Initialization - Read project state, analyze story readiness
+  - **Phase 1**: Pre-Development - Research, documentation, architecture (parallel)
+  - **Phase 2**: TDD Red - Write failing tests (parallel by type: unit/integration/E2E)
+  - **Phase 3**: TDD Green - Implement code (parallel by layer: frontend/backend/mobile)
+  - **Phase 4**: TDD Refactor - Clean up code while tests stay green
+  - **Phase 5**: Review - All reviews run in parallel (code/security/design)
+  - **Phase 6**: Review Loop - Fix issues until all reviewers approve (max 3 iterations)
+  - **Phase 7**: Final Verification - Tests, coverage, documentation
+  - **Phase 8**: Commit - Conventional commits (respects breakpoint B)
+  - **Phase 9**: Story Loop - Continue to next story/epic (respects breakpoints C/D)
+
+### Changed
+
+- **Maximum Parallelization**: Coordinator now runs agents simultaneously at optimal points
+  - Phase 1: All prep work runs in parallel
+  - Phase 2: All test types run in parallel (unit/integration/E2E)
+  - Phase 3: All development layers run in parallel (frontend/backend/mobile)
+  - Phase 5: All review types run in parallel (code/security/design)
+  - **Result**: 60-80% time savings over sequential execution
+
+- **Intelligent Sequencing**: Workflow respects dependencies while maximizing parallelization
+  - Research/prep → Tests → Implementation → Refactor → Reviews → Commit → Next Story
+  - Review loop automatically fixes issues until approval
+  - Smart abort after 3 review iterations to prevent infinite loops
+
+- **Enhanced /dev Command**: Updated to reflect 9-phase workflow
+  - MANUAL mode: Fully interactive, stops at all breakpoints
+  - BALANCED mode: Semi-autonomous, stops at commit and between stories
+  - STORY/EPIC/CUSTOM modes: Spawns coordinator with full 9-phase workflow
+  - Clear documentation of each phase and parallelization strategy
+
+### Improved
+
+- **Story File Tracking**: Complete audit trail of all work
+  - Development agents track task completion in real-time
+  - Review agents document all findings with file:line references
+  - Status field reflects current workflow state (In Progress/Waiting For Review/Done)
+  - Timestamp tracking for all updates
+
+- **Review Loop Safety**: Prevents infinite review/fix cycles
+  - Automatically loops until story status is "Done"
+  - Aborts after 3 iterations with clear error message
+  - Prioritizes review tasks: Fix > Improvement > Nit
+
+- **YOLO Mode Intelligence**: Coordinator now checks story readiness before coding
+  - Validates alignment with PRD and TECHNICAL_SPEC
+  - Identifies missing information or unclear requirements
+  - Spawns research/documentation agents when needed
+  - Prioritizes "Review Tasks" section if it exists
+
+---
+
 ## [1.0] - 2025-01-24
 
 ### Added
@@ -167,7 +236,7 @@ All notable changes to this project will be documented in this file.
   - `new-agents/` directory (moved to `.claude/agents/`)
 
 - **Unused Scripts**: 7 extraction/generation scripts
-  - extract-*.sh files (from old generation workflow)
+  - extract-\*.sh files (from old generation workflow)
   - Framework now uses simple `cp` commands
 
 - **Redundant Command**: `/dev-yolo` (functionality merged into `/dev`)

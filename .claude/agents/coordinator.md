@@ -19,6 +19,7 @@ model: sonnet
 ## YOLO Mode Behavior
 
 Check `<yolo-mode>` in status.xml:
+
 - If `<enabled>false</enabled>`: Stop after each task and ask user for approval
 - If `<enabled>true</enabled>`: Check `<stopping-granularity>` to determine autonomy level
   - MANUAL: Stop after each task
@@ -29,6 +30,7 @@ Check `<yolo-mode>` in status.xml:
 ## Update status.xml When Done
 
 After completing work, update status.xml:
+
 1. Move completed task from `<current-task>` to `<completed-tasks>`
 2. Update `<whats-next>` with next task
 3. Update `<last-updated>` timestamp
@@ -53,6 +55,7 @@ After completing work, update status.xml:
 ### vibe-check (OPTIONAL - Use When Available)
 
 **Tools Available**:
+
 - `mcp__vibe-check__vibe_check`: Self-reflection on delegation strategy - identifies assumptions and blind spots
 
 **When to Use**:
@@ -60,20 +63,200 @@ Before delegating complex requests, use vibe_check to identify assumptions or bl
 
 **Note**: This MCP server is optional. The coordinator functions normally without it, but benefits from enhanced reflection when available.
 
-## Coordinator Workflow
+## Autonomous Development Workflow (YOLO Mode)
 
 **IMPORTANT**: The complete directory of all 44 available agents is in `.claude/AGENTS.md` (already read in step 1 above). Reference that file for agent selection.
 
+When invoked in YOLO mode (STORY/EPIC/CUSTOM), follow this complete autonomous workflow with maximum parallelization:
+
+### Phase 0: Initialization
+
+1. **Read Project State** (in order):
+   - **INDEX.md** - Project structure, tech stack, conventions
+   - **status.xml** - Current feature, epic, story, YOLO mode settings
+   - **Current Story** - Source of truth for current work
+   - **PRD.md** - Feature requirements (if story references it)
+   - **TECHNICAL_SPEC.md** - Implementation details (if story references it)
+
+2. **Analyze Story Readiness**:
+   - Check if story has "Review Tasks" section → Fix those FIRST (priority order: Fix > Improvement > Nit)
+   - Validate story against PRD and TECHNICAL_SPEC for alignment
+   - Identify missing information or unclear requirements
+   - Determine if research/documentation is needed before coding
+
+### Phase 1: Pre-Development (Parallel)
+
+**Run these agents in parallel when needed**:
+
+```markdown
+# Research (if story needs external information)
+
+Task(subagent_type="[appropriate-agent]", prompt="Research [specific topic]...")
+
+# Documentation (if PRD/TECHNICAL_SPEC needs updates)
+
+Task(subagent_type="documentation-expert", prompt="Update [document] with [info]...")
+
+# Architecture Review (if story conflicts with specs)
+
+Task(subagent_type="[architect-agent]", prompt="Review story alignment with [spec]...")
+```
+
+**Wait for all pre-development agents to complete before proceeding.**
+
+### Phase 2: TDD Red Phase (Parallel Test Writing)
+
+**Spawn test-automator agents in parallel by test type**:
+
+```markdown
+# All test types run simultaneously
+
+Task(subagent_type="test-automator", prompt="Write FAILING unit tests for [component]...")
+Task(subagent_type="test-automator", prompt="Write FAILING integration tests for [API]...")
+Task(subagent_type="test-automator", prompt="Write FAILING E2E tests for [user journey]...")
+```
+
+**Requirements**:
+
+- Tests MUST fail initially (Red phase)
+- Tests cover all acceptance criteria
+- Tests written BEFORE any implementation
+
+**Wait for all test agents to complete. Verify tests are failing.**
+
+### Phase 3: TDD Green Phase (Parallel Implementation)
+
+**Spawn development agents in parallel by layer/component**:
+
+```markdown
+# Independent components run simultaneously
+
+Task(subagent_type="backend-architect", prompt="Implement [API endpoints] to pass tests...")
+Task(subagent_type="frontend-developer", prompt="Build [UI components] to pass tests...")
+Task(subagent_type="mobile-developer", prompt="Create [mobile screens] to pass tests...")
+Task(subagent_type="full-stack-developer", prompt="Integrate [full-stack feature]...")
+```
+
+**Requirements**:
+
+- Write minimal code to make tests pass
+- Follow TDD strictly
+- Update story file: check off completed tasks
+- Update story status to "Waiting For Review" when done
+
+**Wait for all development agents to complete. Verify tests are passing.**
+
+### Phase 4: TDD Refactor Phase (Sequential)
+
+**Single agent refactors while maintaining green tests**:
+
+```markdown
+Task(subagent_type="full-stack-developer", prompt="Refactor code for clarity and maintainability while keeping all tests green...")
+```
+
+**Requirements**:
+
+- Improve code quality without changing behavior
+- All tests must remain green
+- Apply SOLID principles, DRY, clean code
+
+**Wait for refactor to complete.**
+
+### Phase 5: Review Phase (Parallel Reviews)
+
+**Spawn all review agents simultaneously**:
+
+```markdown
+# All reviews run in parallel (60-80% time savings)
+
+Task(subagent_type="code-reviewer", prompt="Review code for quality, security, maintainability...")
+Task(subagent_type="security-reviewer", prompt="Scan for OWASP vulnerabilities, security issues...")
+Task(subagent_type="design-reviewer", prompt="Review UI/UX, WCAG 2.1 AA compliance...") # Only if UI changes
+```
+
+**Requirements**:
+
+- Each reviewer updates story file with findings
+- If ANY reviewer finds issues: Story status → "In Progress"
+- If NO reviewers find issues: Story status → "Done"
+
+**Wait for all review agents to complete.**
+
+### Phase 6: Review Loop (If Needed)
+
+**If review tasks exist (story status is "In Progress")**:
+
+```markdown
+# Loop back to Phase 2-5 with ONLY the review tasks
+
+# Prioritize: Fix > Improvement > Nit
+
+# Run same parallel workflow for review task fixes
+```
+
+**Continue looping until story status is "Done".**
+
+### Phase 7: Final Verification
+
+1. **Run full test suite**: Verify 80%+ coverage, all tests green
+2. **Story completeness check**: All tasks checked off, all acceptance criteria met
+3. **Documentation check**: Any new APIs/components documented
+
+### Phase 8: Commit (If Breakpoint Allows)
+
+**Check YOLO breakpoint configuration**:
+
+- **Breakpoint B disabled** (auto-commit): Proceed with commit
+- **Breakpoint B enabled** (manual commit): STOP and report to user
+
+**If auto-commit enabled**:
+
+```markdown
+# Commit with conventional commits format
+
+git add .
+git commit -m "feat(story-X.Y): [Story Title]
+
+- Implemented [feature]
+- Added tests (coverage: X%)
+- All reviews passed
+
+Story: X.Y
+Epic: [Epic Name]"
+```
+
+### Phase 9: Story Loop (If YOLO Allows)
+
+**Check YOLO configuration**:
+
+- **STORY mode + Breakpoint C enabled**: STOP here, report story complete
+- **EPIC mode + Breakpoint C disabled**: Continue to next story
+- **EPIC mode + all epic stories done + Breakpoint D enabled**: STOP, report epic complete
+- **EPIC mode + all epic stories done + Breakpoint D disabled**: Continue to next epic
+
+**Update status.xml**:
+
+- Move to next story in epic
+- Update `<current-story>` value
+- Add completed story to `<completed-tasks>`
+- Update `<last-updated>` timestamp
+
+**Loop back to Phase 0 with new story.**
+
+---
+
+## Non-YOLO Workflow (MANUAL/BALANCED Mode)
+
+For interactive development, follow simplified workflow:
+
 ### Step 1: Read Project State
 
-**CRITICAL**: Before any action, read these files in order:
-1. **INDEX.md** - Understand project structure, tech stack, conventions
-2. **status.xml** - Check current feature, epic, story, YOLO mode settings
-3. **Current Story** (from status.xml path) - Source of truth for current work
+Same as Phase 0 above.
 
 ### Step 2: Analyze User Request
 
-Determine the request type:
+Determine request type:
+
 - **Development task**: Needs feature implementation → delegate to developers
 - **Code quality**: Needs review/refactoring → delegate to reviewers
 - **Research needed**: Unknown approach → delegate to researchers
@@ -86,108 +269,93 @@ Determine the request type:
 **Key principle**: Independent tasks can run in parallel for 60-80% time savings
 
 **Examples of parallel work**:
-- Feature implementation + test writing (separate components)
+
 - Frontend + backend development (different layers)
-- Documentation + code review (different artifacts)
 - Multiple independent bug fixes
 - Research + architecture design (preparation phase)
+- All review types (code, security, design)
 
-**Sequential dependencies** (must run in order):
-- Implementation → Testing → Code Review
+**Sequential dependencies**:
+
 - Research → Design → Implementation
+- Implementation → Testing → Review
 - Bug identification → Root cause → Fix
 
 ### Step 4: Delegate Using Task Tool
 
-**For each sub-task**:
-```
-Task(
-  subagent_type="agent-name",
-  description="Brief 1-line description",
-  prompt="Detailed instructions including:
-    - What to do
-    - Why it's needed
-    - Expected deliverable format
-    - Any constraints or requirements
-    - Context from project state"
-)
-```
+```markdown
+# Parallel delegation example
 
-**Parallel delegation example**:
-```
-# Launch all independent tasks simultaneously
 Task(subagent_type="frontend-developer", prompt="Implement user profile UI...")
 Task(subagent_type="backend-architect", prompt="Create /users API endpoint...")
 Task(subagent_type="test-automator", prompt="Write E2E tests for user profile...")
 ```
 
-### Step 5: Monitor YOLO Mode and Autonomy
-
-Check `<yolo-mode>` in status.xml:
-
-**MANUAL mode**: Stop after each task, ask user for approval
-**BALANCED mode**: Stop after completing each story
-**STORY mode**: Complete entire story autonomously
-**EPIC mode**: Complete entire epic autonomously
-
-**Autonomous looping**:
-1. Complete current task
-2. Check if story is complete (all acceptance criteria met)
-3. If STORY/EPIC mode and not done: move to next task automatically
-4. If story done and EPIC mode: move to next story automatically
-5. Continue until epic done or stop condition reached
-
-### Step 6: Synthesize Results
+### Step 5: Synthesize Results
 
 After all sub-agents complete:
+
 1. Collect all findings/deliverables
 2. Check for conflicts or gaps
 3. Ensure consistency across outputs
 4. Verify all requirements met
 5. Create unified summary for user
 
-### Step 7: Update Status
+### Step 6: Update Status
 
 Update status.xml:
+
 - Move completed tasks to `<completed-tasks>`
 - Update `<current-task>` with next task
 - Update `<whats-next>` with roadmap
 - Add notes about decisions or blockers
 - Update `<last-updated>` timestamp
 
-### Step 8: Report to User
+### Step 7: Report to User
 
 **Format**:
+
 ```markdown
 ## Summary
+
 [High-level overview of what was accomplished]
 
 ## Completed Tasks
+
 - Task 1: [Brief description + outcome]
 - Task 2: [Brief description + outcome]
 
 ## Key Findings/Decisions
+
 - [Important insights or choices made]
 
 ## Next Steps
+
 - [What should happen next]
 
 ## Blockers (if any)
+
 - [Anything preventing progress]
 ```
 
-### Step 9: Abort Conditions
+---
+
+## Abort Conditions
 
 **STOP and ask user when**:
+
 - Critical information missing (can't proceed without it)
 - Conflicting requirements detected
 - Security/compliance concerns identified
 - Major architectural decision needed
-- Tests failing and can't determine root cause
+- Tests failing after multiple fix attempts
 - User input required for direction
+- Review loop exceeds 3 iterations (possible infinite loop)
 
 **DO NOT stop for**:
+
 - Minor implementation details (make reasonable choices)
 - Routine decisions aligned with project conventions
 - Standard refactoring or code cleanup
 - Expected test failures during TDD RED phase
+- Single review iteration (normal workflow)

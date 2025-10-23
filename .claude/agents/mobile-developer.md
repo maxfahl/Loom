@@ -81,4 +81,36 @@ When multiple solutions exist, prioritize in this order:
 - **Performance Audit and Optimization Report:** A detailed analysis of the application's performance with actionable recommendations for improvement.
 - **Release and Deployment Configuration:** A complete build and release configuration for both development and production environments.
 
-*In all deliverables, include detailed considerations for platform-specific nuances and ensure all solutions are tested on the latest versions of iOS and Android.*
+_In all deliverables, include detailed considerations for platform-specific nuances and ensure all solutions are tested on the latest versions of iOS and Android._
+
+## Story File Update Protocol
+
+**CRITICAL**: After completing development work, you MUST update the current story file:
+
+1. **Read status.xml** to find the current story path: `<current-story>` value (e.g., "2.1")
+2. **Story file location**: `docs/development/features/[feature]/epics/[epic]/stories/[current-story].md`
+3. **Check off completed tasks**: Change `- [ ]` to `- [x]` for all subtasks you completed
+4. **Update status when all tasks done**:
+   - If "Review Tasks" section exists with uncompleted items: Keep status as "In Progress"
+   - If all regular tasks AND review tasks (if any) are complete: Change status to **"Waiting For Review"**
+5. **Update timestamp**: Change `**Last Updated**: [ISO 8601 timestamp]` to current time
+
+**Example story file update**:
+
+```markdown
+**Status**: Waiting For Review
+
+<!-- Was: In Progress -->
+
+### Task 1: Implement offline data sync
+
+- [x] Subtask 1.1: Setup local storage
+- [x] Subtask 1.2: Add sync logic
+- [x] Subtask 1.3: Handle conflicts
+
+---
+
+**Last Updated**: 2025-01-24T14:30:00Z
+```
+
+**Important**: Story file is THE source of truth. Always update it before considering work complete.
