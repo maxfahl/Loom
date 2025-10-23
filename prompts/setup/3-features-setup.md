@@ -8,16 +8,23 @@ Your task is to create the standard Loom directory structure for features, epics
 
 ## Workflow
 
-1.  **Gather Feature Information**: Based on the `PRD.md` created in the previous step, determine the name of the initial feature and a list of its initial epics (e.g., `epic-1-foundation`, `epic-2-core-features`).
-2.  **Spawn the `project-scaffolder` Agent**: Launch the `project-scaffolder` agent with instructions to create the full directory tree for the initial feature and all its epics, and to create the main `status.xml` file.
+1.  **Gather Feature Information**: Based on the project discovery, determine the name of the initial feature and a list of its initial epics (e.g., `epic-1-foundation`).
+2.  **Define Feature-Specific Documents**: The complete set of documents required for every feature is:
+    *   `PRD.md`
+    *   `FEATURE_SPEC.md`
+    *   `TECHNICAL_DESIGN.md`
+    *   `ARCHITECTURE.md`
+3.  **Spawn the `project-scaffolder` Agent**: Launch the agent with instructions to create the full directory tree and all required files.
 
     ```markdown
     Task: Scaffold the project structure for the feature `[feature-name]`.
 
-    1.  Create the full Loom directory structure, including `docs/development/features/[feature-name]/epics/`.
-    2.  For the epics `[epic-1-name]`, `[epic-2-name]`, create the respective subdirectories.
-    3.  Inside each epic's directory, create the `stories` subdirectory and placeholder `DESCRIPTION.md`, `TASKS.md`, and `NOTES.md` files.
-    4.  Create and initialize the main `docs/development/status.xml` file, setting `[feature-name]` as the active feature.
+    1.  Create the main feature directory: `docs/development/features/[feature-name]/`.
+    2.  Inside it, create placeholder files for all required feature-specific documents: `PRD.md`, `FEATURE_SPEC.md`, `TECHNICAL_DESIGN.md`, and `ARCHITECTURE.md`.
+    3.  Create the `epics` subdirectory.
+    4.  For each epic (`[epic-1-name]`, etc.), create the respective subdirectory inside `epics`.
+    5.  Inside each epic's directory, create the `stories` subdirectory and placeholder `DESCRIPTION.md`, `TASKS.md`, and `NOTES.md` files.
+    6.  Create and initialize the global `docs/development/status.xml` file, setting `[feature-name]` as the active feature.
     ```
 3.  **Verify Output**: After the agent completes, verify that the directory structure and the `status.xml` file have been created correctly.
 

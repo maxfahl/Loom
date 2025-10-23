@@ -93,11 +93,10 @@ Loom is a **meta-framework** - a prompt-based development system that sets up AI
 
 **Framework**: BUILT (Loom is a documentation/prompt system, not executable code)
 **Components**:
-- 13 core agents (coordinator, senior-developer, code-reviewer, test-writer, etc.)
-- 14+ slash commands (/dev, /dev-yolo, /commit, /review, /test, /plan, /docs, /yolo, etc.)
-- 15+ documentation files (PRD, TECHNICAL_SPEC, ARCHITECTURE, DESIGN_SYSTEM, etc.)
-- 7 setup phases (Discovery → Planning → Design → Implementation → Testing → Review → Finalization)
-- 6 update phases (Discovery → Validation → Planning → Update → Testing → Finalization)
+- 16+ core agents (coordinator, senior-developer, codebase-analyzer, etc.)
+- 16+ slash commands (/dev, /loom-status, /fix, /one-off, etc.)
+- 15+ documentation files (PRD, TECHNICAL_SPEC, ARCHITECTURE, etc.)
+- Distinct setup, update, and preparation workflows.
 
 **Test Coverage**: N/A (meta-framework, not executable)
 **Current Activity**: Documentation and agent framework maintained
@@ -207,48 +206,22 @@ Coordinator spawns in parallel:
 
 ## 🏗️ Operating Modes
 
-Loom supports three operating modes that determine the setup approach:
+Loom has three distinct entry-point prompts that define its core workflows:
 
-### Mode 1: NEW SETUP (7 Phases)
+### 1. `setup.md` (New Project Setup)
 
-**Use when**: Creating a completely new project with Loom
+**Use when**: Setting up Loom in a new (greenfield) or existing (brownfield) project.
+**Action**: Run this prompt from within the target project's directory. The AI will autonomously analyze the project, generate all necessary documentation from templates, and synchronize the latest agents and commands from the Loom framework repository.
 
-**Phases**:
-1. **Discovery** - Gather project requirements, tech stack, team details
-2. **Planning** - Break down features into epics and stories
-3. **Design** - Create all design and specification documents
-4. **Agent Generation** - Create 13+ specialized agents from templates
-5. **Command Generation** - Create 14+ slash commands
-6. **Documentation Generation** - Create 15+ documentation files
-7. **Finalization** - Git commit, verify setup, print summary
+### 2. `update-setup.md` (Update Existing Setup)
 
-**Duration**: 1-2 hours with parallel execution
-**Output**: Complete Loom-ready project structure
+**Use when**: Updating a project that already uses an older version of Loom.
+**Action**: Run this prompt from within the target project's directory. The AI will synchronize the core agents/commands, and then intelligently scan and update your project's documentation and story structures to match the latest Loom standards without destroying your content.
 
-### Mode 2: UPDATE MODE (6 Phases)
+### 3. `prepare-setup.md` (Framework Development)
 
-**Use when**: Updating existing Loom project to latest guidelines
-
-**Phases**:
-1. **Discovery** - Assess current state, identify gaps
-2. **Validation** - Verify existing agents/commands work
-3. **Planning** - Plan updates without asking unnecessary questions
-4. **Updates** - Update agents, commands, docs as needed
-5. **Testing** - Verify all agents still function
-6. **Finalization** - Git commit changes
-
-**Duration**: 30-60 minutes
-**Output**: Updated project with latest Loom standards
-
-### Mode 3: TEMPLATE MODE
-
-**Use when**: Copying agents/commands from existing Loom project
-
-**Two variants**:
-- **trust**: Fast copy without verification (for trusted projects)
-- **validate**: Copy with verification (paranoid mode)
-
-**Output**: Project uses agents from another project (faster than regenerating)
+**Use when**: You are a developer modifying the Loom framework itself and need to regenerate the core agent and command files from their source definitions.
+**Action**: Run this from the root of the Loom repository. **This is not for user projects.**
 
 ---
 
@@ -295,7 +268,7 @@ The coordinator agent reads YOLO configuration and automatically handles the com
 
 ---
 
-## 🤖 Specialized Agents (15 Total)
+## 🤖 Specialized Agents (16 Total)
 
 ### Core Development Agents
 
@@ -322,14 +295,16 @@ The coordinator agent reads YOLO configuration and automatically handles the com
 - **🤖 agent-creator** - Meta-agent for creating new specialized agents
 - **🛠️ skill-creator** - Creates reusable Claude Skills packages
 
-### Optional Domain Agents (Project-Specific)
+### Framework & Scaffolding Agents
 
-- **security-reviewer** - OWASP security scanning (Opus model)
-- **design-reviewer** - UI/UX review with Playwright and WCAG 2.1 AA
+- **🧐 codebase-analyzer** - Autonomously analyzes brownfield projects.
+- **뼈 project-scaffolder** - Creates standard Loom directory structures.
+- **⚖️ structure-validator** - Non-destructively updates file structures.
+
 
 ---
 
-## 🎯 Custom Slash Commands (14+ Total)
+## 🎯 Custom Slash Commands (16+ Total)
 
 ### Development Workflow
 
@@ -338,12 +313,12 @@ The coordinator agent reads YOLO configuration and automatically handles the com
 - **`/commit`** - Smart commit with tests and linting
 - **`/review`** - Comprehensive code review with triage matrix
 - **`/security-review`** - OWASP-based security scanning (Opus)
-- **`/design-review`** - UI/UX design review with Playwright and WCAG 2.1 AA
+- **`/design-review** - UI/UX design review with Playwright and WCAG 2.1 AA
 
 ### Testing & Validation
 
 - **`/test`** - Run tests with coverage (80%+ mandatory)
-- /loom-status - Project status report (git, tasks, tests)
+- **`/loom-status`** - Project status report (git, tasks, tests)
 
 ### Planning & Documentation
 
@@ -359,6 +334,11 @@ The coordinator agent reads YOLO configuration and automatically handles the com
 ### Autonomous Mode
 
 - **`/yolo`** - Configure YOLO mode breakpoints
+
+### Ad-Hoc & Maintenance
+
+- **`/one-off`** - Delegate a one-off task to the coordinator.
+- **`/fix`** - Address a bug by creating a new, high-priority story.
 
 ---
 
@@ -387,18 +367,17 @@ The coordinator agent reads YOLO configuration and automatically handles the com
 ### Development Guides
 
 10. **DEVELOPMENT_PLAN.md** - TDD workflow and timeline
-11. **TESTING_STRATEGY.md** - Test approach and quality gates
-12. **YOLO_MODE.md** - Autonomous development guide
+11. **YOLO_MODE.md** - Autonomous development guide
 
 ### Standards & Best Practices
 
-13. **CODE_REVIEW_PRINCIPLES.md** - Code review workflow (7-phase)
-14. **SECURITY_REVIEW_CHECKLIST.md** - Security requirements (OWASP)
-15. **DESIGN_PRINCIPLES.md** - Core design principles
+12. **CODE_REVIEW_PRINCIPLES.md** - Code review workflow (7-phase)
+13. **SECURITY_REVIEW_CHECKLIST.md** - Security requirements (OWASP)
+14. **DESIGN_PRINCIPLES.md** - Core design principles
 
 ### Project Tracking
 
-16. **status.xml** - Feature/epic progress tracking (SINGLE FILE)
+15. **status.xml** - Feature/epic progress tracking (SINGLE FILE)
 
 ---
 
@@ -407,84 +386,23 @@ The coordinator agent reads YOLO configuration and automatically handles the com
 ```
 project/
 ├── .claude/
-│   ├── agents/                          # 13+ specialized agents
-│   │   ├── coordinator.md
-│   │   ├── senior-developer.md
-│   │   ├── code-reviewer.md
-│   │   ├── test-writer.md
-│   │   ├── bug-finder.md
-│   │   ├── refactor-specialist.md
-│   │   ├── qa-tester.md
-│   │   ├── git-helper.md
-│   │   ├── architecture-advisor.md
-│   │   ├── performance-optimizer.md
-│   │   ├── documentation-writer.md
-│   │   ├── agent-creator.md
-│   │   ├── skill-creator.md
-│   │   └── [project-specific-agents].md
-│   └── commands/                        # 14+ slash commands
-│       ├── dev.md
-│       ├── dev-yolo.md
-│       ├── commit.md
-│       ├── review.md
-│       ├── security-review.md
-│       ├── design-review.md
-│       ├── test.md
-│       ├── status.md
-│       ├── plan.md
-│       ├── docs.md
-│       ├── create-feature.md
-│       ├── correct-course.md
-│       ├── create-story.md
-│       └── yolo.md
+│   └── ...
 ├── docs/
-│   └── development/                     # All development documentation
-│       ├── INDEX.md                     # Master navigation
-│       ├── README.md
-│       ├── START_HERE.md
-│       ├── PROJECT_SUMMARY.md
-│       ├── PRD.md
-│       ├── TECHNICAL_SPEC.md
-│       ├── ARCHITECTURE.md
-│       ├── DESIGN_SYSTEM.md
-│       ├── DEVELOPMENT_PLAN.md
-│       ├── TESTING_STRATEGY.md
-│       ├── YOLO_MODE.md
-│       ├── CODE_REVIEW_PRINCIPLES.md
-│       ├── SECURITY_REVIEW_CHECKLIST.md
-│       ├── DESIGN_PRINCIPLES.md
-│       ├── status.xml                   # Feature tracking (SINGLE FILE)
-│       └── features/                    # Feature documentation (NOT code)
-│           └── [feature-name]/
-│               ├── INDEX.md
+│   └── development/
+│       ├── status.xml         # GLOBAL: Tracks status across all features
+│       ├── INDEX.md           # GLOBAL: Project-wide documentation index
+│       └── features/
+│           └── [feature-name]/  # All docs for a specific feature live here
+│               ├── PRD.md
 │               ├── FEATURE_SPEC.md
 │               ├── TECHNICAL_DESIGN.md
-│               ├── TASKS.md
-│               ├── CHANGELOG.md
+│               ├── ARCHITECTURE.md
 │               └── epics/
-│                   ├── epic-1-foundation/
-│                   │   ├── DESCRIPTION.md
-│                   │   ├── TASKS.md
-│                   │   ├── NOTES.md
-│                   │   └── stories/
-│                   │       └── [1.1.md, 1.2.md, etc.]
-│                   ├── epic-2-core/
-│                   │   ├── DESCRIPTION.md
-│                   │   ├── TASKS.md
-│                   │   ├── NOTES.md
-│                   │   └── stories/
-│                   └── epic-3-polish/
-│                       ├── DESCRIPTION.md
-│                       ├── TASKS.md
-│                       ├── NOTES.md
-│                       └── stories/
-├── features/                            # Feature source code (created during dev)
-│   └── [feature-name]/
-│       ├── src/
-│       └── tests/
-├── CLAUDE.md                            # Project instructions (THIS FILE)
-├── README.md                            # User documentation
-└── .gitignore
+│                   └── [epic-name]/
+│                       └── ...
+├── src/
+├── CLAUDE.md
+└── README.md
 ```
 
 ---
@@ -770,77 +688,21 @@ Before starting ANY Loom work:
 
 ### To Create a New Project
 
-```
-Read and follow the complete meta-prompt:
+Run the `setup.md` prompt from within your target project's directory. The AI will analyze your project and guide you through the process.
 
-/path/to/loom/prompts/meta-prompts/project-setup-meta-prompt.md
+### To Update an Existing Loom Project
 
-The coordinator will guide you through all 7 phases.
-```
-
-### To Update Existing Loom Project
-
-```
-Read and follow the update meta-prompt:
-
-/path/to/loom/prompts/meta-prompts/project-update-meta-prompt.md
-
-The coordinator will run update flow without unnecessary questions.
-```
-
-### To Copy from Existing Project
-
-```
-Use TEMPLATE mode:
-
-Trust mode (fast):
-  - Copy agents/commands from existing project
-  - No verification, high speed
-
-Validate mode (paranoid):
-  - Copy and verify each agent works
-  - Slower but safer
-```
-
----
-
-## 🤖 Model Routing
-
-**Recommended model usage for Loom operations**:
-
-| Task | Model | Why |
-| ---- | ----- | --- |
-| Meta-prompt execution | Sonnet | Complex orchestration, planning |
-| Agent generation | Sonnet | Code creation, testing |
-| Documentation | Haiku | Fast iteration, clarity focus |
-| Code review | Sonnet | Architecture, quality assessment |
-| Security review | Opus | OWASP analysis, thoroughness |
-| Planning | Sonnet | Strategic thinking |
-| Testing | Haiku | Fast execution |
-| Status updates | Haiku | Quick summaries |
+Run the `update-setup.md` prompt from within your project's directory. The AI will sync the latest framework files and update your documentation structure.
 
 ---
 
 ## 📖 Documentation Reference
 
-### For Setting Up New Project
-
-1. **project-setup-meta-prompt.md** - Main orchestrator (start here)
-2. **prompts/phases/** - Detailed phase guides
-3. **prompts/reference/core-agents.md** - Agent templates
-4. **prompts/prepare-setup/2-create-commands.md** - Command definitions and workflows
-5. **prompts/reference/status-xml.md** - Status tracking guide
-
-### For Updating Existing Project
-
-1. **project-update-meta-prompt.md** - Update orchestrator
-2. **prompts/reference/update-checklist.md** - What to verify
-
-### For Reference
-
-1. **README.md** - Project overview
-2. **prompts/reference/yolo-mode.md** - Autonomous development
-3. **prompts/reference/phase-boundaries.md** - Agent phase isolation
+- **`setup.md`**: Main entry point for new projects.
+- **`update-setup.md`**: Main entry point for updating projects.
+- **`prompts/reference/core-agents.md`**: The source of truth for all agent definitions.
+- **`prompts/prepare-setup/2-create-commands.md`**: The source of truth for all command definitions.
+- **`prompts/templates/doc-templates.md`**: The source of truth for all documentation templates.
 
 ---
 

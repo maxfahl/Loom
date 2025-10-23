@@ -1,14 +1,13 @@
 # Documentation Templates
 
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
-
 ## Purpose
 
-All 12+ documentation templates including INDEX.md, PRD.md, TECHNICAL_SPEC.md, ARCHITECTURE.md, DESIGN_SYSTEM.md, DEVELOPMENT_PLAN.md, HOOKS_REFERENCE.md, TASKS.md, START_HERE.md, PROJECT_OVERVIEW.md (brownfield), YOLO_MODE.md, domain-specific docs.
+This file is the single source of truth for the structure and boilerplate content of all standard Loom documentation.
 
 ## Related Files
 
-- [../phases/phase-2-documentation.md](../phases/phase-2-documentation.md) - Doc creation workflow
+- `../setup/2-documentation.md` - The setup workflow that generates docs from these templates.
+- `../update-setup/1-structure-validator.md` - The update workflow that validates against these templates.
 
 ## Usage
 

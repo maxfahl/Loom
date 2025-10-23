@@ -1,15 +1,13 @@
 # Generic Agent Template
 
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
-
 ## Purpose
 
-Generic template structure for creating custom agents. Shows required sections: responsibilities, workflow, output format. Used for creating technology-specific agents beyond the 13 core agents.
+Generic template for creating custom agents. Shows required sections and structure.
 
 ## Related Files
 
-- [../reference/core-agents.md](../reference/core-agents.md) - Core agent definitions
-- [../phases/phase-3-agents.md](../phases/phase-3-agents.md) - Agent creation workflow
+- `../reference/core-agents.md` - Core agent definitions
+- `../prepare-setup/1-create-agents.md` - The workflow that uses this template.
 
 ## Usage
 

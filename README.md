@@ -35,12 +35,12 @@
 
 ### Why Loom?
 
-- 🤖 **13 Core Agents** - Each expert in their domain (dev, testing, review, security, design)
+- 🤖 **16+ Core Agents** - Each expert in their domain (dev, testing, review, security, design)
 - 🔄 **Autonomous Workflows** - YOLO mode with configurable breakpoints (story-level, epic-level)
 - 🧪 **Strict TDD** - Red-Green-Refactor cycle enforced by design
 - 📊 **Epic/Story Organization** - Break features into logical milestones
 - ⚡ **Parallel Execution** - Multiple agents work simultaneously (70-80% time savings)
-- 🎯 **12+ Slash Commands** - Streamlined workflow (/dev, /review, /commit, /test, etc.)
+- 🎯 **16+ Slash Commands** - Streamlined workflow (/dev, /review, /commit, /test, etc.)
 
 ### The Loom Philosophy
 
@@ -54,64 +54,70 @@ The epic/story structure provides granularity without rigidity. YOLO mode provid
 
 ### 1. New Project Setup (Greenfield or Brownfield)
 
-To set up Loom in a new or existing project, give your AI coding agent this prompt:
+From the root directory of your new or existing project, give your AI coding agent this prompt (you will need to use the absolute path to the Loom framework repository):
 
 ```
-Read and fully understand the prompt in the `setup.md` file and execute the workflow. You will need to provide the absolute path to your project directory.
+# Run this from your project's directory
+Read and fully understand the prompt in the `setup.md` file and execute the workflow.
 
 /path/to/loom/setup.md
 ```
 
-The agent will ask you some questions about your project, create the necessary documentation, and then copy the latest agents and commands directly into your project.
+The agent will autonomously analyze your project, generate the necessary documentation, and copy the latest agents and commands into your project.
 
 ### 2. Update an Existing Loom Setup
 
-To update a project already using an older version of Loom, use the `update-setup.md` prompt:
+From the root directory of your project that already uses Loom, run the `update-setup.md` prompt:
 
 ```
-Read and fully understand the prompt in the `update-setup.md` file and execute the workflow. You will need to provide the absolute path to your project directory.
+# Run this from your project's directory
+Read and fully understand the prompt in the `update-setup.md` file and execute the workflow.
 
 /path/to/loom/update-setup.md
 ```
 
-This will intelligently synchronize all agents and commands to the latest version and migrate your project's story structure.
+This will intelligently synchronize all agents and commands, and then generate or update any necessary documentation to match the latest standard.
 
 ## 🎯 What You Get
 
-### 13 Core Agents
+### 16 Core Agents
 
-- **coordinator** - Autonomous TDD workflow orchestrator with YOLO mode
-- **senior-developer** - Architecture and code review expert
-- **code-reviewer** - Quality assurance and best practices
-- **test-writer** - Comprehensive test coverage (TDD-focused)
-- **bug-finder** - Edge case detection and analysis
-- **refactor-specialist** - Code quality improvements
-- **qa-tester** - Fast test execution and validation
-- **git-helper** - Version control operations
-- **architecture-advisor** - System design guidance
-- **performance-optimizer** - Bottleneck identification
-- **documentation-writer** - Fast doc updates
-- **agent-creator** - Build custom agents
-- **skill-creator** - Create reusable Claude Skills
-- **security-reviewer** - OWASP security scanning (Opus model)
-- **design-reviewer** - UI/UX review with Playwright and WCAG 2.1 AA
+- **coordinator** - Orchestrates parallel sub-agents to complete complex tasks.
+- **senior-developer** - Implements features following project architecture and standards.
+- **code-reviewer** - Performs detailed, 7-phase code reviews.
+- **test-writer** - Writes comprehensive tests following TDD methodology.
+- **bug-finder** - Analyzes code for bugs and edge cases.
+- **refactor-specialist** - Improves code quality and structure.
+- **qa-tester** - Runs tests and validates functionality.
+- **git-helper** - Manages git operations like commits and branches.
+- **architecture-advisor** - Reviews system design and architecture.
+- **performance-optimizer** - Analyzes and improves application performance.
+- **documentation-writer** - Creates and updates documentation.
+- **agent-creator** - Creates new specialized agents.
+- **skill-creator** - Creates reusable Claude Code Skills.
+- **codebase-analyzer** - Autonomously analyzes brownfield projects.
+- **project-scaffolder** - Creates standard Loom directory structures.
+- **structure-validator** - Non-destructively updates the structure of existing files.
 
-### 14+ Slash Commands
 
-- **/dev** - Continue development with automatic task tracking and status updates
-- **/dev-yolo** - **Launch autonomous YOLO loop** (complete stories/epics automatically)
-- **/commit** - Smart commit with tests and linting
-- **/review** - Comprehensive 7-phase code review with git diff embedding, triage matrix (Blocker/Improvement/Nit), and automatic Review Tasks creation
-- **/security-review** - OWASP-based security scanning with FALSE_POSITIVE filtering (Opus model, 8/10+ confidence threshold)
-- **/design-review** - UI/UX design review with Playwright live testing, WCAG 2.1 AA validation, and responsive design checks (3 viewports)
-- **/test** - Run tests with coverage
-- **/plan** - Plan feature implementation
-- /loom-status - Project status report
-- **/docs** - Update documentation
-- **/yolo** - Configure autonomous mode breakpoints
-- **/create-feature** - Set up new feature with epics
-- **/correct-course** - Adjust feature direction
-- **/create-story** - Generate next user story
+### 16+ Slash Commands
+
+- **/dev** - Continue development on the current story.
+- **/dev-yolo** - Launch the autonomous development loop.
+- **/commit** - Smart commit with tests and linting.
+- **/review** - Run a comprehensive 7-phase code review.
+- **/loom-status** - Show a report of the current project status.
+- **/test** - Run tests with coverage.
+- **/plan** - Plan a new feature.
+- **/docs** - Update documentation.
+- **/yolo** - Configure the autonomous YOLO mode breakpoints.
+- **/create-feature** - Set up a new feature with epics and stories.
+- **/correct-course** - Adjust the direction of an in-progress feature.
+- **/create-story** - Generate the next user story.
+- **/one-off** - Delegate a one-off task to the coordinator agent.
+- **/fix** - Address a bug by creating a new, high-priority story.
+- **/security-review** - Run an OWASP-based security scan.
+- **/design-review** - Run a UI/UX design and accessibility review.
 
 ### Complete Documentation
 
@@ -286,30 +292,7 @@ The `/dev-yolo` command spawns the **coordinator agent** which:
 
 ## 📊 Feature Tracking with Epics & Stories
 
-Features are organized into **epics** (logical groupings) with individual **stories**:
-
-```
-docs/development/
-└── status.xml                  # Feature tracking (SINGLE FILE for all features)
-└── features/
-    └── my-feature/
-        ├── FEATURE_SPEC.md
-        ├── TECHNICAL_DESIGN.md
-        └── epics/
-            ├── epic-1-foundation/
-            │   ├── DESCRIPTION.md  # Epic overview
-            │   ├── TASKS.md        # Epic tasks
-            │   ├── NOTES.md        # Implementation notes
-            │   └── stories/
-            │       ├── 1.1.md     # Epic 1, Story 1
-            │       └── 1.2.md     # Epic 1, Story 2
-            └── epic-2-core/
-                ├── DESCRIPTION.md
-                ├── TASKS.md
-                ├── NOTES.md
-                └── stories/
-                    └── 2.1.md     # Epic 2, Story 1
-```
+Features are organized into **epics** (logical groupings) and then broken down into individual **stories**. This structure is generated inside your project's `docs/development/features/` directory.
 
 **status.xml** tracks:
 
@@ -367,21 +350,21 @@ Loom treats **agents and workflows as code** within Claude Code, not as external
 
 ### Setup Phase (One Time)
 
-1. Run the bootstrap prompt
-2. Answer discovery questions (project type, tech stack, TDD enforcement)
-3. Agent creates all documentation, agents, and commands
-4. Git commit with complete setup
+1.  Run the `setup.md` prompt from within your project's directory.
+2.  The AI autonomously analyzes your project to determine context (tech stack, brownfield vs. greenfield, etc.). It only asks questions if it cannot find the information.
+3.  Specialized agents are spawned to generate all standard documentation and scaffold the required directory structures (`docs/development`, etc.).
+4.  The latest versions of all agents and commands are copied into your project's `.claude` directory.
+5.  A final verification is performed and the initial setup is committed to git.
 
 ### Development Cycle (Repeatable)
 
-1. **/create-feature** - Set up feature with epics
-2. **/create-story** - Generate next user story
-3. **/yolo** - Configure autonomous breakpoints
-4. **/dev** - Coordinator agent runs TDD cycle, checks off tasks, updates story status
-5. **/review** - Code review, creates Review Tasks if issues found, updates story status
-6. **/dev** - (if review found issues) Fix Review Tasks, update story to "Waiting For Review"
-7. **/review** - (final review) Approve story, update status to "Done"
-8. **/commit** - Smart commit with validation
+1. **/create-feature** - Set up a new feature with epics.
+2. **/create-story** - Generate the next user story.
+3. **/yolo** - Configure autonomous breakpoints.
+4. **/dev** or **/dev-yolo** - Implement the story using the TDD cycle.
+5. **/review** - Run a 7-phase code review.
+6. **/fix** - If a bug is found outside of a story, use this to create a new fix-story.
+7. **/commit** - Commit the completed work.
 
 ### Autonomous Loop (YOLO Mode)
 
@@ -428,42 +411,35 @@ Features divided into logical epics, each with multiple stories. Allows:
 - Independent story validation
 - Incremental feature delivery
 
-### Template Projects
-
-Copy agents/commands from existing projects instead of generating from scratch:
-
-- "trust" mode - Fast copy
-- "validate" mode - Verify before copy
-
 ## 📁 Project Structure
+
+This is the standard directory structure that Loom will generate inside your project:
 
 ```
 project/
-├── .claude/
-│   ├── agents/           # 13 specialized agents
-│   └── commands/         # 11+ slash commands
+├── .claude/                     # Agents and commands live here
+│   ├── agents/
+│   └── commands/
 ├── docs/
 │   └── development/
-│       ├── INDEX.md      # Documentation hub
-│       ├── PRD.md
-│       ├── TECHNICAL_SPEC.md
-│       ├── ARCHITECTURE.md
+│       ├── status.xml         # GLOBAL: Tracks status across all features
+│       ├── INDEX.md           # GLOBAL: Project-wide documentation index
 │       └── features/
-│           └── [feature]/
+│           └── [feature-name]/  # All docs for a specific feature live here
+│               ├── PRD.md
 │               ├── FEATURE_SPEC.md
 │               ├── TECHNICAL_DESIGN.md
+│               ├── ARCHITECTURE.md
 │               └── epics/
-│                   └── [epic]/
+│                   └── [epic-name]/
 │                       ├── DESCRIPTION.md
 │                       ├── TASKS.md
 │                       ├── NOTES.md
 │                       └── stories/
 │                           └── [story].md
-├── features/
-│   └── [feature]/
-│       └── status.xml    # Feature tracking only
-├── CLAUDE.md             # Project instructions
-└── README.md
+├── src/                       # Your project's source code lives here
+├── CLAUDE.md                  # High-level instructions for the AI
+└── README.md                  # Your project's README
 ```
 
 ## 🔧 Requirements
@@ -474,12 +450,11 @@ project/
 
 ## 📖 Documentation
 
-- **[Project Setup](setup.md)** - Start here for new projects
-- **[Update Setup](update-setup.md)** - For updating existing projects
-- **[Phase Guides](prompts/phases/)** - Detailed setup steps
-- **[Agent Reference](prompts/reference/core-agents.md)** - All agent definitions
-- **[YOLO Mode](prompts/reference/yolo-mode.md)** - Autonomous development
-- **[Status XML](prompts/reference/status-xml.md)** - Feature tracking
+- **[Project Setup](setup.md)** - The main entry point for setting up a new project.
+- **[Update Setup](update-setup.md)** - The main entry point for updating an existing project.
+- **[Agent Reference](prompts/reference/core-agents.md)** - Detailed definitions of all specialized agents.
+- **[Command Reference](prompts/prepare-setup/2-create-commands.md)** - Detailed definitions of all slash commands.
+- **[Status XML Guide](prompts/reference/status-xml.md)** - The specification for the feature tracking file.
 
 ## 🎯 Use Cases
 
@@ -502,6 +477,23 @@ MIT
 ## 🤝 Contributing
 
 This framework is designed to be extended. Create custom agents, add new slash commands, or build domain-specific templates. All agents and commands are markdown-based for easy modification.
+
+### Framework Development
+
+If you are a developer modifying the Loom framework itself (for example, adding a new agent or changing a command's core prompt), you will need to regenerate the core files. The `prepare-setup.md` prompt is used for this purpose.
+
+**⚠️ Warning:** Do NOT run this command unless you are developing the Loom framework itself. It is not for setting up a user project.
+
+To regenerate the agents and commands from their source prompts, run:
+
+```
+# Run this from the root of the Loom framework repository
+Read and fully understand the prompt in the `prepare-setup.md` file and execute the workflow.
+
+/path/to/loom/prepare-setup.md
+```
+
+This will update the contents of the `.claude/agents/` and `.claude/commands/` directories based on the latest definitions in the `prompts/` directory.
 
 ---
 

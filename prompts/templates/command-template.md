@@ -1,14 +1,12 @@
 # Generic Command Template
 
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
-
 ## Purpose
 
-Generic template structure for creating custom slash commands. Shows required sections: instructions, arguments, workflow. Used for creating project-specific commands beyond the 11+ core commands.
+Generic template for creating custom slash commands.
 
 ## Related Files
 
-- [../phases/phase-4-commands.md](../phases/phase-4-commands.md) - All core commands and creation workflow
+- `../prepare-setup/2-create-commands.md` - The workflow that uses this template.
 
 ## Usage
 

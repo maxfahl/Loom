@@ -1,15 +1,13 @@
 # Story File Template
 
-**Part of**: [Project Setup Meta Prompt](../project-setup-meta-prompt.md)
-
 ## Purpose
 
-Template for story files (epic.story format like 1.1, 2.3) used in the docs/development/features/[feature]/epics/[epic]/stories/ directory. Includes story description, acceptance criteria, tasks/subtasks, technical details, and notes sections.
+Template for story files (e.g., `1.1.md`, `2.3.md`) used within the epic structure.
 
 ## Related Files
 
-- [../reference/status-xml.md](../reference/status-xml.md) - Stories referenced in status.xml
-- [../phases/phase-6-features-setup.md](../phases/phase-6-features-setup.md) - Features and stories setup
+- `../prepare-setup/2-create-commands.md` - Defines the `/create-story` command that uses this template.
+- `../setup/3-features-setup.md` - The workflow that scaffolds the directories where stories are created.
 
 ## Usage
 
