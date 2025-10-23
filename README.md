@@ -229,6 +229,48 @@ Loom enforces strict Test-Driven Development:
 
 ---
 
+## 💭 Structured Thinking Sessions
+
+**Before you code, think systematically.** The `/think` command provides 74 techniques and methods for ideation, problem-solving, and analysis.
+
+### Three Modes
+
+**Brainstorming Mode** (default)
+
+- 36 techniques across 7 categories (collaborative, creative, deep, introspective, structured, theatrical, wild)
+- Divergent thinking to explore solution space
+- Example: `/think "microservices migration"`
+
+**Elicitation Mode** (`--elicit`)
+
+- 38 methods across 14 categories (advanced, core, risk, structural, optimization, etc.)
+- Convergent analysis to refine existing content
+- Example: `/think --elicit docs/api-design.md`
+
+**Hybrid Mode** (`--hybrid`)
+
+- Combines brainstorming (divergent) + elicitation (convergent)
+- Example: `/think --hybrid "feature X planning"`
+
+### What It Does
+
+1. **thought-partner agent** reads your context and selects 3-5 optimal techniques/methods
+2. Facilitates interactive session using "yes, and..." methodology
+3. Monitors energy, provides check-ins every 15-20 minutes
+4. Generates session artifact in `.loom/thinking-sessions/YYYY-MM-DD-topic.md`
+5. Offers to create stories from prioritized ideas (integrates with `/create-story`)
+
+### Integration Points
+
+- **Before `/plan`**: Use thinking to explore approaches before breaking down features
+- **Before `/correct-course`**: Analyze situation systematically before pivoting
+- **During story planning**: Refine requirements and challenge assumptions
+- **Architecture decisions**: Evaluate trade-offs using multiple thinking techniques
+
+**No hype, no fluff** - all techniques use engineering-focused language with concrete mechanisms and specific applicability conditions.
+
+---
+
 ## 🎮 YOLO Mode (Autonomous Development)
 
 Configure agent autonomy with simple presets. Choose how much you trust agents to work independently.
