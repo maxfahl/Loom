@@ -136,12 +136,13 @@ def main():
                 
                 location = f"{method.upper()} {path} -> {status_code}"
 
-                if "content" not in response or "application/problem+json" not in response["content"]:
-                    print(f"{Color.FAIL}[ERROR]{Color.ENDC} {location}: Missing `application/problem+json` content type.")
+                problem_json_content = response["content"].get("application/problem+json")
+                if not problem_json_content:
+                    print(f"{Color.FAIL}[ERROR]{Color.ENDC} {location}: Missing `application/problem+json` content type or its definition.")
                     error_count += 1
                     continue
                 
-                content_schema = response["content"]["application/problem+json"].get("schema")
+                content_schema = problem_json_content.get("schema")
                 if not content_schema:
                     print(f"{Color.FAIL}[ERROR]{Color.ENDC} {location}: `application/problem+json` is missing a schema.")
                     error_count += 1

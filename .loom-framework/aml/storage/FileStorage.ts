@@ -23,8 +23,8 @@ export class FileStorage {
     this.options = {
       compression: options.compression ?? true,
       encoding: options.encoding ?? 'utf-8',
-      lockTimeout: options.lockTimeout ?? 5000,
-      lockRetries: options.lockRetries ?? 5,
+      lockTimeout: options.lockTimeout ?? 10000,
+      lockRetries: options.lockRetries ?? 20,
     };
   }
 
@@ -44,6 +44,8 @@ export class FileStorage {
           retries: this.options.lockRetries,
           maxTimeout: this.options.lockTimeout,
         },
+        stale: 30000, // Locks older than 30s are stale
+        realpath: false,
       });
 
       try {
@@ -96,6 +98,7 @@ export class FileStorage {
             retries: this.options.lockRetries,
             maxTimeout: this.options.lockTimeout,
           },
+          stale: 30000, // Locks older than 30s are stale
           realpath: false,
         });
       } catch (error) {
@@ -200,8 +203,6 @@ export class FileStorage {
    * Get total size of directory in bytes
    */
   async getDirectorySize(dirPath: string = ''): Promise<number> {
-    const fullPath = path.join(this.basePath, dirPath);
-
     try {
       const files = await this.listRecursive(dirPath);
       let totalSize = 0;

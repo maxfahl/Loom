@@ -3,7 +3,7 @@
  */
 
 import { z } from 'zod';
-import { AgentName, DecisionId, Timestamp, Context } from '../types/common';
+import { AgentName, DecisionId, Context } from '../types/common';
 
 // Zod schemas for validation
 export const DecisionContextSchema = z.record(z.union([z.string(), z.number(), z.boolean()]));

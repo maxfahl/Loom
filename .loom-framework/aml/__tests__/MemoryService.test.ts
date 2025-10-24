@@ -26,7 +26,7 @@ describe('MemoryService', () => {
 
     service = new MemoryService(testMemoryPath, {
       enabled: true,
-      agents: {
+      agentOverrides: {
         [testAgent]: { enabled: true, maxPatternCount: 100, maxSolutionCount: 100, maxDecisionCount: 100 }
       }
     });
@@ -187,18 +187,18 @@ describe('MemoryService', () => {
     });
 
     it('should enforce pattern count limits', async () => {
-      // Create a new service with low limit
+      // Create a new service with low limit (min 10 per schema)
       const limitedPath = path.join(__dirname, '../../test-memory-limited');
       const limitedService = new MemoryService(limitedPath, {
         enabled: true,
-        agents: {
-          'limited-agent': { enabled: true, maxPatternCount: 3 }
+        agentOverrides: {
+          'limited-agent': { enabled: true, maxPatternCount: 10 }
         }
       });
       await limitedService.initialize();
 
-      // Record 5 patterns
-      for (let i = 0; i < 5; i++) {
+      // Record 15 patterns
+      for (let i = 0; i < 15; i++) {
         await limitedService.recordPattern('limited-agent', {
           ...patternData,
           type: `pattern-${i}`
@@ -209,7 +209,7 @@ describe('MemoryService', () => {
         includeInactive: true
       });
 
-      expect(patterns.length).toBeLessThanOrEqual(3);
+      expect(patterns.length).toBeLessThanOrEqual(10);
 
       // Cleanup
       fs.rmSync(limitedPath, { recursive: true });
@@ -410,7 +410,14 @@ describe('MemoryService', () => {
 
   describe('Error Handling', () => {
     it('should handle AML disabled gracefully', async () => {
-      const disabledService = new MemoryService(testMemoryPath, { enabled: false });
+      // Use a unique path for this test
+      const disabledPath = path.join(__dirname, '../../test-memory-disabled');
+      if (fs.existsSync(disabledPath)) {
+        fs.rmSync(disabledPath, { recursive: true });
+      }
+
+      const disabledService = new MemoryService(disabledPath, { enabled: false });
+      await disabledService.initialize();
 
       const result = await disabledService.recordPattern('any-agent', {
         type: 'test',
@@ -421,6 +428,9 @@ describe('MemoryService', () => {
 
       expect(result.success).toBe(false);
       expect(result.error).toBeDefined();
+
+      // Cleanup
+      fs.rmSync(disabledPath, { recursive: true });
     });
 
     it('should handle invalid pattern usage', async () => {

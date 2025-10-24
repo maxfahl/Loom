@@ -3,7 +3,7 @@
  */
 
 import { z } from 'zod';
-import { AgentName, PatternId, Timestamp, Context } from '../types/common';
+import { AgentName, PatternId, Context } from '../types/common';
 
 // Zod schemas for validation
 export const PatternConditionsSchema = z.object({

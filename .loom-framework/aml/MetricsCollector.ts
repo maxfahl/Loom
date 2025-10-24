@@ -6,7 +6,7 @@
  */
 
 import { AgentName, Timestamp } from './types/common';
-import { Metrics, MetricsModel, PerformanceMetrics, LearningMetrics, UsageMetrics, StorageMetrics } from './models/Metrics';
+import { PerformanceMetrics } from './models/Metrics';
 
 export interface MetricEvent {
   agent: AgentName;
@@ -21,7 +21,7 @@ export interface AggregatedMetrics {
   period: 'hourly' | 'daily' | 'weekly' | 'monthly';
   startTime: Timestamp;
   endTime: Timestamp;
-  agents: Map<AgentName, Metrics>;
+  agents: Map<AgentName, Record<string, unknown>>;
 }
 
 /**
@@ -353,7 +353,6 @@ export class MetricsCollector {
     }
 
     // Create aggregates for each period
-    const now = new Date();
     const periods: Array<'hourly' | 'daily' | 'weekly' | 'monthly'> = [
       'hourly',
       'daily',
@@ -365,10 +364,9 @@ export class MetricsCollector {
       const key = this.getAggregateKey(period);
       const aggregate = this.aggregates.get(key) || this.createEmptyAggregate(period);
 
-      for (const [agent, events] of eventsByAgent.entries()) {
+      for (const [_agent, _events] of eventsByAgent.entries()) {
         // Update aggregate with events
         // This is simplified - full implementation would update all metric fields
-        const perfMetrics = this.getPerformanceMetrics(agent);
         // Store would happen here
       }
 

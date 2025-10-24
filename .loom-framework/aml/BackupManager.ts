@@ -9,6 +9,8 @@ import { MemoryStore } from './storage/MemoryStore';
 import { AgentName, Timestamp, OperationResult } from './types/common';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import * as crypto from 'crypto';
+import * as tar from 'tar';
 
 export interface BackupMetadata {
   id: string;
@@ -19,6 +21,8 @@ export interface BackupMetadata {
   encrypted: boolean;
   type: 'full' | 'incremental';
   parentBackupId?: string;
+  checksum?: string;
+  fileCount?: number;
 }
 
 export interface BackupOptions {
@@ -72,37 +76,102 @@ export class BackupManager {
       // Determine which agents to backup
       let agents = options.agents || (await this.store.listAgents());
 
-      // Create backup directory
-      const backupDir = path.join(this.backupPath, backupId);
-      await fs.mkdir(backupDir, { recursive: true });
+      // Create temporary staging directory
+      const stagingDir = path.join(this.backupPath, `${backupId}-staging`);
+      await fs.mkdir(stagingDir, { recursive: true });
 
-      let totalSize = 0;
       const backedUpAgents: AgentName[] = [];
+      let fileCount = 0;
+
+      // For incremental backups, find the base backup timestamp
+      let baseTimestamp: number | null = null;
+      if (options.type === 'incremental') {
+        const backupsArray = Array.from(this.backups.values())
+          .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+        if (backupsArray.length > 0) {
+          baseTimestamp = new Date(backupsArray[0].timestamp).getTime();
+        }
+      }
 
       // Backup each agent
       for (const agent of agents) {
-        const agentBackupPath = path.join(backupId, agent);
-        const files = await this.store.backupAgentMemory(agent, agentBackupPath);
+        const agentSourcePath = path.join(this.store.getBasePath(), agent);
+        const agentBackupPath = path.join(stagingDir, agent);
 
-        if (files.length > 0) {
-          backedUpAgents.push(agent);
-          // Calculate size
-          for (const file of files) {
-            const fullPath = path.join(this.store.getBasePath(), file);
-            const stats = await fs.stat(fullPath);
-            totalSize += stats.size;
+        try {
+          await fs.access(agentSourcePath);
+        } catch {
+          continue; // Agent directory doesn't exist
+        }
+
+        await fs.mkdir(agentBackupPath, { recursive: true });
+
+        const files = await fs.readdir(agentSourcePath);
+        let agentHasFiles = false;
+
+        for (const file of files) {
+          const sourceFile = path.join(agentSourcePath, file);
+          const stats = await fs.stat(sourceFile);
+
+          // For incremental backups, only include files modified after base backup
+          if (baseTimestamp && stats.mtimeMs < baseTimestamp) {
+            continue;
           }
+
+          const destFile = path.join(agentBackupPath, file);
+          await fs.copyFile(sourceFile, destFile);
+          fileCount++;
+          agentHasFiles = true;
+        }
+
+        if (agentHasFiles) {
+          backedUpAgents.push(agent);
         }
       }
 
-      // Backup global data if requested
-      if (options.includeGlobal) {
-        const globalData = await this.store.loadGlobalData('cross-agent.json');
-        if (globalData) {
-          const globalPath = path.join(backupDir, 'global.json');
-          await fs.writeFile(globalPath, JSON.stringify(globalData, null, 2));
+      // Backup global data (always include in full backups, or if includeGlobal is set)
+      if (options.type === 'full' || options.includeGlobal) {
+        const globalSourcePath = path.join(this.store.getBasePath(), 'global');
+        try {
+          await fs.access(globalSourcePath);
+          const globalBackupPath = path.join(stagingDir, 'global');
+          await fs.mkdir(globalBackupPath, { recursive: true });
+
+          const globalFiles = await fs.readdir(globalSourcePath);
+          for (const file of globalFiles) {
+            const sourceFile = path.join(globalSourcePath, file);
+            const destFile = path.join(globalBackupPath, file);
+            await fs.copyFile(sourceFile, destFile);
+            fileCount++;
+          }
+        } catch {
+          // Global directory doesn't exist, that's okay
         }
       }
+
+      // Create tar.gz archive
+      const tarPath = path.join(this.backupPath, `${backupId}.tar.gz`);
+      await tar.create(
+        {
+          gzip: true,
+          file: tarPath,
+          cwd: stagingDir,
+        },
+        await fs.readdir(stagingDir)
+      );
+
+      // Calculate checksum
+      const fileBuffer = await fs.readFile(tarPath);
+      const hash = crypto.createHash('sha256');
+      hash.update(fileBuffer);
+      const checksum = hash.digest('hex');
+
+      // Get final size
+      const stats = await fs.stat(tarPath);
+      const totalSize = stats.size;
+
+      // Clean up staging directory
+      await fs.rm(stagingDir, { recursive: true, force: true });
 
       // Create metadata
       const metadata: BackupMetadata = {
@@ -110,9 +179,11 @@ export class BackupManager {
         timestamp,
         agents: backedUpAgents,
         totalSize,
-        compressed: options.compress || true,
+        compressed: true,
         encrypted: options.encrypt || false,
         type: options.type || 'full',
+        checksum,
+        fileCount,
       };
 
       // Save metadata
@@ -138,13 +209,32 @@ export class BackupManager {
         return { success: false, error: 'Backup not found' };
       }
 
+      const tarPath = path.join(this.backupPath, `${options.backupId}.tar.gz`);
+
+      // Check if backup file exists
+      try {
+        await fs.access(tarPath);
+      } catch {
+        return { success: false, error: 'Backup file not found' };
+      }
+
       // Validate integrity if requested
       if (options.validateIntegrity) {
-        const valid = await this.validateBackup(options.backupId);
-        if (!valid) {
+        const validation = await this.validateBackup(options.backupId);
+        if (!validation.success || !validation.data?.valid) {
           return { success: false, error: 'Backup integrity check failed' };
         }
       }
+
+      // Create temporary extraction directory
+      const extractDir = path.join(this.backupPath, `${options.backupId}-restore`);
+      await fs.mkdir(extractDir, { recursive: true });
+
+      // Extract tar.gz
+      await tar.extract({
+        file: tarPath,
+        cwd: extractDir,
+      });
 
       // Determine which agents to restore
       const agentsToRestore = options.agents || metadata.agents;
@@ -155,6 +245,16 @@ export class BackupManager {
           continue; // Skip agents not in backup
         }
 
+        const agentBackupPath = path.join(extractDir, agent);
+        const agentDestPath = path.join(this.store.getBasePath(), agent);
+
+        // Check if agent backup exists
+        try {
+          await fs.access(agentBackupPath);
+        } catch {
+          continue; // Agent not in backup
+        }
+
         // Check if agent memory exists
         const exists = await this.store.agentHasMemory(agent);
 
@@ -163,10 +263,42 @@ export class BackupManager {
           continue;
         }
 
-        // Restore agent memory
-        const backupPath = path.join(options.backupId, agent);
-        await this.store.restoreAgentMemory(agent, backupPath);
+        // Remove existing agent data if overwriting
+        if (exists) {
+          await fs.rm(agentDestPath, { recursive: true, force: true });
+        }
+
+        // Create agent directory
+        await fs.mkdir(agentDestPath, { recursive: true });
+
+        // Copy files
+        const files = await fs.readdir(agentBackupPath);
+        for (const file of files) {
+          const sourceFile = path.join(agentBackupPath, file);
+          const destFile = path.join(agentDestPath, file);
+          await fs.copyFile(sourceFile, destFile);
+        }
       }
+
+      // Restore global data if present
+      const globalBackupPath = path.join(extractDir, 'global');
+      try {
+        await fs.access(globalBackupPath);
+        const globalDestPath = path.join(this.store.getBasePath(), 'global');
+        await fs.mkdir(globalDestPath, { recursive: true });
+
+        const globalFiles = await fs.readdir(globalBackupPath);
+        for (const file of globalFiles) {
+          const sourceFile = path.join(globalBackupPath, file);
+          const destFile = path.join(globalDestPath, file);
+          await fs.copyFile(sourceFile, destFile);
+        }
+      } catch {
+        // Global data not in backup, that's okay
+      }
+
+      // Clean up extraction directory
+      await fs.rm(extractDir, { recursive: true, force: true });
 
       return { success: true };
     } catch (error) {
@@ -203,13 +335,13 @@ export class BackupManager {
         return { success: false, error: 'Backup not found' };
       }
 
-      // Delete backup directory
-      const backupDir = path.join(this.backupPath, backupId);
-      await fs.rm(backupDir, { recursive: true, force: true });
+      // Delete backup tar.gz file
+      const tarPath = path.join(this.backupPath, `${backupId}.tar.gz`);
+      await fs.unlink(tarPath).catch(() => {}); // Ignore if doesn't exist
 
       // Delete metadata
       const metadataPath = path.join(this.backupPath, `${backupId}.meta.json`);
-      await fs.unlink(metadataPath);
+      await fs.unlink(metadataPath).catch(() => {}); // Ignore if doesn't exist
 
       this.backups.delete(backupId);
 
@@ -223,22 +355,28 @@ export class BackupManager {
   }
 
   /**
-   * Validate backup integrity
+   * Validate backup integrity (private version that returns boolean)
    */
-  async validateBackup(backupId: string): Promise<boolean> {
+  private async validateBackupIntegrity(backupId: string): Promise<boolean> {
     try {
       const metadata = this.backups.get(backupId);
       if (!metadata) return false;
 
-      const backupDir = path.join(this.backupPath, backupId);
+      const tarPath = path.join(this.backupPath, `${backupId}.tar.gz`);
 
-      // Check if backup directory exists
-      await fs.access(backupDir);
+      // Check if backup file exists
+      await fs.access(tarPath);
 
-      // Check if all agent files exist
-      for (const agent of metadata.agents) {
-        const agentDir = path.join(backupDir, agent);
-        await fs.access(agentDir);
+      // Verify checksum if available
+      if (metadata.checksum) {
+        const fileBuffer = await fs.readFile(tarPath);
+        const hash = crypto.createHash('sha256');
+        hash.update(fileBuffer);
+        const checksum = hash.digest('hex');
+
+        if (checksum !== metadata.checksum) {
+          return false;
+        }
       }
 
       return true;
@@ -318,6 +456,320 @@ export class BackupManager {
    */
   getTotalBackupSize(): number {
     return Array.from(this.backups.values()).reduce((sum, backup) => sum + backup.totalSize, 0);
+  }
+
+  // ============================================================================
+  // NEW PUBLIC METHODS (for test compatibility)
+  // ============================================================================
+
+  /**
+   * Create full backup (test-compatible signature)
+   */
+  async createFullBackup(): Promise<OperationResult<{ backupId: string; timestamp: string; sizeBytes: number; size: number; compressed: boolean; type: 'full' | 'incremental' }>> {
+    const result = await this.createBackup({ type: 'full' });
+    if (result.success && result.data) {
+      return {
+        success: true,
+        data: {
+          backupId: result.data.id,
+          timestamp: result.data.timestamp,
+          sizeBytes: result.data.totalSize,
+          size: result.data.totalSize,
+          compressed: result.data.compressed,
+          type: result.data.type
+        }
+      };
+    }
+    return { success: false, error: result.error };
+  }
+
+  /**
+   * Create incremental backup (test-compatible signature)
+   */
+  async createIncrementalBackup(baseBackupId?: string): Promise<OperationResult<{ backupId: string; timestamp: string; sizeBytes: number; size: number; type: 'full' | 'incremental'; baseBackupId?: string }>> {
+    // Find base backup if not specified
+    let actualBaseId = baseBackupId;
+    if (!actualBaseId) {
+      const backupsArray = Array.from(this.backups.values())
+        .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      if (backupsArray.length > 0) {
+        actualBaseId = backupsArray[0].id;
+      }
+    }
+
+    const result = await this.createBackup({ type: 'incremental' });
+    if (result.success && result.data) {
+      return {
+        success: true,
+        data: {
+          backupId: result.data.id,
+          timestamp: result.data.timestamp,
+          sizeBytes: result.data.totalSize,
+          size: result.data.totalSize,
+          type: result.data.type,
+          baseBackupId: actualBaseId
+        }
+      };
+    }
+    return { success: false, error: result.error };
+  }
+
+  /**
+   * Validate backup integrity (test-compatible signature)
+   */
+  async validateBackup(backupId: string): Promise<OperationResult<{ valid: boolean; checksum?: string; checksumMatch?: boolean; fileCount?: number; agentsIncluded?: string[] }>> {
+    try {
+      const metadata = this.backups.get(backupId);
+      if (!metadata) {
+        return { success: true, data: { valid: false } };
+      }
+
+      const tarPath = path.join(this.backupPath, `${backupId}.tar.gz`);
+
+      // Check if backup file exists
+      try {
+        await fs.access(tarPath);
+      } catch {
+        return { success: true, data: { valid: false } };
+      }
+
+      // Calculate current checksum
+      const fileBuffer = await fs.readFile(tarPath);
+      const hash = crypto.createHash('sha256');
+      hash.update(fileBuffer);
+      const currentChecksum = hash.digest('hex');
+
+      // Verify checksum matches
+      const checksumMatch = metadata.checksum ? currentChecksum === metadata.checksum : true;
+
+      // Extract to temporary directory to count files
+      const tempDir = path.join(this.backupPath, `${backupId}-validate`);
+      await fs.mkdir(tempDir, { recursive: true });
+
+      try {
+        await tar.extract({
+          file: tarPath,
+          cwd: tempDir,
+        });
+
+        // Count files
+        let fileCount = 0;
+        const countFiles = async (dir: string): Promise<void> => {
+          const entries = await fs.readdir(dir, { withFileTypes: true });
+          for (const entry of entries) {
+            if (entry.isFile()) {
+              fileCount++;
+            } else if (entry.isDirectory()) {
+              await countFiles(path.join(dir, entry.name));
+            }
+          }
+        };
+
+        await countFiles(tempDir);
+
+        // Clean up
+        await fs.rm(tempDir, { recursive: true, force: true });
+
+        return {
+          success: true,
+          data: {
+            valid: checksumMatch,
+            checksum: currentChecksum,
+            checksumMatch,
+            fileCount,
+            agentsIncluded: metadata.agents
+          }
+        };
+      } catch (extractError) {
+        // Failed to extract - corrupted archive
+        await fs.rm(tempDir, { recursive: true, force: true }).catch(() => {});
+        return {
+          success: true,
+          data: {
+            valid: false,
+            checksum: currentChecksum,
+            checksumMatch: false,
+            fileCount: 0,
+            agentsIncluded: metadata.agents
+          }
+        };
+      }
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Restore from backup (test-compatible signature)
+   */
+  async restore(backupId: string, options?: { agents?: string[]; createBackupBeforeRestore?: boolean }): Promise<OperationResult<{ preRestoreBackupId?: string }>> {
+    try {
+      // Check if backup exists
+      const metadata = this.backups.get(backupId);
+      if (!metadata) {
+        return { success: false, error: 'Backup not found' };
+      }
+
+      // Validate backup first
+      const validation = await this.validateBackup(backupId);
+      if (!validation.success || !validation.data?.valid) {
+        return { success: false, error: 'Backup validation failed' };
+      }
+
+      // Create pre-restore backup if requested
+      let preRestoreBackupId: string | undefined;
+      if (options?.createBackupBeforeRestore) {
+        const preBackup = await this.createFullBackup();
+        if (preBackup.success && preBackup.data) {
+          preRestoreBackupId = preBackup.data.backupId;
+        }
+      }
+
+      // Perform restore
+      const restoreResult = await this.restoreBackup({
+        backupId,
+        agents: options?.agents,
+        overwrite: true,
+        validateIntegrity: false // Already validated above
+      });
+
+      if (!restoreResult.success) {
+        return { success: false, error: restoreResult.error };
+      }
+
+      return {
+        success: true,
+        data: preRestoreBackupId ? { preRestoreBackupId } : {}
+      };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Restore to point in time
+   */
+  async restoreToPointInTime(timestamp: string): Promise<OperationResult> {
+    try {
+      const targetTime = new Date(timestamp).getTime();
+      const backupsArray = Array.from(this.backups.values());
+
+      // Find backup closest to target time
+      let closestBackup: BackupMetadata | null = null;
+      let smallestDiff = Infinity;
+
+      for (const backup of backupsArray) {
+        const backupTime = new Date(backup.timestamp).getTime();
+        const diff = Math.abs(targetTime - backupTime);
+        if (diff < smallestDiff) {
+          smallestDiff = diff;
+          closestBackup = backup;
+        }
+      }
+
+      if (!closestBackup) {
+        return { success: false, error: 'No backup found near target time' };
+      }
+
+      return await this.restore(closestBackup.id);
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * List all backups (test-compatible signature)
+   */
+  async listBackups(): Promise<OperationResult<Array<{ id: string; timestamp: string; type: 'full' | 'incremental'; sizeBytes: number; agents: string[] }>>> {
+    try {
+      const backups = Array.from(this.backups.values())
+        .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+        .map(b => ({
+          id: b.id,
+          timestamp: b.timestamp,
+          type: b.type,
+          sizeBytes: b.totalSize,
+          agents: b.agents
+        }));
+
+      return { success: true, data: backups };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Delete backups older than a date
+   */
+  async deleteBackupsOlderThan(date: Date): Promise<OperationResult<{ deletedCount: number }>> {
+    try {
+      const targetTime = date.getTime();
+      const backups = Array.from(this.backups.values());
+      let deletedCount = 0;
+
+      for (const backup of backups) {
+        const backupTime = new Date(backup.timestamp).getTime();
+        if (backupTime < targetTime) {
+          const deleteResult = await this.deleteBackup(backup.id);
+          if (deleteResult.success) {
+            deletedCount++;
+          }
+        }
+      }
+
+      return { success: true, data: { deletedCount } };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Keep only last N backups
+   */
+  async keepLastNBackups(n: number): Promise<OperationResult<{ deletedCount: number }>> {
+    try {
+      const backups = Array.from(this.backups.values())
+        .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+      let deletedCount = 0;
+
+      // Delete all backups beyond the first N
+      for (let i = n; i < backups.length; i++) {
+        const deleteResult = await this.deleteBackup(backups[i].id);
+        if (deleteResult.success) {
+          deletedCount++;
+        }
+      }
+
+      return { success: true, data: { deletedCount } };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Get backup info
+   */
+  async getBackupInfo(backupId: string): Promise<OperationResult<{ id: string; timestamp: string; type: 'full' | 'incremental'; sizeBytes: number; agents: string[] }>> {
+    try {
+      const metadata = this.backups.get(backupId);
+      if (!metadata) {
+        return { success: false, error: 'Backup not found' };
+      }
+
+      return {
+        success: true,
+        data: {
+          id: metadata.id,
+          timestamp: metadata.timestamp,
+          type: metadata.type,
+          sizeBytes: metadata.totalSize,
+          agents: metadata.agents
+        }
+      };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
   }
 
   // ============================================================================

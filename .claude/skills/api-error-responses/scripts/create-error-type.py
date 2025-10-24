@@ -18,20 +18,20 @@ class Color:
 
 # --- Template for the new Custom Error Class ---
 ERROR_CLASS_TEMPLATE = """
-import { CustomError } from './custom-errors'; // Adjust the import path as needed
+import {{ CustomError }} from './custom-errors'; // Adjust the import path as needed
 
 /**
  * {description}
  */
-export class {class_name} extends CustomError {
+export class {class_name} extends CustomError {{
   readonly status = {status_code};
   readonly type = '{type_uri}';
   readonly title = '{title}';
 
-  constructor(detail?: string) {
+  constructor(detail?: string) {{
     super(detail || '{title}');
-  }
-}
+  }}
+}}
 """
 
 # --- Template for the Markdown Documentation ---
@@ -135,13 +135,13 @@ def main():
     description = f"Represents an HTTP {status_code} ({title}) error."
 
     # --- Generate TypeScript Class ---
-    ts_content = textwrap.dedent(ERROR_CLASS_TEMPLATE.format(
+    ts_content = ERROR_CLASS_TEMPLATE.format(
         class_name=class_name,
         status_code=status_code,
         type_uri=type_uri,
         title=title,
         description=description
-    )).strip()
+    )
 
     # --- Generate Markdown Docs ---
     md_content = textwrap.dedent(DOCS_MD_TEMPLATE.format(
@@ -149,7 +149,7 @@ def main():
         type_uri=type_uri,
         status_code=status_code,
         description=description
-    )).strip()
+    ))
 
     ts_path = os.path.join(args.out_dir, ts_filename)
     md_path = os.path.join(args.docs_dir, md_filename)

@@ -6,7 +6,7 @@
  */
 
 import { Pattern, PatternModel } from './models/Pattern';
-import { Solution, SolutionModel } from './models/Solution';
+import { Solution } from './models/Solution';
 import { Decision, DecisionModel } from './models/Decision';
 import { Context, AgentName } from './types/common';
 
@@ -249,7 +249,7 @@ export class QueryEngine {
    * Find similar patterns
    */
   findSimilarPatterns(
-    agent: AgentName,
+    _agent: AgentName,
     targetPattern: Pattern,
     allPatterns: Pattern[],
     minSimilarity: number = 0.5,
@@ -326,11 +326,11 @@ export class QueryEngine {
     targetContext?: Context
   ): Pattern[] {
     const scored = patterns.map((pattern) => {
-      const model = new PatternModel(pattern);
+      const _model = new PatternModel(pattern);
       let score = 0;
 
       // Confidence score
-      score += model.confidenceScore * weights.confidence;
+      score += _model.confidenceScore * weights.confidence;
 
       // Recency score (exponential decay over 30 days)
       const daysOld =
@@ -344,7 +344,7 @@ export class QueryEngine {
 
       // Similarity score (if target context provided)
       if (targetContext && weights.similarity > 0) {
-        const contextMatch = model.matchesContext(targetContext) ? 1.0 : 0.0;
+        const contextMatch = _model.matchesContext(targetContext) ? 1.0 : 0.0;
         score += contextMatch * weights.similarity;
       }
 
@@ -362,7 +362,6 @@ export class QueryEngine {
    */
   rankSolutions(solutions: Solution[]): Solution[] {
     const scored = solutions.map((solution) => {
-      const model = new SolutionModel(solution);
       let score = 0;
 
       // Base score from whether it worked
@@ -393,8 +392,8 @@ export class QueryEngine {
    */
   rankDecisions(decisions: Decision[]): Decision[] {
     const scored = decisions.map((decision) => {
-      const model = new DecisionModel(decision);
-      let score = model.calculateWeight();
+      const _model = new DecisionModel(decision);
+      let score = _model.calculateWeight();
 
       return { decision, score };
     });

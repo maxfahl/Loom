@@ -155,13 +155,16 @@ Follow the instructions in `prompts/setup/3-features-setup.md` and `prompts/setu
 
 ### Phase 6: Agent Memory & Learning (AML) Setup (Optional)
 
-Follow the instructions in `prompts/setup/6-aml-setup.md` to optionally install the Agent Memory & Learning system, which gives agents persistent memory and learning capabilities.
+Follow the instructions in `prompts/setup/6-aml-setup.md` to optionally enable the Agent Memory & Learning system, which gives agents persistent memory and learning capabilities.
 
 This phase will:
+
 - Ask the user if they want to enable AML
-- Install AML infrastructure if user agrees
+- Create `.loom/memory/` directory structure if user agrees
+- Create `config.json` with default settings
 - Update status.xml with the AML enabled/disabled flag
-- Configure the project for AML usage
+
+**Note**: AML is file-based and requires no installation, dependencies, or services. Only data directories are created.
 
 ### Phase 7: Final Commit
 
@@ -298,7 +301,7 @@ Older versions of Loom used a different story structure. Run the migration scrip
 
 3.  **Confirm the output**: The script will report if any stories were migrated.
 
-### Step 5: Check AML Status and Offer Installation
+### Step 5: Check AML Status and Offer Setup
 
 Check if AML (Agent Memory & Learning) is enabled in the project:
 
@@ -310,9 +313,11 @@ Check if AML (Agent Memory & Learning) is enabled in the project:
    - If no, continue to Step 6
 
 3. **If AML is already enabled**:
-   - Check if AML files need updating (compare versions)
-   - If newer version available, offer to update
+   - Verify `.loom/memory/` directory exists
+   - If missing, recreate directory structure (see `prompts/setup/6-aml-setup.md`)
    - Continue to Step 6
+
+**Note**: AML is file-based. No code installation or updates needed - only data directories.
 
 ### Step 6: Final Verification
 

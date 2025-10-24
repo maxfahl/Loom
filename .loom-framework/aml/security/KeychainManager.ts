@@ -37,8 +37,6 @@ export interface KeychainResult {
  * Cross-platform keychain manager
  */
 export class KeychainManager {
-  private readonly SERVICE_NAME = 'com.loom.aml';
-  private readonly ACCOUNT_NAME = 'master-encryption-key';
   private readonly FALLBACK_ENV_VAR = 'LOOM_AML_MASTER_KEY';
   private readonly KEY_LENGTH = 32; // 256 bits
 
@@ -48,16 +46,19 @@ export class KeychainManager {
   constructor() {
     this.platform = os.platform();
 
+    const serviceName = 'com.loom.aml';
+    const accountName = 'master-encryption-key';
+
     // Initialize platform-specific backend
     switch (this.platform) {
       case 'darwin':
-        this.backend = new MacOSKeychain(this.SERVICE_NAME, this.ACCOUNT_NAME);
+        this.backend = new MacOSKeychain(serviceName, accountName);
         break;
       case 'win32':
-        this.backend = new WindowsDPAPI(this.SERVICE_NAME, this.ACCOUNT_NAME);
+        this.backend = new WindowsDPAPI(serviceName, accountName);
         break;
       case 'linux':
-        this.backend = new LinuxSecretService(this.SERVICE_NAME, this.ACCOUNT_NAME);
+        this.backend = new LinuxSecretService(serviceName, accountName);
         break;
       default:
         console.warn(`⚠️  Unsupported platform: ${this.platform}. Using fallback key storage.`);
@@ -343,9 +344,12 @@ class MacOSKeychain implements KeychainBackend {
  */
 class WindowsDPAPI implements KeychainBackend {
   constructor(
-    private serviceName: string,
-    private accountName: string
-  ) {}
+    _serviceName: string,
+    _accountName: string
+  ) {
+    // serviceName and accountName are not used by Windows DPAPI
+    // (kept for interface consistency)
+  }
 
   async store(keyId: string, key: Buffer): Promise<void> {
     const keyHex = key.toString('hex');
@@ -545,8 +549,9 @@ class FallbackKeyStore implements KeychainBackend {
     }
 
     // Try environment variable
-    if (keyId === 'master' && process.env[this.envVarName]) {
-      const key = Buffer.from(process.env[this.envVarName], 'base64');
+    const envValue = process.env[this.envVarName];
+    if (keyId === 'master' && envValue) {
+      const key = Buffer.from(envValue, 'base64');
       this.keys.set(keyId, key);
       return key;
     }

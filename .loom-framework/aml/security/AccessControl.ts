@@ -16,7 +16,7 @@
  * - Context-based access decisions
  */
 
-import { AuditLogger, AuditEvent, AuditLevel } from '../AuditLogger';
+import { AuditLogger, AuditEvent } from '../AuditLogger';
 import * as crypto from 'crypto';
 
 /**
@@ -372,34 +372,21 @@ export class AccessControl {
     decision: AccessDecision
   ): Promise<void> {
     const event: AuditEvent = {
-      timestamp: new Date(),
-      level: decision.allowed ? AuditLevel.INFO : AuditLevel.WARNING,
-      category: 'security',
-      action: 'access_check',
-      actor: {
-        type: 'user',
-        id: principal.userId,
-        metadata: {
-          role: principal.role,
-          projectId: principal.projectId,
-          agentName: principal.agentName
-        }
-      },
-      resource: decision.context ? {
-        type: decision.context.type,
-        id: decision.context.id,
-        metadata: {
-          agentName: decision.context.agentName,
-          projectId: decision.context.projectId,
-          ownerId: decision.context.ownerId
-        }
-      } : undefined,
-      details: {
+      id: crypto.randomUUID(),
+      timestamp: new Date().toISOString(),
+      type: 'sensitive_data_accessed',
+      agent: principal.agentName || 'unknown',
+      action: `access_check:${decision.operation}`,
+      success: decision.allowed,
+      error: decision.allowed ? undefined : decision.reason,
+      metadata: {
+        userId: principal.userId,
+        role: principal.role,
+        projectId: principal.projectId,
         operation: decision.operation,
-        allowed: decision.allowed,
-        reason: decision.reason
-      },
-      outcome: decision.allowed ? 'success' : 'failure'
+        resourceType: decision.context?.type,
+        resourceId: decision.context?.id
+      }
     };
 
     await this.auditLogger.log(event);

@@ -9,9 +9,7 @@
  * - Cross-pollination tracking and analytics
  */
 
-import { Pattern, PatternModel } from '../models/Pattern';
-import { Solution } from '../models/Solution';
-import { Decision } from '../models/Decision';
+import { Pattern } from '../models/Pattern';
 import { AgentName, Context } from '../types/common';
 
 /**
@@ -658,7 +656,7 @@ export class CrossAgentLearning {
    */
   private adaptTerminology(
     term: string,
-    sourceAgent: AgentName,
+    _sourceAgent: AgentName,
     targetAgent: AgentName
   ): string {
     // Terminology mapping (could be extended with a full dictionary)
@@ -848,7 +846,7 @@ export class CrossAgentLearning {
   private generateConflictRationale(
     winner: Pattern,
     votes: Map<string, number>,
-    allPatterns: Pattern[]
+    _allPatterns: Pattern[]
   ): string {
     const winnerVote = votes.get(winner.id)!;
     const totalVotes = Array.from(votes.values()).reduce((a, b) => a + b, 0);
@@ -863,7 +861,7 @@ export class CrossAgentLearning {
   /**
    * Get cross-pollination depth for a pattern
    */
-  private getCrossPollinationDepth(sourceAgent: AgentName, patternId: string): number {
+  private getCrossPollinationDepth(_sourceAgent: AgentName, patternId: string): number {
     // Check sharing history for chain depth
     const shares = Array.from(this.sharingHistory.values()).filter(
       (s) => s.patternId === patternId

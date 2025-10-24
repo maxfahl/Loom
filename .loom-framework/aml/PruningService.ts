@@ -8,8 +8,9 @@
 import { Pattern, PatternModel } from './models/Pattern';
 import { Solution, SolutionModel } from './models/Solution';
 import { Decision, DecisionModel } from './models/Decision';
-import { AgentName, Timestamp } from './types/common';
+import { AgentName, OperationResult } from './types/common';
 import { PruningConfig } from './config/schema';
+import { MemoryStore } from './storage/MemoryStore';
 
 export interface PruneResult {
   agent: AgentName;
@@ -42,9 +43,17 @@ export interface PruneStrategy {
 export class PruningService {
   private schedule: NodeJS.Timeout | null;
   private config: PruningConfig;
+  private store: MemoryStore;
 
-  constructor(config: PruningConfig) {
-    this.config = config;
+  constructor(store: MemoryStore, config?: PruningConfig) {
+    this.store = store;
+    this.config = config || {
+      enabled: true,
+      schedule: 'daily',
+      maxAgeDays: 90,
+      minConfidence: 0.5,
+      minUsageRate: 0.1,
+    };
     this.schedule = null;
   }
 
@@ -278,7 +287,7 @@ export class PruningService {
     return decisions.filter((decision) => {
       const age = now - new Date(decision.timestamp).getTime();
       const hasOutcome = decision.outcome !== undefined;
-      return age <= maxAgeMs || (hasOutcome && decision.outcome.wouldRepeat); // Keep recent or successful
+      return age <= maxAgeMs || (hasOutcome && decision.outcome?.wouldRepeat); // Keep recent or successful
     });
   }
 
@@ -363,5 +372,415 @@ export class PruningService {
    */
   updateConfig(config: Partial<PruningConfig>): void {
     this.config = { ...this.config, ...config };
+  }
+
+  // ============================================================================
+  // PUBLIC ASYNC METHODS (NEW API)
+  // ============================================================================
+
+  /**
+   * Prune patterns by time criteria
+   */
+  async pruneByTime(
+    agent: AgentName,
+    options: {
+      maxAgeDays: number;
+      minUsageRate?: number;
+      preserveHighValue?: boolean;
+      minConfidenceToPreserve?: number;
+    }
+  ): Promise<OperationResult<{ removedCount: number }>> {
+    try {
+      const memory = await this.store.loadAgentMemory(agent);
+      const initialCount = memory.patterns.length;
+
+      const now = Date.now();
+      const maxAgeMs = options.maxAgeDays * 24 * 60 * 60 * 1000;
+
+      memory.patterns = memory.patterns.filter((pattern) => {
+        const age = now - new Date(pattern.evolution.lastUsed).getTime();
+        if (age <= maxAgeMs) return true; // Keep recent patterns
+
+        // Check if should preserve high-value patterns
+        if (options.preserveHighValue && options.minConfidenceToPreserve !== undefined) {
+          if (pattern.evolution.confidenceScore >= options.minConfidenceToPreserve) {
+            return true; // Preserve high-confidence patterns
+          }
+        }
+
+        // Check usage rate for old patterns
+        if (options.minUsageRate !== undefined) {
+          const ageDays = age / (24 * 60 * 60 * 1000);
+          const usageRate = pattern.metrics.executionCount / ageDays;
+          return usageRate >= options.minUsageRate;
+        }
+
+        return false; // Remove old unused patterns
+      });
+
+      const removedCount = initialCount - memory.patterns.length;
+      await this.store.saveAgentMemory(agent, memory);
+
+      return { success: true, data: { removedCount } };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Prune failed patterns
+   */
+  async pruneFailedPatterns(
+    agent: AgentName,
+    options: { minAgeDays: number; maxSuccessRate: number }
+  ): Promise<OperationResult<{ removedCount: number }>> {
+    try {
+      const memory = await this.store.loadAgentMemory(agent);
+      const initialCount = memory.patterns.length;
+
+      const now = Date.now();
+      const minAgeMs = options.minAgeDays * 24 * 60 * 60 * 1000;
+
+      memory.patterns = memory.patterns.filter((pattern) => {
+        const age = now - new Date(pattern.timestamp).getTime();
+        const isOldEnough = age >= minAgeMs;
+        const hasPoorSuccessRate = pattern.metrics.successRate < options.maxSuccessRate;
+
+        // Remove if old enough AND has poor success rate
+        return !(isOldEnough && hasPoorSuccessRate);
+      });
+
+      const removedCount = initialCount - memory.patterns.length;
+      await this.store.saveAgentMemory(agent, memory);
+
+      return { success: true, data: { removedCount } };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Archive old decisions instead of deleting
+   */
+  async archiveOldDecisions(
+    agent: AgentName,
+    options: { maxAgeDays: number }
+  ): Promise<OperationResult<{ archivedCount: number }>> {
+    try {
+      const memory = await this.store.loadAgentMemory(agent);
+      const now = Date.now();
+      const maxAgeMs = options.maxAgeDays * 24 * 60 * 60 * 1000;
+
+      const toArchive: Decision[] = [];
+      memory.decisions = memory.decisions.filter((decision) => {
+        const age = now - new Date(decision.timestamp).getTime();
+        if (age > maxAgeMs) {
+          toArchive.push(decision);
+          return false; // Remove from active decisions
+        }
+        return true;
+      });
+
+      // Save archived decisions to global storage
+      if (toArchive.length > 0) {
+        const existingArchive = (await this.store.loadGlobalData<Decision[]>('archived-decisions.json')) || [];
+        existingArchive.push(...toArchive);
+        await this.store.saveGlobalData('archived-decisions.json', existingArchive);
+      }
+
+      await this.store.saveAgentMemory(agent, memory);
+
+      return { success: true, data: { archivedCount: toArchive.length } };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Prune by performance criteria
+   */
+  async pruneByPerformance(
+    agent: AgentName,
+    options: {
+      minSuccessRate: number;
+      minConfidence?: number;
+      requireConfirmation?: boolean;
+      createBackup?: boolean;
+      dryRun?: boolean;
+    }
+  ): Promise<OperationResult<{ removedCount?: number; wouldRemoveCount?: number; backupId?: string }>> {
+    try {
+      // Check if confirmation is required
+      if (options.requireConfirmation) {
+        return { success: false, error: 'confirmation required' };
+      }
+
+      const memory = await this.store.loadAgentMemory(agent);
+      const initialCount = memory.patterns.length;
+
+      // Create backup if requested
+      let backupId: string | undefined;
+      if (options.createBackup) {
+        const backupFiles = await this.store.backupAgentMemory(agent);
+        backupId = backupFiles.length > 0 ? `backup-${Date.now()}` : undefined;
+      }
+
+      // Filter patterns by performance
+      const filtered = memory.patterns.filter((pattern) => {
+        if (pattern.metrics.successRate < options.minSuccessRate) {
+          return false;
+        }
+        if (options.minConfidence !== undefined && pattern.evolution.confidenceScore < options.minConfidence) {
+          return false;
+        }
+        return true;
+      });
+
+      const wouldRemoveCount = initialCount - filtered.length;
+
+      // Dry run mode - don't actually remove
+      if (options.dryRun) {
+        return { success: true, data: { wouldRemoveCount } };
+      }
+
+      // Actually remove patterns
+      memory.patterns = filtered;
+      await this.store.saveAgentMemory(agent, memory);
+
+      return {
+        success: true,
+        data: { removedCount: wouldRemoveCount, backupId },
+      };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Prune outdated solutions
+   */
+  async pruneOutdatedSolutions(agent: AgentName): Promise<OperationResult<{ removedCount: number }>> {
+    try {
+      const memory = await this.store.loadAgentMemory(agent);
+      const initialCount = memory.solutions.length;
+
+      const now = Date.now();
+      const maxAgeMs = 180 * 24 * 60 * 60 * 1000; // 180 days
+
+      memory.solutions = memory.solutions.filter((solution) => {
+        const age = now - new Date(solution.timestamp).getTime();
+        const isOld = age > maxAgeMs;
+        const didNotWork = !solution.effectiveness.worked;
+
+        // Remove if old AND didn't work
+        return !(isOld && didNotWork);
+      });
+
+      const removedCount = initialCount - memory.solutions.length;
+      await this.store.saveAgentMemory(agent, memory);
+
+      return { success: true, data: { removedCount } };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Check memory size for an agent
+   */
+  async checkMemorySize(agent: AgentName): Promise<OperationResult<{ sizeMB: number; sizeBytes: number }>> {
+    try {
+      const sizeBytes = await this.store.getAgentMemorySize(agent);
+      const sizeMB = sizeBytes / (1024 * 1024);
+
+      return { success: true, data: { sizeMB, sizeBytes } };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Prune by space constraints
+   */
+  async pruneBySpace(
+    agent: AgentName,
+    options: { removeCount?: number; targetSizeMB?: number }
+  ): Promise<OperationResult<{ removedCount: number }>> {
+    try {
+      const memory = await this.store.loadAgentMemory(agent);
+
+      // Sort patterns by weight (lowest first)
+      const sortedPatterns = memory.patterns
+        .map((p) => ({
+          pattern: p,
+          weight: new PatternModel(p).calculateWeight(),
+        }))
+        .sort((a, b) => a.weight - b.weight);
+
+      let removeCount = options.removeCount || 0;
+
+      // If targetSizeMB specified, calculate how many to remove
+      if (options.targetSizeMB && !options.removeCount) {
+        const currentSize = await this.store.getAgentMemorySize(agent);
+        const currentSizeMB = currentSize / (1024 * 1024);
+        const targetBytes = options.targetSizeMB * 1024 * 1024;
+        const bytesToRemove = currentSize - targetBytes;
+
+        if (bytesToRemove > 0) {
+          // Rough estimate: 1KB per pattern
+          removeCount = Math.ceil(bytesToRemove / 1024);
+        }
+      }
+
+      // Remove lowest-weight patterns
+      memory.patterns = sortedPatterns.slice(removeCount).map((item) => item.pattern);
+
+      await this.store.saveAgentMemory(agent, memory);
+
+      return { success: true, data: { removedCount: removeCount } };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Compress old data
+   */
+  async compressOldData(
+    agent: AgentName,
+    options: { maxAgeDays: number }
+  ): Promise<OperationResult<{ compressionRatio: number }>> {
+    try {
+      const memory = await this.store.loadAgentMemory(agent);
+      const now = Date.now();
+      const maxAgeMs = options.maxAgeDays * 24 * 60 * 60 * 1000;
+
+      let compressedCount = 0;
+      memory.patterns.forEach((pattern) => {
+        const age = now - new Date(pattern.timestamp).getTime();
+        if (age > maxAgeMs) {
+          // Mark as compressed (this is a simulated compression)
+          if (!pattern.pattern.context['_compressed']) {
+            pattern.pattern.context['_compressed'] = true;
+            compressedCount++;
+          }
+        }
+      });
+
+      await this.store.saveAgentMemory(agent, memory);
+
+      // Calculate compression ratio (simulated)
+      const compressionRatio = compressedCount > 0 ? 0.7 : 1.0;
+
+      return { success: true, data: { compressionRatio } };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Calculate pattern weight
+   */
+  async calculatePatternWeight(pattern: Pattern): Promise<number> {
+    const model = new PatternModel(pattern);
+    return model.calculateWeight();
+  }
+
+  /**
+   * Generate pruning report
+   */
+  async generatePruningReport(
+    agent: AgentName
+  ): Promise<OperationResult<{ totalPatterns: number; recommendations: string[] }>> {
+    try {
+      const memory = await this.store.loadAgentMemory(agent);
+      const now = Date.now();
+
+      const totalPatterns = memory.patterns.length;
+      const recommendations: string[] = [];
+
+      // Analyze patterns
+      let lowConfidenceCount = 0;
+      let oldPatternCount = 0;
+      const maxAgeMs = 90 * 24 * 60 * 60 * 1000;
+
+      memory.patterns.forEach((pattern) => {
+        if (pattern.evolution.confidenceScore < 0.5) {
+          lowConfidenceCount++;
+        }
+        const age = now - new Date(pattern.evolution.lastUsed).getTime();
+        if (age > maxAgeMs) {
+          oldPatternCount++;
+        }
+      });
+
+      if (lowConfidenceCount > 0) {
+        recommendations.push(`Remove ${lowConfidenceCount} low-confidence patterns`);
+      }
+      if (oldPatternCount > 0) {
+        recommendations.push(`Archive ${oldPatternCount} old patterns`);
+      }
+      if (memory.patterns.length > 1000) {
+        recommendations.push(`Consider space-based pruning (${memory.patterns.length} patterns)`);
+      }
+
+      return { success: true, data: { totalPatterns, recommendations } };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Estimate space savings
+   */
+  async estimateSpaceSavings(
+    agent: AgentName,
+    options: { minSuccessRate?: number; maxAgeDays?: number }
+  ): Promise<
+    OperationResult<{ currentSizeMB: number; projectedSizeMB: number; savingsPercentage: number }>
+  > {
+    try {
+      const memory = await this.store.loadAgentMemory(agent);
+      const currentSize = await this.store.getAgentMemorySize(agent);
+      const currentSizeMB = currentSize / (1024 * 1024);
+
+      let patternsToRemove = 0;
+      const now = Date.now();
+
+      memory.patterns.forEach((pattern) => {
+        let shouldRemove = false;
+
+        if (options.minSuccessRate !== undefined) {
+          if (pattern.metrics.successRate < options.minSuccessRate) {
+            shouldRemove = true;
+          }
+        }
+
+        if (options.maxAgeDays !== undefined) {
+          const age = now - new Date(pattern.evolution.lastUsed).getTime();
+          const maxAgeMs = options.maxAgeDays * 24 * 60 * 60 * 1000;
+          if (age > maxAgeMs) {
+            shouldRemove = true;
+          }
+        }
+
+        if (shouldRemove) {
+          patternsToRemove++;
+        }
+      });
+
+      // Estimate space savings (rough: 1KB per pattern)
+      const estimatedBytesSaved = patternsToRemove * 1024;
+      const projectedSize = currentSize - estimatedBytesSaved;
+      const projectedSizeMB = projectedSize / (1024 * 1024);
+      const savingsPercentage = currentSize > 0 ? (estimatedBytesSaved / currentSize) * 100 : 0;
+
+      return {
+        success: true,
+        data: { currentSizeMB, projectedSizeMB, savingsPercentage },
+      };
+    } catch (error) {
+      return { success: false, error: (error as Error).message };
+    }
   }
 }

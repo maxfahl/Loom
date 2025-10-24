@@ -164,18 +164,18 @@ export class PatternRecognitionEngine {
     // Group similar sequences
     for (const seq of sequences) {
       const normalized = this.normalizeSequence(seq);
-      const signature = this.generateSequenceSignature(normalized);
+      const _signature = this.generateSequenceSignature(normalized);
 
-      if (!sequenceMap.has(signature)) {
-        sequenceMap.set(signature, []);
+      if (!sequenceMap.has(_signature)) {
+        sequenceMap.set(_signature, []);
       }
-      sequenceMap.get(signature)!.push(seq);
+      sequenceMap.get(_signature)!.push(seq);
     }
 
     // Filter by minimum frequency and aggregate
     const commonSequences: ActionSequence[] = [];
 
-    for (const [signature, seqGroup] of sequenceMap.entries()) {
+    for (const [_signature, seqGroup] of sequenceMap.entries()) {
       if (seqGroup.length >= this.config.minFrequency) {
         // Create representative sequence with aggregated metrics
         const representative = seqGroup[0];
@@ -396,14 +396,14 @@ export class PatternRecognitionEngine {
 
     // Calculate success rate
     const successCount = sequence.actions.filter((a) => a.outcome === 'success').length;
-    const successRate = successCount / sequence.actions.length;
+    const _successRate = successCount / sequence.actions.length;
 
     // Pattern must have positive success rate
-    if (successRate <= 0.5) {
+    if (_successRate <= 0.5) {
       return {
         valid: false,
         pValue: 1.0,
-        reason: `Low success rate: ${successRate.toFixed(2)}`,
+        reason: `Low success rate: ${_successRate.toFixed(2)}`,
       };
     }
 
@@ -582,7 +582,6 @@ export class PatternRecognitionEngine {
   ): number {
     const successCount = sequence.actions.filter((a) => a.outcome === 'success').length;
     const totalCount = sequence.actions.length;
-    const successRate = successCount / totalCount;
 
     // Calculate expected success rate from existing patterns
     const avgSuccessRate =

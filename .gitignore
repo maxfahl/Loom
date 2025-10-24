@@ -42,8 +42,14 @@ docs/implementation-plan/
 !REMEDY_*.md
 !*.md
 
-# Node modules if testing automation
+# Node modules and build outputs
 node_modules/
+dist/
+*.tsbuildinfo
+
+# Framework development outputs
+.loom-framework/node_modules/
+.loom-framework/dist/
 
 # Python virtual environments if testing
 venv/
@@ -52,7 +58,14 @@ __pycache__/
 *.pyc
 /temp/
 
-# Ignore only implementation-plan directory (keep docs/development/)
-docs/**/*
+# Ignore test artifacts and temporary files
 skill_test_bench/**/*
 tmp/**/*
+
+# Track framework documentation but ignore temporary docs
+!docs/
+!docs/setup/
+!docs/setup/**
+!docs/development/
+!docs/development/**
+docs/implementation-plan/**/*

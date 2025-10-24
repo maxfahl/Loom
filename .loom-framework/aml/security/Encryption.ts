@@ -22,14 +22,12 @@ export class Encryption {
   private algorithm: string;
   private keyLength: number;
   private ivLength: number;
-  private authTagLength: number;
   private key: Buffer | null = null;
 
   constructor(options: EncryptionOptions = {}) {
     this.algorithm = options.algorithm || 'aes-256-gcm';
     this.keyLength = options.keyLength || 32; // 256 bits
     this.ivLength = options.ivLength || 16; // 128 bits
-    this.authTagLength = options.authTagLength || 16; // 128 bits
   }
 
   /**
@@ -67,16 +65,14 @@ export class Encryption {
       const iv = crypto.randomBytes(this.ivLength);
 
       // Create cipher
-      const cipher = crypto.createCipheriv(this.algorithm, this.key, iv, {
-        authTagLength: this.authTagLength,
-      });
+      const cipher = crypto.createCipheriv(this.algorithm, this.key, iv);
 
       // Encrypt data
       let encrypted = cipher.update(data, 'utf8', 'base64');
       encrypted += cipher.final('base64');
 
       // Get authentication tag
-      const authTag = cipher.getAuthTag();
+      const authTag = (cipher as any).getAuthTag();
 
       return {
         encrypted,
@@ -103,12 +99,10 @@ export class Encryption {
       const authTag = Buffer.from(encryptedData.authTag, 'base64');
 
       // Create decipher
-      const decipher = crypto.createDecipheriv(this.algorithm, this.key, iv, {
-        authTagLength: this.authTagLength,
-      });
+      const decipher = crypto.createDecipheriv(this.algorithm, this.key, iv);
 
       // Set authentication tag
-      decipher.setAuthTag(authTag);
+      (decipher as any).setAuthTag(authTag);
 
       // Decrypt data
       let decrypted = decipher.update(encryptedData.encrypted, 'base64', 'utf8');

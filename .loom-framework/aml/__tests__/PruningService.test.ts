@@ -46,7 +46,7 @@ describe('PruningService', () => {
       oldDate.setDate(oldDate.getDate() - 95);
 
       const oldPattern: Pattern = {
-        id: 'old-pattern',
+        id: '00000000-0000-0000-0000-000000000001',
         agent: AGENT,
         timestamp: oldDate.toISOString(),
         pattern: {
@@ -61,7 +61,7 @@ describe('PruningService', () => {
 
       // Recent pattern
       const recentPattern: Pattern = {
-        id: 'recent-pattern',
+        id: '00000000-0000-0000-0000-000000000002',
         agent: AGENT,
         timestamp: new Date().toISOString(),
         pattern: {
@@ -85,7 +85,7 @@ describe('PruningService', () => {
       // Verify old pattern is gone, recent remains
       const patterns = await memoryStore.getPatterns(AGENT);
       expect(patterns.data).toHaveLength(1);
-      expect(patterns.data[0].id).toBe('recent-pattern');
+      expect(patterns.data[0].id).toBe('00000000-0000-0000-0000-000000000002');
     });
 
     it('should remove failed patterns after 30 days', async () => {
@@ -96,7 +96,7 @@ describe('PruningService', () => {
       oldFailedDate.setDate(oldFailedDate.getDate() - 35);
 
       const oldFailedPattern: Pattern = {
-        id: 'old-failed',
+        id: '00000000-0000-0000-0000-000000000003',
         agent: AGENT,
         timestamp: oldFailedDate.toISOString(),
         pattern: {
@@ -160,7 +160,7 @@ describe('PruningService', () => {
 
       // Low success pattern
       const lowSuccessPattern: Pattern = {
-        id: 'low-success',
+        id: '00000000-0000-0000-0000-000000000004',
         agent: AGENT,
         timestamp: new Date().toISOString(),
         pattern: {
@@ -175,7 +175,7 @@ describe('PruningService', () => {
 
       // High success pattern
       const highSuccessPattern: Pattern = {
-        id: 'high-success',
+        id: '00000000-0000-0000-0000-000000000005',
         agent: AGENT,
         timestamp: new Date().toISOString(),
         pattern: {
@@ -198,7 +198,7 @@ describe('PruningService', () => {
 
       const patterns = await memoryStore.getPatterns(AGENT);
       expect(patterns.data).toHaveLength(1);
-      expect(patterns.data[0].id).toBe('high-success');
+      expect(patterns.data[0].id).toBe('00000000-0000-0000-0000-000000000005');
     });
 
     it('should prune solutions that no longer apply', async () => {
@@ -246,7 +246,7 @@ describe('PruningService', () => {
 
       // Old but high-value pattern
       const highValuePattern: Pattern = {
-        id: 'high-value',
+        id: '00000000-0000-0000-0000-000000000006',
         agent: AGENT,
         timestamp: oldDate.toISOString(),
         pattern: {
@@ -271,7 +271,7 @@ describe('PruningService', () => {
       expect(result.data?.removedCount).toBe(0); // Should be preserved
 
       const patterns = await memoryStore.getPatterns(AGENT);
-      expect(patterns.data.find(p => p.id === 'high-value')).toBeDefined();
+      expect(patterns.data.find(p => p.id === '00000000-0000-0000-0000-000000000006')).toBeDefined();
     });
   });
 
@@ -283,7 +283,7 @@ describe('PruningService', () => {
       // Create many patterns to simulate high memory usage
       for (let i = 0; i < 100; i++) {
         await memoryStore.addPattern(AGENT, {
-          id: `p${i}`,
+          id: crypto.randomUUID(),
           agent: AGENT,
           timestamp: new Date().toISOString(),
           pattern: {
@@ -317,9 +317,13 @@ describe('PruningService', () => {
       await memoryStore.ensureAgentDirectory(AGENT);
 
       // Add patterns with different confidence scores
+      const lowConfId = '00000000-0000-0000-0000-000000000007';
+      const mediumConfId = '00000000-0000-0000-0000-000000000008';
+      const highConfId = '00000000-0000-0000-0000-000000000009';
+
       const patterns: Pattern[] = [
         {
-          id: 'low-conf',
+          id: lowConfId,
           agent: AGENT,
           timestamp: new Date().toISOString(),
           pattern: {
@@ -332,7 +336,7 @@ describe('PruningService', () => {
           evolution: { created: new Date().toISOString(), lastUsed: new Date().toISOString(), refinements: 0, confidenceScore: 0.3 }
         },
         {
-          id: 'medium-conf',
+          id: mediumConfId,
           agent: AGENT,
           timestamp: new Date().toISOString(),
           pattern: {
@@ -345,7 +349,7 @@ describe('PruningService', () => {
           evolution: { created: new Date().toISOString(), lastUsed: new Date().toISOString(), refinements: 1, confidenceScore: 0.6 }
         },
         {
-          id: 'high-conf',
+          id: highConfId,
           agent: AGENT,
           timestamp: new Date().toISOString(),
           pattern: {
@@ -370,8 +374,8 @@ describe('PruningService', () => {
 
       // Lowest confidence should be removed
       const remaining = await memoryStore.getPatterns(AGENT);
-      expect(remaining.data.find(p => p.id === 'low-conf')).toBeUndefined();
-      expect(remaining.data.find(p => p.id === 'high-conf')).toBeDefined();
+      expect(remaining.data.find(p => p.id === lowConfId)).toBeUndefined();
+      expect(remaining.data.find(p => p.id === highConfId)).toBeDefined();
     });
 
     it('should compress old data instead of deleting', async () => {
@@ -379,7 +383,7 @@ describe('PruningService', () => {
       await memoryStore.ensureAgentDirectory(AGENT);
 
       const oldPattern: Pattern = {
-        id: 'old',
+        id: '00000000-0000-0000-0000-00000000000a',
         agent: AGENT,
         timestamp: new Date(Date.now() - 100 * 24 * 60 * 60 * 1000).toISOString(),
         pattern: {
@@ -404,7 +408,7 @@ describe('PruningService', () => {
   describe('Pattern Weighting', () => {
     it('should calculate pattern weight correctly', async () => {
       const pattern: Pattern = {
-        id: 'test',
+        id: '00000000-0000-0000-0000-00000000000b',
         agent: 'test-agent',
         timestamp: new Date().toISOString(),
         pattern: {
@@ -425,7 +429,7 @@ describe('PruningService', () => {
 
     it('should weight recent patterns higher', async () => {
       const recentPattern: Pattern = {
-        id: 'recent',
+        id: '00000000-0000-0000-0000-00000000000c',
         agent: 'test-agent',
         timestamp: new Date().toISOString(),
         pattern: {
@@ -439,7 +443,7 @@ describe('PruningService', () => {
       };
 
       const oldPattern: Pattern = {
-        id: 'old',
+        id: '00000000-0000-0000-0000-00000000000d',
         agent: 'test-agent',
         timestamp: new Date(Date.now() - 100 * 24 * 60 * 60 * 1000).toISOString(),
         pattern: {
@@ -460,7 +464,7 @@ describe('PruningService', () => {
 
     it('should weight high-success patterns higher', async () => {
       const highSuccessPattern: Pattern = {
-        id: 'high',
+        id: '00000000-0000-0000-0000-00000000000e',
         agent: 'test-agent',
         timestamp: new Date().toISOString(),
         pattern: {
@@ -474,7 +478,7 @@ describe('PruningService', () => {
       };
 
       const lowSuccessPattern: Pattern = {
-        id: 'low',
+        id: '00000000-0000-0000-0000-00000000000f',
         agent: 'test-agent',
         timestamp: new Date().toISOString(),
         pattern: {
@@ -505,7 +509,7 @@ describe('PruningService', () => {
         const date = new Date(Date.now() - age * 24 * 60 * 60 * 1000);
 
         await memoryStore.addPattern(AGENT, {
-          id: `p${i}`,
+          id: crypto.randomUUID(),
           agent: AGENT,
           timestamp: date.toISOString(),
           pattern: {
@@ -533,7 +537,7 @@ describe('PruningService', () => {
 
       for (let i = 0; i < 20; i++) {
         await memoryStore.addPattern(AGENT, {
-          id: `p${i}`,
+          id: crypto.randomUUID(),
           agent: AGENT,
           timestamp: new Date().toISOString(),
           pattern: {
@@ -577,7 +581,7 @@ describe('PruningService', () => {
       await memoryStore.ensureAgentDirectory(AGENT);
 
       await memoryStore.addPattern(AGENT, {
-        id: 'test',
+        id: '00000000-0000-0000-0000-000000000010',
         agent: AGENT,
         timestamp: new Date().toISOString(),
         pattern: {
@@ -604,7 +608,7 @@ describe('PruningService', () => {
       await memoryStore.ensureAgentDirectory(AGENT);
 
       await memoryStore.addPattern(AGENT, {
-        id: 'test',
+        id: '00000000-0000-0000-0000-000000000011',
         agent: AGENT,
         timestamp: new Date().toISOString(),
         pattern: {

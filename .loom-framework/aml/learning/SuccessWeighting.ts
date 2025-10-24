@@ -261,11 +261,13 @@ export class SuccessWeightingSystem {
    */
   calculateDecisionWeight(decision: Decision): WeightResult {
     // Convert decision to pattern-like structure
-    const avgSuccessMetric =
-      (decision.outcome.successMetrics.developmentSpeed +
-        decision.outcome.successMetrics.apiPerformance +
-        decision.outcome.successMetrics.clientSatisfaction) /
-      3;
+    const successMetrics = decision.outcome?.successMetrics;
+    const avgSuccessMetric = successMetrics
+      ? ((successMetrics.developmentSpeed || 0) +
+          (successMetrics.apiPerformance || 0) +
+          (successMetrics.clientSatisfaction || 0)) /
+        3
+      : 0;
 
     const pseudoPattern: Partial<Pattern> = {
       id: decision.id,
@@ -279,7 +281,7 @@ export class SuccessWeightingSystem {
         created: decision.timestamp,
         lastUsed: decision.timestamp,
         refinements: 0,
-        confidenceScore: decision.outcome.wouldRepeat ? 0.85 : 0.4,
+        confidenceScore: decision.outcome?.wouldRepeat ? 0.85 : 0.4,
       },
       pattern: {
         type: decision.decision.type,
@@ -316,7 +318,6 @@ export class SuccessWeightingSystem {
       return this.dynamicThresholds;
     }
 
-    const successRate = history.successfulUsages / history.totalUsages;
     const adjustmentRate = this.config.thresholds.adjustmentRate;
 
     // Adjust minimum weight threshold

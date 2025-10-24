@@ -170,7 +170,7 @@ async function main() {
 
     // Step 4: Initialize AML service
     console.log('\n🚀 Initializing AML service...\n');
-    const service = await initializeAML(storagePath);
+    await initializeAML(storagePath);
     console.log('  ✓ AML service initialized');
 
     // Success message

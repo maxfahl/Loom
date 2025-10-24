@@ -90,6 +90,7 @@ export class EnhancedEncryption {
    * @returns Enhanced encrypted data structure
    */
   async encrypt(data: string, context?: string): Promise<EnhancedEncryptedData> {
+    // Auto-initialize for backward compatibility with legacy tests
     if (!this.masterKey) {
       await this.initialize();
     }
@@ -158,6 +159,7 @@ export class EnhancedEncryption {
    * @throws Error if decryption or authentication fails
    */
   async decrypt(encryptedData: EnhancedEncryptedData | LegacyEncryptedData): Promise<string> {
+    // Auto-initialize for backward compatibility with legacy tests
     if (!this.masterKey) {
       await this.initialize();
     }

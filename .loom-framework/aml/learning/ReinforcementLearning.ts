@@ -10,8 +10,7 @@
  * - Policy gradient hints for complex decisions
  */
 
-import { Pattern } from '../models/Pattern';
-import { AgentName, Context } from '../types/common';
+import { AgentName } from '../types/common';
 
 /**
  * State representation for Q-learning
@@ -175,7 +174,6 @@ export class ReinforcementLearningModule {
   private config: ReinforcementLearningConfig;
   private qTable: Map<string, Map<string, QValue>>; // state -> action -> Q-value
   private experienceBuffer: Experience[];
-  private actionCount: number;
   private updateCount: number;
   private currentEpsilon: number;
   private performanceHistory: Map<string, number[]>; // Track performance per agent
@@ -184,7 +182,6 @@ export class ReinforcementLearningModule {
     this.config = this.mergeConfig(config);
     this.qTable = new Map();
     this.experienceBuffer = [];
-    this.actionCount = 0;
     this.updateCount = 0;
     this.currentEpsilon = this.config.exploration.epsilon;
     this.performanceHistory = new Map();
@@ -201,7 +198,7 @@ export class ReinforcementLearningModule {
   selectAction(
     state: State,
     availableActions: Action[],
-    agentName: AgentName,
+    _agentName: AgentName,
     forceExploit: boolean = false
   ): Action {
     if (availableActions.length === 0) {
@@ -520,7 +517,6 @@ export class ReinforcementLearningModule {
   reset(): void {
     this.qTable.clear();
     this.experienceBuffer = [];
-    this.actionCount = 0;
     this.updateCount = 0;
     this.currentEpsilon = this.config.exploration.epsilon;
     this.performanceHistory.clear();

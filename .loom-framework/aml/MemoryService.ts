@@ -5,11 +5,11 @@
  * Provides CRUD operations, querying, and learning capabilities.
  */
 
+import * as path from 'path';
 import { MemoryStore, MemoryData } from './storage/MemoryStore';
 import { PatternModel, Pattern } from './models/Pattern';
 import { SolutionModel, Solution } from './models/Solution';
 import { DecisionModel, Decision } from './models/Decision';
-import { MetricsModel, Metrics } from './models/Metrics';
 import { ConfigManager } from './config/ConfigManager';
 import { AgentName, Context, OperationResult } from './types/common';
 import { AMLConfig } from './config/schema';
@@ -116,7 +116,8 @@ export class MemoryService {
 
   constructor(storagePath: string = '.loom/memory', config?: Partial<AMLConfig>) {
     this.store = new MemoryStore(storagePath, true);
-    this.configManager = new ConfigManager(storagePath);
+    // ConfigManager expects a file path, not a directory
+    this.configManager = new ConfigManager(path.join(storagePath, 'config.json'));
     this.memoryCache = new Map();
     this.cacheTimestamps = new Map();
     this.cacheTTL = 3600000; // 1 hour default
@@ -131,7 +132,7 @@ export class MemoryService {
    */
   async initialize(): Promise<void> {
     await this.store.initialize();
-    await this.configManager.initialize();
+    await this.configManager.load();
   }
 
   /**
@@ -143,11 +144,15 @@ export class MemoryService {
 
   /**
    * Check if AML is enabled for a specific agent
+   * Only returns true if agent is explicitly configured in agentOverrides
    */
   isEnabledForAgent(agent: AgentName): boolean {
     if (!this.isEnabled()) return false;
-    const agentConfig = this.configManager.getAgentConfig(agent);
-    return agentConfig.enabled;
+    const config = this.configManager.getConfig();
+    // Whitelist approach: agent must be explicitly configured
+    const override = config.agentOverrides?.[agent];
+    if (!override) return false;
+    return override.enabled ?? true;
   }
 
   // ============================================================================
@@ -761,7 +766,7 @@ export class MemoryService {
   /**
    * Record query metric (for performance tracking)
    */
-  private async recordQueryMetric(agent: AgentName, latencyMs: number): Promise<void> {
+  private async recordQueryMetric(_agent: AgentName, _latencyMs: number): Promise<void> {
     // TODO: Implement metrics collection
     // This will be handled by MetricsCollector in next phase
   }
@@ -769,7 +774,7 @@ export class MemoryService {
   /**
    * Record write metric (for performance tracking)
    */
-  private async recordWriteMetric(agent: AgentName, latencyMs: number): Promise<void> {
+  private async recordWriteMetric(_agent: AgentName, _latencyMs: number): Promise<void> {
     // TODO: Implement metrics collection
     // This will be handled by MetricsCollector in next phase
   }

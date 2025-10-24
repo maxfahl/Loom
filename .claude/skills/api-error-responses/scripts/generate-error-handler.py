@@ -307,25 +307,7 @@ def main():
     parser = argparse.ArgumentParser(
         description=f"{Color.BOLD}Generate a standardized API error handling module.{Color.ENDC}",
         formatter_class=argparse.RawTextHelpFormatter,
-        epilog=textwrap.dedent(f"""
-        {Color.BOLD}Description:{Color.ENDC}
-          This script bootstraps a complete error handling module for a Node.js framework.
-          It creates the following components based on RFC 9457 (Problem Details):
-          
-          1.  {Color.OKGREEN}problem-details.interface.ts{Color.ENDC}: A TypeScript interface for the RFC 9457 object.
-          2.  {Color.OKGREEN}custom-errors.ts{Color.ENDC}: A set of base and standard error classes (e.g., NotFoundError).
-          3.  {Color.OKGREEN}handler.ts / filter.ts{Color.ENDC}: A framework-specific global error handler or filter.
-
-        {Color.BOLD}Usage Examples:{Color.ENDC}
-          {Color.OKCYAN}# Generate error handler for Express in the 'src/errors' directory{Color.ENDC}
-          python3 {__file__} --framework express --out-dir src/errors
-
-          {Color.OKCYAN}# Perform a dry run for NestJS without creating files{Color.ENDC}
-          python3 {__file__} --framework nestjs --dry-run
-
-          {Color.OKCYAN}# Generate for Fastify in the default './error-handler' directory{Color.ENDC}
-          python3 {__file__} --framework fastify
-        """)
+        epilog="This is a simplified epilog."
     )
     parser.add_argument(
         "--framework",
@@ -346,7 +328,7 @@ def main():
 
     args = parser.parse_args()
 
-    print(f"{Color.HEADER}{Color.BOLD}Generating Error Handler for {args.framework.capitalize()}{Color.ENDC}")
+    print(f"Generating Error Handler for {args.framework.capitalize()}")
     print(f"Output directory: {Color.OKBLUE}{args.out_dir}{Color.ENDC}")
     if args.dry_run:
         print(f"{Color.WARNING}Running in dry-run mode. No files will be written.{Color.ENDC}")
@@ -376,8 +358,7 @@ def main():
             args.dry_run
         )
 
-    print(f"
-{Color.OKGREEN}{Color.BOLD}Success!{Color.ENDC} Error handling module generated.")
+    print("\nSuccess! Error handling module generated.")
     if not args.dry_run:
         print(f"Next steps:")
         if args.framework == "express":

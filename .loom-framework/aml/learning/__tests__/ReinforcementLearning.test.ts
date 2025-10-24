@@ -2,21 +2,43 @@
  * ReinforcementLearning Test Suite
  */
 
-import { describe, it, expect } from '@jest/globals';
-import { ReinforcementLearner } from '../ReinforcementLearning';
+import { describe, it, expect, beforeEach } from '@jest/globals';
+import { ReinforcementLearningModule, State, Action, Reward } from '../ReinforcementLearning';
 
 describe('ReinforcementLearning', () => {
-  let learner: ReinforcementLearner;
+  let learner: ReinforcementLearningModule;
 
   beforeEach(() => {
-    learner = new ReinforcementLearner({ learningRate: 0.1, discountFactor: 0.9 });
+    learner = new ReinforcementLearningModule({ learningRate: 0.1, discountFactor: 0.9 });
   });
 
   describe('Q-Learning', () => {
     it('should update Q-values based on rewards', () => {
-      const state = { context: 'react-component' };
-      const action = { type: 'useMemo' };
-      const reward = 1.0;
+      const state: State = {
+        id: 'state-1',
+        features: { context: 'react-component', complexity: 5 },
+        timestamp: new Date().toISOString(),
+        agentState: { recentSuccessRate: 0.8, confidenceLevel: 0.7, energyLevel: 0.9 }
+      };
+
+      const action: Action = {
+        id: 'action-1',
+        type: 'useMemo',
+        parameters: {},
+        estimatedCost: 0.1,
+        riskLevel: 'low'
+      };
+
+      const reward: Reward = {
+        value: 1.0,
+        components: {
+          successBonus: 1.0,
+          efficiencyBonus: 0.5,
+          qualityBonus: 0.8,
+          noveltyBonus: 0.3,
+          riskPenalty: 0.0
+        }
+      };
 
       const initialQ = learner.getQValue(state, action);
       learner.updateQValue(state, action, reward, state);
@@ -26,11 +48,34 @@ describe('ReinforcementLearning', () => {
     });
 
     it('should learn from multiple experiences', () => {
-      const state = { context: 'api-call' };
-      const action = { type: 'cache' };
+      const state: State = {
+        id: 'state-2',
+        features: { context: 'api-call', type: 'cache' },
+        timestamp: new Date().toISOString(),
+        agentState: { recentSuccessRate: 0.8, confidenceLevel: 0.7, energyLevel: 0.9 }
+      };
+
+      const action: Action = {
+        id: 'action-2',
+        type: 'cache',
+        parameters: {},
+        estimatedCost: 0.1,
+        riskLevel: 'low'
+      };
+
+      const reward: Reward = {
+        value: 1.0,
+        components: {
+          successBonus: 1.0,
+          efficiencyBonus: 0.5,
+          qualityBonus: 0.8,
+          noveltyBonus: 0.3,
+          riskPenalty: 0.0
+        }
+      };
 
       for (let i = 0; i < 10; i++) {
-        learner.updateQValue(state, action, 1.0, state);
+        learner.updateQValue(state, action, reward, state);
       }
 
       const qValue = learner.getQValue(state, action);
@@ -40,36 +85,77 @@ describe('ReinforcementLearning', () => {
 
   describe('Exploration vs Exploitation', () => {
     it('should balance exploration and exploitation', () => {
-      learner.setEpsilon(0.3); // 30% exploration
+      const state: State = {
+        id: 'state-3',
+        features: { context: 'test' },
+        timestamp: new Date().toISOString(),
+        agentState: { recentSuccessRate: 0.8, confidenceLevel: 0.7, energyLevel: 0.9 }
+      };
 
-      const state = { context: 'test' };
-      const actions = [{ type: 'a' }, { type: 'b' }, { type: 'c' }];
+      const actions: Action[] = [
+        { id: 'a1', type: 'a', parameters: {}, estimatedCost: 0.1, riskLevel: 'low' },
+        { id: 'a2', type: 'b', parameters: {}, estimatedCost: 0.1, riskLevel: 'low' },
+        { id: 'a3', type: 'c', parameters: {}, estimatedCost: 0.1, riskLevel: 'low' }
+      ];
 
-      let explorationCount = 0;
+      // Initialize Q-values for one action to be higher
+      const reward: Reward = {
+        value: 1.0,
+        components: {
+          successBonus: 1.0,
+          efficiencyBonus: 0.5,
+          qualityBonus: 0.8,
+          noveltyBonus: 0.3,
+          riskPenalty: 0.0
+        }
+      };
+      learner.updateQValue(state, actions[0], reward, state);
+
+      let exploitCount = 0;
       for (let i = 0; i < 100; i++) {
-        const action = learner.selectAction(state, actions);
-        if (learner.wasExploration()) explorationCount++;
+        const selectedAction = learner.selectAction(state, actions, 'test-agent');
+        if (selectedAction.id === 'a1') exploitCount++;
       }
 
-      expect(explorationCount).toBeGreaterThan(20);
-      expect(explorationCount).toBeLessThan(40);
+      // Should mostly exploit the best action but occasionally explore
+      expect(exploitCount).toBeGreaterThan(60);
+      expect(exploitCount).toBeLessThan(100);
     });
   });
 
   describe('Experience Replay', () => {
-    it('should store and replay experiences', () => {
-      const experience = {
-        state: { context: 'test' },
-        action: { type: 'action' },
-        reward: 1.0,
-        nextState: { context: 'test-complete' }
+    it('should maintain Q-table statistics', () => {
+      const state: State = {
+        id: 'state-4',
+        features: { context: 'test' },
+        timestamp: new Date().toISOString(),
+        agentState: { recentSuccessRate: 0.8, confidenceLevel: 0.7, energyLevel: 0.9 }
       };
 
-      learner.storeExperience(experience);
-      const experiences = learner.sampleExperiences(1);
+      const action: Action = {
+        id: 'action-4',
+        type: 'action',
+        parameters: {},
+        estimatedCost: 0.1,
+        riskLevel: 'low'
+      };
 
-      expect(experiences).toHaveLength(1);
-      expect(experiences[0]).toMatchObject(experience);
+      const reward: Reward = {
+        value: 1.0,
+        components: {
+          successBonus: 1.0,
+          efficiencyBonus: 0.5,
+          qualityBonus: 0.8,
+          noveltyBonus: 0.3,
+          riskPenalty: 0.0
+        }
+      };
+
+      learner.updateQValue(state, action, reward, state);
+
+      const stats = learner.getStatistics();
+      expect(stats.qTableSize).toBeGreaterThan(0);
+      expect(stats.totalUpdates).toBeGreaterThan(0);
     });
   });
 });

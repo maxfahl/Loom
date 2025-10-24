@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test-project" version="1.0.0">
+  <epics>
+    <epic id="test-epic-001" name="Test Epic" status="active">
+      <story id="test-story-001" name="Test Story" status="active">
+        <tasks>
+          <task id="test-task-001" status="pending">Test task</task>
+        </tasks>
+      </story>
+    </epic>
+  </epics>
+</project>

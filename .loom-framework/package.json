@@ -10,8 +10,14 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": "eslint aml/**/*.ts",
-    "format": "prettier --write \"aml/**/*.ts\"",
+    "test:unit": "jest aml/__tests__ --passWithNoTests",
+    "test:acp": "jest tests/acp",
+    "test:integration": "jest tests/integration",
+    "test:e2e": "jest tests/e2e",
+    "test:all": "jest --coverage",
+    "orchestrate": "npx ts-node tests/orchestrator/full-orchestration.ts",
+    "lint": "eslint aml/**/*.ts tests/**/*.ts",
+    "format": "prettier --write \"aml/**/*.ts\" \"tests/**/*.ts\"",
     "clean": "rm -rf dist"
   },
   "keywords": [
@@ -27,6 +33,9 @@
   "devDependencies": {
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.6",
+    "@types/pako": "^2.0.4",
+    "@types/proper-lockfile": "^4.1.4",
+    "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",
     "eslint": "^8.56.0",
@@ -36,9 +45,14 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "zod": "^3.22.4",
+    "@types/tar": "^6.1.13",
+    "acp-sdk": "^1.0.3",
+    "axios": "^1.6.5",
+    "pako": "^2.1.0",
     "proper-lockfile": "^4.1.2",
-    "pako": "^2.1.0"
+    "tar": "^7.5.1",
+    "xml2js": "^0.6.2",
+    "zod": "^3.22.4"
   },
   "engines": {
     "node": ">=18.0.0"

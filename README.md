@@ -201,7 +201,7 @@ AI engineer, API documenter, data engineer, data scientist, documentation expert
 - **zai-mcp-server** - AI vision
 - **web-search-prime** - Web search
 
-> See `MCP_SERVERS.md` for complete setup and documentation.
+> See `docs/setup/MCP_SERVERS.md` for complete setup and documentation.
 
 ### Documentation Structure
 
@@ -469,7 +469,7 @@ When an epic completes, the **coordinator** automatically triggers the **epic-re
 
 **Status**: Opt-in feature during setup (not enabled by default)
 
-AML allows agents to learn from execution patterns and improve performance over time. This is a TypeScript-based system that runs alongside Loom.
+AML allows agents to learn from execution patterns and improve performance over time. This is a **file-based system** - no installation, dependencies, or services required.
 
 ### What It Does
 
@@ -480,9 +480,14 @@ AML allows agents to learn from execution patterns and improve performance over 
 
 ### How It Works
 
-1. **Before Delegation**: Coordinator queries AML for relevant patterns
-2. **During Execution**: Agent applies learned patterns to current task
-3. **After Completion**: Records outcome, updates confidence scores, creates new patterns
+**AML is prompt-driven** - Claude conceptually "queries" and "records" patterns through natural language:
+
+1. **Before Delegation**: Agent prompt instructs Claude to query AML for relevant patterns
+2. **Claude Reads Data**: Simulates reading from `.loom/memory/*.json` files
+3. **During Execution**: Applies learned patterns to current task
+4. **After Completion**: Conceptually records outcome (writes to JSON files)
+
+**No code execution** - everything happens through filesystem operations and prompt instructions.
 
 ### Example Learning
 
@@ -554,19 +559,39 @@ During `loomify.md` setup, you'll be asked:
 Would you like to enable Agent Memory & Learning (AML)?
 
 AML allows agents to learn from execution patterns and improve over time.
-Requires Node.js/TypeScript infrastructure.
+Creates .loom/memory/ directory for data storage. No dependencies required.
 
 [y/N]:
 ```
 
 Choose `y` to enable, `N` (default) to skip.
 
-### Current Status
+### What Gets Created
 
-**Phase 1 Complete**: Core infrastructure (MemoryService, QueryEngine, CacheLayer, etc.)
-**Phase 2 In Progress**: Full agent integration and learning algorithms
+When you enable AML, only these files are created:
 
-See `src/aml/README.md` for complete technical documentation.
+```
+your-project/
+└── .loom/
+    └── memory/
+        ├── config.json         # Configuration settings
+        ├── global/             # Cross-agent patterns
+        ├── backups/            # Automated backups
+        └── audit/              # GDPR-compliant logs
+```
+
+**That's it.** No TypeScript files, no npm dependencies, no services to run.
+
+### Technical Details
+
+- **Storage**: File-based JSON in `.loom/memory/`
+- **Execution**: Prompt-driven (no code runs)
+- **Size**: ~5-50MB depending on usage
+- **Performance**: <50ms query latency
+- **Security**: AES-256-GCM encryption
+- **Privacy**: Local-only, GDPR compliant
+
+**For Loom developers**: TypeScript infrastructure in `.loom-framework/aml/` is for framework development only - see `.loom-framework/aml/FOR_LOOM_DEVELOPERS_ONLY.md`
 
 ---
 
@@ -686,7 +711,7 @@ Only 2 required MCP servers (context7 for documentation, playwright for testing)
 
 - **[Unified Setup/Update](loomify.md)** - Single entry point (auto-detects mode)
 - **[Agent Directory](.claude/AGENTS.md)** - Complete directory of all 46 agents
-- **[MCP Servers Guide](MCP_SERVERS.md)** - Setup and requirements (only 2 required!)
+- **[MCP Servers Guide](docs/setup/MCP_SERVERS.md)** - Setup and requirements (only 2 required!)
 - **[YOLO Mode Guide](prompts/reference/yolo-mode.md)** - Autonomous workflow documentation
 - **[Framework Development](CLAUDE.md)** - For modifying Loom itself
 - **[CHANGELOG](CHANGELOG.md)** - Version history

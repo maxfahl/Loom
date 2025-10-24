@@ -10,7 +10,6 @@
  * - Predictive maintenance for patterns
  */
 
-import { Pattern } from '../models/Pattern';
 import { AgentName } from '../types/common';
 
 /**
@@ -223,7 +222,7 @@ export class TrendAnalysisSystem {
    * - Standard deviation for volatility
    * - Forecasting for future performance
    */
-  analyzeTrends(patternId: string, agentName?: AgentName): TrendResult | null {
+  analyzeTrends(patternId: string, _agentName?: AgentName): TrendResult | null {
     const data = this.historicalData.get(patternId);
 
     if (!data || data.length < this.config.anomaly.minDataPoints) {
@@ -944,9 +943,9 @@ export class TrendAnalysisSystem {
    */
   private generateRecommendations(
     direction: string,
-    slope: number,
+    _slope: number,
     anomalies: AnomalyDetection[],
-    volatility: number,
+    _volatility: number,
     seasonality?: SeasonalPattern
   ): string[] {
     const recommendations: string[] = [];
@@ -971,7 +970,7 @@ export class TrendAnalysisSystem {
       );
     }
 
-    if (direction === 'stable' && slope > 0) {
+    if (direction === 'stable' && _slope > 0) {
       recommendations.push('Pattern performing well - consider sharing with other agents');
     }
 

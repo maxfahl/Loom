@@ -8,7 +8,8 @@
  */
 
 // Core Service
-export { MemoryService } from './MemoryService';
+import { MemoryService } from './MemoryService';
+export { MemoryService };
 export type {
   QueryPatternOptions,
   QuerySolutionOptions,

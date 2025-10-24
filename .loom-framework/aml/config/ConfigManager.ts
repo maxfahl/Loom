@@ -7,7 +7,6 @@ import * as path from 'path';
 import {
   AMLConfig,
   AgentConfig,
-  AMLConfigSchema,
   DEFAULT_AML_CONFIG,
   validateConfig,
   mergeConfig,

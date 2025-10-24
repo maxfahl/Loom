@@ -29,6 +29,18 @@ export class MemoryStore {
   }
 
   /**
+   * Ensure agent directory exists by initializing empty memory
+   */
+  async ensureAgentDirectory(agentName: AgentName): Promise<void> {
+    // Save empty arrays to create the directory structure
+    await this.saveAgentMemory(agentName, {
+      patterns: [],
+      solutions: [],
+      decisions: [],
+    });
+  }
+
+  /**
    * Load all memory data for an agent
    */
   async loadAgentMemory(agentName: AgentName): Promise<MemoryData> {
@@ -56,6 +68,15 @@ export class MemoryStore {
   }
 
   /**
+   * Add a single pattern to an agent's memory
+   */
+  async addPattern(agentName: AgentName, pattern: Pattern): Promise<void> {
+    const memory = await this.loadAgentMemory(agentName);
+    memory.patterns.push(pattern);
+    await this.savePatterns(agentName, memory.patterns);
+  }
+
+  /**
    * Save solutions for an agent
    */
   async saveSolutions(agentName: AgentName, solutions: Solution[]): Promise<void> {
@@ -63,10 +84,28 @@ export class MemoryStore {
   }
 
   /**
+   * Add a single solution to an agent's memory
+   */
+  async addSolution(agentName: AgentName, solution: Solution): Promise<void> {
+    const memory = await this.loadAgentMemory(agentName);
+    memory.solutions.push(solution);
+    await this.saveSolutions(agentName, memory.solutions);
+  }
+
+  /**
    * Save decisions for an agent
    */
   async saveDecisions(agentName: AgentName, decisions: Decision[]): Promise<void> {
     await this.storage.write(`${agentName}/decisions.json`, decisions);
+  }
+
+  /**
+   * Add a single decision to an agent's memory
+   */
+  async addDecision(agentName: AgentName, decision: Decision): Promise<void> {
+    const memory = await this.loadAgentMemory(agentName);
+    memory.decisions.push(decision);
+    await this.saveDecisions(agentName, memory.decisions);
   }
 
   /**
@@ -210,5 +249,48 @@ export class MemoryStore {
    */
   getBasePath(): string {
     return this.storage.getBasePath();
+  }
+
+  /**
+   * Get patterns for an agent (with OperationResult wrapper)
+   */
+  async getPatterns(agentName: AgentName): Promise<{ success: boolean; data: Pattern[]; error?: string }> {
+    try {
+      const memory = await this.loadAgentMemory(agentName);
+      return { success: true, data: memory.patterns };
+    } catch (error) {
+      return { success: false, data: [], error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Get decisions for an agent (with OperationResult wrapper)
+   */
+  async getDecisions(agentName: AgentName): Promise<{ success: boolean; data: Decision[]; error?: string }> {
+    try {
+      const memory = await this.loadAgentMemory(agentName);
+      return { success: true, data: memory.decisions };
+    } catch (error) {
+      return { success: false, data: [], error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Get solutions for an agent (with OperationResult wrapper)
+   */
+  async getSolutions(agentName: AgentName): Promise<{ success: boolean; data: Solution[]; error?: string }> {
+    try {
+      const memory = await this.loadAgentMemory(agentName);
+      return { success: true, data: memory.solutions };
+    } catch (error) {
+      return { success: false, data: [], error: (error as Error).message };
+    }
+  }
+
+  /**
+   * Set global data (helper for tests)
+   */
+  async setGlobalData(key: string, value: unknown): Promise<void> {
+    await this.saveGlobalData(`${key}.json`, value);
   }
 }
