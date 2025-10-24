@@ -15,11 +15,11 @@
 
 - **Loom Framework (6)**: coordinator, agent-creator, skill-creator, codebase-analyzer, project-scaffolder, structure-validator
 - **Thinking & Ideation (2)**: thought-partner, epic-reviewer
-- **Quality & Review (3)**: code-reviewer, design-reviewer, security-reviewer
+- **Quality & Review (4)**: code-reviewer, design-reviewer, security-reviewer, architect-reviewer
 - **Development (7)**: full-stack-developer, frontend-developer, backend-architect, mobile-developer, test-automator, qa-expert, debugger
 - **Technology Specialists (7)**: nextjs-pro, react-pro, typescript-pro, python-pro, golang-pro, postgres-pro, electron-pro
 - **Architecture & Operations (6)**: cloud-architect, devops-incident-responder, deployment-engineer, performance-engineer, database-optimizer, graphql-architect
-- **Additional Specialists (15)**: ai-engineer, api-documenter, data-engineer, data-scientist, documentation-expert, dx-optimizer, incident-responder, legacy-modernizer, ml-engineer, product-manager, prompt-engineer, ui-designer, ux-designer, agent-organizer
+- **Additional Specialists (14)**: ai-engineer, api-documenter, data-engineer, data-scientist, documentation-expert, dx-optimizer, incident-responder, legacy-modernizer, ml-engineer, product-manager, prompt-engineer, ui-designer, ux-designer, agent-organizer
 
 ---
 
@@ -72,7 +72,7 @@
 
 ---
 
-## Quality & Review Agents (3)
+## Quality & Review Agents (4)
 
 ### code-reviewer
 
@@ -97,6 +97,14 @@
 **Delegation**: `Task(subagent_type="security-reviewer", prompt="...")`
 **Model**: Sonnet 4.5
 **Special Notes**: Provides CVE references, severity ratings, remediation guidance
+
+### architect-reviewer
+
+**Expertise**: Architectural patterns, SOLID principles, dependency management, Domain-Driven Design, system scalability
+**Use For**: Architectural consistency review, pattern adherence validation, system integrity checks
+**Delegation**: `Task(subagent_type="architect-reviewer", prompt="...")`
+**Model**: Haiku
+**Special Notes**: Proactively reviews after structural changes, new service introductions, or API modifications
 
 ---
 
@@ -386,13 +394,13 @@ Task(subagent_type="test-automator", prompt="Write E2E tests for user profile...
 
 ### thought-partner
 
-**Expertise:** Brainstorming facilitation (36 techniques), elicitation methods (38 methods), structured thinking, convergent/divergent analysis
+**Expertise:** Brainstorming facilitation (35 techniques), elicitation methods (38 methods), structured thinking, convergent/divergent analysis
 **Use Cases:** Feature planning, architecture decisions, problem-solving, technical debt prioritization, design refinement, requirements exploration
 **Delegation Pattern:** Always invoked via `/think` command - facilitates interactive sessions with technique/method selection, energy monitoring, action planning
 **Model:** Sonnet
 **Key Capabilities:**
 
-- **Brainstorming Mode**: 36 techniques across collaborative, creative, deep, introspective, structured, theatrical, wild categories
+- **Brainstorming Mode**: 35 techniques across collaborative, creative, deep, introspective, structured, theatrical, wild categories
 - **Elicitation Mode**: 38 methods across advanced, core, risk, structural, optimization categories
 - **Context-Aware Selection**: Analyzes problem type, team energy, time constraints to recommend optimal techniques
 - **Active Facilitation**: Asks questions without providing answers, builds ideas through "yes, and..." methodology

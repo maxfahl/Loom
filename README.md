@@ -17,7 +17,7 @@
 
 **Meta-framework for autonomous AI development with Claude Code**
 
-[![Version](https://img.shields.io/badge/version-1.4.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-2.0.0-blue)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 </div>
@@ -31,7 +31,7 @@ Loom is a meta-framework that scaffolds AI development environments. It's not co
 Run one unified setup prompt in your project, and Loom generates:
 
 - **46 specialized AI agents** (coordinator, full-stack-developer, test-automator, code-reviewer, epic-reviewer, etc.)
-- **18 workflow commands** (/dev, /commit, /review, /test, /think, /create-feature, etc.)
+- **23 workflow commands** (18 core + 5 AML: /dev, /commit, /review, /test, /think, /create-feature, etc.)
 - **Complete documentation system** (PRD, technical specs, architecture, tracking)
 - **Feature tracking framework** (epics, stories, status.xml)
 
@@ -52,9 +52,9 @@ Loom provides:
 1. **Specialized agents** - 46 agents, each with focused expertise
 2. **TDD enforcement** - Red-Green-Refactor cycle is mandatory
 3. **Feature tracking** - Epics and stories organize work into manageable chunks
-4. **Autonomous loops** - Agents work through stories with configurable stopping points
+4. **Autonomous loops** - Agents work through stories with configurable stopping points (EPIC mode for overnight development)
 5. **Parallel execution** - Multiple agents work simultaneously (60-80% faster)
-6. **Structured thinking** - 74 brainstorming/elicitation techniques for systematic planning
+6. **Structured thinking** - 73 brainstorming/elicitation techniques for systematic planning
 7. **Automatic retrospectives** - Epic completion analysis with continuous improvement
 8. **Minimal dependencies** - Only 2 required MCP servers (context7, playwright)
 9. **Optional: Agent Memory & Learning (AML)** - Agents can learn from execution patterns (opt-in)
@@ -100,12 +100,13 @@ Read and fully understand the prompt in the loomify.md file and execute the work
 | **project-scaffolder** | Automated Loom structure scaffolding |
 | **structure-validator** | Non-destructive validation and migration |
 
-**Quality & Review Agents (3):**
+**Quality & Review Agents (4):**
 | Agent | Purpose |
 |-------|---------|
 | **code-reviewer** | 7-phase hierarchical code review (Opus 4.5) |
 | **design-reviewer** | UI/UX review with Playwright + WCAG 2.1 AA |
 | **security-reviewer** | OWASP/NIST/ISO 27001 compliance scanning |
+| **architect-reviewer** | Architectural consistency and pattern adherence |
 
 **Development Agents (7):**
 | Agent | Purpose |
@@ -142,15 +143,15 @@ Read and fully understand the prompt in the loomify.md file and execute the work
 **Thinking & Ideation (2):**
 | Agent | Purpose |
 |-------|---------|
-| **thought-partner** | Facilitates structured thinking sessions (36 brainstorming + 38 elicitation methods) |
+| **thought-partner** | Facilitates structured thinking sessions (35 brainstorming + 38 elicitation methods) |
 | **epic-reviewer** | Analyzes completed epics, generates retrospectives, extracts learnings |
 
-**Additional Specialists (15):**
+**Additional Specialists (14):**
 AI engineer, API documenter, data engineer, data scientist, documentation expert, DX optimizer, incident responder, legacy modernizer, ML engineer, product manager, prompt engineer, UI designer, UX designer, agent-organizer
 
 > See `.claude/AGENTS.md` for the complete directory of all 46 agents.
 
-### 18 Commands (+ 5 Optional AML Commands)
+### 23 Commands (18 Core + 5 AML)
 
 **Core Commands (18):**
 
@@ -253,13 +254,13 @@ Loom enforces strict Test-Driven Development:
 
 ## 💭 Structured Thinking Sessions
 
-**Before you code, think systematically.** The `/think` command provides 74 techniques and methods for ideation, problem-solving, and analysis.
+**Before you code, think systematically.** The `/think` command provides 73 techniques and methods for ideation, problem-solving, and analysis.
 
 ### Three Modes
 
 **Brainstorming Mode** (default)
 
-- 36 techniques across 7 categories (collaborative, creative, deep, introspective, structured, theatrical, wild)
+- 35 techniques across 7 categories (collaborative, creative, deep, introspective, structured, theatrical, wild)
 - Divergent thinking to explore solution space
 - Example: `/think "microservices migration"`
 
@@ -314,10 +315,11 @@ Configure agent autonomy with simple presets. Choose how much you trust agents t
 - Stop at: Between stories only
 - Use when: Well-defined tasks, high trust, fast iteration
 
-**4. EPIC** - Maximum speed
+**4. EPIC** - Maximum speed (proven overnight autonomy)
 
 - Stop at: Between epics only
 - Use when: Trusted features, maximum autonomy, overnight development
+- **Reliability**: v2.0 fix ensures coordinators autonomously continue through all epic stories
 
 **5. CUSTOM** - Advanced
 
@@ -660,7 +662,7 @@ When you run `loomify.md` on a new project, Loom creates:
 your-project/
 ├── .claude/
 │   ├── agents/          # 46 specialized agents
-│   ├── commands/        # 18 slash commands (+ 5 optional AML)
+│   ├── commands/        # 23 slash commands (18 core + 5 AML)
 │   ├── skills/          # Claude Skills packages
 │   └── AGENTS.md        # Agent directory reference
 ├── .loom/
